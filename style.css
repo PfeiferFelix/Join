@@ -5,6 +5,7 @@
 body {
     position: relative;
     width: 100%;
+    font-family: "Inter", sans-serif;
 }
 
 .container {
