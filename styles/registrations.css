@@ -38,6 +38,7 @@ header {
     cursor: pointer;
     border-radius: 10px;
     font-size: 15px;
+    text-decoration: none;
 }
 
 .container {
@@ -64,6 +65,11 @@ header {
 }
 
 .title-row aside {
+    position: absolute;
+    left: 0;
+}
+
+.title-row a {
     position: absolute;
     left: 0;
 }
@@ -172,13 +178,15 @@ header {
 .btnGuestLogin:hover {
     background-color: #f0f2f5;
 }
+
 footer {
     margin-top: auto;
     padding: 20px;
     text-align: center;
     font-family: "Inter", sans-serif;
 }
-.footerLink{
+
+.footerLink {
     color: #9ca3af;
     font-family: "Inter", sans-serif;
     text-decoration: none;
