@@ -44,7 +44,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 440px;
+    width: 500px;
     padding: 48px 40px;
     font-family: "Inter", sans-serif;
     background-color: white;
@@ -55,6 +55,25 @@ header {
     box-sizing: border-box;
 }
 
+.title-row {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-row aside {
+    position: absolute;
+    left: 0;
+}
+
+.back-arrow {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
 .container h1 {
     margin: 0;
     font-size: 48px;
@@ -63,7 +82,7 @@ header {
 }
 
 .title-underline {
-    width: 120px;
+    width: 260px;
     height: 3px;
     background-color: #29ABE2;
     border-radius: 2px;
@@ -164,5 +183,45 @@ footer {
     font-family: "Inter", sans-serif;
     text-decoration: none;
     margin-left: 20px;
-    
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    gap: 12px;
+}
+
+.checkbox-row input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #2A3647;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.checkbox-row input[type="checkbox"]:checked {
+    background-color: #2A3647;
+    background-size: 14px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.checkbox-row label {
+    font-size: 15px;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.checkbox-row label a {
+    color: #29ABE2;
+    text-decoration: none;
+}
+
+.checkbox-row label a:hover {
+    text-decoration: underline;
 }
