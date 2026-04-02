@@ -10,16 +10,19 @@
 <body>
     <header>
         <img src="./assets/logos/logo_dark.jpg" alt="logo" class="logo">
-        <div class="header-right">
-            <span>Noch kein Join User?</span>
-            <button class="buttonRegistration">Registrieren</button>
-        </div>
     </header>
     <main>
         <div class="container">
-            <h1>Log in</h1>
+            <div class="title-row">
+                <aside><img src="./assets/icons/arrow-left-line.png" alt="back" class="back-arrow"></aside>
+                <h1>Registrieren</h1>
+            </div>
             <div class="title-underline"></div>
             <form class="login-form">
+                  <div class="input-wrapper">
+                    <input type="name" placeholder="Name" required>
+                    <img src="./assets/icons/person.png" alt="person icon" class="input-icon">
+                </div>
                 <div class="input-wrapper">
                     <input type="email" placeholder="Email" required>
                     <img src="./assets/icons/mail.png" alt="mail icon" class="input-icon">
@@ -28,9 +31,16 @@
                     <input type="password" placeholder="Password" required>
                     <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon">
                 </div>
+                <div class="input-wrapper">
+                    <input type="passwordconfirm" placeholder="Password bestätigen" required>
+                    <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon">
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="privacy" required>
+                    <label for="privacy">Ich akzeptiere die <a href="privacy-policy.html">Privacy policy</a></label>
+                </div>
                 <div class="button-row">
-                    <button type="submit" class="btnLogin">Log in</button>
-                    <button type="button" class="btnGuestLogin">Guest Log in</button>
+                    <button type="submit" class="btnLogin">Registrieren</button>
                 </div>
             </form>
         </div>
