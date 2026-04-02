@@ -18,7 +18,7 @@ body {
 
 .sidebar {
     background-color: var(--primary-color);
-    padding: 64px;
+    width: 260px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +33,11 @@ body {
 }
 
 .sidebar__logo {
-    margin-bottom: 50px;
+    margin: 50px 0;
+}
+
+.sidebar__nav {
+    width: 100%;
 }
 
 .sidebar__nav-link,
@@ -43,6 +47,11 @@ body {
 
 .sidebar__nav-link {
     color: var(--secondary-font-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    padding-left: 60px;
 }
 
 .sidebar__list-item {
@@ -51,24 +60,43 @@ body {
     justify-content: center;
 }
 
+.sidebar__list-item:hover {
+    background-color: #2a3d59;
+}
+
+.sidebar__link--active {
+    background-color: #091931 !important;
+    transform: scale(1) !important;
+    color: var(--tertiary-font-color) !important;
+}
+
+.sidebar__pointer--inactive {
+    cursor: default;
+}
+
 .sidebar__legal-information {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     gap: 32px;
+    margin-bottom: 50px;
+    width: 100%;
 }
 
 .sidebar__legal-information-link {
     color: var(--tertiary-font-color);
+    padding: 10px 0;
+    padding-left: 60px;
 }
 
 .sidebar__nav-img {
-    position: relative;
-    top: 10px;
-    margin-right: 10px;
+    width: 30px;
+    height: 30px;
 }
 
-.sidebar__list-item:hover {
-    background-color: #2a3d59;
+.sidebar__legal-information-link:hover {
+    transform: scale(1.05);
+    transform-origin: left;
+    color: #29abe2;
 }
