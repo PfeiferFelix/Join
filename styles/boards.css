@@ -1,0 +1,67 @@
+.header__boards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 96px;
+}
+
+.sidebar {
+    background-color: var(--primary-color);
+    padding: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 232px;
+    padding-top: 64px;
+    padding-bottom: 64px;
+}
+
+.boards__addtask {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.boards__addtask button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.boards__section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 310px;
+}
+
+.boards__lists {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+}
+
+.toDo,
+.inProgress,
+.awaitingFeedback,
+.done {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.task__container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}

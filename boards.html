@@ -1,45 +1,94 @@
 <!doctype html>
 <html lang="de">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="styles/variable.css" />
-        <title>Summary</title>
-    </head>
-    <body>
-        <div class="container">
-            <aside class="sidebar">
-                <img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
-                <nav>
-                    <ul class="sidebar__nav-list">
-                        <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/summary.svg" alt="" />Summary</a>
-                        </li>
-                        <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/add-task.svg" alt="" />Add Task</a>
-                        </li>
-                        <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/board.svg" alt="" />Boards</a>
-                        </li>
-                        <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/contacts.svg" alt="" />Contacts</a>
-                        </li>
-                    </ul>
-                </nav>
 
-                <div class="sidebar__legal-information">
-                    <a class="sidebar__legal-information-link" href="">Privacy Policy</a>
-                    <a class="sidebar__legal-information-link" href="">Legal Notice</a>
-                </div>
-            </aside>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/boards.css" />
+    <link rel="stylesheet" href="styles/variable.css" />
+    <title>Summary</title>
+</head>
 
-            <div>
-                <header>
-                    <h1>Kanban Project Management Tool-TEST</h1>
-                </header>
-                <main></main>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
+            <nav>
+                <ul class="sidebar__nav-list">
+                    <li class="sidebar__list-item">
+                        <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img"
+                                src="assets/icons/summary.svg" alt="" />Summary</a>
+                    </li>
+                    <li class="sidebar__list-item">
+                        <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img"
+                                src="assets/icons/add-task.svg" alt="" />Add Task</a>
+                    </li>
+                    <li class="sidebar__list-item">
+                        <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/board.svg"
+                                alt="" />Boards</a>
+                    </li>
+                    <li class="sidebar__list-item">
+                        <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img"
+                                src="assets/icons/contacts.svg" alt="" />Contacts</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar__legal-information">
+                <a class="sidebar__legal-information-link" href="">Privacy Policy</a>
+                <a class="sidebar__legal-information-link" href="">Legal Notice</a>
             </div>
+        </aside>
+
+        <div class="main-content">
+            <header class="header__boards">
+                <h1>Kanban Project Management Tool</h1>
+                <div class="header__buttons">
+                    <button id="help__me" class="help__me" aria-label="Help and support">?</button>
+                    <button id="profile__settings" class="profile__settings" aria-label="Profile settings">MM</button>
+                </div>
+            </header>
+            <main>
+                <div class="boards__addtask">
+                    <h1>Boards</h1>
+                    <div class="boards__search">
+                        <input type="text" id="boards-search" placeholder="Search for boards..."
+                            class="search__input" />
+                        <button class="addTask" id="addTask">Add Task +</button>
+                    </div>
+                </div>
+                <div class="boards__lists">
+                    <div class="toDo" id="toDo_list">
+                        <h2>To Do</h2>
+                        <button class="toDo" id="toDo" aria-label="Add task to To Do">+</button>
+                    </div>
+
+                    <div class="inProgress" id="inProgress_list">
+                        <h2>In Progress</h2>
+                        <button class="inProgress" id="inProgress" aria-label="Add task to In Progress">+</button>
+                    </div>
+                    <div class="awaitingFeedback" id="awaitingFeedback_list">
+                        <h2>Awaiting Feedback</h2>
+                        <button class="awaitingFeedback" id="awaitingFeedback"
+                            aria-label="Add task to Awaiting Feedback">+</button>
+                    </div>
+
+                    <div class="done" id="done_list">
+                        <h2>Done</h2>
+                        <button class="done" id="done" aria-label="Add task to Done">+</button>
+                    </div>
+                </div>
+                <section class="boards__section">
+                    <div class="task__container" id="toDo_tasks">TODO</div>
+                    <div class="task__container" id="inProgress_tasks">In Progress</div>
+                    <div class="task__container" id="awaitingFeedback_tasks">Awaiting Feedback</div>
+                    <div class="task__container" id="done_tasks">Done</div>
+                </section>
         </div>
-    </body>
+        </main>
+    </div>
+    </div>
+</body>
+
 </html>
