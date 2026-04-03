@@ -1,5 +1,6 @@
 :root {
     --primary-color: #2a3647;
-    --secondary-font-color: white;
-    --tertiary-font-color: #989a9c;
+    --sidebar-font-color: #989a9c;
+    --user-name-font-color: #29abe2;
+    --content-background-color: #f6f7f8;
 }
