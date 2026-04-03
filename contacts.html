@@ -44,7 +44,7 @@
                     <article class="contacts_container">
                         <section class="contacts_list-container">
                             <div class="contacts_list-btn">
-                                <button class="contacts_list-add-user-btn">Add new contact<img src="assets/icons/person-add.png" alt="Add Contact"></button>
+                                <button class="contacts_list-add-user-btn" id="addNewContact">Add new contact<img src="assets/icons/person-add.png" alt="Add Contact"></button>
                             </div>
                             <div class="contact_lists">
                                 <div class="contacts-list">
@@ -128,11 +128,89 @@
                                 <p>Better with a team</p>
                             </div>
                             <div class="contact_content-info">
+                                <div class="contact_card">
+                                    <div class="contact_card-avatar">AM</div>
+                                    <div class="contact_card-user-info">
+                                        <h2 class="contact_card-name">Anton Mayer</h2>
+                                        <div class="contact_card-btn-container">
+                                            <button class="contact_card-btn"><img src="assets/icons/edit.png" alt="Edit Contact">Edit</button>
+                                            <button class="contact_card-btn"><img src="assets/icons/delete.png" alt="Delete Contact">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="contact_card-info">
+                                    <h3>Contact Information</h3>
+                                    <div class="contact_card-information">
+                                        <span><strong>Email</strong></span>
+                                        <a href="mailto:anton.mayer@gmail.com">anton.mayer@gmail.com</a>
+                                    </div>
+                                    <div class="contact_card-information">
+                                        <span><strong>Phone</strong></span>
+                                        <a href="tel:+49123456789">+49 123 456789</a>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </article>
                 </main>
             </div>
         </div>
+
+        <div class="add-contact-overlay" id="addContactOverlay">
+            <div class="add-contact-dialog">
+                <div class="add-contact-left">
+                    <img src="assets/logos/logo.svg" alt="Join" class="add-contact-logo">
+                    <h2 class="add-contact-title">Add contact</h2>
+                    <p class="add-contact-subtitle">Tasks are better with a team!</p>
+                    <hr class="add-contact-divider">
+                </div>
+                <div class="add-contact-right">
+                    <button class="add-contact-close" id="closeAddContactDialog"><img src="assets/icons/Vector.png" alt="Close"></button>
+                    <div class="add-contact-body">
+                        <div class="add-contact-avatar">AM</div>
+                        <form class="add-contact-form">
+                            <div class="add-contact-input-wrapper">
+                                <input type="text" placeholder="Name">
+                                <img src="assets/icons/person.png" alt="Name">
+                            </div>
+                            <div class="add-contact-input-wrapper">
+                                <input type="email" placeholder="Email">
+                                <img src="assets/icons/mail.png" alt="Email">
+                            </div>
+                            <div class="add-contact-input-wrapper">
+                                <input type="tel" placeholder="Phone">
+                                <img src="assets/icons/call.png" alt="Phone">
+                            </div>
+                            <div class="add-contact-buttons">
+                                <button type="button" class="add-contact-btn-cancel">Cancel<img src="assets/icons/Vector.png" alt="Cancel"></button>
+                                <button type="submit" class="add-contact-btn-create">Create contact<img src="assets/icons/check.png" alt="Create"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const overlay = document.getElementById('addContactOverlay');
+            const openBtn = document.getElementById('addNewContact');
+            const closeBtn = document.getElementById('closeAddContactDialog');
+
+            function openAddContactDialog() {
+                overlay.style.display = 'flex';
+            }
+
+            function closeAddContactDialog() {
+                overlay.style.display = 'none';
+            }
+
+            openBtn.addEventListener('click', openAddContactDialog);
+            closeBtn.addEventListener('click', closeAddContactDialog);
+            overlay.addEventListener('click', function(event) {
+                if (event.target === overlay) {
+                    closeAddContactDialog();
+                }
+            });
+        </script>
     </body>
 </html>
