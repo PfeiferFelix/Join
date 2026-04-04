@@ -3,14 +3,16 @@ main {
     background-color: rgba(246, 247, 248, 1);
 }
 
-.contacts_container {
+/* -- Contacts Page --- */
+
+.contacts {
     display: flex;
     justify-content: flex-start;
 }
 
-/* -- Contacts List --- */
+/* -- Contacts Sidebar --- */
 
-.contacts_list-container {
+.contacts-sidebar {
     display: flex;
     flex-direction: column;
     width: 400px;
@@ -24,25 +26,25 @@ main {
     overflow-x: hidden;
 }
 
-.contacts_list-container::-webkit-scrollbar {
+.contacts-sidebar::-webkit-scrollbar {
     width: 8px;
 }
 
-.contacts_list-container::-webkit-scrollbar-track {
+.contacts-sidebar::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.contacts_list-container::-webkit-scrollbar-thumb {
+.contacts-sidebar::-webkit-scrollbar-thumb {
     background: #c0c0c0;
     border-radius: 4px;
 }
 
-.contacts_list-btn {
+.contacts-sidebar__btn {
     display: flex;
     justify-content: center;
 }
 
-.contacts_list-add-user-btn {
+.contacts-sidebar__add-btn {
     color: white;
     background-color: var(--primary-color);
     border: none;
@@ -58,47 +60,51 @@ main {
     cursor: pointer;
 }
 
-.contacts_list-add-user-btn:hover {
+.contacts-sidebar__add-btn:hover {
     background-color: rgba(41, 171, 226, 1);
 }
 
-.contact_lists {
+.contacts-sidebar__groups {
     display: flex;
     flex-direction: column;
     gap: 40px;
     padding: 20px 10px;
 }
 
-.contacts-list {
+/* -- Contact Group -- */
+
+.contact-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.contact-list-header {
+.contact-group__header {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-.contact-list-letter {
+.contact-group__letter {
     font-size: 20px;
     font-weight: 400;
     padding-left: 35px;
 }
 
-.contact-list-divider {
+.contact-group__divider {
     border: none;
     border-top: 1px solid #d1d7db;
 }
 
-.contact_list-content {
+.contact-group__items {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.contact_list-info {
+/* -- Contact Item -- */
+
+.contact-item {
     display: flex;
     align-items: center;
     gap: 32px;
@@ -107,11 +113,11 @@ main {
     cursor: pointer;
 }
 
-.contact_list-info:hover {
+.contact-item:hover {
     background-color: #f2f2f2;
 }
 
-.contact_list-avatar {
+.contact-item__avatar {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -125,71 +131,72 @@ main {
     color: white;
 }
 
-.contact_list-user-info {
+.contact-item__info {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.contact_list-name {
+.contact-item__name {
     font-size: 16px;
     font-weight: 500;
 }
 
-.contact_list-mail {
+.contact-item__mail {
     font-size: 14px;
     color: blue;
 }
 
-/* -- Contact Content --- */
+/* -- Contact Content -- */
 
-.contact_content {
+.contact-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: 1;
     height: 100%;
-
 }
 
-.contact_content-header {
+.contact-content__header {
     display: flex;
     align-items: center;
     gap: 5px;
     padding: 100px 0 50px 50px;
 }
 
-.contact_content-header h1 {
+.contact-content__header h1 {
     font-size: 61px;
     font-weight: 700;
 }
 
-.contact_content-header p {
+.contact-content__header p {
     font-size: 24px;
     color: var(--primary-color);
 }
 
-.contact_content-divider {
+.contact-content__divider {
     border: none;
     border-left: 3px solid rgba(41, 171, 226, 1);
     height: 60px;
     margin: 0 16px;
 }
 
-.contact_content-info {
+.contact-content__info {
     display: flex;
     flex-direction: column;
     gap: 40px;
     padding: 0 100px;
 }
 
-.contact_card {
+/* -- Contact Card -- */
+
+.contact-card {
     display: flex;
     align-items: center;
     gap: 50px;
 }
 
-.contact_card-avatar {
+.contact-card__avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -203,29 +210,29 @@ main {
     color: white;
 }
 
-.contact_card-user-info {
+.contact-card__user-info {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.contact_card-user-info p {
+.contact-card__user-info p {
     font-size: 24px;
 }
 
-.contact_card-user-info h2 {
+.contact-card__name {
     font-size: 48px;
     font-weight: 500;
 }
 
-.contact_card-btn-container {
+.contact-card__btn-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 30px;
 }
 
-.contact_card-btn  {
+.contact-card__btn {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -236,41 +243,40 @@ main {
     cursor: pointer;
 }
 
-.contact_card-btn:hover {
+.contact-card__btn:hover {
     color: rgba(41, 171, 226, 1);
 }
 
-.contact_card-btn:hover img {
+.contact-card__btn:hover img {
     filter: invert(60%) sepia(80%) saturate(400%) hue-rotate(170deg);
 }
 
-.contact_card-info {
+.contact-card__info {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-.contact_card-info h3 {
+.contact-card__info h3 {
     font-size: 20px;
     font-weight: 500;
     padding: 20px 0;
 }
 
-.contact_card-information {
+.contact-card__information {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.contact_card-information a {
+.contact-card__information a {
     text-decoration: none;
 }
 
+/* -- Add Contact Dialog -- */
 
-/* -- Add Contact Dialog --- */
-
-.add-contact-overlay {
-    display: none; /* wird per JavaScript auf 'flex' gesetzt */
+.add-contact {
+    display: none;
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
@@ -279,7 +285,7 @@ main {
     z-index: 100;
 }
 
-.add-contact-dialog {
+.add-contact__dialog {
     display: flex;
     width: 80%;
     max-width: 1200px;
@@ -289,7 +295,7 @@ main {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
-.add-contact-left {
+.add-contact__left {
     width: 40%;
     background-color: var(--primary-color);
     padding: 60px 50px;
@@ -299,30 +305,30 @@ main {
     gap: 16px;
 }
 
-.add-contact-logo {
+.add-contact__logo {
     width: 55px;
     margin-bottom: 8px;
 }
 
-.add-contact-title {
+.add-contact__title {
     font-size: 48px;
     font-weight: 700;
     color: white;
 }
 
-.add-contact-subtitle {
+.add-contact__subtitle {
     font-size: 18px;
     color: white;
 }
 
-.add-contact-divider {
+.add-contact__divider {
     border: none;
     border-top: 3px solid rgba(41, 171, 226, 1);
     width: 80px;
     margin: 0;
 }
 
-.add-contact-right {
+.add-contact__right {
     width: 60%;
     background: white;
     padding: 40px 60px;
@@ -331,7 +337,7 @@ main {
     flex-direction: column;
 }
 
-.add-contact-close {
+.add-contact__close {
     position: absolute;
     top: 24px;
     right: 32px;
@@ -342,14 +348,14 @@ main {
     color: var(--primary-color);
 }
 
-.add-contact-body {
+.add-contact__body {
     flex: 1;
     display: flex;
     align-items: center;
     gap: 60px;
 }
 
-.add-contact-avatar {
+.add-contact__avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -363,28 +369,20 @@ main {
     color: white;
 }
 
-.add-contact-input-wrapper img {
-    position: absolute;
-    right: 14px;
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-}
-
-.add-contact-form {
+.add-contact__form {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 32px;
 }
 
-.add-contact-input-wrapper {
+.add-contact__input {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.add-contact-input-wrapper input {
+.add-contact__input input {
     width: 100%;
     padding: 14px 48px 14px 16px;
     border: 1px solid #d1d7db;
@@ -395,17 +393,25 @@ main {
     box-sizing: border-box;
 }
 
-.add-contact-input-wrapper input:focus {
+.add-contact__input input:focus {
     border-color: rgba(41, 171, 226, 1);
 }
 
-.add-contact-buttons {
+.add-contact__input img {
+    position: absolute;
+    right: 14px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.add-contact__buttons {
     display: flex;
     gap: 16px;
     margin-top: 8px;
 }
 
-.add-contact-btn-cancel {
+.add-contact__btn--cancel {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -419,16 +425,16 @@ main {
     color: var(--primary-color);
 }
 
-.add-contact-btn-cancel:hover {
+.add-contact__btn--cancel:hover {
     border: 2px solid rgba(41, 171, 226, 1);
     color: rgba(41, 171, 226, 1);
 }
 
-.add-contact-btn-cancel:hover img {
+.add-contact__btn--cancel:hover img {
     filter: invert(60%) sepia(80%) saturate(400%) hue-rotate(170deg);
 }
 
-.add-contact-btn-create {
+.add-contact__btn--create {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -442,6 +448,6 @@ main {
     color: white;
 }
 
-.add-contact-btn-create:hover {
+.add-contact__btn--create:hover {
     background-color: rgba(41, 171, 226, 1);
 }
