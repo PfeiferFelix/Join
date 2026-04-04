@@ -4,7 +4,7 @@
     align-items: center;
     height: 96px;
 }
-
+/* 
 .sidebar {
     background-color: var(--primary-color);
     padding: unset;
@@ -14,7 +14,7 @@
     width: 232px;
     padding-top: 64px;
     padding-bottom: 64px;
-}
+} */
 
 .boards__addtask {
     display: flex;
