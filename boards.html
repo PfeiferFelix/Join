@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/boards.css" />
     <link rel="stylesheet" href="styles/variable.css" />
-    <title>Summary</title>
+    <title>Boards</title>
 </head>
 
 <body>
@@ -52,10 +52,11 @@
             <main>
                 <div class="boards__addtask">
                     <h1>Boards</h1>
-                    <div class="boards__search">
-                        <input type="text" id="boards-search" placeholder="Search for boards..."
-                            class="search__input" />
-                        <button class="addTask" id="addTask">Add Task +</button>
+                    <div class="search-container">
+                        <form action="/action_page.php">
+                            <input type="text" placeholder="Search.." name="search">
+                            <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
+                        </form>
                     </div>
                 </div>
                 <div class="boards__lists">
@@ -80,10 +81,30 @@
                     </div>
                 </div>
                 <section class="boards__section">
-                    <div class="task__container" id="toDo_tasks">TODO</div>
-                    <div class="task__container" id="inProgress_tasks">In Progress</div>
-                    <div class="task__container" id="awaitingFeedback_tasks">Awaiting Feedback</div>
-                    <div class="task__container" id="done_tasks">Done</div>
+                    <div class="task__container" id="toDo_tasks">
+                        <h3>To Do</h3>
+                        <p class="task__container-description">Here you can find all tasks that are planned to be done.
+                            You can add new tasks by clicking the "+" button above. Drag and drop tasks to move them to
+                            the next stage of your project.</p>
+                    </div>
+                    <div class="task__container" id="inProgress_tasks">
+                        <h3>In Progress</h3>
+                        <p class="task__container-description">Here you can find all tasks that are currently in
+                            progress. You can move tasks to this section by dragging them from the "To Do" section. Keep
+                            track of your team's progress and update task statuses as needed.</p>
+                    </div>
+                    <div class="task__container" id="awaitingFeedback_tasks">
+                        <h3>Awaiting Feedback</h3>
+                        <p class="task__container-description">Here you can find all tasks that are awaiting feedback.
+                            You can move tasks to this section by dragging them from the "In Progress" section. Review
+                            feedback and update task statuses accordingly.</p>
+                    </div>
+                    <div class="task__container" id="done_tasks">
+                        <h3>Done</h3>
+                        <p class="task__container-description">Here you can find all tasks that are completed. You can
+                            move tasks to this section by dragging them from the "Awaiting Feedback" section. Celebrate
+                            your team's achievements and keep track of completed tasks.</p>
+                    </div>
                 </section>
         </div>
         </main>

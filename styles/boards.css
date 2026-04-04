@@ -4,6 +4,7 @@
     align-items: center;
     height: 96px;
 }
+
 /* 
 .sidebar {
     background-color: var(--primary-color);
@@ -32,14 +33,12 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 310px;
 }
 
 .boards__lists {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
+    justify-content: space-around;
+
     width: 100%;
 }
 
@@ -64,4 +63,42 @@
     flex-direction: column;
     gap: 10px;
     width: 100%;
+}
+
+.search-container {
+    float: right;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: 1px solid #ccc;
+}
+
+.searchBtn {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.fa{
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-search:before {
+    content: "\1F50D";
+    font-family: inherit;
 }
