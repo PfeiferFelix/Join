@@ -114,7 +114,7 @@ button {
 }
 
 .header {
-    box-shadow: -4px 4px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1);
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
@@ -150,4 +150,5 @@ button {
 
 .main-content {
     background-color: var(--content-background-color);
+    margin-top: 4px;
 }

@@ -1,0 +1,10 @@
+.headline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.headline__subtext {
+    font-size: 24px;
+    font-weight: 300;
+}
