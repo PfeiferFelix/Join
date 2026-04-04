@@ -1,6 +1,6 @@
 body {
-    margin: 0;
-    padding: 0;
+    max-width: 1440px;
+    margin: 0 auto;
     background-color: #f0f2f5;
     display: flex;
     flex-direction: column;
@@ -55,7 +55,10 @@ header {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
 }
-
+ .container_headline{
+        font-size: 50px;
+        margin-left: 5px;
+    }
 .title-row {
     position: relative;
     width: 100%;
@@ -232,4 +235,77 @@ footer {
 
 .checkbox-row label a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 80%;
+        padding: 32px 20px;
+    };
+     .container_headline{
+        font-size: 30px;
+        margin-left: 5px;
+    }
+   
+    .title-underline {
+        width: 250px;
+    }
+    .input-wrapper input {
+        padding: 12px 40px 12px 16px;
+    }
+    .input-icon {
+        width: 16px;
+        height: 16px;
+    }
+    .button-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .btnLogin, .btnGuestLogin {
+        width: 100%;
+        padding: 12px;
+    }
+    .header-right {
+        margin-right: 20px;
+    }
+    .logo {
+        width: 80px;
+        height: 88px;
+        margin-left: 20px;
+    }
+}
+.mobile-signup {
+    display: none;
+}
+
+@media (max-width: 450px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .header-right {
+        display: none;
+    }
+
+    .logo {
+        margin-left: 0;
+    }
+
+    .mobile-signup {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+        justify-content: center;
+    }
+    .container_headline{
+        font-size: 30px;
+        margin-left: 10px;
+    }
+      .title-underline {
+        width: 200px;
+    }
 }
