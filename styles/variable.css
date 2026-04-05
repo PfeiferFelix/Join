@@ -1,6 +1,7 @@
 :root {
     --primary-color: #2a3647;
-    --sidebar-font-color: #989a9c;
-    --user-name-font-color: #29abe2;
+    --lightgrey-color: #cdcdcd;
+    --light-blue-color: #29abe2;
     --content-background-color: #f6f7f8;
+    --padding-left-content-to-sidebar: 64px;
 }

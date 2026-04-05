@@ -8,10 +8,6 @@ body {
     font-family: "Inter", sans-serif;
 }
 
-body.loaded {
-    opacity: 1;
-}
-
 button {
     border: none;
     background: none;
@@ -53,10 +49,10 @@ button {
 .sidebar__nav-link,
 .sidebar__legal-information-link {
     text-decoration: none;
+    color: inherit;
 }
 
 .sidebar__nav-link {
-    color: var(--sidebar-font-color);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -92,7 +88,6 @@ button {
 }
 
 .sidebar__legal-information-link {
-    color: var(--sidebar-font-color);
     padding: 10px 0;
     padding-left: 60px;
 }
@@ -100,13 +95,12 @@ button {
 .sidebar__nav-img {
     width: 30px;
     height: 30px;
-    color: var(--sidebar-font-color);
 }
 
 .sidebar__legal-information-link:hover {
     transform: scale(1.05);
     transform-origin: left;
-    color: #29abe2;
+    color: var(--light-blue-color);
 }
 
 .header-main__container {
@@ -135,7 +129,6 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #29abe2;
 }
 
 .header__user-interaction-container {
@@ -144,11 +137,12 @@ button {
     gap: 10px;
 }
 
-.header__headline1 {
+.header__headline3 {
     padding-left: 56px;
 }
 
 .main-content {
     background-color: var(--content-background-color);
     margin-top: 4px;
+    height: calc(100vh - 90px);
 }

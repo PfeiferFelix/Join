@@ -2,9 +2,109 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    padding-top: 96px;
+    padding-bottom: 48px;
+    padding-left: var(--padding-left-content-to-sidebar);
 }
 
-.headline__subtext {
-    font-size: 24px;
-    font-weight: 300;
+.headline__separator {
+    width: 2px;
+    height: 50px;
+    background-color: var(--light-blue-color);
+}
+
+.summary {
+    display: flex;
+}
+
+.welcoming {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.tasks {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 40px;
+    flex: 1.2;
+    padding-left: var(--padding-left-content-to-sidebar);
+}
+
+.tasks__to-do,
+.tasks__done,
+.tasks__urgent,
+.tasks__in-board,
+.tasks__in-progress,
+.tasks__awaiting-feedback {
+    background-color: white;
+    height: 160px;
+    border-radius: 8px;
+    border-radius: 30px;
+}
+
+.tasks__to-do,
+.tasks__done,
+.tasks__icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.tasks__to-do-count,
+.tasks__done-count,
+.tasks__urgent-count,
+.tasks__deadline-date {
+    display: flex;
+    flex-direction: column;
+}
+
+.tasks__awaiting-feedback,
+.tasks__in-progress,
+.tasks__in-board {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tasks__to-do {
+    grid-column: 1 / 4;
+}
+
+.tasks__done {
+    grid-column: 4 / 7;
+}
+
+.tasks__urgent {
+    grid-column: 1 / 7;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tasks__in-board {
+    grid-column: 1 / 3;
+}
+
+.tasks__in-progress {
+    grid-column: 3 / 5;
+}
+
+.tasks__awaiting-feedback {
+    grid-column: 5 / 7;
+}
+
+.tasks__icon {
+    width: 60px;
+    height: 60px;
+}
+
+.tasks__separator {
+    background-color: var(--lightgrey-color);
+    opacity: 0.4;
+    height: 100px;
+    width: 2px;
 }
