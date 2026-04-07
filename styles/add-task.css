@@ -3,16 +3,14 @@
   scroll-behavior: smooth;
 }
 
-header {
-    height: 96px;
-    border-bottom: 1px solid #d1d1d1;
-    box-shadow:  0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 main {
     padding: 40px 64px;
     flex: 1;
     background-color: rgb(246,247,248);
+}
+
+.main-content__body {
+    height: calc(100vh - 170px);
 }
 
 main h1 {
@@ -185,6 +183,3 @@ textarea {
     display: inline-block;
 }
 
-.sidebar__nav-link {
-    width: max-content;
-}
