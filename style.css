@@ -2,6 +2,11 @@
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 body {
     position: relative;
     width: 100%;

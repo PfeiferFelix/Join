@@ -33,6 +33,10 @@
     padding-left: var(--padding-left-content-to-sidebar);
 }
 
+.tasks a span {
+    text-align: center;
+}
+
 .tasks__to-do,
 .tasks__done,
 .tasks__urgent,
