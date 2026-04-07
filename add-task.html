@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
@@ -11,6 +11,25 @@
 </head>
 
 <body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {  // Ensure the DOM is fully loaded before attaching event listeners
+            setActivePriority();
+            const today = new Date().toISOString().split('T')[0];   // Get today's date in YYYY-MM-DD format for the date input's min attribute
+            document.getElementById('due-date').setAttribute('min', today); // Set the minimum date to today to prevent selecting past dates 
+        });
+
+        function setActivePriority() {           // Function to handle the active state of priority buttons
+            document.querySelectorAll('.priority-buttons__btn').forEach(btn => {    // Select all priority buttons and attach click event listeners to them
+                btn.addEventListener('click', () => {                               // When a button is clicked, remove the active class from all buttons and add it to the clicked button
+                    document.querySelectorAll('.priority-buttons__btn')             // Select all priority buttons again to remove the active class from them
+                        .forEach(b => b.classList.remove('priority-buttons__btn--active')); // Remove the active class from all buttons. This ensures that only one button can be active at a time.
+                    btn.classList.add('priority-buttons__btn--active');             // Add the active class to the clicked button to visually indicate that it is selected as the priority level for the task being created.
+                });
+            });
+        }
+    </script>
+
     <div class="container">
         <aside class="sidebar">
             <img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
@@ -64,7 +83,7 @@
                             <label class="task-form__label" for="due-date">
                                 Due date <span class="task-form__required">*</span>
                             </label>
-                            <input class="task-form__input" type="date" id="due-date" required>
+                            <input class="task-form__input" type="date" id="due-date" lang="en" required>
 
                         </div>
 
@@ -75,14 +94,13 @@
                             <span class="task-form__label">Priority</span>
                             <div class="priority-buttons">
                                 <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent">
-                                    Urgent <span class="priority-buttons__icon priority-buttons__icon--up">⟪</span>
+                                    Urgent <span class="priority-buttons__icon priority-buttons__icon--up"> ⟪</span>
                                 </button>
-                                <button type="button"
-                                    class="priority-buttons__btn priority-buttons__btn--medium priority-buttons__btn--active">
-                                    Medium <span class="priority-buttons__icon">‖</span>
+                                <button type="button" class="priority-buttons__btn priority-buttons__btn--medium">
+                                    Medium <span class="priority-buttons__icon"> ‖</span>
                                 </button>
                                 <button type="button" class="priority-buttons__btn priority-buttons__btn--low">
-                                    Low <span class="priority-buttons__icon priority-buttons__icon--down">⟪</span>
+                                    Low <span class="priority-buttons__icon priority-buttons__icon--down"> ⟪</span>
                                 </button>
                             </div>
 
@@ -96,6 +114,8 @@
                             </label>
                             <select class="task-form__select" id="category" required>
                                 <option value="">Select task category</option>
+                                <option value="technical">Technical Task</option>
+                                <option value="user-story">User Story</option>
                             </select>
 
                             <label class="task-form__label" for="subtask">Subtask</label>

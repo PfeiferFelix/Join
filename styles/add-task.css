@@ -3,9 +3,16 @@
   scroll-behavior: smooth;
 }
 
+header {
+    height: 96px;
+    border-bottom: 1px solid #d1d1d1;
+    box-shadow:  0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 main {
     padding: 40px 64px;
     flex: 1;
+    background-color: rgb(246,247,248);
 }
 
 main h1 {
@@ -45,7 +52,7 @@ main h1 {
 }
 
 .task-form__separator {
-    height: 100%;
+    height: 360px;
     width: 2px;
     background-color: #ccc;
     margin: 20px 0;
@@ -89,24 +96,26 @@ textarea {
 .priority-buttons__btn {
     flex: 1;
     padding: 10px;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 8px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
+    background-color: white;
+    color: black;
 }
 
-.priority-buttons__btn--urgent {
+.priority-buttons__btn--urgent.priority-buttons__btn--active {
     background-color: #ff3d00;
     color: white;
 }
 
-.priority-buttons__btn--medium {
+.priority-buttons__btn--medium.priority-buttons__btn--active {
     background-color: #ffa800;
     color: white;
 }
 
-.priority-buttons__btn--low {
+.priority-buttons__btn--low.priority-buttons__btn--active {
     background-color: #7ae229;
     color: white;
 }
@@ -133,6 +142,7 @@ textarea {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding-top: 144px;
 }
 
 .task-form__actions {
@@ -173,4 +183,8 @@ textarea {
 .priority-buttons__icon--down {
     transform: rotate(-90deg);
     display: inline-block;
+}
+
+.sidebar__nav-link {
+    width: max-content;
 }
