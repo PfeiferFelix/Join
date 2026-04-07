@@ -1,5 +1,7 @@
 :root {
     --primary-color: #2a3647;
-    --secondary-font-color: white;
-    --tertiary-font-color: #989a9c;
+    --lightgrey-color: #cdcdcd;
+    --light-blue-color: #29abe2;
+    --content-background-color: #f6f7f8;
+    --padding-left-content-to-sidebar: 64px;
 }

@@ -5,37 +5,51 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="styles/variable.css" />
+        <link rel="stylesheet" href="styles/fonts.css" />
+        <script src="script.js"></script>
         <title>Contacts</title>
     </head>
     <body>
-        <div class="container">
-            <aside class="sidebar">
+        <div class="content__container fs-small-regular">
+            <aside class="sidebar fc-lightgrey">
                 <img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
-                <nav>
+                <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/summary.svg" alt="" />Summary</a>
+                            <a class="sidebar__nav-link" href="summary.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="" /> <span>Summary</span></a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/add-task.svg" alt="" />Add Task</a>
+                            <a class="sidebar__nav-link" href="add-task.html"
+                                ><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="" />
+                                <span>Add Task</span>
+                            </a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/board.svg" alt="" />Boards</a>
+                            <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> <span>Boards</span></a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href=""><img class="sidebar__nav-img" src="assets/icons/contacts.svg" alt="" />Contacts</a>
+                            <a class="sidebar__nav-link sidebar__link--active" href="#"><img class="sidebar__nav-img" src="assets/icons/sidebar/active/contacts-active.svg" alt="" /> <span>Contacts</span></a>
                         </li>
                     </ul>
                 </nav>
 
-                <div class="sidebar__legal-information">
-                    <a class="sidebar__legal-information-link" href="">Privacy Policy</a>
-                    <a class="sidebar__legal-information-link" href="">Legal Notice</a>
-                </div>
+                <footer class="sidebar__legal-information">
+                    <a class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
+                    <a class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
+                </footer>
             </aside>
 
-            <div>
-                <header><h1>Kanban Project Management Tool</h1></header>
+            <div class="header-main__container">
+                <header class="header">
+                    <h3 class="header__headline3">Kanban Project Management Tool</h3>
+                    <div class="header__user-interaction-container">
+                        <button><img src="assets/icons/header/help.svg" alt="" /></button>
+                        <button class="header__user-button">
+                            <img class="header__ellipse" src="assets/icons/header/ellipse.svg" alt="" />
+                            <span class="header__name-abbreviation">DG</span>
+                        </button>
+                    </div>
+                </header>
                 <main></main>
             </div>
         </div>

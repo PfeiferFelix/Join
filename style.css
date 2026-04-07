@@ -2,13 +2,24 @@
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 body {
     position: relative;
     width: 100%;
     font-family: "Inter", sans-serif;
 }
 
-.container {
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.content__container {
     display: flex;
     height: 100vh;
     width: 100%;
@@ -18,7 +29,7 @@ body {
 
 .sidebar {
     background-color: var(--primary-color);
-    padding: 64px;
+    width: 260px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,16 +44,25 @@ body {
 }
 
 .sidebar__logo {
-    margin-bottom: 50px;
+    margin: 50px 0;
+}
+
+.sidebar__nav {
+    width: 100%;
 }
 
 .sidebar__nav-link,
 .sidebar__legal-information-link {
     text-decoration: none;
+    color: inherit;
 }
 
 .sidebar__nav-link {
-    color: var(--secondary-font-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    padding-left: 60px;
 }
 
 .sidebar__list-item {
@@ -51,24 +71,83 @@ body {
     justify-content: center;
 }
 
+.sidebar__list-item:hover {
+    background-color: #2a3d59;
+}
+
+.sidebar__link--active {
+    background-color: #091931 !important;
+    transform: scale(1) !important;
+    cursor: default;
+    color: white !important;
+}
+
 .sidebar__legal-information {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     gap: 32px;
+    margin-bottom: 50px;
+    width: 100%;
 }
 
 .sidebar__legal-information-link {
-    color: var(--tertiary-font-color);
+    padding: 10px 0;
+    padding-left: 60px;
 }
 
 .sidebar__nav-img {
-    position: relative;
-    top: 10px;
-    margin-right: 10px;
+    width: 30px;
+    height: 30px;
 }
 
-.sidebar__list-item:hover {
-    background-color: #2a3d59;
+.sidebar__legal-information-link:hover {
+    transform: scale(1.05);
+    transform-origin: left;
+    color: var(--light-blue-color);
+}
+
+.header-main__container {
+    width: 100%;
+}
+
+.header {
+    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__ellipse {
+    width: 40px;
+    height: 40px;
+}
+
+.header__user-button {
+    position: relative;
+}
+
+.header__name-abbreviation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.header__user-interaction-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header__headline3 {
+    padding-left: 56px;
+}
+
+.main-content {
+    background-color: var(--content-background-color);
+    margin-top: 4px;
+    height: calc(100vh - 90px);
 }
