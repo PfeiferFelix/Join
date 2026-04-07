@@ -9,28 +9,11 @@
     <link rel="stylesheet" href="styles/fonts.css" />
     <script src="script.js"></script>
     <link rel="stylesheet" href="styles/add-task.css">
+    <script src="add-task.js" defer></script>
     <title>Add Task</title>
 </head>
 
 <body>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {  // Ensure the DOM is fully loaded before attaching event listeners
-            setActivePriority();
-            const today = new Date().toISOString().split('T')[0];   // Get today's date in YYYY-MM-DD format for the date input's min attribute
-            document.getElementById('due-date').setAttribute('min', today); // Set the minimum date to today to prevent selecting past dates 
-        });
-
-        function setActivePriority() {           // Function to handle the active state of priority buttons
-            document.querySelectorAll('.priority-buttons__btn').forEach(btn => {    // Select all priority buttons and attach click event listeners to them
-                btn.addEventListener('click', () => {                               // When a button is clicked, remove the active class from all buttons and add it to the clicked button
-                    document.querySelectorAll('.priority-buttons__btn')             // Select all priority buttons again to remove the active class from them
-                        .forEach(b => b.classList.remove('priority-buttons__btn--active')); // Remove the active class from all buttons. This ensures that only one button can be active at a time.
-                    btn.classList.add('priority-buttons__btn--active');             // Add the active class to the clicked button to visually indicate that it is selected as the priority level for the task being created.
-                });
-            });
-        }
-    </script>
 
     <div class="content__container fs-small-regular">
         <aside class="sidebar fc-lightgrey">
