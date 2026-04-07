@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join-Registration</title>
+    <title>Join-Login</title>
     <link rel="stylesheet" href="styles/font.css">
     <link rel="stylesheet" href="styles/registrations.css">
 </head>
@@ -12,21 +12,16 @@
 <body>
     <header>
         <img src="./assets/logos/logo_dark.jpg" alt="logo" class="logo">
+        <div class="header-right">
+            <span class="noUser">Noch kein Join User?</span>
+            <a href="registration.html" class="buttonRegistration">Registrieren</a>
+        </div>
     </header>
     <main>
         <div class="container">
-            <div class="title-row">
-                <a href="login.html">
-                    <img src="./assets/icons/arrow-left-line.png" alt="back" class="back-arrow">
-                </a>
-                <span class="container_headline">Registrieren</span>
-            </div>
+            <h1>Log in</h1>
             <div class="title-underline"></div>
             <form class="login-form">
-                <div class="input-wrapper">
-                    <input type="name" placeholder="Name" required>
-                    <img src="./assets/icons/person.png" alt="person icon" class="input-icon">
-                </div>
                 <div class="input-wrapper">
                     <input type="email" placeholder="Email" required>
                     <img src="./assets/icons/mail.png" alt="mail icon" class="input-icon">
@@ -35,18 +30,15 @@
                     <input type="password" placeholder="Password" required>
                     <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon">
                 </div>
-                <div class="input-wrapper">
-                    <input type="passwordconfirm" placeholder="Password bestätigen" required>
-                    <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon">
-                </div>
-                <div class="checkbox-row">
-                    <input type="checkbox" id="privacy" required>
-                    <label for="privacy">Ich akzeptiere die <a href="privacy-policy.html">Privacy policy</a></label>
-                </div>
                 <div class="button-row">
-                    <button type="submit" class="btnLogin">Registrieren</button>
+                    <button type="submit" class="btnLogin">Log in</button>
+                    <button type="button" class="btnGuestLogin">Gast Log in</button>
                 </div>
             </form>
+        </div>
+        <div class="mobile-signup">
+            <span class="noUser">Noch kein Join User?</span>
+            <a href="registration.html" class="buttonRegistration">Registrieren</a>
         </div>
     </main>
     <footer>
