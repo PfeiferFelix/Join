@@ -4,13 +4,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="assets/icons/board.svg" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/boards.css" />
     <link rel="stylesheet" href="styles/variable.css" />
+    <script src="scripts/templates.js"></script>
+    <script src="script.js"></script>
     <title>Boards</title>
 </head>
 
-<body>
+<body onload="updateHTML()">
     <div class="container">
         <aside class="sidebar">
             <img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
@@ -53,58 +56,42 @@
                 <div class="boards__addtask">
                     <h1>Boards</h1>
                     <div class="search-container">
-                        <form action="/action_page.php">
+                        <form action="/search" method="get">
                             <input type="text" placeholder="Search.." name="search">
                             <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
                         </form>
+                        <button type="button" class="addTaskBtn">Add Task +</button>
                     </div>
                 </div>
                 <div class="boards__lists">
                     <div class="toDo" id="toDo_list">
                         <h2>To Do</h2>
-                        <button class="toDo" id="toDo" aria-label="Add task to To Do">+</button>
+                        <button class="toDoBtn" id="toDoBtn" aria-label="Add task to To Do">+</button>
                     </div>
 
                     <div class="inProgress" id="inProgress_list">
                         <h2>In Progress</h2>
-                        <button class="inProgress" id="inProgress" aria-label="Add task to In Progress">+</button>
+                        <button class="inProgressBtn" id="inProgressBtn" aria-label="Add task to In Progress">+</button>
                     </div>
                     <div class="awaitingFeedback" id="awaitingFeedback_list">
                         <h2>Awaiting Feedback</h2>
-                        <button class="awaitingFeedback" id="awaitingFeedback"
-                            aria-label="Add task to Awaiting Feedback">+</button>
+                        <button class="awaitingFeedbackBtn" id="awaitingFeedbackBtn" aria-label="Add task to Awaiting Feedback">+</button>
                     </div>
 
                     <div class="done" id="done_list">
                         <h2>Done</h2>
-                        <button class="done" id="done" aria-label="Add task to Done">+</button>
+                        <button class="doneBtn" id="doneBtn" aria-label="Add task to Done">+</button>
                     </div>
                 </div>
                 <section class="boards__section">
-                    <div class="task__container" id="toDo_tasks">
-                        <h3>To Do</h3>
-                        <p class="task__container-description">Here you can find all tasks that are planned to be done.
-                            You can add new tasks by clicking the "+" button above. Drag and drop tasks to move them to
-                            the next stage of your project.</p>
-                    </div>
-                    <div class="task__container" id="inProgress_tasks">
-                        <h3>In Progress</h3>
-                        <p class="task__container-description">Here you can find all tasks that are currently in
-                            progress. You can move tasks to this section by dragging them from the "To Do" section. Keep
-                            track of your team's progress and update task statuses as needed.</p>
-                    </div>
-                    <div class="task__container" id="awaitingFeedback_tasks">
-                        <h3>Awaiting Feedback</h3>
-                        <p class="task__container-description">Here you can find all tasks that are awaiting feedback.
-                            You can move tasks to this section by dragging them from the "In Progress" section. Review
-                            feedback and update task statuses accordingly.</p>
-                    </div>
-                    <div class="task__container" id="done_tasks">
-                        <h3>Done</h3>
-                        <p class="task__container-description">Here you can find all tasks that are completed. You can
-                            move tasks to this section by dragging them from the "Awaiting Feedback" section. Celebrate
-                            your team's achievements and keep track of completed tasks.</p>
-                    </div>
+                    <div class="drag-area" id="toDo" ondrop="moveTo('toDo')" ondragleave="removeHighlight('toDo')"
+                        ondragover="allowDrop(event); highlight('toDo')"></div>
+                    <div class="drag-area" id="inProgress" ondrop="moveTo('inProgress')" ondragleave="removeHighlight('inProgress')"
+                        ondragover="allowDrop(event); highlight('inProgress')"></div>
+                    <div class="drag-area" id="awaitingFeedback" ondrop="moveTo('awaitingFeedback')" ondragleave="removeHighlight('awaitingFeedback')"
+                        ondragover="allowDrop(event); highlight('awaitingFeedback')"></div>
+                    <div class="drag-area" id="done" ondrop="moveTo('done')" ondragleave="removeHighlight('done')"
+                        ondragover="allowDrop(event); highlight('done')"></div>
                 </section>
         </div>
         </main>

@@ -1,3 +1,45 @@
+.draggable-container {
+    user-select: none;
+}
+.draggable-container.dragging-container {
+    opacity: 0.6;
+    border: 2px dashed #1976d2;
+    background: #e3f2fd;
+}
+/* Drag-and-Drop Styles */
+.task__container {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 8px 0;
+    padding: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    cursor: grab;
+    transition: box-shadow 0.2s;
+    pointer-events: auto;
+    position: relative;
+}
+.task__container.dragging {
+    opacity: 0.5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.task__container.drag-over {
+    background: #e3f2fd !important;
+    border: 2px dashed #1976d2 !important;
+    min-height: 80px;
+}
+
+.task__container {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    width: 100%;
+    height: fit-content;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+    
 .header__boards {
     display: flex;
     justify-content: space-between;
@@ -9,24 +51,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 232px;
 }
-
-.boards__addtask button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
 .boards__section {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    gap: 26px;
 }
 
 .boards__lists {
     display: flex;
     justify-content: space-around;
-
+    margin-bottom: 24px;
     width: 100%;
 }
 
@@ -39,42 +74,53 @@
     justify-content: space-between;
     gap: 10px;
 }
-
+.toDoBtn,
+.inProgressBtn,
+.awaitingFeedbackBtn,
+.doneBtn {
+    background-color: transparent;
+    color:  black;
+    border: 2px solid #2a3647;
+    border-radius: 5px;
+    font-size: 24px;
+    cursor: pointer;
+    height: 32px;
+}
 .main-content {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.task__container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-}
 
 .search-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     float: right;
     border: none;
     cursor: pointer;
 }
 
 .search-container input[type=text] {
-    padding: 6px;
-    margin-top: 8px;
+    height: 32px;
     font-size: 17px;
     border: 1px solid #ccc;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 .searchBtn {
-  float: right;
-  padding: 6px 10px;
-  margin-top: 8px;
-  margin-right: 16px;
-  background: #ddd;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
+    float: right;
+    padding: 6px 10px;
+    margin-right: 16px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    height: 36px;
+    background-color: transparent;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 .fa{
@@ -89,4 +135,89 @@
 .fa-search:before {
     content: "\1F50D";
     font-family: inherit;
+}
+
+.help__me {
+    color: #888;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+.profile__settings {
+    color: #888;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+}
+.profile__boards {
+    color: #888;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+}
+.profile__list {
+    color: #888;
+    border-radius: 50%;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+}
+.headline__boards {
+    font-size: 24px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    background-color: aquamarine;
+    border-radius: 12px;
+    text-align: center;
+    width: 100%;
+}
+.profile__list-item {
+    cursor: pointer;
+    font-size: 24px;
+    vertical-align: super;
+}
+
+.footer__boards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+.addTaskBtn {
+    background-color: #2a3647;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 32px;
+}
+.drag-area {
+    width: 100%;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+}
+
+.drag-area-highlight {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.todo {
+    width: 250px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+        margin: 5px;
+}
+.todo-footer {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #ccc;
 }
