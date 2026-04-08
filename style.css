@@ -126,6 +126,7 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: white;
 }
 
 .header__user-button {
