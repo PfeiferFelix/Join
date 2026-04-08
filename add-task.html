@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="styles/variable.css" />
     <link rel="stylesheet" href="styles/fonts.css" />
     <script src="script.js"></script>
+    <script src="scripts/templates.js"></script>
     <link rel="stylesheet" href="styles/add-task.css">
     <title>Add Task</title>
 </head>
 
-<body>
+<body onload="init()">
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {  // Ensure the DOM is fully loaded before attaching event listeners
@@ -70,10 +71,14 @@
                     <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
                     <div class="header__user-interaction-container">
                         <button><img src="assets/icons/header/help.svg" alt="" /></button>
-                        <button class="header__user-button">
-                            <img class="header__ellipse" src="assets/icons/header/ellipse.svg" alt="" />
-                            <span class="header__name-abbreviation">DG</span>
-                        </button>
+                        <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
+                        <div id="js-header-user-menu" class="header__user-menu">
+                            <ul class="header__user-list fs-small-regular fc-lightgrey">
+                                <li><a href="legal-notice.html">Legal Notice</a></li>
+                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                <li><a href="login.html">Log Out</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </header>
                 <main class="main-content__body">

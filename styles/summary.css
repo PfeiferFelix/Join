@@ -1,3 +1,7 @@
+.tasks a {
+    color: inherit;
+}
+
 .headline {
     display: flex;
     align-items: center;
