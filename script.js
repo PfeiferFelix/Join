@@ -6,6 +6,8 @@ function init() {
     addSummaryHeader();
     addUserButton();
     addUserMenu();
+    highlightActivePage();
+    document.body.style.visibility = "visible";
 }
 
 /**
@@ -46,4 +48,39 @@ function addUserMenu() {
 function toggleUserMenu() {
     const userMenu = document.getElementById("js-header-user-menu");
     userMenu.style.display = userMenu.style.display === "block" ? "none" : "block";
+}
+
+/**
+ * Highlights the active sidebar entry for the current page and disables its link.
+ */
+function highlightActivePage() {
+    // Get the current file name without the .html extension.
+    const currentPage = window.location.pathname.split("/").pop().replace(".html", "");
+
+    // Find the sidebar element whose id matches the current page.
+    const activeElement = document.getElementById(`js-sidebar-${currentPage}`);
+
+    // Stop if no matching sidebar element exists.
+    if (!activeElement) {
+        return;
+    }
+
+    // Check whether the active element belongs to a regular sidebar list item.
+    const activeListItem = activeElement.closest(".sidebar__list-item");
+
+    // Find the link element so it can be disabled on the active page.
+    const activeLink = activeElement.closest("a");
+
+    // Add the active class to the list item when it exists.
+    if (activeListItem) {
+        activeListItem.classList.add("sidebar__link--active");
+    } else {
+        // Otherwise, add the active class directly to the element itself.
+        activeElement.classList.add("sidebar__link--active");
+    }
+
+    // Remove the link target and mark the current page for accessibility.
+    if (activeLink) {
+        activeLink.removeAttribute("href");
+    }
 }

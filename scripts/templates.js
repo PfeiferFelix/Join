@@ -22,26 +22,26 @@ function getSidebarTemplate() {
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="#"><img class="sidebar__nav-img" src="assets/icons/sidebar/active/summary-active.svg" alt="" /> <span>Summary</span></a>
+                            <a class="sidebar__nav-link" href="summary.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/active/summary-active.svg" alt="" /> <span id="js-sidebar-summary">Summary</span></a>
                         </li>
                         <li class="sidebar__list-item">
                             <a class="sidebar__nav-link" href="add-task.html"
                                 ><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="" />
-                                <span>Add Task</span>
+                                <span id="js-sidebar-add-task">Add Task</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> <span>Boards</span></a>
+                            <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> <span id="js-sidebar-boards">Boards</span></a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="contacts.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> <span>Contacts</span></a>
+                            <a class="sidebar__nav-link" href="contacts.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> <span id="js-sidebar-contacts">Contacts</span></a>
                         </li>
                     </ul>
                 </nav>
 
                 <footer class="sidebar__legal-information">
-                    <a class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
-                    <a class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
+                    <a id="js-sidebar-privacy-policy" class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
+                    <a id="js-sidebar-legal-notice" class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
                 </footer>`;
 }
 
