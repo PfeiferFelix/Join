@@ -1,4 +1,17 @@
+/* Subtask-Leiste sichtbar und gestylt */
+.subtask {
+    color: white;
+    background: #3498db;
+    border-radius: 8px;
+    padding: 2px 8px;
+    display: inline-block;
+    min-width: 32px;
+    text-align: center;
+    font-size: 13px;
+    margin: 6px 0;
+}
 .draggable-container {
+    -webkit-user-select: none;
     user-select: none;
 }
 .draggable-container.dragging-container {
@@ -104,7 +117,7 @@
 
 .search-container input[type=text] {
     height: 32px;
-    font-size: 17px;
+    font-size: 16px;
     border: 1px solid #ccc;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
@@ -154,9 +167,14 @@
     color: #888;
     border-radius: 50%;
     border: 1px solid #ccc;
-    font-size: 16px;
-    width: 32px;
-    height: 32px;
+    font-size: 12px;
+    padding: 4px;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .profile__list {
     color: #888;
@@ -196,10 +214,8 @@
 }
 .drag-area {
     width: 100%;
+    height: 20px;
     flex-direction: column;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
 }
@@ -219,5 +235,16 @@
 .todo-footer {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #ccc;
+    align-items: center;
+    padding-top: 10px;
+}
+.todo-description {
+    font-size: 14px;
+    color: #555;
+    padding: 10px 0;
+}
+.todo-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
