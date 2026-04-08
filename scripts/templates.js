@@ -16,3 +16,40 @@ function getUserMenuTemplate() {
         </ul>
     `;
 }
+
+function getSidebarTemplate() {
+    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
+                <nav class="sidebar__nav">
+                    <ul class="sidebar__nav-list">
+                        <li class="sidebar__list-item">
+                            <a class="sidebar__nav-link" href="#"><img class="sidebar__nav-img" src="assets/icons/sidebar/active/summary-active.svg" alt="" /> <span>Summary</span></a>
+                        </li>
+                        <li class="sidebar__list-item">
+                            <a class="sidebar__nav-link" href="add-task.html"
+                                ><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="" />
+                                <span>Add Task</span>
+                            </a>
+                        </li>
+                        <li class="sidebar__list-item">
+                            <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> <span>Boards</span></a>
+                        </li>
+                        <li class="sidebar__list-item">
+                            <a class="sidebar__nav-link" href="contacts.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> <span>Contacts</span></a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <footer class="sidebar__legal-information">
+                    <a class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
+                    <a class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
+                </footer>`;
+}
+
+function getHeaderTemplate(nameAbbreviation) {
+    return `<h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
+                    <div class="header__user-interaction-container">
+                        <button><img src="assets/icons/header/help.svg" alt="" /></button>
+                        <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
+                        <div id="js-header-user-menu" class="header__user-menu"></div>
+                    </div>`;
+}

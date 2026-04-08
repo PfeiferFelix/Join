@@ -34,53 +34,10 @@
     </script>
 
     <div class="content__container fs-small-regular">
-        <aside class="sidebar fc-lightgrey">
-            <img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
-            <nav class="sidebar__nav">
-                <ul class="sidebar__nav-list">
-                    <li class="sidebar__list-item">
-                        <a class="sidebar__nav-link" href="summary.html"><img class="sidebar__nav-img"
-                                src="assets/icons/sidebar/inactive/summary.svg" alt="" /> <span>Summary</span></a>
-                    </li>
-                    <li class="sidebar__list-item">
-                        <a class="sidebar__nav-link sidebar__link--active" href="#"
-                                ><img class="sidebar__nav-img"
-                                src="assets/icons/sidebar/active/add-task-active.svg" alt="" />
-                                <span>Add Task</span>
-                            </a>
-                    </li>
-                    <li class="sidebar__list-item">
-                        <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg"
-                                alt="" /> <span>Boards</span></a>
-                    </li>
-                    <li class="sidebar__list-item">
-                        <a class="sidebar__nav-link" href="contacts.html"><img class="sidebar__nav-img"
-                                src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> <span>Contacts</span></a>
-                    </li>
-                </ul>
-            </nav>
-
-                <footer class="sidebar__legal-information">
-                    <a class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
-                    <a class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
-                </footer>
-            </aside>
+        <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
             <div class="header-main__container">
-                <header class="header">
-                    <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
-                    <div class="header__user-interaction-container">
-                        <button><img src="assets/icons/header/help.svg" alt="" /></button>
-                        <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
-                        <div id="js-header-user-menu" class="header__user-menu">
-                            <ul class="header__user-list fs-small-regular fc-lightgrey">
-                                <li><a href="legal-notice.html">Legal Notice</a></li>
-                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                <li><a href="login.html">Log Out</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </header>
+                <header id="js-header" class="header"></header>
                 <main class="main-content__body">
                 <h1 class="main-content__page-title">Add Task</h1>
 
