@@ -22,7 +22,10 @@ function getSidebarTemplate() {
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="summary.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/active/summary-active.svg" alt="" /> <span id="js-sidebar-summary">Summary</span></a>
+                            <a class="sidebar__nav-link" href="summary.html">
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="" /> 
+                                <span id="js-sidebar-summary">Summary</span>
+                            </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a class="sidebar__nav-link" href="add-task.html"
@@ -31,10 +34,16 @@ function getSidebarTemplate() {
                             </a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> <span id="js-sidebar-boards">Boards</span></a>
+                            <a class="sidebar__nav-link" href="boards.html">
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> 
+                                <span id="js-sidebar-boards">Boards</span>
+                            </a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="contacts.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> <span id="js-sidebar-contacts">Contacts</span></a>
+                            <a class="sidebar__nav-link" href="contacts.html">
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> 
+                                <span id="js-sidebar-contacts">Contacts</span>
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -45,11 +54,11 @@ function getSidebarTemplate() {
                 </footer>`;
 }
 
-function getHeaderTemplate(nameAbbreviation) {
+function getHeaderTemplate() {
     return `<h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
-                    <div class="header__user-interaction-container">
-                        <button><img src="assets/icons/header/help.svg" alt="" /></button>
-                        <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
-                        <div id="js-header-user-menu" class="header__user-menu"></div>
-                    </div>`;
+            <div class="header__user-interaction-container">
+                <button><img src="assets/icons/header/help.svg" alt="" /></button>
+                <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
+                <div id="js-header-user-menu" class="header__user-menu"></div>
+            </div>`;
 }

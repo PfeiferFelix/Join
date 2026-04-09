@@ -2,8 +2,8 @@
  * Initializes the user button by calling the addUserButton function when the page loads.
  */
 function init() {
-    addSummarySidebar();
-    addSummaryHeader();
+    addSidebar();
+    addHeader();
     addUserButton();
     addUserMenu();
     highlightActivePage();
@@ -13,7 +13,7 @@ function init() {
 /**
  * Injects the prepared sidebar template on the summary page.
  */
-function addSummarySidebar() {
+function addSidebar() {
     const sidebar = document.getElementById("js-sidebar");
     sidebar.innerHTML = getSidebarTemplate();
 }
@@ -21,7 +21,7 @@ function addSummarySidebar() {
 /**
  * Injects the prepared header template on the summary page.
  */
-function addSummaryHeader() {
+function addHeader() {
     const header = document.getElementById("js-header");
     header.innerHTML = getHeaderTemplate();
 }
