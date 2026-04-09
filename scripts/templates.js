@@ -57,7 +57,7 @@ function getSidebarTemplate() {
 function getHeaderTemplate() {
     return `<h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
             <div class="header__user-interaction-container">
-                <button><img src="assets/icons/header/help.svg" alt="" /></button>
+                <a href="help.html"><img src="assets/icons/header/help.svg" alt="Help" /></a>
                 <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
                 <div id="js-header-user-menu" class="header__user-menu"></div>
             </div>`;
