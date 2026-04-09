@@ -22,27 +22,27 @@ function getSidebarTemplate() {
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="summary.html">
+                            <a id="js-sidebar-summary" class="sidebar__nav-link" href="summary.html">
                                 <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="" /> 
-                                <span id="js-sidebar-summary">Summary</span>
+                                <span>Summary</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="add-task.html"
-                                ><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="" />
-                                <span id="js-sidebar-add-task">Add Task</span>
+                            <a id="js-sidebar-add-task" class="sidebar__nav-link" href="add-task.html">
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="" />
+                                <span>Add Task</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="boards.html">
+                            <a id="js-sidebar-boards" class="sidebar__nav-link" href="boards.html">
                                 <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> 
-                                <span id="js-sidebar-boards">Boards</span>
+                                <span>Boards</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link" href="contacts.html">
+                            <a id="js-sidebar-contacts" class="sidebar__nav-link" href="contacts.html">
                                 <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> 
-                                <span id="js-sidebar-contacts">Contacts</span>
+                                <span>Contacts</span>
                             </a>
                         </li>
                     </ul>
