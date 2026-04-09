@@ -35,7 +35,7 @@ function getSidebarTemplate() {
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-boards" class="sidebar__nav-link" href="boards.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/boards.svg" alt="" /> 
                                 <span>Boards</span>
                             </a>
                         </li>
