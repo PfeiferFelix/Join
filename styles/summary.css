@@ -6,8 +6,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding-top: 96px;
-    padding-bottom: 48px;
+    margin-bottom: 48px;
     padding-left: var(--padding-left-content-to-sidebar);
 }
 

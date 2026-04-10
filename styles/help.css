@@ -2,13 +2,37 @@
     padding: 0 64px;
 }
 
-.help p {
-    font: inherit;
-    font-weight: inherit;
+.help h3 {
+    margin: 0;
 }
 
 .help__headline-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+}
+
+.help__list-item {
+    padding-left: 10px;
+}
+
+.help__end-sentence {
+    margin-top: 56px;
+}
+
+.help__marker-headline {
+    position: relative;
+    right: 54px;
+    top: 22px;
+    display: flex;
+    gap: 32px;
+}
+
+.help__list-marker {
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.help__how-to-use-p {
+    margin-bottom: 0;
 }

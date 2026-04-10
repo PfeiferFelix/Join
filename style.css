@@ -1,12 +1,30 @@
 * {
     margin: 0;
+    scroll-behavior: smooth;
+}
+
+h1 {
+    margin: 22px 0;
+}
+
+h2 {
+    margin: 20px 0;
+}
+
+h3 {
+    margin: 18px 0;
+}
+
+p {
+    margin: 16px 0;
 }
 
 a {
     text-decoration: none;
 }
 
-li {
+ul,
+ol {
     list-style: none;
 }
 
@@ -156,7 +174,8 @@ button {
 }
 
 .main-content {
-    margin-top: 40px;
+    margin-top: 96px;
+    overflow-y: auto;
 }
 
 .header__user-menu {
