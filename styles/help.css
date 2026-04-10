@@ -1,3 +1,14 @@
+.help {
+    padding: 0 64px;
+}
 
+.help p {
+    font: inherit;
+    font-weight: inherit;
+}
 
-
+.help__headline-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
