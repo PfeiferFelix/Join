@@ -58,6 +58,7 @@ header {
  .container_headline{
         font-size: 50px;
         margin-left: 5px;
+        font-weight: bold;
     }
 .title-row {
     position: relative;
