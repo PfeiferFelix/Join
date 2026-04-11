@@ -1,3 +1,7 @@
+.main-content {
+    overflow-y: auto;
+}
+
 .help {
     padding: 0 64px;
 }
