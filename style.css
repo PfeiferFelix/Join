@@ -41,12 +41,15 @@ button {
     cursor: pointer;
 }
 
+a {
+    cursor: pointer;
+}
+
 .content__container {
     display: flex;
     height: 100vh;
     width: 100%;
     max-width: 1440px;
-    margin: 0 auto;
 }
 
 .sidebar {
@@ -152,7 +155,7 @@ button {
 }
 
 .header__user-button:hover .header__circle {
-    fill: var(--lightgrey-color);
+    fill: var(--lightergrey-color);
 }
 
 .header__name-abbreviation {
@@ -200,4 +203,8 @@ button {
 
 .header__user-list a {
     color: inherit;
+}
+
+.header__help-icon:hover {
+    transform: scale(1.2);
 }

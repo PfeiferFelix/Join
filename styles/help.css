@@ -2,13 +2,15 @@
     padding: 0 64px;
 }
 
-.help h3 {
-    margin: 0;
+.help .help__marker-headline,
+.help__list-marker {
+    margin-bottom: 0;
+    margin-top: 16px;
 }
 
 .help__headline-container {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -18,14 +20,16 @@
 
 .help__end-sentence {
     margin-top: 56px;
+    margin-bottom: 32px;
 }
 
-.help__marker-headline {
-    position: relative;
-    right: 54px;
-    top: 22px;
+.help__list-container {
     display: flex;
     gap: 32px;
+}
+
+.help__marker-text {
+    margin-top: 0;
 }
 
 .help__list-marker {
@@ -35,4 +39,20 @@
 
 .help__how-to-use-p {
     margin-bottom: 0;
+}
+
+.help__how-to-use {
+    padding-left: 0;
+}
+
+.help__back-button {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.help__back-button:hover {
+    transform: scale(1.2);
+    background-color: var(--lightergrey-color);
 }
