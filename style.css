@@ -123,11 +123,6 @@ a {
     padding-left: 60px;
 }
 
-.sidebar__nav-img {
-    width: 30px;
-    height: 30px;
-}
-
 .sidebar__legal-information-link:hover {
     transform: scale(1.05);
     transform-origin: left;
@@ -166,13 +161,6 @@ a {
     fill: var(--lightergrey-color);
 }
 
-.header__name-abbreviation {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .header__user-interaction-container {
     position: relative;
     display: flex;
@@ -182,6 +170,10 @@ a {
 
 .header__headline3 {
     padding-left: 56px;
+}
+
+.header__mobile-logo {
+    display: none;
 }
 
 .main-content {
@@ -249,6 +241,18 @@ a {
         border-radius: 20px;
         display: flex;
         flex-direction: column;
+    }
+
+    .header__help-icon {
+        display: none;
+    }
+
+    .header__headline3 {
+        display: none;
+    }
+
+    .header__mobile-logo {
+        display: block;
     }
 }
 
