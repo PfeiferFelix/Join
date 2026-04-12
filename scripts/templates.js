@@ -49,8 +49,14 @@ function getSidebarTemplate() {
                 </nav>
 
                 <footer class="sidebar__legal-information">
-                    <a id="js-sidebar-privacy-policy" class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
-                    <a id="js-sidebar-legal-notice" class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
+                    <ul class="sidebar__legal-information-list">
+                        <li>
+                            <a id="js-sidebar-privacy-policy" class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a id="js-sidebar-legal-notice" class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
+                        </li>
+                    </ul>
                 </footer>`;
 }
 

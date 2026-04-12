@@ -62,9 +62,9 @@ function highlightActivePage() {
 
     activeLink.removeAttribute("href");
     activeLink.classList.add("sidebar__link--active");
-    const listItem = activeLink.closest(".sidebar__list-item");
-    if (listItem) {
-        activeLink.querySelector("img.sidebar__nav-img").src = `assets/icons/sidebar/active/${currentPage}-active.svg`;
+    const icon = activeLink.querySelector("img.sidebar__nav-img");
+    if (icon) {
+        icon.src = `assets/icons/sidebar/active/${currentPage}-active.svg`;
     }
 }
 

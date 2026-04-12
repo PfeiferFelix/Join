@@ -21,6 +21,7 @@ p {
 
 a {
     text-decoration: none;
+    color: white;
 }
 
 ul,
@@ -78,7 +79,6 @@ a {
 
 .sidebar__nav-link,
 .sidebar__legal-information-link {
-    text-decoration: none;
     color: inherit;
 }
 
@@ -96,7 +96,7 @@ a {
     justify-content: center;
 }
 
-.sidebar__list-item:hover {
+.sidebar__nav-link:hover {
     background-color: #2a3d59;
 }
 
@@ -118,6 +118,7 @@ a {
 }
 
 .sidebar__legal-information-link {
+    display: block;
     padding: 10px 0;
     padding-left: 60px;
 }
@@ -131,6 +132,13 @@ a {
     transform: scale(1.05);
     transform-origin: left;
     color: var(--light-blue-color);
+}
+
+.sidebar__legal-information-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 0;
 }
 
 .header-main__container {
@@ -206,4 +214,54 @@ a {
 
 .header__help-icon:hover {
     transform: scale(1.2);
+}
+
+@media (max-width: 800px) {
+    .content__container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        order: 1;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 100px;
+        flex-direction: row;
+    }
+
+    .sidebar__logo {
+        display: none;
+    }
+
+    .sidebar__legal-information {
+        display: none;
+    }
+
+    .sidebar__nav-list {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .sidebar__nav-link {
+        padding: 10px;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 400px) {
+    .sidebar__nav-list {
+        gap: 8px;
+    }
+
+    .sidebar__nav-link {
+        padding: 2px;
+    }
+
+    .sidebar__nav-link {
+        border-radius: 15px;
+    }
 }
