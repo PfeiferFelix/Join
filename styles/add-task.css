@@ -184,3 +184,53 @@ textarea {
     display: inline-block;
 }
 
+
+
+@media (min-width: 320px) and (max-width: 768px) {
+
+    main {
+        padding: 24px 16px;
+    }
+
+    .main-content__body {
+        height: auto;
+    }
+
+    main h1 {
+        font-size: 32px;
+        margin-bottom: 24px;
+    }
+
+    .task-form__body {
+        flex-direction: column;
+    }
+
+    .task-form__col {
+        padding: 0;
+    }
+
+    .task-form__separator {
+        display: none;
+    }
+
+    .task-form__footer {
+        padding-top: 32px;
+    }
+
+    .task-form__actions {
+        width: 100%;
+    }
+
+    .task-form__btn {
+        flex: 1;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .task-form__label[for="subtask"],
+    .subtask-input {
+        display: none;
+    }
+}
