@@ -172,3 +172,39 @@
 .tasks__urgent:hover .tasks__separator {
     background-color: white;
 }
+
+@media (max-width: 1150px) {
+    .welcoming {
+        padding-left: 20px;
+    }
+}
+@media (max-width: 1000px) {
+    .task__number-responsive {
+        font-size: 47px;
+    }
+
+    .task__text-responsive {
+        font-size: 16px;
+    }
+
+    .welcoming__text-responsive {
+        font-size: 36px;
+    }
+
+    .welcoming__name-responsive {
+        font-size: 47px;
+    }
+
+    .tasks__icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .headline__title-responsive {
+        font-size: 47px;
+    }
+
+    .headline__subtitle-responsive {
+        font-size: 20px;
+    }
+}
