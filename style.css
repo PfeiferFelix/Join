@@ -206,6 +206,17 @@ a {
     transform: scale(1.2);
 }
 
+@media (max-width: 1000px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .sidebar__nav-link,
+    .sidebar__legal-information-link {
+        padding: 10px 44px;
+    }
+}
+
 @media (max-width: 900px) {
     .content__container {
         flex-direction: column;
@@ -252,6 +263,10 @@ a {
     .header__mobile-logo {
         display: block;
     }
+
+    .header__user-menu {
+        left: -35px;
+    }
 }
 
 @media (max-width: 400px) {
@@ -260,7 +275,7 @@ a {
     }
 
     .sidebar__nav-link {
-        padding: 2px;
+        padding: 4px;
     }
 
     .sidebar__nav-link {
