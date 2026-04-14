@@ -61,11 +61,13 @@ function getSidebarTemplate() {
 }
 
 function getHeaderTemplate() {
-    return `<img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="" />
-            <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
-            <div class="header__user-interaction-container">
-                <a onclick="goToHelp()"><img class="header__help-icon" src="assets/icons/header/help.svg" alt="Help" /></a>
-                <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
-                <div id="js-header-user-menu" class="header__user-menu"></div>
+    return `<div class="header__content">
+                <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="" />
+                <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
+                <div class="header__user-interaction-container">
+                    <a onclick="goToHelp()"><img class="header__help-icon" src="assets/icons/header/help.svg" alt="Help" /></a>
+                    <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
+                    <div id="js-header-user-menu" class="header__user-menu"></div>
+                </div>
             </div>`;
 }

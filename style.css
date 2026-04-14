@@ -50,12 +50,11 @@ a {
     display: flex;
     height: 100vh;
     width: 100%;
-    max-width: 1440px;
 }
 
 .sidebar {
     background-color: var(--primary-color);
-    width: 260px;
+    width: var(--width-sidebar);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -145,10 +144,14 @@ a {
 .header {
     box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1);
     padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     background-color: white;
+}
+
+.header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--content-limit);
 }
 
 .header__user-button {
@@ -176,6 +179,7 @@ a {
 
 .main-content {
     margin-top: 96px;
+    max-width: var(--content-limit);
 }
 
 .header__user-menu {
@@ -207,10 +211,6 @@ a {
 }
 
 @media (max-width: 1000px) {
-    .sidebar {
-        width: 200px;
-    }
-
     .sidebar__nav-link,
     .sidebar__legal-information-link {
         padding: 10px 44px;
@@ -224,7 +224,6 @@ a {
 
     .sidebar {
         order: 1;
-        width: 100%;
         position: fixed;
         bottom: 0;
         left: 0;

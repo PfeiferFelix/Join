@@ -5,4 +5,24 @@
     --light-blue-color: #29abe2;
     --content-background-color: #f6f7f8;
     --padding-left-content-to-sidebar: 64px;
+    --width-sidebar: 260px;
+    --content-limit: calc(1440px - var(--width-sidebar));
+}
+
+@media (max-width: 1200px) {
+    :root {
+        --padding-left-content-to-sidebar: 30px;
+    }
+}
+
+@media (max-width: 1000px) {
+    :root {
+        --width-sidebar: 200px;
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --width-sidebar: 100%;
+    }
 }
