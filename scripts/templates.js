@@ -10,9 +10,9 @@ function getCircleUserTemplate(nameAbbreviation = "DG") {
 function getUserMenuTemplate() {
     return `
         <ul class="header__user-list fs-small-regular fc-lightgrey">
-            <li><a href="legal-notice.html">Legal Notice</a></li>
-            <li><a href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a href="login.html">Log Out</a></li>
+            <li><a class="header__user-link" href="legal-notice.html">Legal Notice</a></li>
+            <li><a class="header__user-link" href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a class="header__user-link" href="login.html">Log Out</a></li>
         </ul>
     `;
 }
