@@ -9,12 +9,15 @@ function getCircleUserTemplate(nameAbbreviation = "DG") {
 
 function getUserMenuTemplate() {
     return `
-        <ul class="header__user-list fs-small-regular fc-lightgrey">
+        <ul id="js-header-user-menu-list" class="header__user-list fs-small-regular fc-lightgrey">
             <li><a class="header__user-link" href="legal-notice.html">Legal Notice</a></li>
             <li><a class="header__user-link" href="privacy-policy.html">Privacy Policy</a></li>
             <li><a class="header__user-link" href="login.html">Log Out</a></li>
         </ul>
     `;
+}
+function getUserMenuHelpTemplate() {
+    return `<li id="js-header-user-menu-help"><a class="header__user-link" href="help.html">Help</a></li>`;
 }
 
 function getSidebarTemplate() {

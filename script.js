@@ -6,6 +6,7 @@ function init() {
     addHeader();
     addUserButton();
     addUserMenu();
+    addHelpToUserMenu(850);
     highlightActivePage();
     document.body.style.visibility = "visible";
 }
@@ -86,5 +87,29 @@ function goBack() {
         window.location.href = from; // Navigate back to the previous page
     } else {
         window.history.back(); // If no "from" parameter is found, use the browser's history to go back
+    }
+}
+
+/**
+ * Adds the help link to the user menu when the window is resized and the width is below the specified maximum width for mobile devices.
+ */
+window.addEventListener("resize", () => {
+    addHelpToUserMenu(850);
+});
+
+/**
+ * Adds the help link to the user menu when the window is resized and the width is below the specified maximum width for mobile devices.
+ * @param {number} maxWidthMobile - The maximum width for mobile devices.
+ */
+function addHelpToUserMenu(maxWidthMobile) {
+    const userMenu = document.getElementById("js-header-user-menu-list");
+    const existingHelpTag = document.getElementById("js-header-user-menu-help");
+
+    if (window.innerWidth <= maxWidthMobile) {
+        if (!existingHelpTag) {
+            userMenu.innerHTML = getUserMenuHelpTemplate() + userMenu.innerHTML;
+        }
+    } else if (existingHelpTag) {
+        existingHelpTag.remove();
     }
 }
