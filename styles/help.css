@@ -1,0 +1,71 @@
+.main-content {
+    overflow-y: auto;
+}
+
+.help {
+    padding: 0 64px;
+}
+
+.help .help__marker-headline,
+.help__list-marker {
+    margin-bottom: 0;
+    margin-top: 16px;
+}
+
+.help__headline-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.help__list-item {
+    padding-left: 10px;
+}
+
+.help__end-sentence {
+    margin-top: 56px;
+    margin-bottom: 32px;
+}
+
+.help__list-container {
+    display: flex;
+    gap: 32px;
+}
+
+.help__marker-text {
+    margin-top: 0;
+}
+
+.help__list-marker {
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.help__how-to-use-p {
+    margin-bottom: 0;
+}
+
+.help__how-to-use {
+    padding-left: 0;
+}
+
+.help__back-button {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.help__back-button:hover {
+    transform: scale(1.2);
+    background-color: var(--lightergrey-color);
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 850px) {
+}
+
+@media (max-width: 400px) {
+}

@@ -1,11 +1,12 @@
 /**
- * Initializes the user button by calling the addUserButton function when the page loads.
+ * Initialize function
  */
 function init() {
-    addSummarySidebar();
-    addSummaryHeader();
+    addSidebar();
+    addHeader();
     addUserButton();
     addUserMenu();
+    addHelpToUserMenu(850);
     highlightActivePage();
     document.body.style.visibility = "visible";
 }
@@ -13,7 +14,7 @@ function init() {
 /**
  * Injects the prepared sidebar template on the summary page.
  */
-function addSummarySidebar() {
+function addSidebar() {
     const sidebar = document.getElementById("js-sidebar");
     sidebar.innerHTML = getSidebarTemplate();
 }
@@ -21,7 +22,7 @@ function addSummarySidebar() {
 /**
  * Injects the prepared header template on the summary page.
  */
-function addSummaryHeader() {
+function addHeader() {
     const header = document.getElementById("js-header");
     header.innerHTML = getHeaderTemplate();
 }
@@ -51,37 +52,65 @@ function toggleUserMenu() {
 }
 
 /**
- * Highlights the active sidebar entry for the current page and disables its link.
+ * Highlights the active page in the sidebar by comparing the current URL with the href attributes of the sidebar links. It also changes the icon of the active link to its active version.
  */
 function highlightActivePage() {
-    // Get the current file name without the .html extension.
-    const currentPage = window.location.pathname.split("/").pop().replace(".html", "");
+    const sidebarLinks = document.querySelectorAll("a[id^='js-sidebar-']"); // Select all sidebar links with IDs starting with "js-sidebar-"
+    const currentPage = window.location.pathname.split("/").pop().split(".")[0];
+    const activeLink = Array.from(sidebarLinks).find((link) => link.id.replace("js-sidebar-", "") === currentPage);
 
-    // Find the sidebar element whose id matches the current page.
-    const activeElement = document.getElementById(`js-sidebar-${currentPage}`);
+    if (!activeLink) return;
 
-    // Stop if no matching sidebar element exists.
-    if (!activeElement) {
-        return;
+    activeLink.removeAttribute("href");
+    activeLink.classList.add("sidebar__link--active");
+    const icon = activeLink.querySelector("img.sidebar__nav-img");
+    if (icon) {
+        icon.src = `assets/icons/sidebar/active/${currentPage}-active.svg`;
     }
+}
 
-    // Check whether the active element belongs to a regular sidebar list item.
-    const activeListItem = activeElement.closest(".sidebar__list-item");
+/**
+ * Navigates to the help page and passes the current page URL as a parameter to allow going back to the previous page from the help page. It uses encodeURIComponent to ensure that the URL is properly formatted when passed as a parameter.
+ */
+function goToHelp() {
+    const from = window.location.href; // Save current page URL
+    window.location.href = "help.html?from=" + encodeURIComponent(from); // Navigate to help page and add current page URL as a parameter to go back later. Use encodeURIComponent to ensure the URL is properly formatted.
+}
 
-    // Find the link element so it can be disabled on the active page.
-    const activeLink = activeElement.closest("a");
-
-    // Add the active class to the list item when it exists.
-    if (activeListItem) {
-        activeListItem.classList.add("sidebar__link--active");
+/**
+ * Navigates back to the previous page. It first checks if there is a "from" parameter in the URL, which contains the URL of the previous page. If it exists, it navigates back to that URL. If not, it uses the browser's history to go back to the previous page.
+ */
+function goBack() {
+    const params = new URLSearchParams(window.location.search); // Get URL parameters. A parameter always follows after a "?" in the URL, so we use window.location.search to get the part of the URL that contains the parameters.
+    const from = params.get("from"); // Get the "from" parameter which contains the URL of the previous page.
+    if (from) {
+        window.location.href = from; // Navigate back to the previous page
     } else {
-        // Otherwise, add the active class directly to the element itself.
-        activeElement.classList.add("sidebar__link--active");
+        window.history.back(); // If no "from" parameter is found, use the browser's history to go back
     }
+}
 
-    // Remove the link target and mark the current page for accessibility.
-    if (activeLink) {
-        activeLink.removeAttribute("href");
+/**
+ * Adds the help link to the user menu when the window is resized and the width is below the specified maximum width for mobile devices.
+ */
+window.addEventListener("resize", () => {
+    addHelpToUserMenu(850);
+});
+
+/**
+ * Adds the help link to the user menu when the window is resized and the width is below the specified maximum width for mobile devices.
+ * @param {number} maxWidthMobile - The maximum width for mobile devices.
+ */
+function addHelpToUserMenu(maxWidthMobile) {
+    const userMenu = document.getElementById("js-header-user-menu-list");
+    const existingHelpTag = document.getElementById("js-header-user-menu-help");
+
+    if (window.innerWidth <= maxWidthMobile) {
+        if (!existingHelpTag) {
+            userMenu.innerHTML = getUserMenuHelpTemplate() + userMenu.innerHTML;
+        }
+    } else if (existingHelpTag) {
+        existingHelpTag.remove();
     }
 }
 let todos = [

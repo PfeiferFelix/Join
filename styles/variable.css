@@ -1,7 +1,28 @@
 :root {
     --primary-color: #2a3647;
     --lightgrey-color: #cdcdcd;
+    --lightergrey-color: #e2e6ec;
     --light-blue-color: #29abe2;
     --content-background-color: #f6f7f8;
     --padding-left-content-to-sidebar: 64px;
+    --width-sidebar: 230px;
+    --padding-header-x: 40px;
+    --padding-header-y: 20px;
+    --content-limit: calc(1440px - var(--width-sidebar));
+    --content-limit-header: calc(var(--content-limit) - var(--padding-header-x) * 2);
+}
+
+@media (max-width: 1200px) {
+    :root {
+        --padding-left-content-to-sidebar: 30px;
+        --width-sidebar: 175px;
+    }
+}
+
+@media (max-width: 850px) {
+    :root {
+        --width-sidebar: 100%;
+        --content-limit-header: 100%;
+        --content-limit: 100%;
+    }
 }

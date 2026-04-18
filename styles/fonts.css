@@ -40,6 +40,11 @@
     font-weight: 400;
 }
 
+.fs-large-bold {
+    font-size: 27px;
+    font-weight: 700;
+}
+
 .fs-xlarge-medium {
     font-size: 47px;
     font-weight: 500;
