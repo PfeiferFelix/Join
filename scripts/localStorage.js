@@ -6,10 +6,6 @@ function saveToLocalStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
-function init() {
-    user = getFromLocalStorage("user");
-}
-
 function getFromLocalStorage(key) {
     //Hier genau daselbe. Damit man wieder einen Array hat,
     //muss man es mit einer JSON-methode von dem JSON-Format wieder in
