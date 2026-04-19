@@ -490,8 +490,7 @@
 .task {
     display: flex;
     flex-direction: column;
-    box-shadow: #0038ff 0px 4px 12px;
-    border: #0038ff 1px solid;
+    box-shadow: #b9b9b9 0px 4px 12px;
     border-radius: 16px;
     padding: 12px;
     margin: 4px 0;
