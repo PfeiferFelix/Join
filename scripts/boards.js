@@ -19,45 +19,37 @@ function drag(event) {
     if (!taskElement) return;
     currentDraggedElement = taskElement;
     event.dataTransfer.setData('text/plain', String(taskElement.id));
-
-    function createSubtasks(subtaskValue) {
-        if (!subtaskValue) {
-            return [];
-        }
-
-        return [
-            {
-                title: subtaskValue,
-                done: false,
-            }
-        ];
-    }
-
-    function getSubtaskSignature(todo) {
-        if (Array.isArray(todo.subtasks)) {
-            return todo.subtasks.map(subtask => subtask.title).join('|');
-        }
-
-        return todo.subtask || '';
-    }
-
-    function getSubtaskPreview(todo) {
-        if (Array.isArray(todo.subtasks) && todo.subtasks.length > 0) {
-            return todo.subtasks[0].title;
-        }
-
-        return todo.subtask || '';
-    }
-
-    function getSubtaskCountText(todo) {
-        if (!Array.isArray(todo.subtasks) || todo.subtasks.length === 0) {
-            return '0 / 0';
-        }
-
-        const completedSubtasks = todo.subtasks.filter(subtask => subtask.done).length;
-        return `${completedSubtasks} / ${todo.subtasks.length}`;
-    }
 }
+function createSubtasks(subtaskValue) {
+    if (!subtaskValue) {
+        return [];
+    }
+
+    return [
+        {
+            title: subtaskValue,
+            done: false,
+        }
+    ];
+}
+
+function getSubtaskSignature(todo) {
+    if (Array.isArray(todo.subtasks)) {
+        return todo.subtasks.map(subtask => subtask.title).join('|');
+    }
+
+    return todo.subtask || '';
+}
+
+function getSubtaskCountText(todo) {
+    if (!Array.isArray(todo.subtasks) || todo.subtasks.length === 0) {
+        return '0 / 2';
+    }
+
+    const currentSubtasks = todo.subtasks.filter(subtask => subtask?.title?.trim()).length;
+    return `${Math.min(currentSubtasks, 2)} / 2`;
+}
+
 function moveTaskToCategory(taskId, targetCategory) {
     if (!targetCategory) return;
     const taskIndex = todos.findIndex(todo => todo.id == taskId);
@@ -84,44 +76,21 @@ function moveTo(event) {
     moveTaskToCategory(event.target.id, targetCategory);
 }
 
+function renderCategoryContent({ category, cardsId, emptyId }) {
+    const container = document.getElementById(cardsId);
+    const noCardElement = document.getElementById(emptyId);
+    if (!container || !noCardElement) return;
+
+    const categoryTasks = todos.filter(todo => todo.category === category);
+    container.innerHTML = categoryTasks.map(todo => generateTodoHTML(todo)).join('');
+    noCardElement.style.display = categoryTasks.length === 0 ? 'flex' : 'none';
+}
+
 function updateHTML() {
-    toDoContentToHTML();
-    inProgressContentToHTML();
-    feedbackContentToHTML();
-    doneContentToHTML();
-}
-function inProgressContentToHTML() {
-    const inProgressContainer = document.getElementById('board__cards--inprogress');
-    inProgressContainer.innerHTML = '';
-    for (let i = 0; i < todos.length; i++) {
-        const todo = todos[i];
-        if (todo.category === 'inProgress') {
-            const todoHTML = generateTodoHTML(todo);
-            inProgressContainer.innerHTML += todoHTML;
-        }
-    }
-}
-function feedbackContentToHTML() {
-    const feedbackContainer = document.getElementById('board__cards--feedback');
-    feedbackContainer.innerHTML = '';
-    for (let i = 0; i < todos.length; i++) {
-        const todo = todos[i];
-        if (todo.category === 'feedback') {
-            const todoHTML = generateTodoHTML(todo);
-            feedbackContainer.innerHTML += todoHTML;
-        }
-    }
-}
-function doneContentToHTML() {
-    const doneContainer = document.getElementById('board__cards--done');
-    doneContainer.innerHTML = '';
-    for (let i = 0; i < todos.length; i++) {
-        const todo = todos[i];
-        if (todo.category === 'done') {
-            const todoHTML = generateTodoHTML(todo);
-            doneContainer.innerHTML += todoHTML;
-        }
-    }
+    renderCategoryContent({ category: 'toDo', cardsId: 'board__cards--todo', emptyId: 'noneCardTodo' });
+    renderCategoryContent({ category: 'inProgress', cardsId: 'board__cards--inprogress', emptyId: 'noneCardInProgress' });
+    renderCategoryContent({ category: 'feedback', cardsId: 'board__cards--feedback', emptyId: 'noneCardFeedback' });
+    renderCategoryContent({ category: 'done', cardsId: 'board__cards--done', emptyId: 'noneCardDone' });
 }
 
 
@@ -147,8 +116,16 @@ function addTaskDone() {
 }
 
 function closeDialog() {
-    const dialog = document.getElementById("addTaskDialog");
-    dialog.close();
+    const addTaskDialog = document.getElementById("addTaskDialog");
+    const editTaskDialog = document.getElementById("editTaskDialog");
+
+    if (addTaskDialog?.open) {
+        addTaskDialog.close();
+    }
+
+    if (editTaskDialog?.open) {
+        editTaskDialog.close();
+    }
 }
 function categoryLabel(category) {
     if (category === 'toDo') return 'Technical Task';
@@ -157,23 +134,6 @@ function categoryLabel(category) {
     else if (category === 'done') return 'Done';
     else return '';
 }
-function toDoContentToHTML() {
-    const toDoContainer = document.getElementById('board__cards--todo');
-    const noCardElement = document.getElementById('noneCardTodo');
-    toDoContainer.innerHTML = '';
-    for (let i = 0; i < todos.length; i++) {
-        const todo = todos[i];
-        if (todo.category === 'toDo') {
-            const todoHTML = generateTodoHTML(todo);
-            toDoContainer.innerHTML += todoHTML;
-            noCardElement.style.display = 'none';
-        } else if (todos.filter(todo => todo.category === 'toDo').length === 0) {
-            noCardElement.style.display = 'flex';
-        }
-    }
-}
-
-
 
 function renderDialogContent() {
     const dialog = document.getElementById("addTaskDialog");
@@ -273,6 +233,7 @@ function handleCreateTask(event) {
         description,
         dueDate,
         priority,
+        priorityClass: getPriorityIconClass(priority),
         assignedTo,
         category,
         selectedCategoryLabel,
@@ -316,31 +277,27 @@ function getSelectedPriority(dialog) {
         return 'None';
     }
     if (priorityUrgent.classList.contains('priority-buttons__btn--urgent')) {
-        return 'Urgent';
+        return '⟪';
     } else if (priorityMedium.classList.contains('priority-buttons__btn--medium')) {
-        return 'Medium';
+        return '‖';
     } else if (priorityLow.classList.contains('priority-buttons__btn--low')) {
-        return 'Low';
+        return '⟫';
     } else {
         return 'None';
     }
-
 }
 
-function getCircleUserTemplate(userAbbreviation) {
-    return `
-        <svg width="50" height="50" viewBox="0 0 80 80" aria-hidden="true">
-            <circle class="header__circle" cx="40" cy="40" r="38" stroke="#555" stroke-width="4" fill="white" />
-            <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#4a90e2" font-weight="700">${userAbbreviation}</text>
-        </svg>
-    `;
+function getPriorityIconClass(priority) {
+    if (priority === 'Urgent' || priority === '⟪') return 'up';
+    if (priority === 'Medium' || priority === '‖') return 'medium';
+    if (priority === 'Low' || priority === '⟫') return 'down';
+    return 'medium';
 }
 
 function createSubtasks(subtaskValue) {
     if (!subtaskValue) {
         return [];
     }
-
     return [
         {
             title: subtaskValue,
@@ -353,7 +310,6 @@ function getSubtaskSignature(todo) {
     if (Array.isArray(todo.subtasks)) {
         return todo.subtasks.map(subtask => subtask.title).join('|');
     }
-
     return todo.subtask || '';
 }
 
@@ -361,17 +317,15 @@ function getSubtaskPreview(todo) {
     if (Array.isArray(todo.subtasks) && todo.subtasks.length > 0) {
         return todo.subtasks[0].title;
     }
-
     return todo.subtask || '';
 }
 
 function getSubtaskCountText(todo) {
     if (!Array.isArray(todo.subtasks) || todo.subtasks.length === 0) {
-        return '0 / 0';
+        return '0 / 2';
     }
-
-    const completedSubtasks = todo.subtasks.filter(subtask => subtask.done).length;
-    return `${completedSubtasks} / ${todo.subtasks.length}`;
+    const currentSubtasks = todo.subtasks.filter(subtask => subtask?.title?.trim()).length;
+    return `${Math.min(currentSubtasks, 2)} / 2`;
 }
 
 function getCategoryHeaderClass(label) {
@@ -380,88 +334,7 @@ function getCategoryHeaderClass(label) {
     return '';
 }
 
-function generateTodoHTML(todo) {
-    const fixedHeaderLabel = todo.selectedCategoryLabel || categoryLabel(todo.category);
-    const headerClass = getCategoryHeaderClass(fixedHeaderLabel);
-    const assignedUsersHTML = Array.isArray(todo.assignedTo)
-        ? todo.assignedTo.map(user => getCircleUserTemplate(user.abbreviation || '')).join('')
-        : '';
-    const subtaskPreview = getSubtaskPreview(todo);
-    const subtaskCountText = getSubtaskCountText(todo);
-
-    return `<div class="task" id="${todo.id}" draggable="true" ondragstart="drag(event)">
-        <h3 class="category__header ${headerClass}" id="categoryHeader">${fixedHeaderLabel}</h3>
-        <h4 class="headline__task" id="headline${todo.id}">${todo.title}</h4>
-        <p class="category__description" id="description${todo.id}">${todo.description}</p>
-        <span class="due-date" id="dueDate${todo.id}">${todo.dueDate}</span>
-        <span class="subtask">${subtaskPreview}</span>
-        <p id="subtaskCount">${subtaskCountText}</p>
-        <div class="user__profile" id="users">
-            ${assignedUsersHTML}
-            <p class="priority" id="priorityLevel">${todo.priority}</p>
-        </div>
-    </div>`;
-};
-
-
-
-
-function getTemplateDialog() {
-    return `<header class="addTaskDialog__header">
-                        <h2 class="addTaskDialog__title">Add Task</h2>
-                        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
-                    </header>
-                    <form class="task-form">
-                        <div class="task-form__body">
-                            <div class="task-form__col task-form__col--left">
-                                <label class="task-form__label" for="title"> Title <span class="task-form__required">*</span> </label>
-                                <input class="task-form__input" type="text" id="title" placeholder="Enter a title" required="">
-                                <input type="hidden" id="todo-id" value="${Date.now()}">
-
-                                <label class="task-form__label" for="description">Description</label>
-                                <textarea class="task-form__textarea" id="description" placeholder="Enter a Description"></textarea>
-
-                                <label class="task-form__label" for="due-date"> Due date <span class="task-form__required">*</span> </label>
-                                <input class="task-form__input" type="date" id="due-date" lang="en" required="" min="2026-04-12">
-                            </div>
-
-                            <div class="task-form__separator"></div>
-
-                            <div class="task-form__col task-form__col--right">
-                                <span class="task-form__label">Priority</span>
-                                <div class="priority-buttons">
-                                    <button id="priority-urgent" type="button" class="priority-btn-color-none priority-buttons__btn--urgent">Urgent <span class="priority-buttons__icon priority-buttons__icon--up"> ⟪</span></button>
-                                    <button id="priority-medium" type="button" class="priority-btn-color-none priority-buttons__btn--medium">Medium <span class="priority-buttons__icon"> ‖</span></button>
-                                    <button id="priority-low" type="button" class="priority-btn-color-none priority-buttons__btn--low">Low <span class="priority-buttons__icon priority-buttons__icon--down"> ⟪</span></button>
-                                </div>
-
-                                <label class="task-form__label" for="assigned-to">Assigned to</label>
-                                <select class="task-form__select" id="assigned-to">
-                                    <option value="">Select contacts to assign</option>
-                                </select>
-
-                                <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
-                                <select class="task-form__select" id="category" required="">
-                                    <option value="">Select task category</option>
-                                </select>
-
-                                <label class="task-form__label" for="subtask">Subtask</label>
-                                <div class="subtask-input">
-                                    <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask">
-                                </div>
-
-                                <div class="task-form__footer">
-                                    <div class="task-form__actions">
-                                        <button id="cancel-btn" class="" type="reset">Cancel X</button>
-                                        <button id="create-task-btn" class="" type="submit">Create Task</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>`;
-}
-
-function editTask(taskId) {
+function toDoCardShow(taskId) {
     const task = todos.find(t => t.id == taskId);
     if (!task) return;
     const dialog = document.getElementById("editTaskDialog");
@@ -470,32 +343,159 @@ function editTask(taskId) {
     dialog.showModal();
 }
 
-function getEditTaskTemplate(task) {
-    return `<header class="addTaskDialog__header">
-            <h3 class="category__header ${headerClass}" id="categoryHeader">${fixedHeaderLabel}</h3>
-            <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
-        </header>
-        <section class="editTaskDialog__content">
-            <h4 class="headline__task" id="headline${task.id}">${task.title}</h4>
-            <p class="category__description" id="description${task.id}">${task.description}</p>
-            <span class="due-date" id="dueDate${task.id}">${task.dueDate}</span>
-            <p class="priority" id="priorityLevel">${task.priority}</p>
-            <div class="user__profile" id="users">
-            <h5>Assigned To:</h5>
-            <list class="assigned-users-list">
-                ${assignedUsersHTML}
-            </list>
-            </div>
-            <div class="subtasks-section">
-                <h5>Subtasks:</h5>
-                <ul class="subtasks-list">
-                    <input type="checkbox" id="subtask1" name="subtask1" ${task.subtasks[0]?.done ? 'checked' : ''}>
-                    <label for="subtask1">${task.subtasks[0]?.title || 'No subtasks'}</label>
-                </ul>
-            </div>
-        </section>
-        <footer class="editTaskDialog__footer">
-            <button class="editTaskDialog__delete-btn" type="button" onclick="deleteTask(${task.id})">Delete Task</button>
-            <button class="editTaskDialog__save-btn" type="button" onclick="saveTask(${task.id})">Save Task</button>
-        </footer>`;
+function editTask(taskId) {
+    const task = todos.find(t => t.id == taskId);
+    if (!task) return;
+    const dialog = document.getElementById("editTaskDialog");
+    dialog.dataset.taskId = taskId;
+    dialog.innerHTML = getEditTaskFormTemplate(task);
+
+    const editForm = dialog.querySelector('.edit-task-form');
+    if (editForm) {
+        editForm.addEventListener('submit', handleEditTaskSave);
+    }
+
+    const addSubtaskBtn = dialog.querySelector('#add-subtask-btn');
+    if (addSubtaskBtn) {
+        addSubtaskBtn.addEventListener('click', addEditSubtaskRow);
+    }
+
+    if (!dialog.open) {
+        dialog.showModal();
+    }
+}
+
+function getEditableSubtasks(task) {
+    if (Array.isArray(task.subtasks) && task.subtasks.length > 0) {
+        return task.subtasks.slice(0, 2).map(subtask => ({
+            title: subtask.title || '',
+            done: Boolean(subtask.done),
+        }));
+    }
+
+    if (task.subtask) {
+        return [{ title: task.subtask, done: false }];
+    }
+
+    return [{ title: '', done: false }];
+}
+
+function removeEditSubtaskRow(button) {
+    const list = document.getElementById('edit-subtasks-list');
+    if (!list) return;
+
+    const row = button.closest('.edit-subtask-row');
+    if (row) {
+        row.remove();
+    }
+
+    if (!list.querySelector('.edit-subtask-row')) {
+        addEditSubtaskRow();
+    }
+}
+
+function collectEditedSubtasks(dialog) {
+    const rows = dialog.querySelectorAll('.edit-subtask-row');
+    const subtasks = [];
+
+    rows.forEach(row => {
+        const title = row.querySelector('.edit-subtask-title')?.value.trim() || '';
+        const done = row.querySelector('.edit-subtask-done')?.checked || false;
+
+        if (title) {
+            subtasks.push({ title, done });
+        }
+    });
+
+    return subtasks.slice(0, 2);
+}
+
+function mapCategoryLabelToKey(label) {
+    if (label === 'Technical Task') return 'toDo';
+    if (label === 'User Story') return 'inProgress';
+    if (label === 'Awaiting Feedback') return 'feedback';
+    if (label === 'Done') return 'done';
+    return 'toDo';
+}
+function getSelectedEditPriority(dialog) {
+    const priorityUrgent = dialog.querySelector('#edit-priority-urgent');
+    const priorityMedium = dialog.querySelector('#edit-priority-medium');
+    const priorityLow = dialog.querySelector('#edit-priority-low');
+    if (!priorityUrgent || !priorityMedium || !priorityLow) {
+        return 'Medium';
+    }
+
+    if (priorityUrgent.classList.contains('priority-buttons__btn--urgent')) {
+        return 'Urgent';
+    }
+
+    if (priorityMedium.classList.contains('priority-buttons__btn--medium')) {
+        return 'Medium';
+    }
+
+    if (priorityLow.classList.contains('priority-buttons__btn--low')) {
+        return 'Low';
+    }
+
+    return 'Medium';
+}
+
+function handleEditTaskSave(event) {
+    event.preventDefault();
+
+    const dialog = document.getElementById("editTaskDialog");
+    const taskId = Number(dialog.dataset.taskId);
+    const task = todos.find(t => t.id == taskId);
+    if (!task) return;
+
+    const updatedTitle = dialog.querySelector('#edit-title')?.value.trim() || '';
+    const updatedDescription = dialog.querySelector('#edit-description')?.value.trim() || '';
+    const updatedDueDate = dialog.querySelector('#edit-due-date')?.value || '';
+    const updatedPriority = getSelectedEditPriority(dialog);
+    const updatedCategoryLabel = dialog.querySelector('#edit-category')?.value || 'Technical Task';
+    const updatedSubtasks = collectEditedSubtasks(dialog);
+
+    task.title = updatedTitle;
+    task.description = updatedDescription;
+    task.dueDate = updatedDueDate;
+    task.priority = updatedPriority;
+    task.priorityClass = getPriorityIconClass(updatedPriority);
+    task.selectedCategoryLabel = updatedCategoryLabel;
+    task.category = mapCategoryLabelToKey(updatedCategoryLabel);
+    task.subtasks = updatedSubtasks;
+    task.subtask = updatedSubtasks[0]?.title || '';
+
+    updateHTML();
+    closeDialog();
+}
+
+function setEditPriority(priority) {
+    const dialog = document.getElementById('editTaskDialog');
+    if (!dialog) return;
+
+    const urgentBtn = dialog.querySelector('#edit-priority-urgent');
+    const mediumBtn = dialog.querySelector('#edit-priority-medium');
+    const lowBtn = dialog.querySelector('#edit-priority-low');
+    if (!urgentBtn || !mediumBtn || !lowBtn) return;
+
+    urgentBtn.classList.remove('priority-buttons__btn--urgent');
+    mediumBtn.classList.remove('priority-buttons__btn--medium');
+    lowBtn.classList.remove('priority-buttons__btn--low');
+
+    if (priority === 'Urgent') {
+        urgentBtn.classList.add('priority-buttons__btn--urgent');
+    } else if (priority === 'Medium') {
+        mediumBtn.classList.add('priority-buttons__btn--medium');
+    } else if (priority === 'Low') {
+        lowBtn.classList.add('priority-buttons__btn--low');
+    }
+}
+
+function deleteTask(taskId) {
+    const taskIndex = todos.findIndex(t => t.id == taskId);
+    if (taskIndex !== -1) {
+        todos.splice(taskIndex, 1);
+        updateHTML();
+        closeDialog();
+    }
 }
