@@ -17,7 +17,7 @@
 
             <div class="header-main__container">
                 <header id="js-header" class="header"></header>
-                <main class="main-content main-content__summary-responsive">
+                <main class="main-content">
                     <section class="headline1">
                         <h1 class="fs-xxlarge-bold headline1__title-responsive fs-xlarge-bold-responsive">Join 360</h1>
                         <div class="headline1__separator"></div>
@@ -26,7 +26,7 @@
 
                     <section class="summary">
                         <section class="tasks">
-                            <a href="boards.html" class="tasks__to-do tasks__cells-responsive">
+                            <a href="boards.html" class="tasks__to-do tasks__cells--responsive">
                                 <img class="tasks__icon tasks__to-do-icon" src="assets/icons/summary/inactive/todo.svg" alt="" />
                                 <img class="tasks__icon tasks__to-do-icon--inverted" src="assets/icons/summary/active/todo-active.svg" alt="" />
                                 <div class="tasks__to-do-count">
@@ -34,7 +34,7 @@
                                     <span class="fs-medium-regular fc-grey fs-small-regular-responsive">To-do</span>
                                 </div>
                             </a>
-                            <a href="boards.html" class="tasks__done tasks__cells-responsive">
+                            <a href="boards.html" class="tasks__done tasks__cells--responsive">
                                 <img class="tasks__icon tasks__done-icon" src="assets/icons/summary/inactive/done.svg" alt="" />
                                 <img class="tasks__icon tasks__done-icon--inverted" src="assets/icons/summary/active/done-active.svg" alt="" />
                                 <div class="tasks__done-count">
@@ -42,7 +42,7 @@
                                     <span class="fs-medium-regular fc-grey fs-small-regular-responsive">Done</span>
                                 </div>
                             </a>
-                            <a href="boards.html" class="tasks__urgent tasks__cells-responsive">
+                            <a href="boards.html" class="tasks__urgent tasks__cells--responsive">
                                 <div class="tasks__icon-wrapper">
                                     <img class="tasks__icon" src="assets/icons/summary/deadline.svg" alt="" />
                                     <div class="tasks__urgent-count">
@@ -56,21 +56,21 @@
                                     <span class="fs-small-regular fc-grey">Upcoming Deadline</span>
                                 </div>
                             </a>
-                            <a href="boards.html" class="tasks__in-board tasks__cells-responsive">
+                            <a href="boards.html" class="tasks__in-board tasks__cells--responsive">
                                 <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">5</span>
                                 <span class="fs-medium-regular fc-grey fs-small-regular-responsive"
                                     >Tasks in <br />
                                     Board</span
                                 >
                             </a>
-                            <a href="boards.html" class="tasks__in-progress tasks__cells-responsive">
+                            <a href="boards.html" class="tasks__in-progress tasks__cells--responsive">
                                 <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">2</span>
                                 <span class="fs-medium-regular fc-grey fs-small-regular-responsive"
                                     >Tasks In <br />
                                     Progress</span
                                 >
                             </a>
-                            <a href="boards.html" class="tasks__awaiting-feedback tasks__cells-responsive">
+                            <a href="boards.html" class="tasks__awaiting-feedback tasks__cells--responsive">
                                 <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">1</span>
                                 <span class="fs-medium-regular fc-grey fs-small-regular-responsive"
                                     >Awaiting <br />
@@ -80,10 +80,14 @@
                         </section>
 
                         <section class="welcoming">
-                            <span class="fs-xlarge-medium fs-large2-regular-responsive">
-                                Good morning,<br />
-                                <span class="fs-xxxlarge-bold fc-lightblue fs-xlarge-bold-responsive">Sofia Müller</span>
-                            </span>
+                            <div class="welcoming__greeting fs-xlarge-medium fs-large2-regular-responsive">
+                                <span>Good</span>
+                                <span>morning,</span>
+                            </div>
+                            <div class="welcoming__greeting fs-xxxlarge-bold fc-lightblue fs-xlarge-bold-responsive">
+                                <span>Sofia</span>
+                                <span>Müller</span>
+                            </div>
                         </section>
                     </section>
                 </main>

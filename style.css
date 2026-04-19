@@ -151,6 +151,7 @@ a {
     align-items: center;
     justify-content: space-between;
     max-width: var(--content-limit-header);
+    box-sizing: border-box;
 }
 
 .header__user-button {
@@ -179,6 +180,8 @@ a {
 .main-content {
     margin-top: 96px;
     max-width: var(--content-limit);
+    padding: 0 80px;
+    box-sizing: border-box;
 }
 
 .header__user-menu {
@@ -288,5 +291,23 @@ a {
 
     .sidebar__nav-link {
         border-radius: 15px;
+    }
+}
+
+/*padding zu den seiten*/
+@media (max-width: 850px) {
+    .main-content {
+        padding: 0 80px;
+    }
+}
+@media (max-width: 600px) {
+    .main-content {
+        padding: 0 30px;
+    }
+}
+
+@media (max-width: 400px) {
+    .main-content {
+        padding: 0 10px;
     }
 }

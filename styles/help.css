@@ -2,10 +2,6 @@
     overflow-y: auto;
 }
 
-.help {
-    padding: 0 64px;
-}
-
 .help .help__marker-headline,
 .help__list-marker {
     margin-bottom: 0;
@@ -59,13 +55,4 @@
 .help__back-button:hover {
     transform: scale(1.2);
     background-color: var(--lightergrey-color);
-}
-
-@media (max-width: 1200px) {
-}
-
-@media (max-width: 850px) {
-}
-
-@media (max-width: 400px) {
 }
