@@ -64,3 +64,30 @@
     font-size: 64px;
     font-weight: 700;
 }
+
+@media (max-width: 1200px) {
+    .fs-xlarge-bold-responsive {
+        font-size: 47px;
+        font-weight: 700;
+    }
+
+    .fs-large-bold-responsive {
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .fs-medium-regular-responsive {
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+    .fs-small-regular-responsive {
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .fs-large2-regular-responsive {
+        font-size: 36px;
+        font-weight: 400;
+    }
+}
