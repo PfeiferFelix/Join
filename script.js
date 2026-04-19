@@ -195,3 +195,6 @@ function getSubtaskStats(element) {
     const done = element.subtasks.filter(s => s.done).length;
     return { done, total };
 }
+
+const currentUser = sessionStorage.getItem("currentUserName");
+console.log("Eingeloggt als:", currentUser);
