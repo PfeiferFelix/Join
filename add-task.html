@@ -25,15 +25,14 @@
                                 src="assets/icons/sidebar/inactive/summary.svg" alt="" /> <span>Summary</span></a>
                     </li>
                     <li class="sidebar__list-item">
-                        <a class="sidebar__nav-link sidebar__link--active" href="#"
-                                ><img class="sidebar__nav-img"
+                        <a class="sidebar__nav-link sidebar__link--active" href="#"><img class="sidebar__nav-img"
                                 src="assets/icons/sidebar/active/add-task-active.svg" alt="" />
-                                <span>Add Task</span>
-                            </a>
+                            <span>Add Task</span>
+                        </a>
                     </li>
                     <li class="sidebar__list-item">
-                        <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/board.svg"
-                                alt="" /> <span>Boards</span></a>
+                        <a class="sidebar__nav-link" href="boards.html"><img class="sidebar__nav-img"
+                                src="assets/icons/sidebar/inactive/board.svg" alt="" /> <span>Boards</span></a>
                     </li>
                     <li class="sidebar__list-item">
                         <a class="sidebar__nav-link" href="contacts.html"><img class="sidebar__nav-img"
@@ -42,24 +41,24 @@
                 </ul>
             </nav>
 
-                <footer class="sidebar__legal-information">
-                    <a class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
-                    <a class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
-                </footer>
-            </aside>
+            <footer class="sidebar__legal-information">
+                <a class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
+                <a class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
+            </footer>
+        </aside>
 
-            <div class="header-main__container">
-                <header class="header">
-                    <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
-                    <div class="header__user-interaction-container">
-                        <button><img src="assets/icons/header/help.svg" alt="" /></button>
-                        <button class="header__user-button">
-                            <img class="header__ellipse" src="assets/icons/header/ellipse.svg" alt="" />
-                            <span class="header__name-abbreviation">DG</span>
-                        </button>
-                    </div>
-                </header>
-                <main class="main-content__body">
+        <div class="header-main__container">
+            <header class="header">
+                <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
+                <div class="header__user-interaction-container">
+                    <button><img src="assets/icons/header/help.svg" alt="" /></button>
+                    <button class="header__user-button">
+                        <img class="header__ellipse" src="assets/icons/header/ellipse.svg" alt="" />
+                        <span class="header__name-abbreviation">DG</span>
+                    </button>
+                </div>
+            </header>
+            <main class="main-content__body">
                 <h1 class="main-content__page-title">Add Task</h1>
 
                 <form class="task-form">
@@ -130,5 +129,14 @@
                         </div>
                     </div>
                 </form>
+                <div class="toast" id="toast">
+                    Task added to board
+                    <img src="assets/icons/sidebar/inactive/board.svg" alt="" />
+                </div>
+
             </main>
+        </div>
+    </div>
+</body>
+
 </html>
