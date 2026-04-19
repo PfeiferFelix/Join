@@ -14,40 +14,66 @@ const db = firebase.database(); // Zugriff auf die Realtime Database
 
 // Login
 function loginUser() {
-    const email = document.getElementById("email").value; // E-Mail und Passwort aus den Eingabefeldern holen
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    db.ref("users").once("value", function (snapshot) { //Alle Benutzer unter "users" in der Datenbank abrufen
-        let loginSuccess = false; //Login standardmäßig auf false setzen
-        snapshot.forEach(function (userSnapshot) { //snapshot durchläuft durchläuft alle Benutzer
-            const userData = userSnapshot.val(); //Daten in userData speichern
-            if (userData.email == email && userData.password == password) { //Überprüfen, ob E-Mail und Passwort übereinstimmen
-                loginSuccess = true; //Wenn ja, Login auf true setzen
+    db.ref("users").once("value", function (snapshot) {
+        let loginSuccess = false;
+        snapshot.forEach(function (userSnapshot) {
+            const userData = userSnapshot.val();
+            if (userData.email == email && userData.password == password) {
+                loginSuccess = true;
+                sessionStorage.setItem("currentUserName", userData.name); // Benutzername in sessionStorage speichern
+                sessionStorage.setItem("currentUserEmail", userData.email); // Benutzer-E-Mail in sessionStorage speichern
             }
         })
-        checkLoginResults(loginSuccess); //Ergebnis der Login-Überprüfung an Funktion checkLoginResults übergeben
+        checkLoginResults(loginSuccess);
     });
 }
 
 function checkLoginResults(loginSuccess) {
-    if (loginSuccess === true) { //Wenn Login erfolgreich, Benutzer weiterleiten zu Summary.html
+    if (loginSuccess === true) {
         window.location.href = "summary.html";
     } else {
-        alert("Email oder Password sind Falsch"); //Wenn Login nicht erfolgreich, Fehlermeldung anzeigen
+        alert("Email oder Password sind Falsch");
     }
 }
 
 // Registrierung
-
 function registerUser() {
-    const name = document.getElementById("name").value; //Name, E-Mail, Passwort und Passwortbestätigung aus den Eingabefeldern holen
-    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const passwordconfirm = document.getElementById("passwordconfirm").value;
     if (password !== passwordconfirm) { //Überprüfen, ob Passwort und Passwortbestätigung übereinstimmen
         alert("Passwort stimmt nicht überein!"); //Wenn nicht, Fehlermeldung anzeigen und Funktion verlassen
         return;
-    } else {
-        db.ref("users").push({ //Wenn ja, neuen Benutzer unter "users" in der Datenbank anlegen
+    }
+    checkIfUserExists()
+}
+
+
+function checkIfUserExists() {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value; // E-Mail und Passwort aus den Eingabefeldern holen
+    db.ref("users").once("value", function (snapshot) { //Alle Benutzer unter "users" in der Datenbank abrufen
+        let userExists = false; //Login standardmäßig auf false setzen
+        snapshot.forEach(function (userSnapshot) { //snapshot durchläuft alle Benutzer
+            const userData = userSnapshot.val(); //Daten in userData speichern
+            if (userData.email === email) { //Überprüfen, ob E-Mail und Passwort übereinstimmen
+                userExists = true; //Wenn ja, Login auf true setzen  
+            }
+        })
+        if (userExists === true){ //Wenn User bereits existiert, Fehlermeldung anzeigen sonst weiter zur function saveUser()
+            alert("Benutzer existiert bereits!")
+        }else {
+    saveUser(name, email, password);   
+    }
+    });
+}
+
+
+//Safe User
+function saveUser(name, email, password){
+db.ref("users").push({ //Neuen Benutzer unter "users" in der Datenbank anlegen
             name: name,
             email: email,
             password: password,
@@ -57,5 +83,4 @@ function registerUser() {
         }).catch(function (error) { //Wenn Fehler auftritt, Fehlermeldung anzeigen
             alert("Fehler bei der Registrierung!");
         });
-    }
 }
