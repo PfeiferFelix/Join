@@ -22,11 +22,15 @@ function loginUser() {
             const userData = userSnapshot.val();
             if (userData.email == email && userData.password == password) {
                 loginSuccess = true;
-                sessionStorage.setItem("currentUserName", userData.name); // Benutzername in sessionStorage speichern
-                sessionStorage.setItem("currentUserEmail", userData.email); // Benutzer-E-Mail in sessionStorage speichern
+                localStorage.setItem("currentUserName", userData.name);
+                localStorage.setItem("currentUserEmail", userData.email);
             }
         })
-        checkLoginResults(loginSuccess);
+        if (loginSuccess) {
+            loadDataToLocalStorage();
+        } else {
+            checkLoginResults(false);
+        }
     });
 }
 
@@ -37,6 +41,28 @@ function checkLoginResults(loginSuccess) {
         alert("Email oder Password sind Falsch");
     }
 }
+
+// Daten in Local Storage laden
+    function loadDataToLocalStorage() {
+    db.ref("/").once("value", function(snapshot) {
+        const allData = snapshot.val();
+        localStorage.setItem("boards", JSON.stringify(allData.boards));
+        localStorage.setItem("contacs", JSON.stringify(allData.contacs));
+        localStorage.setItem("users", JSON.stringify(allData.users));
+        checkLoginResults(true);
+    });
+}
+
+
+// Gast Login
+function guestLogin(){
+    localStorage.setItem("currentUserName", "Gast");
+    localStorage.setItem("currentUserEmail", "Gast@Gast.com");
+    loadDataToLocalStorage();
+}
+
+
+
 
 // Registrierung
 function registerUser() {
@@ -69,7 +95,6 @@ function checkIfUserExists() {
     }
     });
 }
-
 
 //Safe User
 function saveUser(name, email, password){
