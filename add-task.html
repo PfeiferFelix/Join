@@ -70,6 +70,7 @@
                                     Title <span class="task-form__required">*</span>
                                 </label>
                                 <input class="task-form__input" type="text" id="title" placeholder="Enter a title" required>
+                                <span class="task-form__error" id="title-error"></span>
 
                                 <label class="task-form__label" for="description">Description</label>
                                 <textarea class="task-form__textarea" id="description"
@@ -79,6 +80,7 @@
                                     Due date <span class="task-form__required">*</span>
                                 </label>
                                 <input class="task-form__input" type="date" id="due-date" lang="en" required>
+                                <span class="task-form__error" id="due-date-error"></span>
 
                             </div>
 
@@ -112,6 +114,7 @@
                                     <option value="technical">Technical Task</option>
                                     <option value="user-story">User Story</option>
                                 </select>
+                                <span class="task-form__error" id="category-error"></span>
 
                                 <label class="task-form__label" for="subtask">Subtask</label>
                                 <div class="subtask-input">

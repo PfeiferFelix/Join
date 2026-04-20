@@ -34,24 +34,22 @@ function handleFormSubmit() {
     const submitBtn = document.querySelector('.task-form__btn--submit');
     const clearBtn = document.querySelector('.task-form__btn--clear');
 
-    submitBtn.addEventListener('click', () => {
-        clearErrors();
+    submitBtn.addEventListener('click', () => handleSubmit(form));
+    clearBtn.addEventListener('click', () => handleClear(form));
+}
 
-        const isValid = validateForm();
-
-        if (isValid) {
-            showToast();
-            form.reset();
-            setTimeout(() => {
-                window.location.href = 'boards.html';
-            }, 2000);
-        }
-    });
-
-    clearBtn.addEventListener('click', () => {
+function handleSubmit(form) {
+    clearErrors();
+    if (validateForm()) {
+        showToast();
         form.reset();
-        clearErrors();
-    });
+        setTimeout(() => { window.location.href = 'boards.html'; }, 2000);
+    }
+}
+
+function handleClear(form) {
+    form.reset();
+    clearErrors();
 }
 
 function validateForm() {
@@ -69,15 +67,13 @@ function validateForm() {
 }
 
 function showError(field) {
-    const error = document.createElement('span');
-    error.classList.add('task-form__error');
+    const error = document.getElementById(`${field.id}-error`);
     error.textContent = 'This field is required*';
-    field.insertAdjacentElement('afterend', error);
     field.style.borderColor = 'red';
 }
 
 function clearErrors() {
-    document.querySelectorAll('.task-form__error').forEach(e => e.remove());
+    document.querySelectorAll('.task-form__error').forEach(e => e.textContent = '');
     document.querySelectorAll('[required]').forEach(field => {
         field.style.borderColor = '';
     });

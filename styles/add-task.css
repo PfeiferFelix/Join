@@ -277,14 +277,16 @@ textarea {
     bottom: 440px;
 }
 
-.task-form__error {
-    color: red;
-    font-size: 13px;
-    font-weight: 400;
-    margin-top: -8px;
-}
 
 html, body {
     height: 100%;
     overflow: hidden;
+}
+
+.task-form__error {
+    color: red;
+    font-size: 13px;
+    font-weight: 400;
+    min-height: 16px;
+    display: block;
 }
