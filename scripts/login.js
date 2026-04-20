@@ -48,7 +48,6 @@ function checkLoginResults(loginSuccess) {
         const allData = snapshot.val();
         localStorage.setItem("boards", JSON.stringify(allData.boards));
         localStorage.setItem("contacs", JSON.stringify(allData.contacs));
-        localStorage.setItem("users", JSON.stringify(allData.users));
         checkLoginResults(true);
     });
 }
