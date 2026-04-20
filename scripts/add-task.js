@@ -30,13 +30,55 @@ function showToast() {
 }
 
 function handleFormSubmit() {
-    document.querySelector('.task-form').addEventListener('submit', (e) => { // Add a submit event listener to the task form to handle form submission and show a toast notification
-        e.preventDefault();                                                    // Prevent the default form submission behavior to allow for custom handling of the form data and to show a toast notification without refreshing the page
-        showToast();
-        e.target.reset();                                                     // Reset the form fields after submission to clear the input values and prepare the form for a new task entry
+    const form = document.querySelector('.task-form');
+    const submitBtn = document.querySelector('.task-form__btn--submit');
+    const clearBtn = document.querySelector('.task-form__btn--clear');
 
-        setTimeout(() => {
-            window.location.href = 'boards.html';
-        }, 2000);
+    submitBtn.addEventListener('click', () => {
+        clearErrors();
+
+        const isValid = validateForm();
+
+        if (isValid) {
+            showToast();
+            form.reset();
+            setTimeout(() => {
+                window.location.href = 'boards.html';
+            }, 2000);
+        }
+    });
+
+    clearBtn.addEventListener('click', () => {
+        form.reset();
+        clearErrors();
+    });
+}
+
+function validateForm() {
+    const requiredFields = document.querySelectorAll('[required]');
+    let isValid = true;
+
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            showError(field);
+            isValid = false;
+        }
+    });
+
+    return isValid;
+}
+
+function showError(field) {
+    const error = document.createElement('span');
+    error.classList.add('task-form__error');
+    error.textContent = 'This field is required*';
+    field.insertAdjacentElement('afterend', error);
+    field.style.borderColor = 'red';
+}
+
+function clearErrors() {
+    document.querySelectorAll('.task-form__error').forEach(e => e.remove());
+    document.querySelectorAll('[required]').forEach(field => {
+        field.style.borderColor = '';
     });
 }

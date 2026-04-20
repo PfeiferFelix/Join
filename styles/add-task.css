@@ -189,16 +189,28 @@ textarea {
 @media (min-width: 320px) and (max-width: 855px) {
 
     main {
-        padding: 24px 16px;
+        padding: 0;
+        overflow: hidden;
     }
 
     .main-content__body {
-        height: auto;
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 168px);
+        overflow: hidden;
+        padding: 24px 16px 0 16px;
     }
 
-    main h1 {
+    .main-content__page-title {
+        flex-shrink: 0;
         font-size: 32px;
         margin-bottom: 24px;
+    }
+
+    .task-form__scroll-area {
+        flex: 1;
+        overflow-y: auto;
+        padding-bottom: 16px;
     }
 
     .task-form__body {
@@ -214,11 +226,19 @@ textarea {
     }
 
     .task-form__footer {
-        padding-top: 32px;
+        flex-shrink: 0;
+        width: 100%;
+        background-color: rgb(246, 247, 248);
+        padding: 16px 0;
+        border-top: 1px solid #d1d1d1;
+        display: flex;
+        justify-content: center;
     }
 
     .task-form__actions {
         width: 100%;
+        display: flex;
+        gap: 16px;
     }
 
     .task-form__btn {
@@ -229,22 +249,9 @@ textarea {
         display: none;
     }
 
-    .task-form__label[for="subtask"],
-    .subtask-input {
-        display: none;
-    }
-
-    .task-form__label[for="category"] {
-        display: none;
-    }
-
-    .task-form__select[id="category"] {
-        display: none;
-    }
-
     .header__headline3 {
         display: none;
-    } 
+    }
 }
 
 .toast {
@@ -268,4 +275,16 @@ textarea {
 
 .toast--visible {
     bottom: 440px;
+}
+
+.task-form__error {
+    color: red;
+    font-size: 13px;
+    font-weight: 400;
+    margin-top: -8px;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
