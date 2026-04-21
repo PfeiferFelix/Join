@@ -8,7 +8,7 @@ function init() {
     addUserMenu();
     addHelpToUserMenu(850);
     highlightActivePage();
-    /* addNameInitials(); */
+    addNameInitials();
     document.body.style.visibility = "visible";
 }
 
@@ -128,12 +128,11 @@ function UpperCaseIntial(string) {
  * Reads the current user name from session storage and displays the initials in the header.
  */
 function addNameInitials() {
-    let userName = sessionStorage.getItem("currentUserName");
-    let userNameArray = userName.split(" ");
+    let userNameArray = currentUserName.split(" ");
     let userInitials;
     userInitials = UpperCaseIntial(userNameArray[0]);
     if (userNameArray.length > 1) {
-        userInitials += UpperCaseIntial(userNameArray[-1]);
+        userInitials += UpperCaseIntial(userNameArray.at(-1));
     }
 
     document.getElementById("js-header-user-initials").textContent = userInitials;
