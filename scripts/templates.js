@@ -1,8 +1,8 @@
-function getCircleUserTemplate(nameAbbreviation = "DG") {
+function getCircleUserTemplate() {
     return `
         <svg width="50" height="50" viewBox="0 0 80 80" aria-hidden="true">
             <circle class="header__circle" cx="40" cy="40" r="38" stroke="#555" stroke-width="4" fill="white" />
-            <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#4a90e2" font-weight="700">${nameAbbreviation}</text>
+            <text id="js-header-user-initials" x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#4a90e2" font-weight="700"></text>
         </svg>
     `;
 }
@@ -74,4 +74,3 @@ function getHeaderTemplate() {
                 </div>
             </div>`;
 }
-
