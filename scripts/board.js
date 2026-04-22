@@ -1,11 +1,12 @@
+let boardsLS = importandFormatLocalStorageData("boards");
 
 let contacts = [
-    { id: 1, name: 'David G.', abbreviation: 'DG' },
-    { id: 2, name: 'Anna S.', abbreviation: 'AS' },
-    { id: 3, name: 'John D.', abbreviation: 'JD' },
+    { id: 1, name: "David G.", abbreviation: "DG" },
+    { id: 2, name: "Anna S.", abbreviation: "AS" },
+    { id: 3, name: "John D.", abbreviation: "JD" },
 ];
 
-let categories = ['Technical Task', 'User Story'];
+let categories = ["Technical Task", "User Story"];
 
 let todos = [];
 
@@ -15,10 +16,10 @@ function allowDrop(event) {
     event.preventDefault();
 }
 function drag(event) {
-    const taskElement = event.target.closest('.task');
+    const taskElement = event.target.closest(".task");
     if (!taskElement) return;
     currentDraggedElement = taskElement;
-    event.dataTransfer.setData('text/plain', String(taskElement.id));
+    event.dataTransfer.setData("text/plain", String(taskElement.id));
 }
 
 function getLimitedSubtasks(input) {
@@ -162,7 +163,7 @@ function toggleAllSubtasks(checkbox) {
 
 function moveTaskToCategory(taskId, targetCategory) {
     if (!targetCategory) return;
-    const taskIndex = todos.findIndex(todo => todo.id == taskId);
+    const taskIndex = todos.findIndex((todo) => todo.id == taskId);
     if (taskIndex !== -1) {
         todos[taskIndex].category = targetCategory;
         updateHTML();
@@ -171,13 +172,13 @@ function moveTaskToCategory(taskId, targetCategory) {
 
 function drop(event) {
     event.preventDefault();
-    const taskId = event.dataTransfer.getData('text/plain') || currentDraggedElement?.id;
+    const taskId = event.dataTransfer.getData("text/plain") || currentDraggedElement?.id;
     const dropZoneId = event.currentTarget.id;
     const categoryMap = {
-        'board__list--todo': 'toDo',
-        'board__list--inprogress': 'inProgress',
-        'board__list--feedback': 'feedback',
-        'board__list--done': 'done'
+        "board__list--todo": "toDo",
+        "board__list--inprogress": "inProgress",
+        "board__list--feedback": "feedback",
+        "board__list--done": "done",
     };
     const targetCategory = categoryMap[dropZoneId];
     moveTaskToCategory(taskId, targetCategory);
@@ -280,30 +281,30 @@ function buildEditTaskDetailTemplateData(task) {
 }
 
 function updateHTML() {
-    renderCategoryContent({ category: 'toDo', cardsId: 'board__cards--todo', emptyId: 'noneCardTodo' });
-    renderCategoryContent({ category: 'inProgress', cardsId: 'board__cards--inprogress', emptyId: 'noneCardInProgress' });
-    renderCategoryContent({ category: 'feedback', cardsId: 'board__cards--feedback', emptyId: 'noneCardFeedback' });
-    renderCategoryContent({ category: 'done', cardsId: 'board__cards--done', emptyId: 'noneCardDone' });
+    renderCategoryContent({ category: "toDo", cardsId: "board__cards--todo", emptyId: "noneCardTodo" });
+    renderCategoryContent({ category: "inProgress", cardsId: "board__cards--inprogress", emptyId: "noneCardInProgress" });
+    renderCategoryContent({ category: "feedback", cardsId: "board__cards--feedback", emptyId: "noneCardFeedback" });
+    renderCategoryContent({ category: "done", cardsId: "board__cards--done", emptyId: "noneCardDone" });
 }
 
 //DRAG AND DROP ENDE
 function addTask(category) {
     const dialog = document.getElementById("addTaskDialog");
-    dialog.dataset.category = category || '';
+    dialog.dataset.category = category || "";
     renderDialogContent();
     dialog.showModal();
 }
 function addTaskToDo() {
-    addTask('toDo');
+    addTask("toDo");
 }
 function addTaskInProgress() {
-    addTask('inProgress');
+    addTask("inProgress");
 }
 function addTaskFeedback() {
-    addTask('feedback');
+    addTask("feedback");
 }
 function addTaskDone() {
-    addTask('done');
+    addTask("done");
 }
 
 function closeDialog() {
@@ -319,66 +320,64 @@ function closeDialog() {
     }
 }
 function categoryLabel(category) {
-    if (category === 'toDo') return 'Technical Task';
-    else if (category === 'inProgress') return 'User Story';
-    else if (category === 'feedback') return 'Awaiting Feedback';
-    else if (category === 'done') return 'Done';
-    else return '';
+    if (category === "toDo") return "Technical Task";
+    else if (category === "inProgress") return "User Story";
+    else if (category === "feedback") return "Awaiting Feedback";
+    else if (category === "done") return "Done";
+    else return "";
 }
 
 function renderDialogContent() {
     const dialog = document.getElementById("addTaskDialog");
     dialog.innerHTML = getaddTaskTemplateDialog();
     // Event-Listener für das Formular hinzufügen
-    const form = dialog.querySelector('.task-form');
+    const form = dialog.querySelector(".task-form");
     if (form) {
-        form.addEventListener('submit', handleCreateTask);
+        form.addEventListener("submit", handleCreateTask);
     }
     // Cancel-Button leert das Formular und schließt den Dialog
-    const cancelBtn = dialog.querySelector('#cancel-btn');
+    const cancelBtn = dialog.querySelector("#cancel-btn");
     if (cancelBtn) {
-        cancelBtn.addEventListener('click', () => {
+        cancelBtn.addEventListener("click", () => {
             form.reset();
         });
     }
 
     setupAssignedToMultiselect(dialog);
     // Kategorien dynamisch einfügen
-    const categorySelect = dialog.querySelector('#category');
+    const categorySelect = dialog.querySelector("#category");
     if (categorySelect) {
-        categories.forEach(cat => {
+        categories.forEach((cat) => {
             categorySelect.innerHTML += `<option value="${cat}">${cat}</option>`;
         });
     }
 
     // Prioritäts-Button-Listener setzen
-    const priorityurgent = document.getElementById('priority-urgent');
-    const priorityMedium = document.getElementById('priority-medium');
-    const priorityLow = document.getElementById('priority-low');
-    priorityurgent.classList.remove('priority-buttons__btn--urgent');
-    priorityMedium.classList.remove('priority-buttons__btn--medium');
-    priorityLow.classList.remove('priority-buttons__btn--low');
+    const priorityurgent = document.getElementById("priority-urgent");
+    const priorityMedium = document.getElementById("priority-medium");
+    const priorityLow = document.getElementById("priority-low");
+    priorityurgent.classList.remove("priority-buttons__btn--urgent");
+    priorityMedium.classList.remove("priority-buttons__btn--medium");
+    priorityLow.classList.remove("priority-buttons__btn--low");
     if (priorityurgent) {
-
-        priorityurgent.addEventListener('click', () => {
-            priorityurgent.classList.toggle('priority-buttons__btn--urgent');
-            priorityMedium.classList.remove('priority-buttons__btn--medium');
-            priorityLow.classList.remove('priority-buttons__btn--low');
+        priorityurgent.addEventListener("click", () => {
+            priorityurgent.classList.toggle("priority-buttons__btn--urgent");
+            priorityMedium.classList.remove("priority-buttons__btn--medium");
+            priorityLow.classList.remove("priority-buttons__btn--low");
         });
     }
     if (priorityMedium) {
-
-        priorityMedium.addEventListener('click', () => {
-            priorityMedium.classList.toggle('priority-buttons__btn--medium');
-            priorityurgent.classList.remove('priority-buttons__btn--urgent');
-            priorityLow.classList.remove('priority-buttons__btn--low');
+        priorityMedium.addEventListener("click", () => {
+            priorityMedium.classList.toggle("priority-buttons__btn--medium");
+            priorityurgent.classList.remove("priority-buttons__btn--urgent");
+            priorityLow.classList.remove("priority-buttons__btn--low");
         });
     }
     if (priorityLow) {
-        priorityLow.addEventListener('click', () => {
-            priorityLow.classList.toggle('priority-buttons__btn--low');
-            priorityurgent.classList.remove('priority-buttons__btn--urgent');
-            priorityMedium.classList.remove('priority-buttons__btn--medium');
+        priorityLow.addEventListener("click", () => {
+            priorityLow.classList.toggle("priority-buttons__btn--low");
+            priorityurgent.classList.remove("priority-buttons__btn--urgent");
+            priorityMedium.classList.remove("priority-buttons__btn--medium");
         });
     }
 }
@@ -468,9 +467,9 @@ function setupAssignedToMultiselect(dialog, config = {}) {
 function handleCreateTask(event) {
     event.preventDefault();
     const dialog = document.getElementById("addTaskDialog");
-    const title = dialog.querySelector('#title').value.trim();
-    const description = dialog.querySelector('#description').value.trim();
-    const dueDate = dialog.querySelector('#due-date').value;
+    const title = dialog.querySelector("#title").value.trim();
+    const description = dialog.querySelector("#description").value.trim();
+    const dueDate = dialog.querySelector("#due-date").value;
     const priority = getSelectedPriority(dialog);
     const assignedToCheckboxes = dialog.querySelectorAll('#assigned-to-checkboxes input[type="checkbox"]:checked');
     const selectedIds = Array.from(assignedToCheckboxes)
@@ -482,13 +481,13 @@ function handleCreateTask(event) {
     const presetCategory = dialog.dataset.category;
     // Wenn über Spalten-Button geöffnet, bleibt die Zielspalte fix.
     // Nur beim globalen "Add Task +" (ohne preset) wird aus dem Select gemappt.
-    let category = 'toDo';
+    let category = "toDo";
     if (presetCategory) {
         category = presetCategory;
-    } else if (categoryValue === 'Technical Task') {
-        category = 'toDo';
-    } else if (categoryValue === 'User Story') {
-        category = 'inProgress';
+    } else if (categoryValue === "Technical Task") {
+        category = "toDo";
+    } else if (categoryValue === "User Story") {
+        category = "inProgress";
     }
     const subtaskInput = dialog.querySelector('#subtask-input')?.value || '';
     const subtasks = getLimitedSubtasks(subtaskInput);
@@ -536,28 +535,28 @@ function handleCreateTask(event) {
 }
 
 function getSelectedPriority(dialog) {
-    const priorityUrgent = dialog.querySelector('#priority-urgent');
-    const priorityMedium = dialog.querySelector('#priority-medium');
-    const priorityLow = dialog.querySelector('#priority-low');
+    const priorityUrgent = dialog.querySelector("#priority-urgent");
+    const priorityMedium = dialog.querySelector("#priority-medium");
+    const priorityLow = dialog.querySelector("#priority-low");
     if (!priorityUrgent || !priorityMedium || !priorityLow) {
-        return 'None';
+        return "None";
     }
-    if (priorityUrgent.classList.contains('priority-buttons__btn--urgent')) {
-        return '⟪';
-    } else if (priorityMedium.classList.contains('priority-buttons__btn--medium')) {
-        return '‖';
-    } else if (priorityLow.classList.contains('priority-buttons__btn--low')) {
-        return '⟫';
+    if (priorityUrgent.classList.contains("priority-buttons__btn--urgent")) {
+        return "⟪";
+    } else if (priorityMedium.classList.contains("priority-buttons__btn--medium")) {
+        return "‖";
+    } else if (priorityLow.classList.contains("priority-buttons__btn--low")) {
+        return "⟫";
     } else {
-        return 'None';
+        return "None";
     }
 }
 
 function getPriorityIconClass(priority) {
-    if (priority === 'Urgent' || priority === '⟪') return 'up';
-    if (priority === 'Medium' || priority === '‖') return 'medium';
-    if (priority === 'Low' || priority === '⟫') return 'down';
-    return 'medium';
+    if (priority === "Urgent" || priority === "⟪") return "up";
+    if (priority === "Medium" || priority === "‖") return "medium";
+    if (priority === "Low" || priority === "⟫") return "down";
+    return "medium";
 }
 
 function getCategoryHeaderClass(label) {
@@ -567,7 +566,7 @@ function getCategoryHeaderClass(label) {
 }
 
 function toDoCardShow(taskId) {
-    const task = todos.find(t => t.id == taskId);
+    const task = todos.find((t) => t.id == taskId);
     if (!task) return;
     const dialog = document.getElementById("editTaskDialog");
     dialog.dataset.taskId = taskId;
@@ -576,7 +575,7 @@ function toDoCardShow(taskId) {
 }
 
 function editTask(taskId) {
-    const task = todos.find(t => t.id == taskId);
+    const task = todos.find((t) => t.id == taskId);
     if (!task) return;
     const dialog = document.getElementById("editTaskDialog");
     dialog.dataset.taskId = taskId;
@@ -593,7 +592,7 @@ function editTask(taskId) {
 
     const editForm = dialog.querySelector('.edit-task-form');
     if (editForm) {
-        editForm.addEventListener('submit', handleEditTaskSave);
+        editForm.addEventListener("submit", handleEditTaskSave);
     }
 
     if (!dialog.open) {
@@ -602,33 +601,33 @@ function editTask(taskId) {
 }
 
 function mapCategoryLabelToKey(label) {
-    if (label === 'Technical Task') return 'toDo';
-    if (label === 'User Story') return 'inProgress';
-    if (label === 'Awaiting Feedback') return 'feedback';
-    if (label === 'Done') return 'done';
-    return 'toDo';
+    if (label === "Technical Task") return "toDo";
+    if (label === "User Story") return "inProgress";
+    if (label === "Awaiting Feedback") return "feedback";
+    if (label === "Done") return "done";
+    return "toDo";
 }
 function getSelectedEditPriority(dialog) {
-    const priorityUrgent = dialog.querySelector('#edit-priority-urgent');
-    const priorityMedium = dialog.querySelector('#edit-priority-medium');
-    const priorityLow = dialog.querySelector('#edit-priority-low');
+    const priorityUrgent = dialog.querySelector("#edit-priority-urgent");
+    const priorityMedium = dialog.querySelector("#edit-priority-medium");
+    const priorityLow = dialog.querySelector("#edit-priority-low");
     if (!priorityUrgent || !priorityMedium || !priorityLow) {
-        return 'Medium';
+        return "Medium";
     }
 
-    if (priorityUrgent.classList.contains('priority-buttons__btn--urgent')) {
-        return 'Urgent';
+    if (priorityUrgent.classList.contains("priority-buttons__btn--urgent")) {
+        return "Urgent";
     }
 
-    if (priorityMedium.classList.contains('priority-buttons__btn--medium')) {
-        return 'Medium';
+    if (priorityMedium.classList.contains("priority-buttons__btn--medium")) {
+        return "Medium";
     }
 
-    if (priorityLow.classList.contains('priority-buttons__btn--low')) {
-        return 'Low';
+    if (priorityLow.classList.contains("priority-buttons__btn--low")) {
+        return "Low";
     }
 
-    return 'Medium';
+    return "Medium";
 }
 
 function handleEditTaskSave(event) {
@@ -636,12 +635,12 @@ function handleEditTaskSave(event) {
 
     const dialog = document.getElementById("editTaskDialog");
     const taskId = Number(dialog.dataset.taskId);
-    const task = todos.find(t => t.id == taskId);
+    const task = todos.find((t) => t.id == taskId);
     if (!task) return;
 
-    const updatedTitle = dialog.querySelector('#edit-title')?.value.trim() || '';
-    const updatedDescription = dialog.querySelector('#edit-description')?.value.trim() || '';
-    const updatedDueDate = dialog.querySelector('#edit-due-date')?.value || '';
+    const updatedTitle = dialog.querySelector("#edit-title")?.value.trim() || "";
+    const updatedDescription = dialog.querySelector("#edit-description")?.value.trim() || "";
+    const updatedDueDate = dialog.querySelector("#edit-due-date")?.value || "";
     const updatedPriority = getSelectedEditPriority(dialog);
     const updatedCategoryLabel = dialog.querySelector('#edit-category')?.value || 'Technical Task';
     const updatedAssignedIds = Array.from(dialog.querySelectorAll('#edit-assigned-to-checkboxes input[type="checkbox"]:checked'))
@@ -658,7 +657,7 @@ function handleEditTaskSave(event) {
     task.category = mapCategoryLabelToKey(updatedCategoryLabel);
     task.assignedTo = contacts.filter(contact => updatedAssignedIds.includes(contact.id));
     task.subtasks = updatedSubtasks;
-    task.subtask = updatedSubtasks[0]?.title || '';
+    task.subtask = updatedSubtasks[0]?.title || "";
 
     updateHTML();
     closeDialog();
@@ -666,29 +665,29 @@ function handleEditTaskSave(event) {
 }
 
 function setEditPriority(priority) {
-    const dialog = document.getElementById('editTaskDialog');
+    const dialog = document.getElementById("editTaskDialog");
     if (!dialog) return;
 
-    const urgentBtn = dialog.querySelector('#edit-priority-urgent');
-    const mediumBtn = dialog.querySelector('#edit-priority-medium');
-    const lowBtn = dialog.querySelector('#edit-priority-low');
+    const urgentBtn = dialog.querySelector("#edit-priority-urgent");
+    const mediumBtn = dialog.querySelector("#edit-priority-medium");
+    const lowBtn = dialog.querySelector("#edit-priority-low");
     if (!urgentBtn || !mediumBtn || !lowBtn) return;
 
-    urgentBtn.classList.remove('priority-buttons__btn--urgent');
-    mediumBtn.classList.remove('priority-buttons__btn--medium');
-    lowBtn.classList.remove('priority-buttons__btn--low');
+    urgentBtn.classList.remove("priority-buttons__btn--urgent");
+    mediumBtn.classList.remove("priority-buttons__btn--medium");
+    lowBtn.classList.remove("priority-buttons__btn--low");
 
-    if (priority === 'Urgent') {
-        urgentBtn.classList.add('priority-buttons__btn--urgent');
-    } else if (priority === 'Medium') {
-        mediumBtn.classList.add('priority-buttons__btn--medium');
-    } else if (priority === 'Low') {
-        lowBtn.classList.add('priority-buttons__btn--low');
+    if (priority === "Urgent") {
+        urgentBtn.classList.add("priority-buttons__btn--urgent");
+    } else if (priority === "Medium") {
+        mediumBtn.classList.add("priority-buttons__btn--medium");
+    } else if (priority === "Low") {
+        lowBtn.classList.add("priority-buttons__btn--low");
     }
 }
 
 function deleteTask(taskId) {
-    const taskIndex = todos.findIndex(t => t.id == taskId);
+    const taskIndex = todos.findIndex((t) => t.id == taskId);
     if (taskIndex !== -1) {
         todos.splice(taskIndex, 1);
         updateHTML();

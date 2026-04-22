@@ -9,9 +9,10 @@
         <link rel="stylesheet" href="styles/summary.css" />
         <script src="script.js"></script>
         <script src="scripts/templates.js"></script>
+        <script src="scripts/summary.js"></script>
         <title>Summary</title>
     </head>
-    <body onload="init()">
+    <body onload="(init(), initSummary())">
         <div class="content__container fs-small-regular">
             <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
@@ -80,14 +81,11 @@
                         </section>
 
                         <section class="welcoming">
-                            <div class="welcoming__greeting fs-xlarge-medium fs-large2-regular-responsive">
+                            <div id="js-welcoming-greeting" class="fs-xlarge-medium fs-large2-regular-responsive">
                                 <span>Good</span>
-                                <span>morning,</span>
+                                <span id="js-greeting-morning">morning</span>
                             </div>
-                            <div class="welcoming__greeting fs-xxxlarge-bold fc-lightblue fs-xlarge-bold-responsive">
-                                <span>Sofia</span>
-                                <span>Müller</span>
-                            </div>
+                            <div id="js-greeting-name" class="fs-xxxlarge-bold fc-lightblue fs-xlarge-bold-responsive"></div>
                         </section>
                     </section>
                 </main>

@@ -9,90 +9,84 @@
         <script src="script.js"></script>
         <script src="scripts/templates.js"></script>
         <link rel="stylesheet" href="styles/add-task.css" />
+        <script src="./scripts/add-task.js" defer></script>
         <title>Add Task</title>
     </head>
 
     <body onload="init()">
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                // Ensure the DOM is fully loaded before attaching event listeners
-                setActivePriority();
-                const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format for the date input's min attribute
-                document.getElementById("due-date").setAttribute("min", today); // Set the minimum date to today to prevent selecting past dates
-            });
-
-            function setActivePriority() {
-                // Function to handle the active state of priority buttons
-                document.querySelectorAll(".priority-buttons__btn").forEach((btn) => {
-                    // Select all priority buttons and attach click event listeners to them
-                    btn.addEventListener("click", () => {
-                        // When a button is clicked, remove the active class from all buttons and add it to the clicked button
-                        document
-                            .querySelectorAll(".priority-buttons__btn") // Select all priority buttons again to remove the active class from them
-                            .forEach((b) => b.classList.remove("priority-buttons__btn--active")); // Remove the active class from all buttons. This ensures that only one button can be active at a time.
-                        btn.classList.add("priority-buttons__btn--active"); // Add the active class to the clicked button to visually indicate that it is selected as the priority level for the task being created.
-                    });
-                });
-            }
-        </script>
-
         <div class="content__container fs-small-regular">
             <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
             <div class="header-main__container">
                 <header id="js-header" class="header"></header>
-                <main class="main-content__body">
+                <main class="main-content__body main-content">
                     <h1 class="main-content__page-title">Add Task</h1>
 
-                    <form class="task-form">
-                        <div class="task-form__body">
-                            <div class="task-form__col task-form__col--left">
-                                <label class="task-form__label" for="title"> Title <span class="task-form__required">*</span> </label>
-                                <input class="task-form__input" type="text" id="title" placeholder="Enter a title" required />
+                    <div class="task-form__scroll-area">
+                        <form class="task-form" novalidate>
+                            <div class="task-form__body">
+                                <div class="task-form__col task-form__col--left">
+                                    <label class="task-form__label" for="title"> Title <span class="task-form__required">*</span> </label>
+                                    <input class="task-form__input" type="text" id="title" placeholder="Enter a title" required />
+                                    <span class="task-form__error" id="title-error"></span>
 
-                                <label class="task-form__label" for="description">Description</label>
-                                <textarea class="task-form__textarea" id="description" placeholder="Enter a Description"></textarea>
+                                    <label class="task-form__label" for="description">Description</label>
+                                    <textarea class="task-form__textarea" id="description" placeholder="Enter a Description"></textarea>
 
-                                <label class="task-form__label" for="due-date"> Due date <span class="task-form__required">*</span> </label>
-                                <input class="task-form__input" type="date" id="due-date" lang="en" required />
-                            </div>
-
-                            <div class="task-form__separator"></div>
-
-                            <div class="task-form__col task-form__col--right">
-                                <span class="task-form__label">Priority</span>
-                                <div class="priority-buttons">
-                                    <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent">Urgent <span class="priority-buttons__icon priority-buttons__icon--up"> ⟪</span></button>
-                                    <button type="button" class="priority-buttons__btn priority-buttons__btn--medium">Medium <span class="priority-buttons__icon"> ‖</span></button>
-                                    <button type="button" class="priority-buttons__btn priority-buttons__btn--low">Low <span class="priority-buttons__icon priority-buttons__icon--down"> ⟪</span></button>
+                                    <label class="task-form__label" for="due-date"> Due date <span class="task-form__required">*</span> </label>
+                                    <input class="task-form__input" type="date" id="due-date" lang="en" required />
+                                    <span class="task-form__error" id="due-date-error"></span>
                                 </div>
 
-                                <label class="task-form__label" for="assigned-to">Assigned to</label>
-                                <select class="task-form__select" id="assigned-to">
-                                    <option value="">Select contacts to assign</option>
-                                </select>
+                                <div class="task-form__separator"></div>
 
-                                <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
-                                <select class="task-form__select" id="category" required>
-                                    <option value="">Select task category</option>
-                                    <option value="technical">Technical Task</option>
-                                    <option value="user-story">User Story</option>
-                                </select>
+                                <div class="task-form__col task-form__col--right">
+                                    <span class="task-form__label">Priority</span>
+                                    <div class="priority-buttons">
+                                        <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent">
+                                            <div class="priority-buttons__row">Urgent <span class="priority-buttons__icon priority-buttons__icon--up"> ⟪</span></div>
+                                        </button>
+                                        <button type="button" class="priority-buttons__btn priority-buttons__btn--medium">
+                                            <div class="priority-buttons__row">Medium <span class="priority-buttons__icon"> ‖</span></div>
+                                        </button>
+                                        <button type="button" class="priority-buttons__btn priority-buttons__btn--low">
+                                            <div class="priority-buttons__row">Low <span class="priority-buttons__icon priority-buttons__icon--down"> ⟪</span></div>
+                                        </button>
+                                    </div>
 
-                                <label class="task-form__label" for="subtask">Subtask</label>
-                                <div class="subtask-input">
-                                    <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
-                                </div>
+                                    <label class="task-form__label" for="assigned-to">Assigned to</label>
+                                    <select class="task-form__select" id="assigned-to">
+                                        <option value="">Select contacts to assign</option>
+                                    </select>
 
-                                <div class="task-form__footer">
-                                    <div class="task-form__actions">
-                                        <button class="task-form__btn task-form__btn--clear" type="reset">Clear</button>
-                                        <button class="task-form__btn task-form__btn--submit" type="submit">Create Task</button>
+                                    <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
+                                    <select class="task-form__select" id="category" required>
+                                        <option value="">Select task category</option>
+                                        <option value="technical">Technical Task</option>
+                                        <option value="user-story">User Story</option>
+                                    </select>
+                                    <span class="task-form__error" id="category-error"></span>
+
+                                    <label class="task-form__label" for="subtask">Subtask</label>
+                                    <div class="subtask-input">
+                                        <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
                                     </div>
                                 </div>
                             </div>
+                        </form>
+                    </div>
+
+                    <div class="task-form__footer">
+                        <div class="task-form__actions">
+                            <button class="task-form__btn task-form__btn--clear" type="reset">Clear X</button>
+                            <button class="task-form__btn task-form__btn--submit" type="submit">Create Task ✓</button>
                         </div>
-                    </form>
+                    </div>
+
+                    <dialog class="toast" id="add__task_toast">
+                        Task added to board
+                        <img src="assets/icons/sidebar/inactive/board.svg" alt="" />
+                    </dialog>
                 </main>
             </div>
         </div>

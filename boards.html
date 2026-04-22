@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/png" href="assets/icons/board.svg" />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="styles/boards.css" />
+        <link rel="stylesheet" href="styles/variable.css" />
+        <link rel="stylesheet" href="styles/fonts.css" />
+        <script src="script.js"></script>
+        <script src="scripts/templates.js"></script>
+        <script src="scripts/boards.js"></script>
+        <script src="scripts/boardtemplate.js"></script>
+
+        <title>Board</title>
+    </head>
+
+    <body onload="(init(), updateHTML())">
+        <div class="content__container fs-small-regular">
+            <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
+
+            <div class="header-main__container">
+                <header id="js-header" class="header"></header>
+                <main>
+                    <div class="board__addtask">
+                        <h1 class="board__h1">Board</h1>
+                        <div class="search-container">
+                            <form action="/search" method="get">
+                                <input type="text" placeholder="Find Task" name="search" />
+                                <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
+                            </form>
+                            <button onclick="addTask()" type="button" class="addTaskBtn">
+                                Add task
+                                <p class="addTaskwith__plus">+</p>
+                            </button>
+                            <dialog id="addTaskDialog" class="addTaskDialog"></dialog>
+                            <dialog id="editTaskDialog" class="editTaskDialog"></dialog>
+                        </div>
+                    </div>
+                    <div class="board__lists">
+                        <div class="board__list" id="board__list--todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <div class="board__list-header">
+                                <h2>To Do</h2>
+                                <button onclick="addTaskToDo()" type="button" class="addTaskBtnBoard">+</button>
+                            </div>
+                            <div class="board__cards" id="board__cards--todo"></div>
+                            <div class="board__nonecard" id="noneCardTodo">No tasks To Do</div>
+                        </div>
+
+                        <div class="board__list" id="board__list--inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <div class="board__list-header">
+                                <h2>In Progress</h2>
+                                <button onclick="addTaskInProgress()" type="button" class="addTaskBtnBoard">+</button>
+                            </div>
+                            <div class="board__cards" id="board__cards--inprogress"></div>
+                            <div class="board__nonecard" id="noneCardInProgress">No tasks In Progress</div>
+                        </div>
+
+                        <div class="board__list" id="board__list--feedback" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <div class="board__list-header">
+                                <h2>Awaiting Feedback</h2>
+                                <button onclick="addTaskFeedback()" type="button" class="addTaskBtnBoard">+</button>
+                            </div>
+                            <div class="board__cards" id="board__cards--feedback"></div>
+                            <div class="board__nonecard" id="noneCardFeedback">No tasks Awaiting Feedback</div>
+                        </div>
+
+                        <div class="board__list" id="board__list--done" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <div class="board__list-header">
+                                <h2>Done</h2>
+                            </div>
+                            <div class="board__cards" id="board__cards--done"></div>
+                            <div class="board__nonecard" id="noneCardDone">No tasks Done</div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>
