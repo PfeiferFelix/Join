@@ -1,3 +1,6 @@
+let currentUserNameLS = localStorage.getItem("currentUserName");
+let currentUserEmailLS = localStorage.getItem("currentUserEmail");
+
 /**
  * Initialize function
  */
@@ -10,6 +13,15 @@ function init() {
     highlightActivePage();
     addNameInitials();
     document.body.style.visibility = "visible";
+}
+
+/**
+ * Reads a JSON object from local storage by key and returns its values as an array.
+ * @param {string} key - Local storage key that contains a JSON-serialized object.
+ * @returns {Array} Array of first-level values from the stored object.
+ */
+function importandFormatLocalStorageData(key) {
+    return Object.values(JSON.parse(localStorage.getItem(key)));
 }
 
 /**
@@ -29,19 +41,19 @@ function addHeader() {
 }
 
 /**
- * Adds the user button to the header using the getCircleUserTemplate function.
+ * Adds the user button to the header using the getHeaderCircleUserTemplate function.
  */
 function addUserButton() {
     const userButton = document.getElementById("js-user-menu-button");
-    userButton.innerHTML = getCircleUserTemplate("DG");
+    userButton.innerHTML = getHeaderCircleUserTemplate();
 }
 
 /**
- * Adds the user menu to the header using the getUserMenuTemplate function.
+ * Adds the user menu to the header using the getHeaderUserMenuTemplate function.
  */
 function addUserMenu() {
     const userMenu = document.getElementById("js-header-user-menu");
-    userMenu.innerHTML = getUserMenuTemplate();
+    userMenu.innerHTML = getHeaderUserMenuTemplate();
 }
 
 /**
@@ -108,7 +120,7 @@ function addHelpToUserMenu(maxWidthMobile) {
 
     if (window.innerWidth <= maxWidthMobile) {
         if (!existingHelpTag) {
-            userMenu.innerHTML = getUserMenuHelpTemplate() + userMenu.innerHTML;
+            userMenu.innerHTML = getHeaderUserMenuHelpTemplate() + userMenu.innerHTML;
         }
     } else if (existingHelpTag) {
         existingHelpTag.remove();
@@ -128,7 +140,7 @@ function UpperCaseIntial(string) {
  * Reads the current user name from session storage and displays the initials in the header.
  */
 function addNameInitials() {
-    let userNameArray = currentUserName.split(" ");
+    let userNameArray = currentUserNameLS.split(" ");
     let userInitials;
     userInitials = UpperCaseIntial(userNameArray[0]);
     if (userNameArray.length > 1) {

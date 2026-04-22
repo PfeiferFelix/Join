@@ -180,7 +180,7 @@ a {
 .main-content {
     margin-top: 96px;
     max-width: var(--content-limit);
-    padding: 0 80px;
+    padding: 0 50px;
     box-sizing: border-box;
 }
 
@@ -294,15 +294,9 @@ a {
     }
 }
 
-/*padding zu den seiten*/
-@media (max-width: 850px) {
-    .main-content {
-        padding: 0 80px;
-    }
-}
 @media (max-width: 600px) {
     .main-content {
-        padding: 0 30px;
+        padding: 0 25px;
     }
 }
 
