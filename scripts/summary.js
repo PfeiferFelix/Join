@@ -1,3 +1,5 @@
+let boardsLS = importandFormatLocalStorageData("boards");
+
 function initSummary() {
     addNameToGoodMorning();
     /*     reduceFontSiceIfToBig(); */
@@ -6,8 +8,8 @@ function initSummary() {
 function toDoOpen() {}
 
 function addNameToGoodMorning() {
-    if (currentUserName !== "Gast") {
-        document.getElementById("js-greeting-name").innerHTML = currentUserName;
+    if (currentUserNameLS !== "Gast") {
+        document.getElementById("js-greeting-name").innerHTML = currentUserNameLS;
         document.getElementById("js-greeting-morning").innerText += `,`;
     }
 }

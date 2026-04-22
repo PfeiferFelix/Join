@@ -1,12 +1,10 @@
 function getEditTaskTemplate(task) {
     const fixedHeaderLabel = task.selectedCategoryLabel || categoryLabel(task.category);
     const headerClass = getCategoryHeaderClass(fixedHeaderLabel);
-    const assignedUsersHTML = Array.isArray(task.assignedTo)
-        ? task.assignedTo.map(user => getCircleUserTemplate(user.abbreviation || '')).join('')
-        : '';
+    const assignedUsersHTML = Array.isArray(task.assignedTo) ? task.assignedTo.map((user) => getCircleUserTemplate(user.abbreviation || "")).join("") : "";
     const subtaskCountText = getSubtaskCountText(task);
     const firstSubtask = Array.isArray(task.subtasks) && task.subtasks.length > 0 ? task.subtasks[0] : null;
-    const priorityLabel = task.priority || '';
+    const priorityLabel = task.priority || "";
     const iconClass = getPriorityIconClass(priorityLabel);
     return `<header class="addTaskDialog__header">
             <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
@@ -14,8 +12,8 @@ function getEditTaskTemplate(task) {
         <section class="editTaskDialog__content">
 
             <h4 class="headline__task" id="headline${task.id}">${task.title}</h4>
-            <p class="category__description" id="description${task.id}">${task.description || ''}</p>
-            <span class="due-date" id="dueDate${task.id}">Due date: ${task.dueDate || ''}</span>
+            <p class="category__description" id="description${task.id}">${task.description || ""}</p>
+            <span class="due-date" id="dueDate${task.id}">Due date: ${task.dueDate || ""}</span>
             <span class="priority" id="priorityLevel">Priority: <p class="priority-buttons__icon priority-buttons__icon--${iconClass}">${priorityLabel}</p></span>
             <div class="subtask-preview">
             <span class="subtask"></span>
@@ -35,8 +33,8 @@ function getEditTaskTemplate(task) {
             <div class="subtasks-section">
                 <h5>Subtasks:</h5>
                 <ul class="subtasks-list">
-                    <input type="checkbox" id="subtask1" name="subtask1" ${firstSubtask?.done ? 'checked' : ''} disabled>
-                    <label for="subtask1">${firstSubtask?.title || 'No subtasks'}</label>
+                    <input type="checkbox" id="subtask1" name="subtask1" ${firstSubtask?.done ? "checked" : ""} disabled>
+                    <label for="subtask1">${firstSubtask?.title || "No subtasks"}</label>
                 </ul>
             </div>
         </section>
@@ -46,12 +44,14 @@ function getEditTaskTemplate(task) {
         </footer>`;
 }
 function addEditSubtaskRow() {
-    const list = document.getElementById('edit-subtasks-list');
+    const list = document.getElementById("edit-subtasks-list");
     if (!list) return;
 
-    if (list.querySelectorAll('.edit-subtask-row').length >= 2) return;
+    if (list.querySelectorAll(".edit-subtask-row").length >= 2) return;
 
-    list.insertAdjacentHTML('beforeend', `
+    list.insertAdjacentHTML(
+        "beforeend",
+        `
         <div class="edit-subtask-row">
             <input class="task-form__input edit-subtask-title" type="text" value="">
             <label class="task-form__label">
@@ -59,29 +59,36 @@ function addEditSubtaskRow() {
             </label>
             <button type="button" class="editTaskDialog__delete-btn" onclick="removeEditSubtaskRow(this)">Remove</button>
         </div>
-    `);
+    `,
+    );
 }
 function renderEditSubtasksRows(subtasks) {
-    return subtasks.map(subtask => `
+    return subtasks
+        .map(
+            (subtask) => `
         <div class="edit-subtask-row">
             <input class="task-form__input edit-subtask-title" type="text" value="${subtask.title}">
             <label class="task-form__label">
-                <input class="edit-subtask-done" type="checkbox" ${subtask.done ? 'checked' : ''}> Done
+                <input class="edit-subtask-done" type="checkbox" ${subtask.done ? "checked" : ""}> Done
             </label>
             <button type="button" class="editTaskDialog__delete-btn" onclick="removeEditSubtaskRow(this)">Remove</button>
         </div>
-    `).join('');
+    `,
+        )
+        .join("");
 }
 function getEditTaskFormTemplate(task) {
     const fixedHeaderLabel = task.selectedCategoryLabel || categoryLabel(task.category);
     const editSubtasks = getEditableSubtasks(task);
     let headerClass = getCategoryHeaderClass(fixedHeaderLabel);
     const editSubtasksHTML = renderEditSubtasksRows(editSubtasks);
-    const categoryOptions = ['Technical Task', 'User Story'];
-    const categoryOptionsHTML = categoryOptions.map(option => {
-        const selected = option === fixedHeaderLabel ? 'selected' : '';
-        return `<option value="${option}" ${selected}>${option}</option>`;
-    }).join('');
+    const categoryOptions = ["Technical Task", "User Story"];
+    const categoryOptionsHTML = categoryOptions
+        .map((option) => {
+            const selected = option === fixedHeaderLabel ? "selected" : "";
+            return `<option value="${option}" ${selected}>${option}</option>`;
+        })
+        .join("");
 
     return `<header class="addTaskDialog__header">
             <h3 class="addTaskDialog__title ${headerClass}">${fixedHeaderLabel}</h3>
@@ -93,29 +100,29 @@ function getEditTaskFormTemplate(task) {
                 <input class="task-form__input" id="edit-title" type="text" value="${task.title}" required>
 
                 <label class="task-form__label" for="edit-description">Description</label>
-                <textarea class="task-form__textarea" id="edit-description">${task.description || ''}</textarea>
+                <textarea class="task-form__textarea" id="edit-description">${task.description || ""}</textarea>
 
                 <label class="task-form__label" for="edit-due-date">Due date</label>
-                <input class="task-form__input" id="edit-due-date" type="date" value="${task.dueDate || ''}" required>
+                <input class="task-form__input" id="edit-due-date" type="date" value="${task.dueDate || ""}" required>
 
                 <span class="task-form__label">Priority</span>
                 <div class="priority-buttons">
                     <button
                         id="edit-priority-urgent"
                         type="button"
-                        class="priority-btn-color-none ${task.priority === 'Urgent' ? 'priority-buttons__btn--urgent' : ''}"
+                        class="priority-btn-color-none ${task.priority === "Urgent" ? "priority-buttons__btn--urgent" : ""}"
                         onclick="setEditPriority('Urgent')"
                     >Urgent <span class="priority-buttons__icon priority-buttons__icon--up"> ⟪</span></button>
                     <button
                         id="edit-priority-medium"
                         type="button"
-                        class="priority-btn-color-none ${task.priority === 'Medium' ? 'priority-buttons__btn--medium' : ''}"
+                        class="priority-btn-color-none ${task.priority === "Medium" ? "priority-buttons__btn--medium" : ""}"
                         onclick="setEditPriority('Medium')"
                     >Medium <span class="priority-buttons__icon priority-buttons__icon priority-buttons__icon--medium"> ‖</span></button>
                     <button
                         id="edit-priority-low"
                         type="button"
-                        class="priority-btn-color-none ${task.priority === 'Low' ? 'priority-buttons__btn--low' : ''}"
+                        class="priority-btn-color-none ${task.priority === "Low" ? "priority-buttons__btn--low" : ""}"
                         onclick="setEditPriority('Low')"
                     >Low <span class="priority-buttons__icon priority-buttons__icon--down"> ⟪</span></button>
                 </div>
@@ -200,11 +207,9 @@ function getTemplateDialog() {
 function generateTodoHTML(todo) {
     const fixedHeaderLabel = todo.selectedCategoryLabel || categoryLabel(todo.category);
     const headerClass = getCategoryHeaderClass(fixedHeaderLabel);
-    const priorityLabel = todo.priority || 'Medium';
+    const priorityLabel = todo.priority || "Medium";
     const iconClass = getPriorityIconClass(priorityLabel);
-    const assignedUsersHTML = Array.isArray(todo.assignedTo)
-        ? todo.assignedTo.map(user => getCircleUserTemplate(user.abbreviation || '')).join('')
-        : '';
+    const assignedUsersHTML = Array.isArray(todo.assignedTo) ? todo.assignedTo.map((user) => getCircleUserTemplate(user.abbreviation || "")).join("") : "";
     const subtaskCountText = getSubtaskCountText(todo);
 
     return `<div class="task" id="${todo.id}" onclick="toDoCardShow(${todo.id})" draggable="true" ondragstart="drag(event)">
@@ -220,7 +225,7 @@ function generateTodoHTML(todo) {
             <p class="priority-buttons__icon priority-buttons__icon--${iconClass}" id="priorityLevel">${priorityLabel}</p>
         </div>
     </div>`;
-};
+}
 
 function getCircleUserTemplate(userAbbreviation) {
     return `

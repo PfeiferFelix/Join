@@ -18,7 +18,7 @@
 
 .summary {
     display: flex;
-    gap: 8px;
+    gap: 32px;
 }
 
 .welcoming {
@@ -27,8 +27,9 @@
     justify-content: center;
     align-items: center;
     text-align: right;
-    width: 400px;
     text-align: center;
+    flex: 1;
+    hyphens: auto;
 }
 
 .tasks {
@@ -36,7 +37,7 @@
     grid-template-columns: repeat(6, 1fr);
     gap: 40px;
     flex: 1.4;
-    max-width: 580px;
+    min-width: 350px;
 }
 
 .tasks a span {
@@ -205,7 +206,7 @@
         position: absolute;
         transform: rotate(90deg);
         top: 274px;
-        left: 129px;
+        left: 101px;
         height: 100px;
     }
 
@@ -224,13 +225,16 @@
 
 @media (max-width: 750px) {
     .headline1__separator {
-        left: 127px;
+        left: 100px;
     }
 }
 
 @media (max-width: 600px) {
     .headline1__separator {
-        left: 81px;
+        left: 76px;
+    }
+    .tasks {
+        min-width: 0;
     }
 }
 
