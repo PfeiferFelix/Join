@@ -178,7 +178,7 @@
 }
 
 @media (max-width: 1200px) {
-    .tasks__cells-responsive:hover {
+    .tasks__cells--responsive:hover {
         transform: scale(1.03);
     }
 
@@ -239,7 +239,7 @@
 }
 
 @media (max-width: 400px) {
-    .tasks__cells-responsive {
+    .tasks__cells--responsive {
         height: 140px;
     }
 
@@ -250,8 +250,8 @@
         left: 61px;
     }
 
-    .tasks__cells-responsive:hover {
-        transform: scale(1.022);
+    .tasks__cells--responsive:hover {
+        transform: scale(1.02);
     }
 
     .tasks__to-do,
