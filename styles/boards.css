@@ -32,15 +32,6 @@
     padding: 0;
 }
 
-/*Löschen*/
-.max-width-1920 {
-    display: flex;
-    height: 100vh;
-    max-width: 1920px !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-}
-
 .draggable-container {
     -webkit-user-select: none;
     user-select: none;
@@ -78,7 +69,6 @@
     height: 42px;
     width: 80px;
 }
-
 
 .priority-buttons__btn--urgent {
     background-color: #e74c3c;
@@ -290,7 +280,7 @@
     cursor: pointer;
 }
 
-.search-container input[type=text] {
+.search-container input[type="text"] {
     height: 32px;
     font-size: 16px;
     border: 1px solid #ccc;
@@ -528,7 +518,9 @@
     border: none;
     border-radius: 16px;
     width: 800px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.1);
     height: 600px;
     margin: auto;
     padding: 32px;
@@ -766,7 +758,6 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    
 }
 .subtask-item {
     list-style-type: disc;
@@ -841,7 +832,12 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     opacity: 0;
     pointer-events: none;
-    transition: max-height 0.22s ease, opacity 0.2s ease, padding 0.2s ease, margin-top 0.2s ease, border-color 0.2s ease;
+    transition:
+        max-height 0.22s ease,
+        opacity 0.2s ease,
+        padding 0.2s ease,
+        margin-top 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .multiselect__checkboxes:not(.is-open) {
