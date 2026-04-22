@@ -1,4 +1,5 @@
 let boardsLS = importandFormatLocalStorageData("boards");
+let contactsLS = importandFormatLocalStorageData("contacs");
 
 let contacts = [
     { id: 1, name: "David G.", abbreviation: "DG" },
