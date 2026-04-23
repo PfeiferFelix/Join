@@ -11,7 +11,11 @@ main {
 }
 
 .main-content__body {
-    height: calc(100vh - 170px);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 155px);
+    overflow: hidden;
+    padding: 24px 16px 0 16px;
 }
 
 main h1 {
@@ -137,7 +141,8 @@ textarea {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-top: 144px;
+    padding-top: 32px;
+    padding-bottom: 32px;
 }
 
 .task-form__actions {
@@ -213,7 +218,7 @@ textarea {
     .task-form__scroll-area {
         flex: 1;
         overflow-y: auto;
-        padding-bottom: 16px;
+        padding-bottom: 200px;
     }
 
     .task-form__body {
@@ -233,19 +238,24 @@ textarea {
     }
 
     .task-form__footer {
-        flex-shrink: 0;
+        position: fixed;
+        bottom: 100px;
+        left: 0;
         width: 100%;
         background-color: rgb(246, 247, 248);
-        padding: 16px 0;
-        border-bottom: 1px solid #d1d1d1;
+        padding: 16px;
+        border-top: 1px solid #d1d1d1;
         display: flex;
         justify-content: center;
+        z-index: 60;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 
     .task-form__actions {
         width: 100%;
         display: flex;
-        gap: 16px;
+        gap: 0 16px;
     }
 
     .task-form__btn {
@@ -254,6 +264,10 @@ textarea {
 
     .header__headline3 {
         display: none;
+    }
+
+    .sidebar {
+        z-index: 100;
     }
 }
 
