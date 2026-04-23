@@ -1,4 +1,5 @@
-/* let contactsLS = importandFormatLocalStorageData("contacs"); */
+let contactsLS = importandFormatLocalStorageData("contacs");
+console.log(contactsLS);
 
 document.addEventListener("DOMContentLoaded", () => {
     // Ensure the DOM is fully loaded before running the script
