@@ -240,6 +240,7 @@ a {
         left: 0;
         height: 100px;
         flex-direction: row;
+        padding-bottom: 0;
     }
 
     .sidebar__logo {
