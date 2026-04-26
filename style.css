@@ -57,6 +57,7 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: var(--distance-bottom-main-sides);
 }
 
 .sidebar__nav-list {
@@ -110,7 +111,6 @@ a {
     flex-direction: column;
     justify-content: flex-end;
     gap: 32px;
-    margin-bottom: 50px;
     width: 100%;
 }
 
@@ -181,6 +181,7 @@ a {
     max-width: var(--content-limit);
     padding: 0 50px;
     box-sizing: border-box;
+    margin-bottom: var(--distance-bottom-main-sides);
 }
 
 .header__user-menu {
