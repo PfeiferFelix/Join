@@ -21,7 +21,6 @@
 
 @media (max-width: 850px) {
     :root {
-        --width-sidebar: 100%;
         --content-limit-header: 100%;
         --content-limit: 100%;
     }

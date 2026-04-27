@@ -18,7 +18,7 @@
 
             <div class="header-main__container">
                 <header id="js-header" class="header"></header>
-                <main>
+                <main class="main-content">
                     <article class="contacts" id="contactsPanel">
                         <section class="contacts-sidebar">
                             <div class="contacts-sidebar__btn">
@@ -193,22 +193,22 @@
             });
 
             // --- Contact Detail Panel ---
-            const contactsPanel = document.getElementById('contactsPanel');
-            const contactInfo = document.getElementById('contactInfo');
-            const backBtn = document.getElementById('contactsBackBtn');
-            const contactItems = document.querySelectorAll('.contact-item');
+            const contactsPanel = document.getElementById("contactsPanel");
+            const contactInfo = document.getElementById("contactInfo");
+            const backBtn = document.getElementById("contactsBackBtn");
+            const contactItems = document.querySelectorAll(".contact-item");
 
             function openContactDetail(item) {
                 // Aktiven Kontakt markieren
                 for (let i = 0; i < contactItems.length; i++) {
-                    contactItems[i].classList.remove('contact-item--active');
-            }
-                item.classList.add('contact-item--active');
+                    contactItems[i].classList.remove("contact-item--active");
+                }
+                item.classList.add("contact-item--active");
 
                 // Detail-Bereich befüllen
-                const name = item.querySelector('.contact-item__name').textContent;
-                const mail = item.querySelector('.contact-item__mail').textContent;
-                const initials = item.querySelector('.contact-item__avatar').textContent;
+                const name = item.querySelector(".contact-item__name").textContent;
+                const mail = item.querySelector(".contact-item__mail").textContent;
+                const initials = item.querySelector(".contact-item__avatar").textContent;
 
                 contactInfo.innerHTML = `
                     <div class="contact-card">
@@ -235,21 +235,21 @@
                 `;
 
                 // Detail sichtbar machen
-                contactInfo.classList.add('contact-content__info--visible');
+                contactInfo.classList.add("contact-content__info--visible");
 
                 // Auf Mobile: zum Detail-Panel wechseln
-                contactsPanel.classList.add('contacts--detail-open');
+                contactsPanel.classList.add("contacts--detail-open");
             }
 
             function closeContactDetail() {
-                contactsPanel.classList.remove('contacts--detail-open');
+                contactsPanel.classList.remove("contacts--detail-open");
             }
 
-            contactItems.forEach(item => {
-                item.addEventListener('click', () => openContactDetail(item));
+            contactItems.forEach((item) => {
+                item.addEventListener("click", () => openContactDetail(item));
             });
 
-            backBtn.addEventListener('click', closeContactDetail);
+            backBtn.addEventListener("click", closeContactDetail);
         </script>
     </body>
 </html>
