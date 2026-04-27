@@ -1,25 +1,3 @@
-function getHeaderCircleUserTemplate() {
-    return `
-        <svg width="50" height="50" viewBox="0 0 80 80" aria-hidden="true">
-            <circle class="header__circle" cx="40" cy="40" r="38" stroke="#555" stroke-width="4" fill="white" />
-            <text id="js-header-user-initials" x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#4a90e2" font-weight="700"></text>
-        </svg>
-    `;
-}
-
-function getHeaderUserMenuTemplate() {
-    return `
-        <ul id="js-header-user-menu-list" class="header__user-list fs-small-regular fc-lightgrey">
-            <li><a class="header__user-link" href="legal-notice.html">Legal Notice</a></li>
-            <li><a class="header__user-link" href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a class="header__user-link" href="login.html">Log Out</a></li>
-        </ul>
-    `;
-}
-function getHeaderUserMenuHelpTemplate() {
-    return `<li id="js-header-user-menu-help"><a class="header__user-link" href="help.html">Help</a></li>`;
-}
-
 function getSidebarTemplate() {
     return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
                 <nav class="sidebar__nav">
@@ -73,4 +51,27 @@ function getHeaderTemplate() {
                     <div id="js-header-user-menu" class="header__user-menu"></div>
                 </div>
             </div>`;
+}
+
+function getHeaderCircleUserTemplate() {
+    return `
+        <svg width="50" height="50" viewBox="0 0 80 80" aria-hidden="true">
+            <circle class="header__circle" cx="40" cy="40" r="38" stroke="#555" stroke-width="4" fill="white" />
+            <text id="js-header-user-initials" x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#4a90e2" font-weight="700"></text>
+        </svg>
+    `;
+}
+
+function getHeaderUserMenuTemplate() {
+    return `
+        <ul id="js-header-user-menu-list" class="header__user-list fs-small-regular fc-lightgrey">
+            <li><a class="header__user-link" href="legal-notice.html">Legal Notice</a></li>
+            <li><a class="header__user-link" href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a class="header__user-link" href="login.html">Log Out</a></li>
+        </ul>
+    `;
+}
+
+function getHeaderUserMenuHelpTemplate() {
+    return `<li id="js-header-user-menu-help"><a class="header__user-link" href="help.html">Help</a></li>`;
 }
