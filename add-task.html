@@ -1,94 +1,101 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="styles/variable.css" />
-        <link rel="stylesheet" href="styles/fonts.css" />
-        <script src="script.js"></script>
-        <script src="scripts/templates.js"></script>
-        <link rel="stylesheet" href="styles/add-task.css" />
-        <script src="./scripts/add-task.js" defer></script>
-        <title>Add Task</title>
-    </head>
 
-    <body onload="init()">
-        <div class="content__container fs-small-regular">
-            <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/variable.css" />
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <script src="script.js"></script>
+    <script src="scripts/templates.js"></script>
+    <link rel="stylesheet" href="styles/add-task.css" />
+    <script src="./scripts/add-task.js" defer></script>
+    <title>Add Task</title>
+</head>
 
-            <div class="header-main__container">
-                <header id="js-header" class="header"></header>
-                <main class="main-content__body main-content">
-                    <h1 class="main-content__page-title">Add Task</h1>
+<body onload="init(); initAddTask();">
+    <div class="content__container fs-small-regular">
+        <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
-                    <div class="task-form__scroll-area">
-                        <form class="task-form" novalidate>
-                            <div class="task-form__body">
-                                <div class="task-form__col task-form__col--left">
-                                    <label class="task-form__label" for="title"> Title <span class="task-form__required">*</span> </label>
-                                    <input class="task-form__input" type="text" id="title" placeholder="Enter a title" required />
-                                    <span class="task-form__error" id="title-error"></span>
+        <div class="header-main__container">
+            <header id="js-header" class="header"></header>
+            <main class="main-content__body main-content">
+                <h1 class="main-content__page-title">Add Task</h1>
 
-                                    <label class="task-form__label" for="description">Description</label>
-                                    <textarea class="task-form__textarea" id="description" placeholder="Enter a Description"></textarea>
+                <div class="task-form__scroll-area">
+                    <form class="task-form" novalidate>
+                        <div class="task-form__body">
+                            <div class="task-form__col task-form__col--left">
+                                <label class="task-form__label" for="title"> Title <span class="task-form__required">*</span> </label>
+                                <input class="task-form__input" type="text" id="title" placeholder="Enter a title" required />
+                                <span class="task-form__error" id="title-error"></span>
 
-                                    <label class="task-form__label" for="due-date"> Due date <span class="task-form__required">*</span> </label>
-                                    <input class="task-form__input" type="date" id="due-date" lang="en" required />
-                                    <span class="task-form__error" id="due-date-error"></span>
-                                </div>
+                                <label class="task-form__label" for="description">Description</label>
+                                <textarea class="task-form__textarea" id="description" placeholder="Enter a Description"></textarea>
 
-                                <div class="task-form__separator"></div>
+                                <label class="task-form__label" for="due-date"> Due date <span class="task-form__required">*</span> </label>
+                                <input class="task-form__input" type="date" id="due-date" lang="en" required />
+                                <span class="task-form__error" id="due-date-error"></span>
+                            </div>
 
-                                <div class="task-form__col task-form__col--right">
-                                    <span class="task-form__label">Priority</span>
-                                    <div class="priority-buttons">
-                                        <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent">
+                            <div class="task-form__separator"></div>
+
+                            <div class="task-form__col task-form__col--right">
+                                <span class="task-form__label">Priority</span>
+                                <div class="priority-buttons">
+                                    <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent" data-priority="urgent">
                                             <div class="priority-buttons__row">Urgent <span class="priority-buttons__icon priority-buttons__icon--up"> ⟪</span></div>
                                         </button>
-                                        <button type="button" class="priority-buttons__btn priority-buttons__btn--medium">
+                                    <button type="button" class="priority-buttons__btn priority-buttons__btn--medium" data-priority="medium">
                                             <div class="priority-buttons__row">Medium <span class="priority-buttons__icon"> ‖</span></div>
                                         </button>
-                                        <button type="button" class="priority-buttons__btn priority-buttons__btn--low">
+                                    <button type="button" class="priority-buttons__btn priority-buttons__btn--low" data-priority="low">
                                             <div class="priority-buttons__row">Low <span class="priority-buttons__icon priority-buttons__icon--down"> ⟪</span></div>
                                         </button>
+                                </div>
+
+                                <label class="task-form__label" for="assigned-to">Assigned to</label>
+                                <div class="dropdown" id="assigned-to-dropdown">
+                                    <div class="dropdown__trigger">
+                                        <input type="text" class="dropdown__search" placeholder="Select contacts to assign" id="assigned-to-search">
+                                        <span class="dropdown__arrow" id="assigned-to-arrow">▼</span>
                                     </div>
+                                    <ul class="dropdown__list" id="assigned-to-list"></ul>
+                                </div>
+                                <div class="dropdown__selected-avatars" id="selected-avatars"></div>
 
-                                    <label class="task-form__label" for="assigned-to">Assigned to</label>
-                                    <select class="task-form__select" id="assigned-to">
-                                        <option value="">Select contacts to assign</option>
-                                    </select>
-
-                                    <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
-                                    <select class="task-form__select" id="category" required>
+                                <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
+                                <select class="task-form__select" id="category" required>
                                         <option value="">Select task category</option>
                                         <option value="technical">Technical Task</option>
                                         <option value="user-story">User Story</option>
                                     </select>
-                                    <span class="task-form__error" id="category-error"></span>
+                                <span class="task-form__error" id="category-error"></span>
 
-                                    <label class="task-form__label" for="subtask">Subtask</label>
-                                    <div class="subtask-input">
-                                        <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
-                                    </div>
+                                <label class="task-form__label" for="subtask">Subtask</label>
+                                <div class="subtask-input">
+                                    <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
                                 </div>
                             </div>
-                        </form>
-                    </div>
-
-                    <div class="task-form__footer">
-                        <div class="task-form__actions">
-                            <button class="task-form__btn task-form__btn--clear" type="reset">Clear X</button>
-                            <button class="task-form__btn task-form__btn--submit" type="submit">Create Task ✓</button>
                         </div>
-                    </div>
+                    </form>
+                </div>
 
-                    <dialog class="toast" id="add__task_toast">
-                        Task added to board
-                        <img src="assets/icons/sidebar/inactive/boards.svg" alt="" />
-                    </dialog>
-                </main>
-            </div>
+                <div class="task-form__footer">
+                    <div class="task-form__actions">
+                        <button class="task-form__btn task-form__btn--clear" type="reset">Clear X</button>
+                        <button class="task-form__btn task-form__btn--submit" type="submit">Create Task ✓</button>
+                    </div>
+                </div>
+
+                <dialog class="toast" id="add__task_toast">
+                    Task added to board
+                    <img src="assets/icons/sidebar/inactive/boards.svg" alt="" />
+                </dialog>
+            </main>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

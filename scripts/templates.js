@@ -74,3 +74,15 @@ function getHeaderTemplate() {
                 </div>
             </div>`;
 }
+
+function getDropdownItemTemplate(initials, color, name, email) {
+    return `
+        <div class="dropdown__avatar" style="background-color: ${color}">${initials}</div>
+        <span class="dropdown__name">${name}</span>
+        <input type="checkbox" class="dropdown__checkbox" value="${email}" />
+    `;
+}
+
+function getSelectedAvatarTemplate(initials, color) {
+    return `<div class="dropdown__avatar" style="background-color: ${color}">${initials}</div>`;
+}
