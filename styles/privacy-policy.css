@@ -1,17 +1,17 @@
-main {
+.privacy-policy {
     flex: 1;
     overflow-y: auto;
     padding: 48px 64px;
 }
 
-main h1 {
+.privacy-policy__title {
     font-size: 47px;
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: 24px;
 }
 
-main h2 {
+.privacy-policy__subtitle {
     font-size: 20px;
     font-weight: 700;
     color: var(--primary-color);
@@ -19,9 +19,39 @@ main h2 {
     margin-bottom: 12px;
 }
 
-main span {
+.privacy-policy__text {
     display: block;
     line-height: 1.6;
     color: var(--primary-color);
     max-width: 800px;
+}
+
+@media (max-width: 851px) {
+    .privacy-policy {
+        flex: 1;
+        overflow-y: auto;
+        padding: 32px 32px 130px;
+    }
+
+    .privacy-policy__title {
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 14px;
+    }
+
+    .privacy-policy__subtitle {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-top: 24px;
+        margin-bottom: 8px;
+    }
+
+    .privacy-policy__text {
+        display: block;
+        line-height: 1.6;
+        color: var(--primary-color);
+        max-width: 800px;
+    }
 }
