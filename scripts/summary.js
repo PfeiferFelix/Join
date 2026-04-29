@@ -6,30 +6,25 @@ let urgent = 0;
 let tasksInBoard = 0;
 let tasksInProgress = 0;
 let awaitingFeedback = 0;
-let nextUrgentDate = "October 16, 2020"; // muss noch berechnet werden
 
-let currentDate = new Date();
+const currentDate = new Date();
+const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
-let day;
-let month;
-let year;
+let nextUrgentDate;
 
-let hour;
-
-let nearestDate;
-
-// die bilder für die verschiedenen tasks müssen versetzt werden je nachdem wie die breite ist
-// anpassen header weiter rechts abstand zu good morning passt nicht
-
+/**
+ * Initializes the summary page by updating the greeting, adding the user's name to the greeting, iterating through task data to calculate summary statistics, and setting those statistics in the summary display.
+ */
 function initSummary() {
     changeGreeting();
     addNameToGreeting();
-    calcTasksDataSummary();
+    iteradeTasksData();
     setTasksDataInSummary();
 }
 
-function toDoOpen() {}
-
+/**
+ * Adds the current user's name to the greeting if it is not "Gast". It updates the greeting message to include the user's name and adds a comma after the greeting.
+ */
 function addNameToGreeting() {
     if (currentUserNameLS !== "Gast") {
         document.getElementById("js-greeting-name").innerHTML = currentUserNameLS;
@@ -37,40 +32,57 @@ function addNameToGreeting() {
     }
 }
 
-//verkürzen
-function calcTasksDataSummary() {
-    for (element of boardsLS) {
-        switch (element.position) {
-            case "todo":
-                todo += 1;
-                break;
-            case "done":
-                done += 1;
-                break;
-            case "tasksInProgress":
-                tasksInProgress += 1;
-                break;
-            case "awaitingFeedback":
-                awaitingFeedback += 1;
-                break;
-        }
-
-        if (element.priority === "urgent") urgent += 1;
-
-        tasksInBoard += 1;
-        if (element.due_date) {
-            let dateObject = new Date(element.due_date);
-            if (dateObject > currentDate && !nearestDate) {
-                nearestDate = dateObject;
-            }
-            if (nearestDate > dateObject) {
-                nearestDate = dateObject;
-            }
-        }
+/**
+ * Iterates through the task data stored in local storage (boardsLS) and calculates summary statistics for the tasks. It counts the number of tasks in different states (to-do, done, in progress, awaiting feedback) and the number of urgent tasks. It also determines the nearest due date for any urgent tasks. The calculated statistics are then set in the summary display.
+ */
+function iteradeTasksData() {
+    for (const element of boardsLS) {
+        calcTasksDataSummary(element);
+        getNearestDate(element.due_date);
     }
-    console.log(nearestDate);
 }
 
+/**
+ * Calculates summary statistics for a given task element. It updates the counts for different task states (to-do, done, in progress, awaiting feedback) and the number of urgent tasks. It also increments the total number of tasks in the board.
+ * @param {Object} element - The task element to process.
+ */
+function calcTasksDataSummary(element) {
+    switch (element.position) {
+        case "todo":
+            todo += 1;
+            break;
+        case "done":
+            done += 1;
+            break;
+        case "in progress":
+            tasksInProgress += 1;
+            break;
+        case "awaiting feedback":
+            awaitingFeedback += 1;
+            break;
+    }
+    if (element.priority === "urgent") urgent += 1;
+    tasksInBoard += 1;
+}
+
+/**
+ * Determines the nearest due date for any urgent tasks. It takes a due date as input, formats it, and compares it to the current date. If the due date is in the future and is earlier than the currently stored nearest urgent date, it updates the nearest urgent date.
+ * @param {String} dueDate - The due date of a board
+ */
+function getNearestDate(dueDate) {
+    if (dueDate) {
+        const [year, month, day] = dueDate.split("-").map(Number);
+        const dueDateFormatted = new Date(year, month - 1, day);
+
+        if (dueDateFormatted > today && (!nextUrgentDate || dueDateFormatted < nextUrgentDate)) {
+            nextUrgentDate = dueDateFormatted;
+        }
+    }
+}
+
+/**
+ * Sets the calculated summary statistics in the summary display. It updates the text content of various elements in the summary page to reflect the counts of tasks in different states, the number of urgent tasks, and the nearest urgent due date.
+ */
 function setTasksDataInSummary() {
     const summaryFields = [
         ["js-to-do-count", todo],
@@ -79,6 +91,14 @@ function setTasksDataInSummary() {
         ["js-tasks-in-progress-count", tasksInProgress],
         ["js-awaiting-feedback", awaitingFeedback],
         ["js-tasks-in-board", tasksInBoard],
+        [
+            "js-deadline-date",
+            nextUrgentDate.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+            }),
+        ],
     ];
 
     for (const [id, value] of summaryFields) {
@@ -86,9 +106,12 @@ function setTasksDataInSummary() {
     }
 }
 
+/**
+ * Changes the greeting message based on the current time of day. It determines the appropriate greeting (e.g., "Guten Morgen", "Guten Mittag", etc.) based on the hour of the day and updates the text content of the greeting element accordingly.
+ */
 function changeGreeting() {
     let greetingString;
-    hour = currentDate.getHours();
+    let hour = currentDate.getHours();
 
     if (hour >= 5 && hour < 11) {
         greetingString = "Guten Morgen";

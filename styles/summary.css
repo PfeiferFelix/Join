@@ -30,6 +30,7 @@
     text-align: center;
     hyphens: auto;
     overflow-wrap: anywhere;
+    flex: 1;
 }
 
 .welcoming__greeting-name {
@@ -41,6 +42,7 @@
     grid-template-columns: repeat(6, 1fr);
     gap: 40px;
     flex: 1.4;
+    max-width: 650px;
 }
 
 .tasks a span {
@@ -200,7 +202,9 @@
         transform: scale(1.03);
     }
 
-    .tasks__icon {
+    .tasks__icon,
+    .tasks__done-imgs,
+    .tasks__to-do-imgs {
         width: 40px;
         height: 40px;
     }
@@ -235,7 +239,7 @@
 
     .welcoming__greeting-name,
     .welcoming__greeting {
-        max-width: 8ch;
+        max-width: 10ch;
     }
 }
 
@@ -259,6 +263,7 @@
 
     .tasks {
         padding: 0;
+        max-width: none;
     }
 
     .headline1 {
