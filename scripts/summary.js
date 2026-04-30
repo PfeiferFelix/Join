@@ -20,6 +20,7 @@ function initSummary() {
     addNameToGreeting();
     iteradeTasksData();
     setTasksDataInSummary();
+    addAnimationToMobileSummary();
 }
 
 /**
@@ -122,8 +123,25 @@ function changeGreeting() {
     } else if (hour >= 18 && hour < 22) {
         greetingString = "Guten Abend";
     } else {
-        greetingString = "Gute späten Abend";
+        greetingString = "Erholsame Nacht";
     }
 
     document.getElementById("js-greeting-morning").textContent = greetingString;
+}
+// hier muss das signal von der loginseite hin
+let fromLogin = true;
+
+async function addAnimationToMobileSummary() {
+    if (!fromLogin) return;
+
+    const welcomingRef = document.getElementById("js-welcoming");
+    if (!welcomingRef) return;
+
+    welcomingRef.classList.add("welcoming__animation-mobile");
+    await timeDelay(1500);
+    welcomingRef.style.opacity = "0";
+    await timeDelay(500);
+    welcomingRef.classList.remove("welcoming__animation-mobile");
+    welcomingRef.style.opacity = "";
+    fromLogin = false;
 }

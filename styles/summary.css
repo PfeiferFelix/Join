@@ -244,6 +244,17 @@
 }
 
 @media (max-width: 850px) {
+    .welcoming__animation-mobile {
+        display: flex !important;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: var(--height-sidebar-mobile);
+        transition: opacity 500ms ease-out;
+        background-color: var(--content-background-color);
+    }
+
     .headline1 {
         flex-direction: column;
         align-items: flex-start;

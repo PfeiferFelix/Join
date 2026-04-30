@@ -149,3 +149,11 @@ function addNameInitials() {
 
     document.getElementById("js-header-user-initials").textContent = userInitials;
 }
+
+/**
+ * Delays the execution of code for a specified amount of time. It returns a Promise that resolves after the specified time has passed, allowing you to use it with async/await syntax to create a pause in the execution of your code.
+ * @param {Number} time
+ */
+function timeDelay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}

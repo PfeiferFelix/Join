@@ -5,6 +5,7 @@
     --light-blue-color: #29abe2;
     --content-background-color: #f6f7f8;
     --width-sidebar: 230px;
+    --height-sidebar-mobile: 100px;
     --padding-header-x: 40px;
     --padding-header-y: 20px;
     --content-limit: calc(1440px - var(--width-sidebar));
