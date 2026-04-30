@@ -11,7 +11,8 @@ function init() {
     addUserMenu();
     addHelpToUserMenu(850);
     highlightActivePage();
-    addNameInitials();
+    if (currentUserNameLS) addNameInitials();
+    hideNavIfNotLoggedIn();
     document.body.style.visibility = "visible";
 }
 
@@ -29,7 +30,8 @@ function importandFormatLocalStorageData(key) {
  */
 function addSidebar() {
     const sidebar = document.getElementById("js-sidebar");
-    sidebar.innerHTML = getSidebarTemplate();
+    const isLoggedIn = localStorage.getItem("currentUserEmail") !== null;
+    sidebar.innerHTML = isLoggedIn ? getSidebarTemplate() : getSidebarNotLoggedInTemplate();
 }
 
 /**
@@ -134,6 +136,15 @@ function addHelpToUserMenu(maxWidthMobile) {
  */
 function UpperCaseIntial(string) {
     return string.toUpperCase().charAt(0);
+}
+
+/**
+ * Hides the user interaction container in the header if there is no current user email stored in local storage, which indicates that the user is not logged in.
+ */
+function hideNavIfNotLoggedIn() {
+    if (localStorage.getItem("currentUserEmail") === null) {
+        document.getElementById("js-header-user-interaction-container").style.display = "none";
+    }
 }
 
 /**
