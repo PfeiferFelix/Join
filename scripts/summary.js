@@ -12,6 +12,8 @@ const today = new Date(currentDate.getFullYear(), currentDate.getMonth(), curren
 
 let nextUrgentDate;
 
+const maxWidth = window.matchMedia("(max-width: 850px)");
+
 /**
  * Initializes the summary page by updating the greeting, adding the user's name to the greeting, iterating through task data to calculate summary statistics, and setting those statistics in the summary display.
  */
@@ -21,7 +23,7 @@ function initSummary() {
     iteradeTasksData();
     setTasksDataInSummary();
     checkIfUserJustLoggedIn();
-    addAnimationToMobileSummary();
+    addAnimationToMobileSummary(maxWidth);
 }
 
 /**
@@ -132,19 +134,24 @@ function changeGreeting() {
 
     document.getElementById("js-greeting-morning").textContent = greetingString;
 }
-// hier muss das signal von der loginseite hin
-async function addAnimationToMobileSummary() {
+
+/**
+ * Animation that is added to the summary page when the user has just logged in and is accessing the summary page on a mobile device (max-width: 850px). It checks if the user just logged in and if the screen width matches the specified media query. If both conditions are met, it adds a CSS class to trigger the animation, waits for a specified duration, and then removes the animation class and resets the opacity of the welcoming element.
+ * @param {MediaQueryList} maxWidth - A MediaQueryList object that represents the result of the media query for max-width: 850px. It is used to determine if the screen width matches the specified condition for applying the animation on mobile devices.
+ */
+async function addAnimationToMobileSummary(maxWidth) {
     if (!fromLogin) return;
+    if (!maxWidth.matches) return;
 
     const welcomingRef = document.getElementById("js-welcoming");
     if (!welcomingRef) return;
 
     welcomingRef.classList.add("welcoming__animation-mobile");
     await timeDelay(1500);
-    welcomingRef.style.opacity = "0";
+    welcomingRef.classList.add("welcoming__fade-out");
     await timeDelay(500);
     welcomingRef.classList.remove("welcoming__animation-mobile");
-    welcomingRef.style.opacity = "";
+    welcomingRef.classList.remove("welcoming__fade-out");
     fromLogin = false;
 }
 
