@@ -54,8 +54,8 @@ function loginUser() {
  */
 function checkLoginResults(loginSuccess) {
     if (loginSuccess === true) {
-        const from = window.location.href; // Save current page URL
-        window.location.href = "summary.html?from=" + encodeURIComponent(from); // Navigate to summary page and add current page URL as a parameter to go back later. Use encodeURIComponent to ensure the URL is properly formatted.
+        sessionStorage.setItem("fromLogin", "true"); // Set flag so summary page can trigger animation once
+        window.location.href = "summary.html"; // Navigate to summary page after successful login
     } else {
         Swal.fire({
             icon: "error",

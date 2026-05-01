@@ -156,13 +156,11 @@ async function addAnimationToMobileSummary(maxWidth) {
 }
 
 /**
- * Check if the user just logged in by checking the URL parameters for a "from" parameter that indicates the previous page. If the "from" parameter is equal to "login.html", it sets the fromLogin variable to true, which is used to trigger a animation on the summary page when the user has just logged in.
+ * Checks if the user has just logged in by looking for a specific flag in session storage. If the flag is found, it removes the flag from session storage and sets a variable (fromLogin) to true, indicating that the user has just logged in. This variable can then be used to trigger certain actions or animations on the summary page that should only occur immediately after a successful login.
  */
 function checkIfUserJustLoggedIn() {
-    const params = new URLSearchParams(window.location.search);
-    const from = params.get("from");
-    const splittLastPartOfFrom = from.split("/").at(-1);
-    if (splittLastPartOfFrom === "login.html") {
+    if (sessionStorage.getItem("fromLogin") === "true") {
+        sessionStorage.removeItem("fromLogin"); // Remove immediately so refresh won't trigger animation again
         fromLogin = true;
     }
 }
