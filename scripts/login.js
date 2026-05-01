@@ -46,14 +46,16 @@ function loginUser() {
 }
 
 /**
- * This function checks the result of the login attempt. If the login was successful (login Success is ture), it redirects to the summary page.
- * If the login was unsuccessful (login Success is false), it display an error massage using the SweetAlert library,
+ * This function checks the result of the login attempt. If the login was successful (loginSuccess is true), it saves the current page URL
+ * and redirects to the summary page, passing the current URL as a "from" parameter to allow querying the previous page on the summary page.
+ * If the login was unsuccessful (loginSuccess is false), it displays an error message using the SweetAlert library,
  * indicating that the email or password is incorrect.
- *
+ * @param {boolean} loginSuccess - A boolean value indicating whether the login attempt was successful or not.
  */
 function checkLoginResults(loginSuccess) {
     if (loginSuccess === true) {
-        window.location.href = "summary.html";
+        const from = window.location.href; // Save current page URL
+        window.location.href = "summary.html?from=" + encodeURIComponent(from); // Navigate to summary page and add current page URL as a parameter to go back later. Use encodeURIComponent to ensure the URL is properly formatted.
     } else {
         Swal.fire({
             icon: "error",
@@ -160,8 +162,11 @@ function checkIfUserExists() {
 /**
  * This function saves a new user to the Realtime Database under the "users" node.
  * It takes the user's name, email, and password as parameters and pushes this data to the database.
- * If the user is successfully saved, it displays a success massage.
- * If there is an error during the saving process, it catches the error and displays an error massage.
+ * If the user is successfully saved, it displays a success message.
+ * If there is an error during the saving process, it catches the error and displays an error message.
+ * @param {string} name - The name of the user to be saved.
+ * @param {string} email - The email of the user to be saved.
+ * @param {string} password - The password of the user to be saved.
  */
 function saveUser(name, email, password) {
     db.ref("users")

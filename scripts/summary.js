@@ -20,6 +20,7 @@ function initSummary() {
     addNameToGreeting();
     iteradeTasksData();
     setTasksDataInSummary();
+    checkIfUserJustLoggedIn();
     addAnimationToMobileSummary();
 }
 
@@ -27,9 +28,12 @@ function initSummary() {
  * Adds the current user's name to the greeting if it is not "Gast". It updates the greeting message to include the user's name and adds a comma after the greeting.
  */
 function addNameToGreeting() {
+    const greetingRef = document.getElementById("js-greeting-morning");
     if (currentUserNameLS !== "Gast") {
         document.getElementById("js-greeting-name").innerHTML = currentUserNameLS;
-        document.getElementById("js-greeting-morning").innerText += `,`;
+        greetingRef.innerText += `,`;
+    } else {
+        greetingRef.innerText += `!`;
     }
 }
 
@@ -129,8 +133,6 @@ function changeGreeting() {
     document.getElementById("js-greeting-morning").textContent = greetingString;
 }
 // hier muss das signal von der loginseite hin
-let fromLogin = true;
-
 async function addAnimationToMobileSummary() {
     if (!fromLogin) return;
 
@@ -144,4 +146,16 @@ async function addAnimationToMobileSummary() {
     welcomingRef.classList.remove("welcoming__animation-mobile");
     welcomingRef.style.opacity = "";
     fromLogin = false;
+}
+
+/**
+ * Check if the user just logged in by checking the URL parameters for a "from" parameter that indicates the previous page. If the "from" parameter is equal to "login.html", it sets the fromLogin variable to true, which is used to trigger a animation on the summary page when the user has just logged in.
+ */
+function checkIfUserJustLoggedIn() {
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from");
+    const splittLastPartOfFrom = from.split("/").at(-1);
+    if (splittLastPartOfFrom === "login.html") {
+        fromLogin = true;
+    }
 }

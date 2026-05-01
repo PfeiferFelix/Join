@@ -1,5 +1,6 @@
 let currentUserNameLS = localStorage.getItem("currentUserName");
 let currentUserEmailLS = localStorage.getItem("currentUserEmail");
+let fromLogin = false;
 
 /**
  * Initialize function
