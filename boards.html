@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="assets/icons/board.svg" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/boards.css" />
     <link rel="stylesheet" href="styles/boards-media.css" />
@@ -27,9 +26,11 @@
                 <div class="board__addtask">
                     <h1 class="board__h1">Board</h1>
                     <div class="search-container">
-                        <form method="get">
+                        <form class="example" method="get">
                             <input type="text" placeholder="Find Task" name="search">
-                            <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
+                            <span class="seperatorleftBtn"></span>
+                            <button class="searchBtn" type="submit" title="Search">
+                                <i class="fa fa-search"></i></button>
                         </form>
                         <button onclick="addTask()" type="button" class="addTaskBtn">Add task <p
                                 class="addTaskwith__plus">+</p></button>
@@ -41,8 +42,9 @@
                         <h1 class="board__h1">Board</h1>
                         <button onclick="addTask()" type="button" class="addTaskBtnMobile">+</button>
                     </div>
-                    <form class="task-form__search" method="get">
+                    <form class="example-mobile" method="get">
                         <input type="text" placeholder="Find Task" name="search">
+                        <span class="seperatorleftBtn"></span>
                         <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
                     </form>
                 </div>

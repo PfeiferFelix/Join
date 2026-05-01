@@ -1,26 +1,326 @@
-let boardsLS = importandFormatLocalStorageData("boards");
-let contactsLS = importandFormatLocalStorageData("contacs");
+let boardsLS = getFormattedLocalStorageItems("boards");
+let contactsLS = getFormattedLocalStorageItems("contacs");
 
-let contacts = [
+let defaultContacts = [
     { id: 1, name: "David G.", abbreviation: "DG" },
     { id: 2, name: "Anna S.", abbreviation: "AS" },
     { id: 3, name: "John D.", abbreviation: "JD" },
+    { id: 4, name: "Anton Mayer", abbreviation: "AM" },
+    { id: 5, name: "Bene Mayer", abbreviation: "BM" },
+    { id: 6, name: "Bernd Mayer", abbreviation: "BM" },
 ];
+
+let contacts = normalizeContacts(contactsLS, defaultContacts);
 
 let categories = ["Technical Task", "User Story"];
 
-let todos = [];
+let todos = normalizeBoards(boardsLS);
 
 let currentDraggedElement;
+let activeTouchDrag = null;
+let suppressNextTaskClick = false;
+let taskMoveMenuCloseListenerBound = false;
+
+const BOARD_DROP_ZONE_CATEGORY_MAP = {
+    "board__list--todo": "toDo",
+    "board__list--inprogress": "inProgress",
+    "board__list--feedback": "feedback",
+    "board__list--done": "done",
+};
+
+const BOARD_CATEGORY_FLOW = ['toDo', 'inProgress', 'feedback', 'done'];
+
+function getFormattedLocalStorageItems(key) {
+    try {
+        const items = importandFormatLocalStorageData(key);
+        return Array.isArray(items) ? items : [];
+    } catch {
+        return [];
+    }
+}
+
+function normalizeContacts(items, fallback) {
+    const source = Array.isArray(items) && items.length ? items : fallback;
+
+    return source
+        .filter(Boolean)
+        .map((contact, index) => ({
+            id: Number(contact?.id) || index + 1,
+            name: contact?.name || contact?.Name || '',
+            abbreviation: contact?.abbreviation || contact?.initials || buildInitials(contact?.name || contact?.Name || ''),
+        }))
+        .filter(contact => contact.name);
+}
+
+function normalizeBoards(items) {
+    if (!Array.isArray(items)) return [];
+
+    return items
+        .filter(Boolean)
+        .map((board, index) => {
+            const subtasks = getLimitedSubtasks(board?.subtasks || board?.subtask || []);
+
+            return {
+                ...board,
+                id: board?.id || Date.now() + index,
+                title: board?.title || '',
+                description: board?.description || '',
+                dueDate: board?.dueDate || '',
+                priority: board?.priority || 'Medium',
+                category: board?.category || 'toDo',
+                selectedCategoryLabel: board?.selectedCategoryLabel || categoryLabel(board?.category || 'toDo'),
+                assignedTo: normalizeContacts(board?.assignedTo || [], []),
+                subtasks,
+                subtask: subtasks[0]?.title || '',
+            };
+        })
+        .filter(board => board.title);
+}
+
+function buildInitials(name) {
+    return (name || '')
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(part => part.charAt(0).toUpperCase())
+        .join('');
+}
+
+function saveBoardsToLocalStorage() {
+    const boardsObject = todos.reduce((result, todo) => {
+        result[todo.id] = todo;
+        return result;
+    }, {});
+
+    localStorage.setItem("boards", JSON.stringify(boardsObject));
+}
 
 function allowDrop(event) {
     event.preventDefault();
 }
+
 function drag(event) {
     const taskElement = event.target.closest(".task");
     if (!taskElement) return;
     currentDraggedElement = taskElement;
     event.dataTransfer.setData("text/plain", String(taskElement.id));
+}
+
+function handleTaskClick(event, taskId) {
+    if (suppressNextTaskClick) {
+        suppressNextTaskClick = false;
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+    }
+
+    toDoCardShow(taskId);
+}
+
+function isTouchBoardDnDEnabled() {
+    return false;
+}
+
+function openTaskMovePanel(event, taskId) {
+    event.preventDefault();
+    event.stopPropagation();
+    const panel = document.getElementById(`task-move-panel-${taskId}`);
+    const toggleButton = document.getElementById(`task-move-btn-${taskId}`);
+    if (!panel) return;
+
+    closeAllTaskMovePanels();
+    panel.removeAttribute('hidden');
+    panel.classList.add('task-move-panel--open');
+    if (toggleButton) {
+        toggleButton.classList.add('task__moveto-btn--open');
+        toggleButton.setAttribute('aria-expanded', 'true');
+    }
+}
+
+function closeTaskMovePanel(event, taskId) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    const panel = document.getElementById(`task-move-panel-${taskId}`);
+    const toggleButton = document.getElementById(`task-move-btn-${taskId}`);
+    if (!panel) return;
+
+    panel.classList.remove('task-move-panel--open');
+    if (toggleButton) {
+        toggleButton.classList.remove('task__moveto-btn--open');
+        toggleButton.setAttribute('aria-expanded', 'false');
+    }
+    setTimeout(() => {
+        panel.setAttribute('hidden', '');
+    }, 200);
+}
+
+function closeAllTaskMovePanels() {
+    document.querySelectorAll('.task-move-panel--open').forEach(panel => {
+        const taskId = panel.id.replace('task-move-panel-', '');
+        closeTaskMovePanel(null, taskId);
+    });
+}
+
+function moveTaskFromMenu(event, taskId, targetCategory) {
+    event.preventDefault();
+    event.stopPropagation();
+    moveTaskToCategory(taskId, targetCategory);
+    closeTaskMovePanel(null, taskId);
+}
+
+function getNextBoardCategory(category) {
+    const currentIndex = BOARD_CATEGORY_FLOW.indexOf(category);
+    if (currentIndex === -1) {
+        return BOARD_CATEGORY_FLOW[0];
+    }
+
+    const nextIndex = (currentIndex + 1) % BOARD_CATEGORY_FLOW.length;
+    return BOARD_CATEGORY_FLOW[nextIndex];
+}
+
+function getBoardColumnLabel(category) {
+    if (category === 'toDo') return 'To Do';
+    if (category === 'inProgress') return 'In Progress';
+    if (category === 'feedback') return 'Awaiting Feedback';
+    if (category === 'done') return 'Done';
+    return 'Next Step';
+}
+
+function getMoveDirectionArrow(currentCategory, targetCategory) {
+    if (!targetCategory) return '→';
+
+    const currentIndex = BOARD_CATEGORY_FLOW.indexOf(currentCategory);
+    const targetIndex = BOARD_CATEGORY_FLOW.indexOf(targetCategory);
+
+    if (currentIndex === -1 || targetIndex === -1) return '→';
+    if (targetIndex > currentIndex) return '↓';
+    if (targetIndex < currentIndex) return '↑';
+    return '→';
+}
+
+function moveTaskToNextCategory(event, taskId) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const task = todos.find(todo => todo.id == taskId);
+    if (!task) return;
+
+    const nextCategory = getNextBoardCategory(task.category);
+    if (!nextCategory) return;
+
+    moveTaskToCategory(taskId, nextCategory);
+    closeTaskMovePanel(null, taskId);
+}
+
+function openTaskReviewDialogFromMenu(event, taskId) {
+    event.preventDefault();
+    event.stopPropagation();
+    closeTaskMovePanel(null, taskId);
+    toDoCardShow(taskId);
+}
+
+function initializeTaskMoveMenuCloseBehavior() {
+    if (taskMoveMenuCloseListenerBound) return;
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.task-move-panel') && !event.target.closest('.task__moveto-btn')) {
+            closeAllTaskMovePanels();
+        }
+    });
+
+    taskMoveMenuCloseListenerBound = true;
+}
+
+function clearTouchDropHighlights() {
+    document.querySelectorAll('.board__list--touch-target').forEach(list => {
+        list.classList.remove('board__list--touch-target');
+    });
+}
+
+function getTouchDropZone(clientX, clientY) {
+    const element = document.elementFromPoint(clientX, clientY);
+    const list = element?.closest('.board__list');
+    if (!list) return null;
+
+    return BOARD_DROP_ZONE_CATEGORY_MAP[list.id] ? list : null;
+}
+
+function finishTouchDrag(targetList = null) {
+    if (!activeTouchDrag) return;
+
+    const { taskElement, taskId, moved } = activeTouchDrag;
+    taskElement.classList.remove('task--touch-dragging');
+
+    if (moved) {
+        suppressNextTaskClick = true;
+        const targetCategory = targetList ? BOARD_DROP_ZONE_CATEGORY_MAP[targetList.id] : null;
+        if (targetCategory) {
+            moveTaskToCategory(taskId, targetCategory);
+        }
+    }
+
+    clearTouchDropHighlights();
+    activeTouchDrag = null;
+}
+
+function handleTaskTouchStart(event) {
+    if (!isTouchBoardDnDEnabled() || event.touches.length !== 1) return;
+
+    const taskElement = event.currentTarget;
+    const touch = event.touches[0];
+    if (!taskElement || !touch) return;
+
+    activeTouchDrag = {
+        taskElement,
+        taskId: taskElement.id,
+        startX: touch.clientX,
+        startY: touch.clientY,
+        moved: false,
+        currentDropZone: null,
+    };
+}
+
+function handleTaskTouchMove(event) {
+    if (!activeTouchDrag || event.touches.length !== 1) return;
+
+    const touch = event.touches[0];
+    const deltaX = Math.abs(touch.clientX - activeTouchDrag.startX);
+    const deltaY = Math.abs(touch.clientY - activeTouchDrag.startY);
+
+    if (!activeTouchDrag.moved && deltaX < 10 && deltaY < 10) {
+        return;
+    }
+
+    activeTouchDrag.moved = true;
+    event.preventDefault();
+    activeTouchDrag.taskElement.classList.add('task--touch-dragging');
+
+    const nextDropZone = getTouchDropZone(touch.clientX, touch.clientY);
+    if (activeTouchDrag.currentDropZone !== nextDropZone) {
+        clearTouchDropHighlights();
+        if (nextDropZone) {
+            nextDropZone.classList.add('board__list--touch-target');
+        }
+        activeTouchDrag.currentDropZone = nextDropZone;
+    }
+}
+
+function handleTaskTouchEnd() {
+    finishTouchDrag(activeTouchDrag?.currentDropZone || null);
+}
+
+function initializeTouchBoardDnD() {
+    document.querySelectorAll('.task').forEach(task => {
+        if (task.dataset.touchDndBound === 'true') return;
+
+        task.addEventListener('touchstart', handleTaskTouchStart, { passive: true });
+        task.addEventListener('touchmove', handleTaskTouchMove, { passive: false });
+        task.addEventListener('touchend', handleTaskTouchEnd);
+        task.addEventListener('touchcancel', handleTaskTouchEnd);
+        task.dataset.touchDndBound = 'true';
+    });
 }
 
 function getLimitedSubtasks(input) {
@@ -41,14 +341,45 @@ function getSubtaskCountText(todo) {
     return `${count} / 2`;
 }
 
-function renderEditSubtaskItems(list, subtasks) {
-    list.querySelectorAll('.subtask-item').forEach(item => item.remove());
-    const editButton = list.querySelector('.edit-subtask-btn');
-    if (!editButton) return;
+function updateNewSubtaskInputVisibility(list, subtasks = []) {
+    const inputWrapper = list?.querySelector('.subtask-input');
+    if (!inputWrapper) return;
 
-    editButton.insertAdjacentHTML('beforebegin', subtasks.map((subtask, index) => `
-        <li class="subtask-item" data-subtask-index="${index}">${subtask.title}</li>
+    inputWrapper.hidden = getLimitedSubtasks(subtasks).length >= 2;
+}
+
+function getAssignedUserWithNameTemplate(user, index) {
+    const abbreviation = user?.abbreviation || '';
+    const userName = user?.name || abbreviation || 'Unknown User';
+    const colorIndex = (index % 5) + 1;
+
+    return `
+        <div class="assigned-user-row">
+            <svg class="assigned-user-avatar assigned-user-avatar--${colorIndex}" width="40" height="40" viewBox="0 0 80 80" aria-hidden="true">
+                <circle class="header__circle" cx="40" cy="40" r="38" stroke="#ffffff" stroke-width="4" />
+                <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#fff" font-weight="700">${abbreviation}</text>
+            </svg>
+            <span class="assigned-user-name">${userName}</span>
+        </div>
+    `;
+}
+
+function renderEditSubtaskItems(list, subtasks, taskId) {
+    list.querySelectorAll('.subtask-item').forEach(item => item.remove());
+    const container = list.querySelector('.subtask-container__list');
+    if (!container) return;
+
+    container.insertAdjacentHTML('afterbegin', subtasks.map((subtask, index) => `
+        <li class="subtask-item" data-subtask-index="${index}">
+            <span class="subtask-item__title">${subtask.title}</span>
+            <div class="subtask-item__actions">
+                <button type="button" class="edit-subtask-btn" onclick="editSubtaskItem(${taskId}, ${index})">&#9998;</button>
+                <button type="button" class="clear-subtasks-btn" onclick="deleteSubtaskItem(${taskId}, ${index})">&#128465;</button>
+            </div>
+        </li>
     `).join(''));
+
+    updateNewSubtaskInputVisibility(list, subtasks);
 }
 
 function handleNewSubtaskInputKey(event, taskId) {
@@ -72,12 +403,13 @@ function addNewSubtask(taskId) {
     const currentSubtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
     if (currentSubtasks.length >= 2) {
         input.value = '';
+        updateNewSubtaskInputVisibility(list, currentSubtasks);
         return;
     }
 
     const updatedSubtasks = getLimitedSubtasks([...currentSubtasks, { title, done: false }]);
     hiddenInput.value = JSON.stringify(updatedSubtasks);
-    renderEditSubtaskItems(list, updatedSubtasks);
+    renderEditSubtaskItems(list, updatedSubtasks, taskId);
     input.value = '';
 
     const task = todos.find(t => t.id == taskId);
@@ -86,6 +418,50 @@ function addNewSubtask(taskId) {
     task.subtasks = updatedSubtasks;
     task.subtask = updatedSubtasks[0]?.title || '';
     updateHTML();
+}
+
+function editSubtaskItem(taskId, index) {
+    const item = document.querySelector(`[data-subtask-index="${index}"]`);
+    if (!item) return;
+    const titleSpan = item.querySelector('.subtask-item__title');
+    const currentTitle = titleSpan?.textContent.trim() || '';
+    titleSpan.outerHTML = `<input type="text" class="task-form__input subtask-item__input" value="${currentTitle}" onkeydown="saveSubtaskItem(event, ${taskId}, ${index})">`;
+    const editBtn = item.querySelector('.edit-subtask-btn');
+    editBtn.innerHTML = '&#10003;';
+    editBtn.setAttribute('onclick', `saveSubtaskItem(null, ${taskId}, ${index})`);
+    item.querySelector('.subtask-item__input')?.focus();
+}
+
+function saveSubtaskItem(event, taskId, index) {
+    if (event && event.key !== 'Enter') return;
+    if (event) event.preventDefault();
+    const task = todos.find(t => t.id == taskId);
+    if (!task) return;
+    const item = document.querySelector(`[data-subtask-index="${index}"]`);
+    const input = item?.querySelector('.subtask-item__input');
+    const newTitle = input?.value.trim();
+    if (!newTitle) return;
+    const subtasks = getLimitedSubtasks(task.subtasks);
+    subtasks[index].title = newTitle;
+    task.subtasks = subtasks;
+    const hiddenInput = document.querySelector('#edit-subtasks-data');
+    if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);
+    saveBoardsToLocalStorage();
+    const list = document.querySelector('.subtask-list');
+    if (list) renderEditSubtaskItems(list, subtasks, taskId);
+}
+
+function deleteSubtaskItem(taskId, index) {
+    const task = todos.find(t => t.id == taskId);
+    if (!task) return;
+    const subtasks = getLimitedSubtasks(task.subtasks);
+    subtasks.splice(index, 1);
+    task.subtasks = subtasks;
+    const hiddenInput = document.querySelector('#edit-subtasks-data');
+    if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);
+    saveBoardsToLocalStorage();
+    const list = document.querySelector('.subtask-list');
+    if (list) renderEditSubtaskItems(list, subtasks, taskId);
 }
 
 function editSubtask(taskId) {
@@ -130,21 +506,11 @@ function editSubtask(taskId) {
 
 function clearSubtasks(taskId) {
     const dialog = document.getElementById('editTaskDialog');
-    const list = dialog?.querySelector('.subtask-list');
-    const hiddenInput = dialog?.querySelector('#edit-subtasks-data');
-    if (list) {
-        renderEditSubtaskItems(list, []);
-    }
-    if (hiddenInput) {
-        hiddenInput.value = '[]';
-    }
+    const input = dialog?.querySelector('#new-subtask-input');
+    if (!input) return;
 
-    const task = todos.find(t => t.id == taskId);
-    if (!task) return;
-
-    task.subtasks = [];
-    task.subtask = '';
-    updateHTML();
+    input.value = '';
+    input.focus();
 }
 
 function toggleAllSubtasks(checkbox) {
@@ -159,7 +525,22 @@ function toggleAllSubtasks(checkbox) {
     }));
 
     task.subtasks = subtasks;
+    saveBoardsToLocalStorage();
     updateHTML();
+}
+
+function toggleSubtask(taskId, index) {
+    const task = todos.find(t => t.id == taskId);
+    if (!task) return;
+    const subtasks = getLimitedSubtasks(task.subtasks);
+    if (!subtasks[index]) return;
+    subtasks[index].done = !subtasks[index].done;
+    task.subtasks = subtasks;
+    saveBoardsToLocalStorage();
+    const masterCheckbox = document.getElementById('selectSubtasks');
+    if (masterCheckbox) {
+        masterCheckbox.checked = subtasks.every(s => s.done);
+    }
 }
 
 function moveTaskToCategory(taskId, targetCategory) {
@@ -175,13 +556,7 @@ function drop(event) {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text/plain") || currentDraggedElement?.id;
     const dropZoneId = event.currentTarget.id;
-    const categoryMap = {
-        "board__list--todo": "toDo",
-        "board__list--inprogress": "inProgress",
-        "board__list--feedback": "feedback",
-        "board__list--done": "done",
-    };
-    const targetCategory = categoryMap[dropZoneId];
+    const targetCategory = BOARD_DROP_ZONE_CATEGORY_MAP[dropZoneId];
     moveTaskToCategory(taskId, targetCategory);
 }
 
@@ -206,6 +581,9 @@ function buildTodoCardTemplateData(todo) {
     const fixedHeaderLabel = todo.selectedCategoryLabel || categoryLabel(todo.category);
     const priorityLabel = todo.priority || 'Medium';
     const iconClass = getPriorityIconClass(priorityLabel);
+    const subtasks = getLimitedSubtasks(todo?.subtasks);
+    const hasSubtasks = subtasks.length > 0;
+    const nextCategory = getNextBoardCategory(todo.category);
 
     return {
         id: todo.id,
@@ -217,9 +595,13 @@ function buildTodoCardTemplateData(todo) {
         iconClass,
         priorityIcon: iconClass === 'up' ? '⟪' : iconClass === 'down' ? '⟫' : '‖',
         assignedUsersHTML: Array.isArray(todo.assignedTo)
-            ? todo.assignedTo.map(user => getCircleUserTemplate(user.abbreviation || '')).join('')
+            ? todo.assignedTo.map((user, index) => getCircleUserTemplate(user.abbreviation || '', index)).join('')
             : '',
         subtaskCountText: getSubtaskCountText(todo),
+        hasSubtasks,
+        nextMoveArrow: getMoveDirectionArrow(todo.category, nextCategory),
+        nextMoveLabel: `${getBoardColumnLabel(nextCategory)}`,
+        nextMoveDisabled: false,
     };
 }
 
@@ -235,7 +617,7 @@ function buildEditTaskFormTemplateData(task) {
         dueDate: task.dueDate || '',
         priority: task.priority,
         assignedUsersHTML: Array.isArray(task.assignedTo)
-            ? task.assignedTo.map(user => getCircleUserTemplate(user.abbreviation || '')).join('')
+            ? task.assignedTo.map((user, index) => getCircleUserTemplate(user.abbreviation || '', index)).join('')
             : '',
         editSubtasksHTML: subtasks.map((subtask, index) => `<li class="subtask-item" data-subtask-index="${index}">${subtask.title}</li>`).join(''),
         subtasksHTML: subtasks.map((subtask, index) => `<li class="subtask-item" data-subtask-index="${index}">${subtask.title}</li>`).join(''),
@@ -258,6 +640,7 @@ function buildEditTaskDetailTemplateData(task) {
                 : (priorityLabel || 'Medium');
     const subtasks = getLimitedSubtasks(task.subtasks);
     const subtasksHTML = subtasks.map((subtask, index) => `<li class="subtask-item" data-subtask-index="${index}">${subtask.title}</li>`).join('');
+    const allSubtasksDone = subtasks.length > 0 && subtasks.every(s => Boolean(s.done));
 
     return {
         id: task.id,
@@ -267,7 +650,9 @@ function buildEditTaskDetailTemplateData(task) {
         fixedHeaderLabel,
         headerClass: getCategoryHeaderClass(fixedHeaderLabel),
         assignedUsersHTML: Array.isArray(task.assignedTo)
-            ? task.assignedTo.map(user => getCircleUserTemplate(user.abbreviation || '')).join('')
+            ? task.assignedTo
+                .map((user, index) => getAssignedUserWithNameTemplate(user, index))
+                .join('')
             : '',
         subtaskCountText: getSubtaskCountText(task),
         firstSubtaskDone: Boolean(subtasks[0]?.done),
@@ -275,6 +660,7 @@ function buildEditTaskDetailTemplateData(task) {
         subtasksListHTML: subtasksHTML,
         subtasksHTML,
         subtasks,
+        allSubtasksDone,
         priorityLabel: priorityText,
         iconClass,
         priorityIcon,
@@ -282,10 +668,13 @@ function buildEditTaskDetailTemplateData(task) {
 }
 
 function updateHTML() {
+    saveBoardsToLocalStorage();
     renderCategoryContent({ category: "toDo", cardsId: "board__cards--todo", emptyId: "noneCardTodo" });
     renderCategoryContent({ category: "inProgress", cardsId: "board__cards--inprogress", emptyId: "noneCardInProgress" });
     renderCategoryContent({ category: "feedback", cardsId: "board__cards--feedback", emptyId: "noneCardFeedback" });
     renderCategoryContent({ category: "done", cardsId: "board__cards--done", emptyId: "noneCardDone" });
+    initializeTouchBoardDnD();
+    initializeTaskMoveMenuCloseBehavior();
 }
 
 //DRAG AND DROP ENDE
@@ -294,6 +683,7 @@ function addTask(category) {
     dialog.dataset.category = category || "";
     renderDialogContent();
     dialog.showModal();
+    document.body.style.overflow = 'hidden';
 }
 function addTaskToDo() {
     addTask("toDo");
@@ -319,6 +709,7 @@ function closeDialog() {
     if (editTaskDialog?.open) {
         editTaskDialog.close();
     }
+    document.body.style.overflow = '';
 }
 function categoryLabel(category) {
     if (category === "toDo") return "Technical Task";
@@ -573,6 +964,7 @@ function toDoCardShow(taskId) {
     dialog.dataset.taskId = taskId;
     dialog.innerHTML = getShowTaskTemplate(buildEditTaskDetailTemplateData(task));
     dialog.showModal();
+    document.body.style.overflow = 'hidden';
 }
 
 function editTask(taskId) {
@@ -581,6 +973,10 @@ function editTask(taskId) {
     const dialog = document.getElementById("editTaskDialog");
     dialog.dataset.taskId = taskId;
     dialog.innerHTML = getEditTaskFormTemplate(buildEditTaskFormTemplateData(task));
+    const subtaskList = dialog.querySelector('.subtask-list');
+    if (subtaskList) {
+        updateNewSubtaskInputVisibility(subtaskList, task.subtasks || []);
+    }
 
     setupAssignedToMultiselect(dialog, {
         triggerId: 'edit-assigned-to-trigger',
