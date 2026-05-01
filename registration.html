@@ -1,62 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg" />
+        <title>Join-Registration</title>
+        <link rel="stylesheet" href="styles/font.css" />
+        <link rel="stylesheet" href="styles/registrations.css" />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join-Registration</title>
-    <link rel="stylesheet" href="styles/font.css">
-    <link rel="stylesheet" href="styles/registrations.css">
-</head>
-
-<body>
-    <header>
-        <img src="./assets/logos/logo_dark.jpg" alt="logo" class="logo">
-    </header>
-    <main>
-        <div class="container">
-            <div class="title-row">
-                <a href="login.html">
-                    <img src="./assets/icons/arrow-left-line.png" alt="back" class="back-arrow">
-                </a>
-                <span class="container_headline">Registrieren</span>
+    <body>
+        <header>
+            <img src="./assets/logos/logo_dark.jpg" alt="logo" class="logo" />
+        </header>
+        <main>
+            <div class="container">
+                <div class="title-row">
+                    <a href="login.html">
+                        <img src="./assets/icons/arrow-left-line.png" alt="back" class="back-arrow" />
+                    </a>
+                    <span class="container_headline">Registrieren</span>
+                </div>
+                <div class="title-underline"></div>
+                <form class="login-form">
+                    <div class="input-wrapper">
+                        <input id="name" type="name" placeholder="Name" maxlength="20" required />
+                        <img src="./assets/icons/person.png" alt="person icon" class="input-icon" />
+                    </div>
+                    <div class="input-wrapper">
+                        <input id="email" type="email" placeholder="Email" required />
+                        <img src="./assets/icons/mail.png" alt="mail icon" class="input-icon" />
+                    </div>
+                    <div class="input-wrapper">
+                        <input id="password" type="password" placeholder="Password" required />
+                        <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon" />
+                    </div>
+                    <div class="input-wrapper">
+                        <input id="passwordconfirm" type="password" placeholder="Password bestätigen" required />
+                        <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon" />
+                    </div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="privacy" required />
+                        <label for="privacy">Ich akzeptiere die <a href="privacy-policy.html">Privacy policy</a></label>
+                    </div>
+                    <div class="button-row">
+                        <button type="button" onclick="registerUser()" class="btnLogin">Registrieren</button>
+                    </div>
+                </form>
             </div>
-            <div class="title-underline"></div>
-            <form class="login-form">
-                <div class="input-wrapper">
-                    <input id="name" type="name" placeholder="Name" maxlength="20" required>
-                    <img src="./assets/icons/person.png" alt="person icon" class="input-icon">
-                </div>
-                <div class="input-wrapper">
-                    <input id="email" type="email" placeholder="Email" required>
-                    <img src="./assets/icons/mail.png" alt="mail icon" class="input-icon">
-                </div>
-                <div class="input-wrapper">
-                    <input id="password" type="password" placeholder="Password" required>
-                    <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon">
-                </div>
-                <div class="input-wrapper">
-                    <input id="passwordconfirm" type="password" placeholder="Password bestätigen" required>
-                    <img src="./assets/icons/lock.png" alt="lock icon" class="input-icon">
-                </div>
-                <div class="checkbox-row">
-                    <input type="checkbox" id="privacy" required>
-                    <label for="privacy">Ich akzeptiere die <a href="privacy-policy.html">Privacy policy</a></label>
-                </div>
-                <div class="button-row">
-                    <button type="button" onclick="registerUser()" class="btnLogin">Registrieren</button>
-                </div>
-            </form>
-        </div>
-    </main>
-    <footer>
-        <a class="footerLink" href="privacy-policy.html">Privacy Policy</a>
-        <a class="footerLink" href="legal-notice.html">Legal Notice</a>
-    </footer>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="scripts/login.js"></script>
-</body>
-
+        </main>
+        <footer>
+            <a class="footerLink" href="privacy-policy.html">Privacy Policy</a>
+            <a class="footerLink" href="legal-notice.html">Legal Notice</a>
+        </footer>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="scripts/login.js"></script>
+    </body>
 </html>
