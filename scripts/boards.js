@@ -337,8 +337,10 @@ function getLimitedSubtasks(input) {
 }
 
 function getSubtaskCountText(todo) {
-    const count = getLimitedSubtasks(todo?.subtasks).length;
-    return `${count} / 2`;
+    const subtasks = getLimitedSubtasks(todo?.subtasks);
+    const total = subtasks.length;
+    const done = subtasks.filter(s => s.done).length;
+    return `${done} / ${total}`;
 }
 
 function updateNewSubtaskInputVisibility(list, subtasks = []) {
@@ -421,7 +423,27 @@ function addNewSubtask(taskId) {
 }
 
 function editSubtaskItem(taskId, index) {
-    const item = document.querySelector(`[data-subtask-index="${index}"]`);
+    const dialog = document.getElementById('editTaskDialog');
+    if (!dialog) return;
+
+    // Bereits geöffnetes Eingabefeld schließen (ohne zu speichern)
+    const openInput = dialog.querySelector('.subtask-item__input');
+    if (openInput) {
+        const openItem = openInput.closest('.subtask-item');
+        if (openItem) {
+            const openIndex = Number(openItem.dataset.subtaskIndex);
+            const task = todos.find(t => t.id == taskId);
+            const originalTitle = task?.subtasks?.[openIndex]?.title || '';
+            openInput.outerHTML = `<span class="subtask-item__title">${originalTitle}</span>`;
+            const openEditBtn = openItem.querySelector('.edit-subtask-btn');
+            if (openEditBtn) {
+                openEditBtn.innerHTML = '&#9998;';
+                openEditBtn.setAttribute('onclick', `editSubtaskItem(${taskId}, ${openIndex})`);
+            }
+        }
+    }
+
+    const item = dialog.querySelector(`[data-subtask-index="${index}"]`);
     if (!item) return;
     const titleSpan = item.querySelector('.subtask-item__title');
     const currentTitle = titleSpan?.textContent.trim() || '';
@@ -437,31 +459,47 @@ function saveSubtaskItem(event, taskId, index) {
     if (event) event.preventDefault();
     const task = todos.find(t => t.id == taskId);
     if (!task) return;
-    const item = document.querySelector(`[data-subtask-index="${index}"]`);
+    const dialog = document.getElementById('editTaskDialog');
+    const item = (dialog || document).querySelector(`[data-subtask-index="${index}"]`);
     const input = item?.querySelector('.subtask-item__input');
     const newTitle = input?.value.trim();
     if (!newTitle) return;
     const subtasks = getLimitedSubtasks(task.subtasks);
     subtasks[index].title = newTitle;
     task.subtasks = subtasks;
-    const hiddenInput = document.querySelector('#edit-subtasks-data');
+    const hiddenInput = (dialog || document).querySelector('#edit-subtasks-data');
     if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);
     saveBoardsToLocalStorage();
-    const list = document.querySelector('.subtask-list');
+    const list = (dialog || document).querySelector('.subtask-list');
     if (list) renderEditSubtaskItems(list, subtasks, taskId);
 }
 
 function deleteSubtaskItem(taskId, index) {
     const task = todos.find(t => t.id == taskId);
     if (!task) return;
+    const dialog = document.getElementById('editTaskDialog');
     const subtasks = getLimitedSubtasks(task.subtasks);
     subtasks.splice(index, 1);
     task.subtasks = subtasks;
-    const hiddenInput = document.querySelector('#edit-subtasks-data');
+    const hiddenInput = (dialog || document).querySelector('#edit-subtasks-data');
     if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);
     saveBoardsToLocalStorage();
-    const list = document.querySelector('.subtask-list');
+    const list = (dialog || document).querySelector('.subtask-list');
     if (list) renderEditSubtaskItems(list, subtasks, taskId);
+
+    // Task-Karte im Board live aktualisieren
+    const card = document.getElementById(String(taskId));
+    if (card) {
+        const countEl = card.querySelector('#subtaskCount');
+        if (countEl) countEl.textContent = getSubtaskCountText(task);
+        const barEl = card.querySelector('.subtask');
+        if (barEl) {
+            const doneCount = subtasks.filter(s => s.done).length;
+            barEl.classList.toggle('subtask--active', subtasks.length > 0 && doneCount < subtasks.length);
+            barEl.classList.toggle('subtask--done', doneCount === subtasks.length && subtasks.length > 0);
+            if (subtasks.length === 0) barEl.classList.remove('subtask--active', 'subtask--done');
+        }
+    }
 }
 
 function editSubtask(taskId) {
@@ -537,6 +575,20 @@ function toggleSubtask(taskId, index) {
     subtasks[index].done = !subtasks[index].done;
     task.subtasks = subtasks;
     saveBoardsToLocalStorage();
+
+    // Task-Karte im Board live aktualisieren
+    const card = document.getElementById(String(taskId));
+    if (card) {
+        const countEl = card.querySelector('#subtaskCount');
+        if (countEl) countEl.textContent = getSubtaskCountText(task);
+        const barEl = card.querySelector('.subtask');
+        if (barEl) {
+            const doneCount = subtasks.filter(s => s.done).length;
+            barEl.classList.toggle('subtask--active', doneCount > 0);
+            barEl.classList.toggle('subtask--done', doneCount === subtasks.length && subtasks.length > 0);
+        }
+    }
+
     const masterCheckbox = document.getElementById('selectSubtasks');
     if (masterCheckbox) {
         masterCheckbox.checked = subtasks.every(s => s.done);
@@ -1058,7 +1110,6 @@ function handleEditTaskSave(event) {
 
     updateHTML();
     closeDialog();
-    toDoCardShow(taskId);
 }
 
 function setEditPriority(priority) {

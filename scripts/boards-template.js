@@ -43,7 +43,7 @@ function getEditTaskFormTemplate(taskView) {
     return `<header class="editTaskDialog__header">
             <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
         </header>
-        <form class="edit-task-form">
+        <form class="edit-task-form" id="edit-task-form">
             <section class="editTaskDialog__content editTaskDialog__content--form">
                 <label class="task-form__label" for="edit-title">Title</label>
                 <input class="task-form__input-title" id="edit-title" type="text" value="${taskView.title}" required>
@@ -113,10 +113,10 @@ function getEditTaskFormTemplate(taskView) {
             </div>
                 </div>
             </section>
-            <footer class="editTaskDialog__footer-edit">
-                <button class="editTaskDialog__save-btn" type="submit">OK &#10003;</button>
-            </footer>
-        </form>`;
+        </form>
+                    <footer class="editTaskDialog__footer-edit">
+                <button class="editTaskDialog__save-btn" type="submit" form="edit-task-form">OK &#10003;</button>
+            </footer>`;
 }
 
 function getaddTaskTemplateDialog() {

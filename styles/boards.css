@@ -33,6 +33,10 @@
     font-size: 16px;
     color: #555;
     margin: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .headline__task-show {
@@ -55,7 +59,7 @@
     font-size: 16px;
 }
 
-.subtask--active {
+.subtask--active,.subtask--done {
     background: #3498db;
 }
 
@@ -270,14 +274,12 @@
     display: flex;
     margin-bottom: 24px;
     width: 100%;
-    height: 100%;
 }
 
 .editTaskDialog__header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 24px;
 }
 
 .board__cards {
@@ -358,17 +360,20 @@
     padding-left: 8px;
 }
 
-.example:hover input[type="text"],
-.example:hover .searchBtn,
-.example:hover .searchBtn .fa,
-.example:hover .seperatorleftBtn,
-.example-mobile:hover input[type="text"],
-.example-mobile:hover .searchBtn,
-.example-mobile:hover .searchBtn .fa,
-.example-mobile:hover .seperatorleftBtn,
-.subtask-list-task:hover {
+.subtask-list-task:hover,
+.subtask-item:hover {
     animation: vibrate 0.3s linear infinite;
     cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .example:hover input[type="text"],
+    .example:hover .seperatorleftBtn,
+    .example-mobile:hover input[type="text"],
+    .example-mobile:hover .seperatorleftBtn {
+        animation: vibrate 0.3s linear infinite;
+        cursor: pointer;
+    }
 }
 
 @keyframes vibrate {
@@ -406,8 +411,9 @@
 }
 
 .task-form__textarea {
-    height: 120px;
-    width: 340px;
+    height: 100%;
+    /* width: 360px; */
+    resize: vertical;
     border-radius: 10px;
     padding: 6px;
     border: 1px solid #ccc;
@@ -426,7 +432,7 @@
 }
 
 .task-form__input {
-    width: 270px;
+    width: 100%;
     border-radius: 10px;
     border: none;
     font-size: 16px;
@@ -443,10 +449,11 @@
 
 .task-form__input-title,
 .task-form__input-date {
-    width: 350px;
+    width: 100%;
     border-radius: 10px;
     padding: 8px;
     font-size: 16px;
+    outline: none;
 }
 
 .task-form__footer {
@@ -481,6 +488,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .example,
@@ -513,8 +521,9 @@
     border-radius: 50%;
     position: relative;
     box-sizing: border-box;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease;
     z-index: 1;
+    isolation: isolate;
 }
 
 .fa::before {
@@ -527,8 +536,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: -1;
-    transition: background-color 0.2s ease;
+    z-index: 0;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .fa::after {
@@ -542,23 +551,29 @@
     bottom: 0px;
     transform: rotate(45deg);
     transform-origin: left center;
+    transition: background-color 0.2s ease;
+    z-index: 2;
 }
 
-.searchBtn:hover {
-    background-color: #fff;
-}
+@media (hover: hover) and (pointer: fine) {
+    .searchBtn:hover {
+        background-color: #f0f3f7;
+    }
 
-.searchBtn:hover .fa {
-    transform: scale(1.02);
-    color: #2a3647;
-}
+    .searchBtn:hover .fa {
+        transform: scale(1.08);
+        border-color: #2a3647;
+        z-index: 1;
+    }
 
-.searchBtn:hover .fa::before {
-    background-color: #ccc;
-}
+    .searchBtn:hover .fa::before {
+        background-color: #ccc;
+        box-shadow: 0 0 0 1px rgba(42, 54, 71, 0.1);
+    }
 
-.searchBtn:hover .fa::after {
-    background-color: #000000;
+    .searchBtn:hover .fa::after {
+        background-color: #000000;
+    }
 }
 
 .help__me {
@@ -727,12 +742,32 @@
     border: none;
     border-radius: 14px;
     width: min(360px, 92vw);
+    height: min(621px, 86vh);
     max-height: 86vh;
     margin: auto;
-    padding: 22px 24px;
+    padding: 20px 12px;
+    box-sizing: border-box;
     background-color: #ffffff;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
     overflow: hidden;
+    overflow-x: hidden;
+}
+
+.editTaskDialog[open] {
+    display: flex;
+    flex-direction: column;
+    animation: dialogSlideInRight 0.3s ease-out;
+}
+
+@keyframes dialogSlideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(80px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .editTaskDialog::backdrop,
@@ -775,19 +810,25 @@
 .task {
     display: flex;
     flex-direction: column;
-    box-shadow: #b9b9b9 0px 4px 12px;
+    box-shadow: #b9b9b9 2px 0px 5px;
     border-radius: 24px;
     padding: 16px;
     margin: 4px 0;
     width: 208px;
     position: relative;
+    transition: transform 0.15s ease;
+    transform-origin: center;
+}
+
+.task:active {
+    transform: rotate(3deg) translateX(4px);
 }
 
 .addTaskDialog__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .addTaskDialog__title {
@@ -969,17 +1010,19 @@
 }
 
 .editTaskDialog__content {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
 }
 
 .editTaskDialog__content--show,
 .editTaskDialog__content--form {
-    max-height: calc(86vh - 150px);
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
+    overflow-x: hidden;
 }
-
+ 
 .task-meta-row {
     display: flex;
     flex-direction: column;
@@ -1053,7 +1096,11 @@
     flex-direction: column;
     gap: 2px;
 }
-
+.edit-task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 .editTaskDialog__footer-edit {
     display: flex;
     justify-content: flex-end;
@@ -1064,10 +1111,15 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-top: auto;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid #e4e7ec;
 }
 
 .editTaskDialog__footer-show .editTaskDialog__delete-btn {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid #d1d1d1;
+    padding-right: 8px;
 }
 
 .editTaskDialog__delete-btn:hover {
@@ -1129,6 +1181,7 @@
     border-radius: 8px;
     outline: none;
     border: 1px solid #ccc;
+    height: 28px;
 }
 
 .task-form__input-edit {
@@ -1136,7 +1189,7 @@
     border: none;
     font-size: 16px;
     outline: none;
-    padding: 6px;
+    padding-left: 6px;
 }
 
 .subtask-input[hidden] {
@@ -1245,7 +1298,21 @@
     justify-content: space-between;
     padding: 4px 8px 4px 20px;
     border-radius: 8px;
+}
+
+.subtask-item:hover {
     background-color: #f0f3f7;
+}
+
+.subtask-item:has(.subtask-item__input):hover {
+    background-color: transparent;
+}
+
+.subtask-item:has(.subtask-item__input) {
+    padding: 4px 8px;
+    border-bottom: 1px solid #29abe2;
+    border-radius: 0%;
+    background-color: transparent;
 }
 
 .priority-label {
@@ -1265,8 +1332,8 @@
     font-size: 16px;
 }
 
-.subtask-item:hover {
-    background-color: #f0f3f7;
+.subtask-item:has(.subtask-item__input)::before {
+    display: none;
 }
 
 .subtask-item__title {
@@ -1279,9 +1346,18 @@
 }
 
 .subtask-item__input {
-    flex: 1;
-    box-sizing: border-box;
-    background-color: #f0f3f7;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    width: 100%;
+    padding-left: 6px;
+}
+
+.subtask-item__input:hover,
+.subtask-item__input:focus,
+.subtask-item__input:active {
+    background-color: transparent;
     border: none;
 }
 
@@ -1291,6 +1367,10 @@
 }
 
 .subtask-item:hover .subtask-item__actions {
+    display: flex;
+}
+
+.subtask-item:has(.subtask-item__input) .subtask-item__actions {
     display: flex;
 }
 
@@ -1308,7 +1388,9 @@
     color: #2a3647;
     padding: 4px;
     border-radius: 10px;
-    width: 270px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     padding-left: 20px;
 }
 
