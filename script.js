@@ -22,7 +22,7 @@ async function init() {
  */
 async function waitForImages() {
     const imagePromises = [...document.querySelectorAll("#js-sidebar img, #js-header img")].filter((img) => !img.complete).map((img) => new Promise((resolve) => (img.onload = img.onerror = resolve)));
-    return Promise.all([...imagePromises]);
+    return Promise.all(imagePromises);
 }
 
 /**
