@@ -6,10 +6,7 @@ let fromLogin = false;
  * Initialize function
  */
 function init() {
-    addSidebar();
-    addHeader();
-    addUserButton();
-    addUserMenu();
+    injectSharedTemplates();
     addHelpToUserMenu(850);
     highlightActivePage();
     addNameInitials();
@@ -26,35 +23,13 @@ function importandFormatLocalStorageData(key) {
 }
 
 /**
- * Injects the prepared sidebar template on the summary page.
+ * Injects all shared templates (sidebar, header, user button, user menu) into their respective placeholder elements.
  */
-function addSidebar() {
-    const sidebar = document.getElementById("js-sidebar");
-    sidebar.innerHTML = getSidebarTemplate();
-}
-
-/**
- * Injects the prepared header template on the summary page.
- */
-function addHeader() {
-    const header = document.getElementById("js-header");
-    header.innerHTML = getHeaderTemplate();
-}
-
-/**
- * Adds the user button to the header using the getHeaderCircleUserTemplate function.
- */
-function addUserButton() {
-    const userButton = document.getElementById("js-user-menu-button");
-    userButton.innerHTML = getHeaderCircleUserTemplate();
-}
-
-/**
- * Adds the user menu to the header using the getHeaderUserMenuTemplate function.
- */
-function addUserMenu() {
-    const userMenu = document.getElementById("js-header-user-menu");
-    userMenu.innerHTML = getHeaderUserMenuTemplate();
+function injectSharedTemplates() {
+    document.getElementById("js-sidebar").innerHTML = getSidebarTemplate();
+    document.getElementById("js-header").innerHTML = getHeaderTemplate();
+    document.getElementById("js-user-menu-button").innerHTML = getHeaderCircleUserTemplate();
+    document.getElementById("js-header-user-menu").innerHTML = getHeaderUserMenuTemplate();
 }
 
 /**
