@@ -1,3 +1,4 @@
+// Returns the HTML template for the task detail dialog.
 function getShowTaskTemplate(taskView) {
     return `<header class="addTaskDialog__header">
                 <h3 class="category__header ${taskView.headerClass}" id="categoryHeader">${taskView.fixedHeaderLabel}</h3>
@@ -39,6 +40,7 @@ function getShowTaskTemplate(taskView) {
         </footer>`;
 }
 
+// Returns the HTML template for the editable task dialog.
 function getEditTaskFormTemplate(taskView) {
     return `<header class="editTaskDialog__header">
             <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
@@ -119,6 +121,7 @@ function getEditTaskFormTemplate(taskView) {
             </footer>`;
 }
 
+// Returns the HTML template for the add-task dialog.
 function getaddTaskTemplateDialog() {
     return `<header class="addTaskDialog__header">
                         <h2 class="addTaskDialog__title">Add Task</h2>
@@ -186,6 +189,7 @@ function getaddTaskTemplateDialog() {
                 </footer>`;
 }
 
+// Returns the HTML template for a board task card.
 function generateTodoHTML(todoView) {
     return `          <div class="task" id="${todoView.id}" onclick="handleTaskClick(event, ${todoView.id})" draggable="true"
                                 ondragstart="drag(event)">
@@ -204,7 +208,7 @@ function generateTodoHTML(todoView) {
                                 <h4 class="headline__task-card" id="headline${todoView.id}">${todoView.title}</h4>
                                 <p class="category__description" id="description${todoView.id}">${todoView.description}</p>
                                 <div class="subtask-preview">
-                                    <span class="subtask ${todoView.hasSubtasks ? 'subtask--active' : ''}"></span>
+                                    <span class="subtask ${todoView.hasCheckedSubtasks ? 'subtask--active' : ''} ${todoView.allSubtasksDone ? 'subtask--done' : ''}"></span>
                                     <p id="subtaskCount">${todoView.subtaskCountText}</p>
                                 </div>
                                 <div class="user__profile" id="users">
@@ -215,6 +219,7 @@ function generateTodoHTML(todoView) {
                             </div>`;
 };
 
+// Returns the avatar badge template for an assigned user.
 function getCircleUserTemplate(userAbbreviation, userIndex = 0) {
     return `
         <svg class="assigned-user-avatar assigned-user-avatar--${(userIndex % 5) + 1}" width="50" height="50" viewBox="0 0 80 80" aria-hidden="true">

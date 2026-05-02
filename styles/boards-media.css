@@ -82,7 +82,7 @@
         position: absolute;
         top: 12px;
         right: auto;
-        left: 155px;
+        left: 146px;
         border-radius: 12px;
         z-index: 100;
         display: flex;
@@ -91,6 +91,7 @@
         transform: translateY(-6px);
         transition: opacity 0.2s ease, transform 0.2s ease;
         pointer-events: none;
+        max-width: calc(100% - 16px);
     }
 
     .task-move-panel[hidden] {
@@ -125,10 +126,14 @@
         flex-direction: column;
         padding: 3px 0px 0px 3px;
         overflow-y: auto;
+        overflow-x: hidden;
         background-color: #2a3647;
         border-radius: 14px;
         border-top-left-radius: 0;
-        width: 53%;
+        width: 100%;
+        min-width: 120px;
+        max-width: 180px;
+        box-sizing: border-box;
         height: auto;
     }
 
@@ -436,7 +441,8 @@
         opacity: 1;
         transform: translateY(0);
         pointer-events: auto;
-        width: 65%;
+        width: auto;
+        max-width: calc(100% - 16px);
     }
 .subtask-container {
         flex-wrap: wrap!important;

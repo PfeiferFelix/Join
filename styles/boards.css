@@ -59,14 +59,15 @@
     font-size: 16px;
 }
 
-.subtask--active,.subtask--done {
-    background: #3498db;
+.subtask--active,
+.subtask--done {
+    background: #29abe2;
 }
 
 .subtask-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
 .board__h1 {
@@ -339,7 +340,6 @@
     justify-content: flex-end;
     float: right;
     border: none;
-    cursor: pointer;
 }
 
 .search-container input[type="text"] {
@@ -358,6 +358,7 @@
     border: none;
     border-radius: 0;
     padding-left: 8px;
+    outline: unset;
 }
 
 .subtask-list-task:hover,
@@ -367,12 +368,12 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+
     .example:hover input[type="text"],
     .example:hover .seperatorleftBtn,
     .example-mobile:hover input[type="text"],
     .example-mobile:hover .seperatorleftBtn {
         animation: vibrate 0.3s linear infinite;
-        cursor: pointer;
     }
 }
 
@@ -403,7 +404,7 @@
 }
 
 .task-form__select {
-    width: 270px;
+    width: auto;
     border-radius: 6px;
     padding: 4px;
     border: 1px solid #d1d1d1;
@@ -411,8 +412,7 @@
 }
 
 .task-form__textarea {
-    height: 100%;
-    /* width: 360px; */
+    height: 155px;
     resize: vertical;
     border-radius: 10px;
     padding: 6px;
@@ -741,8 +741,8 @@
 .editTaskDialog {
     border: none;
     border-radius: 14px;
-    width: min(360px, 92vw);
-    height: min(621px, 86vh);
+    width: min(402px, 92vw);
+    height: min(700px, 86vh);
     max-height: 86vh;
     margin: auto;
     padding: 20px 12px;
@@ -764,6 +764,7 @@
         opacity: 0;
         transform: translateX(80px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -841,6 +842,7 @@
 
 .addTaskDialog__close-btn {
     border: none;
+    outline: none;
     background: none;
     cursor: pointer;
     font-size: 24px;
@@ -909,13 +911,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 4px;
 }
 
 .assigned-users-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
 .assigned-users-list-edit {
@@ -1012,7 +1013,7 @@
 .editTaskDialog__content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 4px;
 }
 
 .editTaskDialog__content--show,
@@ -1022,7 +1023,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
- 
+
 .task-meta-row {
     display: flex;
     flex-direction: column;
@@ -1096,11 +1097,13 @@
     flex-direction: column;
     gap: 2px;
 }
+
 .edit-task-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
+
 .editTaskDialog__footer-edit {
     display: flex;
     justify-content: flex-end;
@@ -1218,7 +1221,6 @@
 .subtask-list-task {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     padding-left: 12px;
     margin-bottom: 12px;
     width: max-content;
