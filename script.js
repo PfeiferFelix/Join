@@ -5,12 +5,24 @@ let fromLogin = false;
 /**
  * Initialize function
  */
-function init() {
+async function init() {
     injectSharedTemplates();
     addHelpToUserMenu(850);
     highlightActivePage();
     addNameInitials();
+    await waitForImages();
     document.body.style.visibility = "visible";
+}
+
+/**
+ * Search for all images in the sidebar and header and put them in an array. Look for images in that array that are not yet loaded.
+ * For each of them create a promise that resolves when the image is loaded or if there is an error loading the image.
+ * Return a promise that resolves when all image promises are resolved, meaning that all images are loaded and ready to be displayed.
+ * @returns {Promise} A promise that resolves when all images are loaded.
+ */
+async function waitForImages() {
+    const imagePromises = [...document.querySelectorAll("#js-sidebar img, #js-header img")].filter((img) => !img.complete).map((img) => new Promise((resolve) => (img.onload = img.onerror = resolve)));
+    return Promise.all([...imagePromises]);
 }
 
 /**
