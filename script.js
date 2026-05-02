@@ -10,8 +10,8 @@ async function init() {
     addHelpToUserMenu(850);
     highlightActivePage();
     addNameInitials();
-    await waitForImages();
-    document.body.style.visibility = "visible";
+    await waitForImages(); // Wait for all images to load before showing the page to prevent layout shifts and ensure a smooth user experience.
+    document.body.style.visibility = "visible"; // Show the page after all images are loaded
 }
 
 /**
