@@ -20,16 +20,6 @@ function initAddTask() {
     setupDropdownEvents();
 }
 
-/**
- * Attach the dropdown event listeners for search and toggle actions.
- * @returns {void}
- */
-function setupDropdownEvents() {
-    document.getElementById('assigned-to-search').addEventListener('focus', toggleDropdown);
-    document.getElementById('assigned-to-search').addEventListener('input', filterDropdown);
-    document.getElementById('assigned-to-arrow').addEventListener('click', toggleDropdown);
-}
-
 
 /**
  * Set the default active priority button and attach click handlers.
@@ -175,11 +165,6 @@ function addUserToTask() {
  * @param {string} name - The full name of the contact.
  * @returns {string} The generated initials.
  */
-/**
- * Return initials for a name string.
- * @param {string} name - The full name of the contact.
- * @returns {string} The generated initials.
- */
 function getInitials(name) {
     return name.split(' ')
         .map(word => word[0].toUpperCase())
@@ -268,4 +253,32 @@ async function uploadTask() {
             })
     };
     await postData("boards", taskData);
+}
+
+/**
+ * Setup dropdown event listeners including outside click handling.
+ * @returns {void}
+ */
+function setupDropdownEvents() {
+    document.getElementById('assigned-to-search')
+        .addEventListener('focus', toggleDropdown);
+    document.getElementById('assigned-to-arrow')
+        .addEventListener('click', toggleDropdown);
+    document.getElementById('assigned-to-search')
+        .addEventListener('input', filterDropdown);
+
+    document.addEventListener('click', closeDropdownOnOutsideClick);
+}
+
+/**
+ * Close the dropdown menu when clicking outside of it.
+ * @param {Event} event - The click event object.
+ * @returns {void}
+ */
+function closeDropdownOnOutsideClick(event) {
+    const dropdown = document.getElementById('assigned-to-dropdown');
+    if (!dropdown.contains(event.target)) {
+        document.getElementById('assigned-to-list')
+            .classList.remove('dropdown__list--visible');
+    }
 }
