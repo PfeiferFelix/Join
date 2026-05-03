@@ -1,6 +1,8 @@
 ﻿// Indicates whether touch drag-and-drop is enabled.
 function isTouchBoardDnDEnabled() {
-    return false;
+    const hasTouchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const hasCoarsePointer = typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches;
+    return hasTouchSupport || hasCoarsePointer;
 }
 
 // Removes touch drop target highlight classes.

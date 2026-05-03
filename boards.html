@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/boards.css" />
+    <link rel="stylesheet" href="styles/boards-components.css" />
     <link rel="stylesheet" href="styles/boards-media.css" />
     <link rel="stylesheet" href="styles/variable.css" />
     <link rel="stylesheet" href="styles/fonts.css" />
@@ -29,8 +30,8 @@
                 <div class="board__addtask">
                     <h1 class="board__h1">Board</h1>
                     <div class="search-container">
-                        <form class="example" method="get">
-                            <input type="text" placeholder="Find Task" name="search">
+                        <form class="example" method="get" onsubmit="searchCard(event)">
+                            <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)">
                             <span class="seperatorleftBtn"></span>
                             <button class="searchBtn" type="submit" title="Search">
                                 <i class="fa fa-search"></i></button>
@@ -45,8 +46,8 @@
                         <h1 class="board__h1">Board</h1>
                         <button onclick="addTask()" type="button" class="addTaskBtnMobile">&#43;</button>
                     </div>
-                    <form class="example-mobile" method="get">
-                        <input type="text" placeholder="Find Task" name="search">
+                    <form class="example-mobile" method="get" onsubmit="searchCard(event)">
+                        <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)">
                         <span class="seperatorleftBtn"></span>
                         <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
                     </form>

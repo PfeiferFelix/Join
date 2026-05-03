@@ -228,3 +228,33 @@ function getCircleUserTemplate(userAbbreviation, userIndex = 0) {
         </svg>
     `;
 }
+
+// Escapes text for safe HTML text-node rendering.
+function escapeHtmlText(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+// Escapes text for safe HTML attribute rendering.
+function escapeHtmlAttribute(value) {
+    return escapeHtmlText(value)
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// Returns an inline edit input template for one subtask title.
+function getSubtaskEditInputTemplate(currentTitle, taskId, index) {
+    return `<input type="text" class="task-form__input subtask-item__input" value="${escapeHtmlAttribute(currentTitle)}" onkeydown="saveSubtaskItem(event, ${taskId}, ${index})">`;
+}
+
+// Returns one editable subtask list-item template.
+function getEditableSubtaskItemTemplate(subtaskTitle, taskId, index) {
+    return `<li class="subtask-item" data-subtask-index="${index}"><span class="subtask-item__title">${escapeHtmlText(subtaskTitle)}</span><div class="subtask-item__actions"><button type="button" class="edit-subtask-btn" onclick="editSubtaskItem(${taskId}, ${index})">&#9998;</button><button type="button" class="clear-subtasks-btn" onclick="deleteSubtaskItem(${taskId}, ${index})">&#128465;</button></div></li>`;
+}
+
+// Returns a display-only subtask title span template.
+function getSubtaskTitleTemplate(title) {
+    return `<span class="subtask-item__title">${escapeHtmlText(title)}</span>`;
+}

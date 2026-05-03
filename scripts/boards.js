@@ -40,6 +40,9 @@ function getLimitedSubtasks(input) {
 
 // Re-renders all board columns and re-initializes board interactions.
 function updateHTML() {
+    document.querySelectorAll('.board__list').forEach(list => {
+        list.style.display = '';
+    });
     saveBoardsToLocalStorage();
     renderCategoryContent({ category: "toDo", cardsId: "board__cards--todo", emptyId: "noneCardTodo" });
     renderCategoryContent({ category: "inProgress", cardsId: "board__cards--inprogress", emptyId: "noneCardInProgress" });
@@ -76,6 +79,34 @@ function renderCategoryContent({ category, cardsId, emptyId }) {
         .map(todo => generateTodoHTML(buildTodoCardTemplateData(todo)))
         .join('');
     noCardElement.style.display = categoryTasks.length === 0 ? 'flex' : 'none';
+}
+
+function searchCard(event) {
+    event.preventDefault(); const searchInput = event.currentTarget?.querySelector('input[name="search"]');
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    if (!query) return searchInput ? (searchInput.setCustomValidity('Bitte gib einen Suchbegriff ein.'), searchInput.reportValidity()) : undefined;
+    if (searchInput) searchInput.setCustomValidity('');
+    const columns = [{ category: 'toDo', cardsId: 'board__cards--todo', emptyId: 'noneCardTodo' }, { category: 'inProgress', cardsId: 'board__cards--inprogress', emptyId: 'noneCardInProgress' }, { category: 'feedback', cardsId: 'board__cards--feedback', emptyId: 'noneCardFeedback' }, { category: 'done', cardsId: 'board__cards--done', emptyId: 'noneCardDone' }];
+    columns.forEach(({ category, cardsId, emptyId }) => {
+        const container = document.getElementById(cardsId), noCardElement = document.getElementById(emptyId);
+        if (!container || !noCardElement) return;
+        const boardList = container.closest('.board__list'), categoryTasks = todos.filter(todo => todo.category === category && `${todo.title || ''} ${todo.description || ''} ${(todo.subtasks || []).map(subtask => subtask?.title || '').join(' ')}`.toLowerCase().includes(query));
+        container.innerHTML = categoryTasks.map(todo => generateTodoHTML(buildTodoCardTemplateData(todo))).join(''); noCardElement.style.display = 'none';
+        if (boardList) boardList.style.display = categoryTasks.length > 0 ? '' : 'none'; });
+    initializeTouchBoardDnD(); initializeTaskMoveMenuCloseBehavior();
+}
+
+function clearSearch(event) {
+    event.currentTarget?.setCustomValidity('');
+    if (event.currentTarget?.value.trim()) return;
+    updateHTML();
+}
+
+function resetSearchOnEscape(event) {
+    if (event.key !== 'Escape') return;
+    event.preventDefault();
+    event.currentTarget.value = '';
+    updateHTML();
 }
 
 // Persists the current board state to local storage.

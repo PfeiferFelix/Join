@@ -7,7 +7,7 @@ function editSubtaskItem(taskId, index) {
     if (!item) return;
     const titleSpan = item.querySelector('.subtask-item__title');
     const currentTitle = titleSpan?.textContent.trim() || '';
-    titleSpan.outerHTML = `<input type="text" class="task-form__input subtask-item__input" value="${currentTitle}" onkeydown="saveSubtaskItem(event, ${taskId}, ${index})">`;
+    titleSpan.outerHTML = getSubtaskEditInputTemplate(currentTitle, taskId, index);
     const editBtn = item.querySelector('.edit-subtask-btn');
     editBtn.innerHTML = '&#10003;';
     editBtn.setAttribute('onclick', `saveSubtaskItem(null, ${taskId}, ${index})`);
@@ -19,7 +19,7 @@ function renderEditSubtaskItems(list, subtasks, taskId) {
     list.querySelectorAll('.subtask-item').forEach(item => item.remove());
     const container = list.querySelector('.subtask-container__list');
     if (!container) return;
-    const items = subtasks.map((subtask, index) => `<li class="subtask-item" data-subtask-index="${index}"><span class="subtask-item__title">${subtask.title}</span><div class="subtask-item__actions"><button type="button" class="edit-subtask-btn" onclick="editSubtaskItem(${taskId}, ${index})">&#9998;</button><button type="button" class="clear-subtasks-btn" onclick="deleteSubtaskItem(${taskId}, ${index})">&#128465;</button></div></li>`).join('');
+    const items = subtasks.map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskId, index)).join('');
     container.insertAdjacentHTML('afterbegin', items);
     updateNewSubtaskInputVisibility(list, subtasks);
 }
@@ -118,7 +118,7 @@ function closeOpenSubtaskInput(dialog, taskId) {
     if (!openItem) return;
     const openIndex = Number(openItem.dataset.subtaskIndex);
     const task = todos.find(t => t.id == taskId);
-    openInput.outerHTML = `<span class="subtask-item__title">${task?.subtasks?.[openIndex]?.title || ''}</span>`;
+    openInput.outerHTML = getSubtaskTitleTemplate(task?.subtasks?.[openIndex]?.title || '');
     const openEditBtn = openItem.querySelector('.edit-subtask-btn');
     if (!openEditBtn) return;
     openEditBtn.innerHTML = '&#9998;';
