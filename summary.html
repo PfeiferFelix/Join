@@ -13,7 +13,7 @@
         <script src="scripts/summary.js"></script>
         <title>Summary</title>
     </head>
-    <body onload="(init(), initSummary())">
+    <body onload="init().then(initSummary)">
         <div class="content__container fs-small-regular">
             <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
