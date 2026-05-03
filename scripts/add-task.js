@@ -1,9 +1,17 @@
+/**
+ * Base URL for Firebase Realtime Database.
+ * @constant {string}
+ */
 const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let contactsLS = importandFormatLocalStorageData("contacs");
 
 
 
+/**
+ * Initialize add task page functionality.
+ * @returns {void}
+ */
 function initAddTask() {
     setActivePriority();
     setMinDueDate();
@@ -12,6 +20,10 @@ function initAddTask() {
     setupDropdownEvents();
 }
 
+/**
+ * Attach the dropdown event listeners for search and toggle actions.
+ * @returns {void}
+ */
 function setupDropdownEvents() {
     document.getElementById('assigned-to-search').addEventListener('focus', toggleDropdown);
     document.getElementById('assigned-to-search').addEventListener('input', filterDropdown);
@@ -19,6 +31,10 @@ function setupDropdownEvents() {
 }
 
 
+/**
+ * Set the default active priority button and attach click handlers.
+ * @returns {void}
+ */
 function setActivePriority() {
     document.querySelector('.priority-buttons__btn--medium')
         .classList.add('priority-buttons__btn--active');
@@ -32,12 +48,19 @@ function setActivePriority() {
     });
 }
 
-// Set the minimum date for the due date input to today's date to prevent selecting past dates
+/**
+ * Set the minimum allowed due date to today's date.
+ * @returns {void}
+ */
 function setMinDueDate() {
-    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format and set it as the minimum value for the due date input field to prevent users from selecting a past date. Split('T')[0] is used to extract just the date part from the ISO string, ensuring that the time component is not included when setting the minimum date for the input field.
-    document.getElementById("due-date").setAttribute("min", today); // Set the minimum date for the due date input field to today's date to ensure that users cannot select a past date for the task's due date
-} // setAttribute is used to set the 'min' attribute of the input field with the id 'due-date' to the value of today's date, enforcing the restriction on date selection in the form
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("due-date").setAttribute("min", today);
+}
 
+/**
+ * Show a temporary toast notification.
+ * @returns {void}
+ */
 function showToast() {
     const toast = document.getElementById("add__task_toast");
     toast.classList.add('toast--visible');
@@ -46,17 +69,24 @@ function showToast() {
     }, 2000);
 }
 
-// Add event listeners to the submit and clear buttons to handle form submission and clearing of the form, respectively
+/**
+ * Register form submit and clear button listeners.
+ * @returns {void}
+ */
 function handleFormSubmit() {
     const form = document.querySelector(".task-form");
     const submitBtn = document.querySelector(".task-form__btn--submit");
     const clearBtn = document.querySelector(".task-form__btn--clear");
 
-    submitBtn.addEventListener("click", () => handleSubmit(form)); // When the submit button is clicked, call the handleSubmit function, passing the form element as an argument to validate the form and show a toast message if the form is valid. If the form is valid, it will also reset the form and redirect the user to the boards page after a short delay.
-    clearBtn.addEventListener("click", () => handleClear(form)); // When the clear button is clicked, call the handleClear function, passing the form element as an argument to reset the form and clear any error messages, allowing the user to start fresh with an empty form.
+    submitBtn.addEventListener("click", () => handleSubmit(form));
+    clearBtn.addEventListener("click", () => handleClear(form));
 }
 
-// Handle form submission by validating the form, showing a toast message if valid, resetting the form, and redirecting to the boards page after a short delay
+/**
+ * Process the form submission, validate input, upload the task, and redirect.
+ * @param {HTMLFormElement} form - The task form element.
+ * @returns {Promise<void>}
+ */
 async function handleSubmit(form) {
     clearErrors();
     if (validateForm()) {
@@ -65,47 +95,69 @@ async function handleSubmit(form) {
         form.reset();
         setTimeout(() => {
             window.location.href = "boards.html";
-        }, 2000); // Redirect to the boards page after a short delay to allow the user to see the toast message before navigating away from the form
+        }, 2000);
     }
 }
 
+/**
+ * Clear the form and remove any validation errors.
+ * @param {HTMLFormElement} form - The task form element.
+ * @returns {void}
+ */
 function handleClear(form) {
-    form.reset(); // Reset the form to clear all input fields and selections, allowing the user to start fresh with an empty form.
+    form.reset();
     clearErrors();
 }
 
+/**
+ * Validate that all required form fields are filled.
+ * @returns {boolean} True when the form is valid.
+ */
 function validateForm() {
-    const requiredFields = document.querySelectorAll("[required]"); // Select all required fields in the form to validate that they are not empty before allowing form submission. This ensures that the user has filled out all necessary information before the form can be submitted successfully.
+    const requiredFields = document.querySelectorAll("[required]");
     let isValid = true;
 
-    // Check if the field is empty or contains only whitespace. If it does, show an error message and set isValid to false to indicate that the form is not valid.
     requiredFields.forEach((field) => {
         if (!field.value.trim()) {
             showError(field);
-            isValid = false; // Set isValid to false if any required field is empty, preventing form submission until all required fields are properly filled out by the user.
+            isValid = false;
         }
     });
 
     return isValid;
 }
 
+/**
+ * Display an error message for a required field.
+ * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement} field - The form field with an error.
+ * @returns {void}
+ */
 function showError(field) {
-    const error = document.getElementById(`${field.id}-error`); // Get the corresponding error message element for the field using its id and set the text content to display an error message indicating that the field is required. Additionally, change the border color of the input field to red to visually indicate that there is an error with that field.
-    error.textContent = "This field is required*"; // Set the text content of the error message element to indicate that the field is required, providing feedback to the user about what needs to be corrected in the form.
-    field.style.borderColor = "red"; // Change the border color of the input field to red to visually indicate that there is an error with that field, drawing the user's attention to the specific field that needs to be corrected in the form.
+    const error = document.getElementById(`${field.id}-error`);
+    error.textContent = "This field is required*";
+    field.style.borderColor = "red";
 }
 
+/**
+ * Clear all displayed form error messages.
+ * @returns {void}
+ */
 function clearErrors() {
-    document.querySelectorAll(".task-form__error").forEach((e) => (e.textContent = "")); // Clear the text content of all error message elements to remove any displayed error messages from the form, allowing the user to see a clean form without any error indications after clearing or successfully submitting the form.
+    document.querySelectorAll(".task-form__error").forEach((e) => {
+        e.textContent = "";
+    });
     document.querySelectorAll("[required]").forEach((field) => {
-        // Reset the border color of all required fields to the default color to remove any red borders that were applied to indicate errors, providing a visual reset for the form after clearing or successfully submitting it.
         field.style.borderColor = "";
     });
 }
 
-function addUserToTask() { // Populate the "Assigned to" dropdown with contacts from local storage by creating list items for each contact, including their initials, name, and email, and adding event listeners to update the selected avatars when a contact is selected or deselected. This function dynamically generates the dropdown options based on the contacts stored in local storage, allowing users to easily assign tasks to their contacts by selecting them from the dropdown menu.
+/**
+ * Render contacts in the "Assigned to" dropdown.
+ * @returns {void}
+ */
+function addUserToTask() {
     const list = document.getElementById('assigned-to-list');
-    contactsLS.forEach(contact => { // Iterate over each contact in the contactsLS array to create a dropdown item for each contact, including their initials, name, and email, and add it to the dropdown list. This allows users to see all available contacts in the dropdown menu and select them for task assignment.
+    contactsLS.forEach(contact => {
         const initials = getInitials(contact.name);
         const color = getAvatarColor(contact.name);
         const li = document.createElement('li');
@@ -118,43 +170,76 @@ function addUserToTask() { // Populate the "Assigned to" dropdown with contacts 
     });
 }
 
+/**
+ * Return initials for a name string.
+ * @param {string} name - The full name of the contact.
+ * @returns {string} The generated initials.
+ */
+/**
+ * Return initials for a name string.
+ * @param {string} name - The full name of the contact.
+ * @returns {string} The generated initials.
+ */
 function getInitials(name) {
     return name.split(' ')
-        .map(word => word[0].toUpperCase()) // .map is used to iterate over each word in the name, extract the first character of each word, and convert it to uppercase to create the initials for the contact's avatar in the dropdown menu.
-        .join(''); // .join('') is used to concatenate the array of initials into a single string without any spaces, resulting in the final initials that will be displayed in the avatar for each contact in the dropdown menu.
+        .map(word => word[0].toUpperCase())
+        .join('');
 }
 
+/**
+ * Choose an avatar color based on the contact name.
+ * @param {string} name - The full name of the contact.
+ * @returns {string} The selected color code.
+ */
 function getAvatarColor(name) {
     const colors = ['#ff5733', '#33ff57', '#3357ff', '#ff33a8', '#ffa833', '#a833ff'];
     const index = name.charCodeAt(0) % colors.length;
     return colors[index];
 }
 
+/**
+ * Toggle the visibility of the assigned contacts dropdown.
+ * @returns {void}
+ */
 function toggleDropdown() {
     const list = document.getElementById('assigned-to-list');
     list.classList.toggle('dropdown__list--visible');
 }
 
+/**
+ * Filter dropdown items by the search input.
+ * @returns {void}
+ */
 function filterDropdown() {
     const search = document.getElementById('assigned-to-search').value.toLowerCase();
     const items = document.querySelectorAll('.dropdown__item');
     items.forEach(item => {
         const name = item.querySelector('.dropdown__name').textContent.toLowerCase();
-        item.style.display = name.includes(search) ? 'flex' : 'none'; // Filter the dropdown items based on the search input by checking if the contact's name includes the search term, and toggle the display of each item accordingly to show only the matching contacts in the dropdown menu as the user types in the search field.
-    }); // ? is a ternary operator used to set the display style of each dropdown item to 'flex' if the contact's name includes the search term, or 'none' if it does not, effectively showing or hiding the items in the dropdown menu based on the user's search input. This allows for a dynamic and responsive filtering of the contacts in the dropdown menu as the user types.
-} // : is used to specify the alternative value ('none') for the display style when the contact's name does not include the search term, ensuring that non-matching items are hidden from view in the dropdown menu.
-
-function updateSelectedAvatars() {
-    const container = document.getElementById('selected-avatars');
-    container.innerHTML = '';
-    document.querySelectorAll('.dropdown__checkbox:checked').forEach(checkbox => { // Update the selected avatars in the container based on the checked checkboxes in the dropdown menu by extracting the initials and color from the corresponding dropdown item and adding the selected avatar template to the container for each selected contact. This function ensures that the selected avatars are displayed in the container as users select or deselect contacts from the dropdown menu, providing a visual representation of the assigned contacts for the task.
-        const item = checkbox.closest('.dropdown__item'); // .closest is used to find the closest ancestor element with the class 'dropdown__item' for each checked checkbox, allowing us to access the relevant information (initials and color) for the selected contact from the corresponding dropdown item in order to update the selected avatars in the container.
-        const initials = item.querySelector('.dropdown__avatar').textContent;
-        const color = item.querySelector('.dropdown__avatar').style.backgroundColor; // .style.backgroundColor is used to retrieve the background color of the avatar element for the selected contact from the dropdown item, allowing us to use that color when generating the selected avatar template to maintain visual consistency between the dropdown and the selected avatars displayed in the container.
-        container.innerHTML += getSelectedAvatarTemplate(initials, color); // (initials, color) is used to pass the extracted initials and color for each selected contact to the getSelectedAvatarTemplate function, which generates the HTML template for the selected avatar that will be added to the container, ensuring that the selected avatars are displayed with the correct initials and colors based on the user's selections in the dropdown menu.
+        item.style.display = name.includes(search) ? 'flex' : 'none';
     });
 }
 
+/**
+ * Update the selected avatars display for checked contacts.
+ * @returns {void}
+ */
+function updateSelectedAvatars() {
+    const container = document.getElementById('selected-avatars');
+    container.innerHTML = '';
+    document.querySelectorAll('.dropdown__checkbox:checked').forEach(checkbox => {
+        const item = checkbox.closest('.dropdown__item');
+        const initials = item.querySelector('.dropdown__avatar').textContent;
+        const color = item.querySelector('.dropdown__avatar').style.backgroundColor;
+        container.innerHTML += getSelectedAvatarTemplate(initials, color);
+    });
+}
+
+/**
+ * POST data to Firebase Realtime Database.
+ * @param {string} path - The subpath under the database URL.
+ * @param {Object} data - The payload to send.
+ * @returns {Promise<any>} The JSON response.
+ */
 async function postData(path, data) {
     const response = await fetch(BASE_URL + path + ".json", {
         method: "POST",
@@ -163,6 +248,10 @@ async function postData(path, data) {
     return await response.json();
 }
 
+/**
+ * Collect task form data and upload it.
+ * @returns {Promise<void>}
+ */
 async function uploadTask() {
     const taskData = {
         title: document.getElementById('title').value,
@@ -179,5 +268,4 @@ async function uploadTask() {
             })
     };
     await postData("boards", taskData);
-    console.log(taskData);
 }
