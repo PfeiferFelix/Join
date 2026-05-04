@@ -4,15 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="assets/icons/board.svg" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/boards.css" />
+    <link rel="stylesheet" href="styles/boards-components.css" />
     <link rel="stylesheet" href="styles/boards-media.css" />
     <link rel="stylesheet" href="styles/variable.css" />
     <link rel="stylesheet" href="styles/fonts.css" />
     <script src="script.js"></script>
     <script src="scripts/templates.js"></script>
     <script src="scripts/boards.js"></script>
+    <script src="scripts/boards-form.js"></script>
+    <script src="scripts/boards-subtasks.js"></script>
+    <script src="scripts/boards-dnd.js"></script>
     <script src="scripts/boards-template.js"></script>
     <title>Board</title>
 </head>
@@ -27,22 +30,25 @@
                 <div class="board__addtask">
                     <h1 class="board__h1">Board</h1>
                     <div class="search-container">
-                        <form method="get">
-                            <input type="text" placeholder="Find Task" name="search">
-                            <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
+                        <form class="example" method="get" onsubmit="searchCard(event)">
+                            <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)">
+                            <span class="seperatorleftBtn"></span>
+                            <button class="searchBtn" type="submit" title="Search">
+                                <i class="fa fa-search"></i></button>
                         </form>
                         <button onclick="addTask()" type="button" class="addTaskBtn">Add task <p
-                                class="addTaskwith__plus">+</p></button>
+                            class="addTaskwith__plus">&#43;</p></button>
                     </div>
                 </div>
                 <div class="board__addtask--mobile" id="board__addtask--mobile">
 
                     <div class="headline__AddTask">
                         <h1 class="board__h1">Board</h1>
-                        <button onclick="addTask()" type="button" class="addTaskBtnMobile">+</button>
+                        <button onclick="addTask()" type="button" class="addTaskBtnMobile">&#43;</button>
                     </div>
-                    <form class="task-form__search" method="get">
-                        <input type="text" placeholder="Find Task" name="search">
+                    <form class="example-mobile" method="get" onsubmit="searchCard(event)">
+                        <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)">
+                        <span class="seperatorleftBtn"></span>
                         <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
@@ -51,7 +57,7 @@
                     <div class="board__list" id="board__list--todo" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">To Do</h2>
-                            <button onclick="addTaskToDo()" type="button" class="addTaskBtnBoard">+</button>
+                            <button onclick="addTaskToDo()" type="button" class="addTaskBtnBoard">&#43;</button>
                         </div>
                         <div class="board__cards" id="board__cards--todo"></div>
                         <div class="board__nonecard" id="noneCardTodo">No tasks To Do</div>
@@ -64,7 +70,7 @@
                         ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">In Progress</h2>
-                            <button onclick="addTaskInProgress()" type="button" class="addTaskBtnBoard">+</button>
+                            <button onclick="addTaskInProgress()" type="button" class="addTaskBtnBoard">&#43;</button>
                         </div>
                         <div class="board__cards" id="board__cards--inprogress"></div>
                         <div class="board__nonecard" id="noneCardInProgress">No tasks In Progress</div>
@@ -74,7 +80,7 @@
                         ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">Awaiting Feedback</h2>
-                            <button onclick="addTaskFeedback()" type="button" class="addTaskBtnBoard">+</button>
+                            <button onclick="addTaskFeedback()" type="button" class="addTaskBtnBoard">&#43;</button>
                         </div>
                         <div class="board__cards" id="board__cards--feedback"></div>
                         <div class="board__nonecard" id="noneCardFeedback">No tasks Awaiting Feedback</div>
