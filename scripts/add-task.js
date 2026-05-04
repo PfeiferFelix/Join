@@ -18,6 +18,7 @@ function initAddTask() {
     handleFormSubmit();
     addUserToTask();
     setupDropdownEvents();
+    setupSubtaskEvents();
 }
 
 
@@ -293,4 +294,94 @@ function closeDropdownOnOutsideClick(event) {
 function disableButtons(disabled) {
     document.querySelector('.task-form__btn--submit').disabled = disabled;
     document.querySelector('.task-form__btn--clear').disabled = disabled;
+}
+
+/**
+ * Setup subtask input event listeners.
+ * @returns {void}
+ */
+function setupSubtaskEvents() {
+    const input = document.getElementById('subtask');
+    const clearBtn = document.getElementById('subtask-clear');
+    const confirmBtn = document.getElementById('subtask-confirm');
+
+    input.addEventListener('input', toggleSubtaskButtons);
+    input.addEventListener('keydown', handleSubtaskEnter);
+    clearBtn.addEventListener('click', clearSubtaskInput);
+    confirmBtn.addEventListener('click', addSubtask);
+}
+
+/**
+ * Show or hide subtask buttons based on input value.
+ * @returns {void}
+ */
+function toggleSubtaskButtons() {
+    const input = document.getElementById('subtask');
+    const wrapper = input.closest('.subtask-input');
+    wrapper.classList.toggle('subtask-input--active', input.value.trim().length > 0);
+}
+
+/**
+ * Add subtask on Enter key press without submitting the form.
+ * @param {KeyboardEvent} e - The keyboard event.
+ * @returns {void}
+ */
+function handleSubtaskEnter(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        addSubtask();
+    }
+}
+
+/**
+ * Add the current subtask input value to the subtask list.
+ * @returns {void}
+ */
+function addSubtask() {
+    const input = document.getElementById('subtask');
+    const value = input.value.trim();
+    if (!value) return;
+    const li = document.createElement('li');
+    li.classList.add('subtask-list__item');
+    li.innerHTML = getSubtaskItemTemplate(value);
+    li.querySelector('.subtask-list__btn--delete').addEventListener('click', () => li.remove());
+    li.querySelector('.subtask-list__btn--edit').addEventListener('click', () => editSubtask(li, value));
+    document.getElementById('subtask-list').appendChild(li);
+    clearSubtaskInput();
+}
+
+/**
+ * Clear the subtask input field and hide the action buttons.
+ * @returns {void}
+ */
+function clearSubtaskInput() {
+    const input = document.getElementById('subtask');
+    input.value = '';
+    input.closest('.subtask-input').classList.remove('subtask-input--active');
+}
+
+function editSubtask(li, value) {
+    const span = li.querySelector('.subtask-list__text');
+    const input = document.createElement('input');
+    input.value = value;
+    input.classList.add('subtask-list__edit-input');
+    span.replaceWith(input);
+    input.focus();
+
+    const editBtn = li.querySelector('.subtask-list__btn--edit');
+    editBtn.textContent = '✓';
+    editBtn.addEventListener('click', () => confirmEditSubtask(li, input));
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') confirmEditSubtask(li, input);
+    });
+}
+
+function confirmEditSubtask(li, input) {
+    const span = document.createElement('span');
+    span.classList.add('subtask-list__text');
+    span.textContent = input.value.trim();
+    input.replaceWith(span);
+    const editBtn = li.querySelector('.subtask-list__btn--edit');
+    editBtn.textContent = '✏️';
+    editBtn.addEventListener('click', () => editSubtask(li, span.textContent));
 }

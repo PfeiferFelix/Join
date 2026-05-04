@@ -10,7 +10,7 @@
     <script src="script.js"></script>
     <script src="scripts/templates.js"></script>
     <link rel="stylesheet" href="styles/add-task.css" />
-    <script src="./scripts/add-task.js" defer></script>
+    <script src="./scripts/add-task.js"></script>
     <title>Add Task</title>
 </head>
 
@@ -76,7 +76,11 @@
                                 <label class="task-form__label" for="subtask">Subtask</label>
                                 <div class="subtask-input">
                                     <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
+                                    <button type="button" class="subtask-input__btn subtask-input__btn--clear" id="subtask-clear">✕</button>
+                                    <div class="subtask-input__separator"></div>
+                                    <button type="button" class="subtask-input__btn subtask-input__btn--confirm" id="subtask-confirm">✓</button>
                                 </div>
+                                <ul class="subtask-list" id="subtask-list"></ul>
                             </div>
                         </div>
                     </form>

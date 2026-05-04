@@ -125,6 +125,7 @@ textarea {
     border: 1px solid #d1d1d1;
     border-radius: 8px;
     overflow: hidden;
+    background-color: white;
 }
 
 .subtask-input__field {
@@ -395,4 +396,93 @@ body {
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 8px;
+}
+
+.subtask-input__btn {
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    color: #888;
+    display: none;
+}
+
+.subtask-input__btn:hover {
+    background-color: #f0f0f0;
+}
+
+.subtask-input--active .subtask-input__btn {
+    display: flex;
+}
+
+.subtask-input__separator {
+    width: 1px;
+    height: 20px;
+    background-color: #d1d1d1;
+    flex-shrink: 0;
+    display: none;
+}
+
+.subtask-input--active .subtask-input__separator {
+    display: block;
+}
+
+.subtask-list {
+    list-style: none;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.subtask-list__item {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.subtask-list__item:hover {
+    background-color: #f0f0f0;
+}
+
+.subtask-list__text::before {
+    content: "• ";
+}
+
+.subtask-list__actions {
+    display: none;
+}
+
+.subtask-list__item:hover .subtask-list__actions {
+    display: flex;
+    gap: 8px;
+}
+
+.subtask-list__btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 4px;
+}
+
+.subtask-list__edit-input {
+    border: none;
+    border-bottom: 1px solid var(--primary-color);
+    outline: none;
+    font-size: 16px;
+    background: transparent;
+    flex: 1;
+    padding: 0;
+    border-radius: 0;
 }
