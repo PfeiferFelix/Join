@@ -99,6 +99,17 @@ async function handleSubmit(form) {
 function handleClear(form) {
     form.reset();
     clearErrors();
+    clearSubtaskList();
+    clearSelectedUsers();
+}
+
+function clearSubtaskList() {
+    document.getElementById('subtask-list').innerHTML = '';
+}
+
+function clearSelectedUsers() {
+    document.getElementById('selected-avatars').innerHTML = '';
+    document.querySelectorAll('.dropdown__checkbox').forEach(cb => cb.checked = false);
 }
 
 /**
