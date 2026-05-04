@@ -57,7 +57,11 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 10;
+    padding-bottom: var(--distance-bottom-main-sides);
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
 }
 
 .sidebar__nav-list {
@@ -154,8 +158,11 @@ a {
     box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1);
     padding: var(--padding-header-y) var(--padding-header-x);
     background-color: white;
-    position: relative;
-    z-index: 1;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: var(--width-sidebar);
+    z-index: 10;
 }
 
 .header__content {
