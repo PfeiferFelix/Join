@@ -245,7 +245,8 @@ async function uploadTask() {
         description: document.getElementById('description').value,
         due_date: document.getElementById('due-date').value,
         category: document.getElementById('category').value,
-        sub_task: document.getElementById('subtask').value,
+        sub_task: Array.from(document.querySelectorAll('.subtask-list__text'))
+            .map(span => span.textContent.replace('• ', '').trim()),
         position: "todo",
         priority: document.querySelector('.priority-buttons__btn--active') ? document.querySelector('.priority-buttons__btn--active').dataset.priority || "medium" : "medium",
         assigned_to: Array.from(document.querySelectorAll('.dropdown__checkbox:checked'))
