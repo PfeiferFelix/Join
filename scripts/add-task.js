@@ -80,6 +80,7 @@ function handleFormSubmit() {
 async function handleSubmit(form) {
     clearErrors();
     if (validateForm()) {
+        disableButtons(true);
         await uploadTask();
         showToast();
         form.reset();
@@ -281,4 +282,15 @@ function closeDropdownOnOutsideClick(event) {
         document.getElementById('assigned-to-list')
             .classList.remove('dropdown__list--visible');
     }
+}
+
+
+/**
+ * Enable or disable the form action buttons.
+ * @param {boolean} disabled - True to disable, false to enable.
+ * @returns {void}
+ */
+function disableButtons(disabled) {
+    document.querySelector('.task-form__btn--submit').disabled = disabled;
+    document.querySelector('.task-form__btn--clear').disabled = disabled;
 }
