@@ -1,250 +1,336 @@
-/* Subtask-Leiste sichtbar und gestylt */
-.subtask {
-    color: white;
-    background: #3498db;
-    border-radius: 8px;
-    padding: 2px 8px;
-    display: inline-block;
-    min-width: 32px;
-    text-align: center;
-    font-size: 13px;
-    margin: 6px 0;
-}
-.draggable-container {
-    -webkit-user-select: none;
-    user-select: none;
-}
-.draggable-container.dragging-container {
-    opacity: 0.6;
-    border: 2px dashed #1976d2;
-    background: #e3f2fd;
-}
-/* Drag-and-Drop Styles */
-.task__container {
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin: 8px 0;
-    padding: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    cursor: grab;
-    transition: box-shadow 0.2s;
-    pointer-events: auto;
-    position: relative;
-}
-.task__container.dragging {
-    opacity: 0.5;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.task__container.drag-over {
-    background: #e3f2fd !important;
-    border: 2px dashed #1976d2 !important;
-    min-height: 80px;
-}
-
-.task__container {
+﻿/* Board Layout */
+.board__addtask {
     display: flex;
-    flex-direction: column;
-    gap: 26px;
-    width: 100%;
-    height: fit-content;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-    
-.header__boards {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    height: 96px;
-}
-
-.boards__addtask {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 232px;
-}
-.boards__section {
-    display: flex;
-    gap: 26px;
-}
-
-.boards__lists {
-    display: flex;
     justify-content: space-around;
-    margin-bottom: 24px;
-    width: 100%;
+    height: auto;
 }
 
-.toDo,
-.inProgress,
-.awaitingFeedback,
-.done {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+.board__addtask--mobile {
+    display: none
 }
-.toDoBtn,
-.inProgressBtn,
-.awaitingFeedbackBtn,
-.doneBtn {
-    background-color: transparent;
-    color:  black;
-    border: 2px solid #2a3647;
-    border-radius: 5px;
-    font-size: 24px;
-    cursor: pointer;
-    height: 32px;
-}
-.main-content {
+
+.board__cards {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px
 }
 
+.board__h1 {
+    font-size: 64px
+}
+
+.board__list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+.board__list-header {
+    display: flex;
+    gap: 24px;
+    align-items: center
+}
+
+.board__lists {
+    display: flex;
+    margin-bottom: 24px;
+    width: 100%
+}
+
+.board__nonecard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    background-color: #e7e7e7;
+    border: 1px dashed #ccc;
+    border-radius: 16px;
+    font-size: 16px;
+    width: 200px;
+    padding: 12px
+}
+
+.main-content {
+    margin-top: 24px
+}
+
+.paddingNull {
+    padding: 0
+}
+
+/* Search */
+.example input[type="text"],
+.example-mobile input[type="text"] {
+    border: none;
+    border-radius: 0;
+    padding-left: 8px;
+    outline: unset
+}
+
+.example,
+.example-mobile {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ccc;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #fff;
+    overflow: hidden
+}
+
+.fa {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #2a3647;
+    border-radius: 50%;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    z-index: 1;
+    isolation: isolate
+}
+
+.fa::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 2px;
+    background-color: #2a3647;
+    border-radius: 10px;
+    right: -8px;
+    bottom: 0px;
+    transform: rotate(45deg);
+    transform-origin: left center;
+    transition: background-color 0.2s ease;
+    z-index: 2
+}
+
+.fa::before {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: transparent;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease
+}
+
+.searchBtn {
+    float: right;
+    font-size: 0;
+    border: none;
+    cursor: pointer;
+    height: 36px;
+    width: 44px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease
+}
 
 .search-container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     float: right;
-    border: none;
-    cursor: pointer;
+    border: none
 }
 
-.search-container input[type=text] {
-    height: 32px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-}
-
-.searchBtn {
-    float: right;
-    padding: 6px 10px;
-    margin-right: 16px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    cursor: pointer;
+.search-container input[type="text"] {
     height: 36px;
-    background-color: transparent;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-}
-
-.fa{
-    display: inline-block;
-    font: normal normal normal 14px / 1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.fa-search:before {
-    content: "\1F50D";
-    font-family: inherit;
-}
-
-.help__me {
-    color: #888;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-}
-.profile__settings {
-    color: #888;
-    border-radius: 50%;
-    width: 64px;
-    height: 64px;
-    font-size: 24px;
-}
-.profile__boards {
-    color: #888;
-    border-radius: 50%;
-    border: 1px solid #ccc;
-    font-size: 12px;
-    padding: 4px;
-    width: 24px;
-    height: 24px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.profile__list {
-    color: #888;
-    border-radius: 50%;
     font-size: 16px;
-    width: 32px;
-    height: 32px;
-}
-.headline__boards {
-    font-size: 24px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    background-color: aquamarine;
-    border-radius: 12px;
-    text-align: center;
-    width: 100%;
-}
-.profile__list-item {
-    cursor: pointer;
-    font-size: 24px;
-    vertical-align: super;
+    width: 250px;
+    border-radius: 6px;
+    padding-left: 8px;
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset
 }
 
-.footer__boards {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+.seperatorleftBtn {
+    width: 1px;
+    height: 24px;
+    background-color: #ccc;
+    flex-shrink: 0
 }
+
+/* Cards and Move Panel */
+.subtask {
+    background: #ccc;
+    border-radius: 8px;
+    padding: 2px 8px;
+    display: inline-block;
+    max-width: 120px;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+    font-size: 16px
+}
+
+.subtask--active,
+.subtask--done {
+    background: #29abe2
+}
+
+.task {
+    display: flex;
+    flex-direction: column;
+    box-shadow: #b9b9b9 2px 0px 5px;
+    border-radius: 24px;
+    padding: 16px;
+    margin: 4px 0;
+    width: 208px;
+    position: relative;
+    transition: transform 0.15s ease;
+    transform-origin: center
+}
+
+.task:active {
+    transform: rotate(3deg) translateX(4px)
+}
+
+.task__drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.task__moveto-btn {
+    display: none
+}
+
+.task-move-panel {
+    display: none
+}
+
+/* Action Buttons */
 .addTaskBtn {
+    display: flex;
+    align-items: center;
     background-color: #2a3647;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    padding-left: 7px;
+    padding-right: 7px;
+    height: 38px;
+    margin-left: 20px
+}
+
+.addTaskBtnBoard {
+    color: #2a3647;
+    border: 3px solid #2a3647;
+    border-radius: 8px;
     cursor: pointer;
     height: 32px;
-}
-.drag-area {
-    width: 100%;
-    height: 20px;
-    flex-direction: column;
+    width: 32px;
+    font-size: 18px;
+    font-weight: bold;
     display: flex;
-    align-items: center;
+    justify-content: center;
+    align-items: center
 }
 
-.drag-area-highlight {
-    background-color: rgba(0, 0, 0, 0.2);
+/* Category Labels */
+.ArrowDown {
+    font-size: 12px;
+    color: #2a3647;
+    transform: rotate(-90deg);
+    width: 6px;
+    margin: 0 !important
 }
 
-.todo {
-    width: 250px;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px;
-        margin: 5px;
+.ArrowUp {
+    font-size: 12px;
+    color: #2a3647;
+    transform: rotate(90deg);
+    width: 6px;
+    margin: 0 !important
 }
-.todo-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 10px;
+
+.TechnicalTask {
+    background-color: #0038ff;
+    padding: 6px 12px;
+    text-align: center;
+    border-radius: 8px;
+    color: white;
+    width: fit-content;
+    margin: 0;
+    font-weight: 300
 }
-.todo-description {
-    font-size: 14px;
-    color: #555;
-    padding: 10px 0;
+
+.UserStory {
+    background-color: #1fd7c1;
+    padding: 6px 12px;
+    text-align: center;
+    border-radius: 8px;
+    color: white;
+    width: fit-content;
+    margin: 0;
+    margin-bottom: 8px;
+    font-weight: 300
 }
-.todo-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+/* Animation */
+@keyframes vibrate {
+    0% {
+        transform: translate(0)
+    }
+
+    20% {
+        transform: translate(-0.2px, 0.2px)
+    }
+
+    40% {
+        transform: translate(-0.2px, -0.2px)
+    }
+
+    60% {
+        transform: translate(0.2px, 0.2px)
+    }
+
+    80% {
+        transform: translate(0.2px, -0.2px)
+    }
+
+    100% {
+        transform: translate(0)
+    }
 }
+
+/* Hover */
+@media (hover:hover) and (pointer:fine) {
+    .searchBtn:hover {
+        background-color: #f0f3f7
+    }
+
+    .searchBtn:hover .fa {
+        transform: scale(1.08);
+        border-color: #2a3647;
+        z-index: 1
+    }
+
+    .searchBtn:hover .fa::before {
+        opacity: 1;
+        background-color: rgba(42, 54, 71, 0.16);
+        box-shadow: 0 0 0 2px rgba(42, 54, 71, 0.22)
+    }
+
+    .searchBtn:hover .fa::after {
+        background-color: #000000
+    }
+}
+
