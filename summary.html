@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg" />
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="styles/variable.css" />
         <link rel="stylesheet" href="styles/fonts.css" />
@@ -12,7 +13,7 @@
         <script src="scripts/summary.js"></script>
         <title>Summary</title>
     </head>
-    <body onload="(init(), initSummary())">
+    <body onload="init().then(initSummary)">
         <div class="content__container fs-small-regular">
             <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
@@ -33,7 +34,7 @@
                                     <img class="tasks__icon tasks__to-do-icon--inverted" src="assets/icons/summary/active/todo-active.svg" alt="" />
                                 </div>
                                 <div class="tasks__to-do-count">
-                                    <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">1</span>
+                                    <span id="js-to-do-count" class="fs-xxxlarge-bold fs-xlarge-bold-responsive"></span>
                                     <span class="fs-medium-regular fc-grey fs-small-regular-responsive">To-do</span>
                                 </div>
                             </a>
@@ -43,7 +44,7 @@
                                     <img class="tasks__icon tasks__done-icon--inverted" src="assets/icons/summary/active/done-active.svg" alt="" />
                                 </div>
                                 <div class="tasks__done-count">
-                                    <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">1</span>
+                                    <span id="js-done-count" class="fs-xxxlarge-bold fs-xlarge-bold-responsive"></span>
                                     <span class="fs-medium-regular fc-grey fs-small-regular-responsive">Done</span>
                                 </div>
                             </a>
@@ -51,32 +52,32 @@
                                 <div class="tasks__icon-wrapper">
                                     <img class="tasks__icon" src="assets/icons/summary/deadline.svg" alt="" />
                                     <div class="tasks__urgent-count">
-                                        <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">1</span>
+                                        <span id="js-urgent-count" class="fs-xxxlarge-bold fs-xlarge-bold-responsive"></span>
                                         <span class="fs-medium-regular fc-grey fs-small-regular-responsive">Urgent</span>
                                     </div>
                                 </div>
                                 <div class="tasks__separator"></div>
                                 <div class="tasks__deadline-date">
-                                    <span class="fs-medium-bold fc-grey">October 16, 2022</span>
+                                    <span id="js-deadline-date" class="fs-medium-bold fc-grey"></span>
                                     <span class="fs-small-regular fc-grey">Upcoming Deadline</span>
                                 </div>
                             </a>
                             <a href="boards.html" class="tasks__in-board tasks__cells--responsive">
-                                <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">5</span>
+                                <span id="js-tasks-in-board" class="fs-xxxlarge-bold fs-xlarge-bold-responsive"></span>
                                 <span class="fs-medium-regular fc-grey fs-small-regular-responsive"
                                     >Tasks in <br />
                                     Board</span
                                 >
                             </a>
                             <a href="boards.html" class="tasks__in-progress tasks__cells--responsive">
-                                <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">2</span>
+                                <span id="js-tasks-in-progress-count" class="fs-xxxlarge-bold fs-xlarge-bold-responsive">2</span>
                                 <span class="fs-medium-regular fc-grey fs-small-regular-responsive"
                                     >Tasks In <br />
                                     Progress</span
                                 >
                             </a>
                             <a href="boards.html" class="tasks__awaiting-feedback tasks__cells--responsive">
-                                <span class="fs-xxxlarge-bold fs-xlarge-bold-responsive">1</span>
+                                <span id="js-awaiting-feedback" class="fs-xxxlarge-bold fs-xlarge-bold-responsive"></span>
                                 <span class="fs-medium-regular fc-grey fs-small-regular-responsive"
                                     >Awaiting <br />
                                     Feedback</span
@@ -84,7 +85,7 @@
                             </a>
                         </section>
 
-                        <section class="welcoming">
+                        <section id="js-welcoming" class="welcoming">
                             <div id="js-welcoming-greeting" class="welcoming__greeting fs-xlarge-medium fs-large2-regular-responsive">
                                 <span id="js-greeting-morning">Good morning</span>
                             </div>

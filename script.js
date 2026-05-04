@@ -1,18 +1,28 @@
 let currentUserNameLS = localStorage.getItem("currentUserName");
 let currentUserEmailLS = localStorage.getItem("currentUserEmail");
+let fromLogin = false;
 
 /**
  * Initialize function
  */
-function init() {
-    addSidebar();
-    addHeader();
-    addUserButton();
-    addUserMenu();
+async function init() {
+    injectSharedTemplates();
     addHelpToUserMenu(850);
     highlightActivePage();
     addNameInitials();
-    document.body.style.visibility = "visible";
+    await waitForImages(); // Wait for all images to load before showing the page to prevent layout shifts and ensure a smooth user experience.
+    document.body.style.visibility = "visible"; // Show the page after all images are loaded
+}
+
+/**
+ * Search for all images in the sidebar and header and put them in an array. Look for images in that array that are not yet loaded.
+ * For each of them create a promise that resolves when the image is loaded or if there is an error loading the image.
+ * Return a promise that resolves when all image promises are resolved, meaning that all images are loaded and ready to be displayed.
+ * @returns {Promise} A promise that resolves when all images are loaded.
+ */
+async function waitForImages() {
+    const imagePromises = [...document.querySelectorAll("#js-sidebar img, #js-header img")].filter((img) => !img.complete).map((img) => new Promise((resolve) => (img.onload = img.onerror = resolve)));
+    return Promise.all(imagePromises);
 }
 
 /**
@@ -25,35 +35,13 @@ function importandFormatLocalStorageData(key) {
 }
 
 /**
- * Injects the prepared sidebar template on the summary page.
+ * Injects all shared templates (sidebar, header, user button, user menu) into their respective placeholder elements.
  */
-function addSidebar() {
-    const sidebar = document.getElementById("js-sidebar");
-    sidebar.innerHTML = getSidebarTemplate();
-}
-
-/**
- * Injects the prepared header template on the summary page.
- */
-function addHeader() {
-    const header = document.getElementById("js-header");
-    header.innerHTML = getHeaderTemplate();
-}
-
-/**
- * Adds the user button to the header using the getHeaderCircleUserTemplate function.
- */
-function addUserButton() {
-    const userButton = document.getElementById("js-user-menu-button");
-    userButton.innerHTML = getHeaderCircleUserTemplate();
-}
-
-/**
- * Adds the user menu to the header using the getHeaderUserMenuTemplate function.
- */
-function addUserMenu() {
-    const userMenu = document.getElementById("js-header-user-menu");
-    userMenu.innerHTML = getHeaderUserMenuTemplate();
+function injectSharedTemplates() {
+    document.getElementById("js-sidebar").innerHTML = getSidebarTemplate();
+    document.getElementById("js-header").innerHTML = getHeaderTemplate();
+    document.getElementById("js-user-menu-button").innerHTML = getHeaderCircleUserTemplate();
+    document.getElementById("js-header-user-menu").innerHTML = getHeaderUserMenuTemplate();
 }
 
 /**
@@ -148,4 +136,12 @@ function addNameInitials() {
     }
 
     document.getElementById("js-header-user-initials").textContent = userInitials;
+}
+
+/**
+ * Delays the execution of code for a specified amount of time. It returns a Promise that resolves after the specified time has passed, allowing you to use it with async/await syntax to create a pause in the execution of your code.
+ * @param {Number} time
+ */
+function timeDelay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
 }

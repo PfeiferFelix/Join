@@ -111,7 +111,6 @@ a {
     flex-direction: column;
     justify-content: flex-end;
     gap: 32px;
-    margin-bottom: 50px;
     width: 100%;
 }
 
@@ -180,10 +179,12 @@ a {
 }
 
 .main-content {
-    margin-top: 10%;
+    margin-top: 150px;
     max-width: var(--content-limit);
     padding: 0 50px;
+    margin-left: var(--width-sidebar);
     box-sizing: border-box;
+    margin-bottom: var(--distance-bottom-main-sides);
 }
 
 .header__user-menu {
@@ -196,6 +197,7 @@ a {
     border-top-right-radius: 0;
     padding: 7.5px 2.5px;
     width: max-content;
+    z-index: 1;
 }
 
 .header__user-list {
@@ -231,17 +233,27 @@ a {
     .content__container {
         flex-direction: column;
     }
+    .header {
+        left: 0;
+    }
+
     .main-content {
         margin-bottom: 130px;
+        margin-left: 0;
+        margin-top: 120px;
     }
 
     .sidebar {
         order: 1;
         position: fixed;
+        top: auto;
         bottom: 0;
         left: 0;
-        height: 100px;
+        right: 0;
+        height: var(--height-sidebar-mobile);
+        width: 100%;
         flex-direction: row;
+        padding-bottom: 0;
     }
 
     .sidebar__logo {

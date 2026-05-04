@@ -5,7 +5,7 @@
 const firebaseConfig = {
     apiKey: "AIzaSyDqKUIXrAGfDTsbymcVdJ2w5ATaApioOv8",
     authDomain: "join-5bd8d.firebaseapp.com",
-    databaseURL:"https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app",
+    databaseURL: "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "join-5bd8d",
     storageBucket: "join-5bd8d.firebasestorage.app",
     messagingSenderId: "404471964373",
@@ -28,11 +28,7 @@ function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     db.ref("users").once("value", function (snapshot) {
-        const loginSuccess = checkIfUserExistsForLogin(
-            snapshot,
-            email,
-            password,
-        );
+        const loginSuccess = checkIfUserExistsForLogin(snapshot, email, password);
         if (loginSuccess) {
             loadDataToLocalStorage();
         } else {
@@ -61,11 +57,12 @@ function checkIfUserExistsForLogin(snapshot, email, password) {
  * This function checks the result of the login attempt. If the login was successful (login Success is ture), it redirects to the summary page.
  * If the login was unsuccessful (login Success is false), it display an error massage using the SweetAlert library,
  * indicating that the email or password is incorrect.
- *
+ * @param {boolean} loginSuccess - A boolean value indicating whether the login attempt was successful or not.
  */
 function checkLoginResults(loginSuccess) {
     if (loginSuccess === true) {
-        window.location.href = "summary.html";
+        sessionStorage.setItem("fromLogin", "true"); // Set flag so summary page can trigger animation once
+        window.location.href = "summary.html"; // Navigate to summary page after successful login
     } else {
         Swal.fire({
             icon: "error",
@@ -183,8 +180,11 @@ function userAlreadyExistsError() {
 /**
  * This function saves a new user to the Realtime Database under the "users" node.
  * It takes the user's name, email, and password as parameters and pushes this data to the database.
- * If the user is successfully saved, it displays a success massage.
- * If there is an error during the saving process, it catches the error and displays an error massage.
+ * If the user is successfully saved, it displays a success message.
+ * If there is an error during the saving process, it catches the error and displays an error message.
+ * @param {string} name - The name of the user to be saved.
+ * @param {string} email - The email of the user to be saved.
+ * @param {string} password - The password of the user to be saved.
  */
 function saveUser(name, email, password) {
     db.ref("users")

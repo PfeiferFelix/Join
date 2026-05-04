@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg" />
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="styles/contacts.css" />
         <link rel="stylesheet" href="styles/variable.css" />
@@ -18,13 +19,18 @@
 
         <title>Contacts</title>
     </head>
-    <body onload="init(); initContacts();">
+    <body
+        onload="
+            init();
+            initContacts();
+        "
+    >
         <div class="content__container fs-small-regular">
             <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
             <div class="header-main__container">
                 <header id="js-header" class="header"></header>
-                <main>
+                <main class="main-content">
                     <article class="contacts" id="contactsPanel">
                         <section class="contacts-sidebar">
                             <div class="contacts-sidebar__btn">
@@ -50,12 +56,8 @@
                             <div class="contact-content__info" id="contactInfo"></div>
                             <div class="contact-action-menu" id="contactActionMenu">
                                 <div class="contact-action-menu__popup" id="contactActionPopup">
-                                    <button class="contact-action-menu__item" onclick="openEditFromMenu()">
-                                        <img src="assets/icons/edit.png" alt="" />Edit
-                                    </button>
-                                    <button class="contact-action-menu__item" onclick="deleteFromMenu()">
-                                        <img src="assets/icons/delete.png" alt="" />Delete
-                                    </button>
+                                    <button class="contact-action-menu__item" onclick="openEditFromMenu()"><img src="assets/icons/edit.png" alt="" />Edit</button>
+                                    <button class="contact-action-menu__item" onclick="deleteFromMenu()"><img src="assets/icons/delete.png" alt="" />Delete</button>
                                 </div>
                                 <button class="contact-action-menu__btn" id="contactActionBtn">⋮</button>
                             </div>
@@ -67,7 +69,6 @@
 
         <div class="add-contact" id="addContactOverlay">
             <div class="add-contact__dialog">
-
                 <div class="add-contact__left">
                     <img src="assets/logos/logo.svg" alt="Join" class="add-contact__logo" />
                     <h2 class="add-contact__title">Add contact</h2>
@@ -96,12 +97,8 @@
                                 <img src="assets/icons/call.png" alt="Phone" />
                             </div>
                             <div class="add-contact__buttons">
-                                <button type="button" class="add-contact__btn--cancel" id="cancelAddContactBtn">
-                                    Cancel <img src="assets/icons/Vector.png" alt="Cancel" />
-                                </button>
-                                <button type="submit" class="add-contact__btn--create">
-                                    Create contact <img src="assets/icons/check.png" alt="Create" />
-                                </button>
+                                <button type="button" class="add-contact__btn--cancel" id="cancelAddContactBtn">Cancel <img src="assets/icons/Vector.png" alt="Cancel" /></button>
+                                <button type="submit" class="add-contact__btn--create">Create contact <img src="assets/icons/check.png" alt="Create" /></button>
                             </div>
                         </form>
                     </div>
@@ -138,12 +135,8 @@
                                 <img src="assets/icons/call.png" alt="Phone" />
                             </div>
                             <div class="add-contact__buttons">
-                                <button type="button" class="add-contact__btn--cancel" id="deleteContactFromEditBtn">
-                                    Delete <img src="assets/icons/delete.png" alt="Delete" />
-                                </button>
-                                <button type="submit" class="add-contact__btn--create">
-                                    Save <img src="assets/icons/check.png" alt="Save" />
-                                </button>
+                                <button type="button" class="add-contact__btn--cancel" id="deleteContactFromEditBtn">Delete <img src="assets/icons/delete.png" alt="Delete" /></button>
+                                <button type="submit" class="add-contact__btn--create">Save <img src="assets/icons/check.png" alt="Save" /></button>
                             </div>
                         </form>
                     </div>
