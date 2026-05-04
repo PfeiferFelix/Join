@@ -61,7 +61,6 @@
         flex-wrap: nowrap;
         width: 100%;
         max-width: 100%;
-        gap: 12px;
         overflow: auto;
         touch-action: pan-x;
         scroll-snap-type: x mandatory;
@@ -108,10 +107,9 @@
         border-radius: 14px;
         border-top-left-radius: 0;
         width: 100%;
-        min-width: 120px;
+        min-width: 123px;
         max-width: 180px;
         box-sizing: border-box;
-        height: auto;
     }
 
     .task-move-panel__body-title {

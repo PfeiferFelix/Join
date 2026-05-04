@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height: 232px
+    height: auto;
 }
 
 .board__addtask--mobile {

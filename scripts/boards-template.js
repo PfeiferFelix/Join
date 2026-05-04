@@ -229,21 +229,6 @@ function getCircleUserTemplate(userAbbreviation, userIndex = 0) {
     `;
 }
 
-// Escapes text for safe HTML text-node rendering.
-function escapeHtmlText(value) {
-    return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-}
-
-// Escapes text for safe HTML attribute rendering.
-function escapeHtmlAttribute(value) {
-    return escapeHtmlText(value)
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
-
 // Returns an inline edit input template for one subtask title.
 function getSubtaskEditInputTemplate(currentTitle, taskId, index) {
     return `<input type="text" class="task-form__input subtask-item__input" value="${escapeHtmlAttribute(currentTitle)}" onkeydown="saveSubtaskItem(event, ${taskId}, ${index})">`;
