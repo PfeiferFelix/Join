@@ -41,11 +41,35 @@ function getSidebarTemplate() {
                 </footer>`;
 }
 
+function getSidebarNotLoggedInTemplate() {
+    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
+                <nav class="sidebar__nav">
+                    <ul class="sidebar__nav-list">
+                        <li class="sidebar__list-item">
+                            <a class="sidebar__nav-link sidebar__login-link" href="login.html">
+                                <img class="sidebar__nav-img" src="assets/icons/Login.png" alt="" />
+                                <span>Login</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <footer class="sidebar__legal-information">
+                    <ul class="sidebar__legal-information-list">
+                        <li>
+                            <a id="js-sidebar-privacy-policy" class="sidebar__legal-information-link" href="privacy-policy.html">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a id="js-sidebar-legal-notice" class="sidebar__legal-information-link" href="legal-notice.html">Legal Notice</a>
+                        </li>
+                    </ul>
+                </footer>`;
+}
+
 function getHeaderTemplate() {
     return `<div class="header__content">
                 <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="" />
                 <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
-                <div class="header__user-interaction-container">
+                <div id="js-header-user-interaction-container" class="header__user-interaction-container">
                     <a onclick="goToHelp()"><img class="header__help-icon" src="assets/icons/header/help.svg" alt="Help" /></a>
                     <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
                     <div id="js-header-user-menu" class="header__user-menu"></div>

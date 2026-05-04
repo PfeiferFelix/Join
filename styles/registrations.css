@@ -22,7 +22,7 @@ header {
     margin-left: 80px;
 }
 
-.header-right {
+.header__right {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -34,7 +34,6 @@ header {
     color: white;
     border: none;
     padding: 10px 20px;
-    font-family: "Inter", sans-serif;
     cursor: pointer;
     border-radius: 10px;
     font-size: 15px;
@@ -47,7 +46,6 @@ header {
     align-items: center;
     width: 500px;
     padding: 48px 40px;
-    font-family: "Inter", sans-serif;
     background-color: white;
     margin: auto;
     margin-top: 100px;
@@ -55,12 +53,12 @@ header {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
 }
- .container_headline{
+ .container__headline{
         font-size: 50px;
         margin-left: 5px;
         font-weight: bold;
     }
-.title-row {
+.title__row {
     position: relative;
     width: 100%;
     display: flex;
@@ -68,17 +66,13 @@ header {
     justify-content: center;
 }
 
-.title-row aside {
+.title__row aside,
+.title__row a {
     position: absolute;
     left: 0;
 }
 
-.title-row a {
-    position: absolute;
-    left: 0;
-}
-
-.back-arrow {
+.back__arrow {
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -91,7 +85,7 @@ header {
     color: #1a1a2e;
 }
 
-.title-underline {
+.title__underline {
     width: 260px;
     height: 3px;
     background-color: #29ABE2;
@@ -99,26 +93,25 @@ header {
     margin: 12px 0 32px;
 }
 
-.login-form {
+.login__form {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.input-wrapper {
+.input__wrapper {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.input-wrapper input {
+.input__wrapper input {
     width: 100%;
     padding: 14px 48px 14px 18px;
     border: 1.5px solid #d1d5db;
     border-radius: 10px;
     font-size: 15px;
-    font-family: "Inter", sans-serif;
     color: #1a1a2e;
     background-color: white;
     outline: none;
@@ -126,15 +119,15 @@ header {
     transition: border-color 0.2s;
 }
 
-.input-wrapper input::placeholder {
+.input__wrapper input::placeholder {
     color: #9ca3af;
 }
 
-.input-wrapper input:focus {
+.input__wrapper input:focus {
     border-color: #29ABE2;
 }
 
-.input-icon {
+.input__icon {
     position: absolute;
     right: 16px;
     width: 20px;
@@ -142,44 +135,41 @@ header {
     pointer-events: none;
 }
 
-.button-row {
+.button__row {
     display: flex;
     gap: 16px;
     justify-content: center;
     margin-top: 8px;
 }
 
-.btnLogin {
+.Login__btn,
+.GuestLogin__btn {
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.Login__btn {
     background-color: #2A3647;
     color: white;
     border: none;
-    padding: 14px 32px;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: "Inter", sans-serif;
-    border-radius: 10px;
-    cursor: pointer;
     transition: background-color 0.2s;
 }
 
-.btnLogin:hover {
+.Login__btn:hover {
     background-color: #3a4a5c;
 }
 
-.btnGuestLogin {
+.GuestLogin__btn {
     background-color: white;
     color: #2A3647;
     border: 2px solid #2A3647;
-    padding: 14px 32px;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: "Inter", sans-serif;
-    border-radius: 10px;
-    cursor: pointer;
     transition: background-color 0.2s, color 0.2s;
 }
 
-.btnGuestLogin:hover {
+.GuestLogin__btn:hover {
     background-color: #f0f2f5;
 }
 
@@ -187,17 +177,15 @@ footer {
     margin-top: auto;
     padding: 20px;
     text-align: center;
-    font-family: "Inter", sans-serif;
 }
 
-.footerLink {
+.footer__Link {
     color: #9ca3af;
-    font-family: "Inter", sans-serif;
     text-decoration: none;
     margin-left: 20px;
 }
 
-.checkbox-row {
+.checkbox__row {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -205,7 +193,7 @@ footer {
     gap: 12px;
 }
 
-.checkbox-row input[type="checkbox"] {
+.checkbox__row input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     width: 20px;
@@ -216,25 +204,25 @@ footer {
     flex-shrink: 0;
 }
 
-.checkbox-row input[type="checkbox"]:checked {
+.checkbox__row input[type="checkbox"]:checked {
     background-color: #2A3647;
     background-size: 14px;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-.checkbox-row label {
+.checkbox__row label {
     font-size: 15px;
     color: #9ca3af;
     cursor: pointer;
 }
 
-.checkbox-row label a {
+.checkbox__row label a {
     color: #29ABE2;
     text-decoration: none;
 }
 
-.checkbox-row label a:hover {
+.checkbox__row label a:hover {
     text-decoration: underline;
 }
 
@@ -243,30 +231,30 @@ footer {
         width: 80%;
         padding: 32px 20px;
     };
-     .container_headline{
+     .container__headline{
         font-size: 30px;
         margin-left: 5px;
     }
-   
-    .title-underline {
+
+    .title__underline {
         width: 250px;
     }
-    .input-wrapper input {
+    .input__wrapper input {
         padding: 12px 40px 12px 16px;
     }
-    .input-icon {
+    .input__icon {
         width: 16px;
         height: 16px;
     }
-    .button-row {
+    .button__row {
         flex-direction: column;
         gap: 12px;
     }
-    .btnLogin, .btnGuestLogin {
+    .Login__btn, .GuestLogin__btn {
         width: 100%;
         padding: 12px;
     }
-    .header-right {
+    .header__right {
         margin-right: 20px;
     }
     .logo {
@@ -287,7 +275,7 @@ footer {
         margin-top: 24px;
     }
 
-    .header-right {
+    .header__right {
         display: none;
     }
 
@@ -302,11 +290,11 @@ footer {
         margin-top: 24px;
         justify-content: center;
     }
-    .container_headline{
+    .container__headline{
         font-size: 30px;
         margin-left: 10px;
     }
-      .title-underline {
+      .title__underline {
         width: 200px;
     }
 }

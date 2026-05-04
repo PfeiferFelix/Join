@@ -125,6 +125,17 @@ a {
     color: var(--light-blue-color);
 }
 
+.sidebar__login-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar__login-img {
+    width: 24px;
+    height: 24px;
+}
+
 .sidebar__legal-information-list {
     display: flex;
     flex-direction: column;

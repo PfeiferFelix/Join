@@ -9,7 +9,8 @@ async function init() {
     injectSharedTemplates();
     addHelpToUserMenu(850);
     highlightActivePage();
-    addNameInitials();
+    if (currentUserNameLS) addNameInitials();
+    hideNavIfNotLoggedIn();
     await waitForImages(); // Wait for all images to load before showing the page to prevent layout shifts and ensure a smooth user experience.
     document.body.style.visibility = "visible"; // Show the page after all images are loaded
 }
@@ -37,11 +38,41 @@ function importandFormatLocalStorageData(key) {
 /**
  * Injects all shared templates (sidebar, header, user button, user menu) into their respective placeholder elements.
  */
+function addSidebar() {
+    const sidebar = document.getElementById("js-sidebar");
+    const isLoggedIn = localStorage.getItem("currentUserEmail") !== null;
+    sidebar.innerHTML = isLoggedIn ? getSidebarTemplate() : getSidebarNotLoggedInTemplate();
+}
+
 function injectSharedTemplates() {
     document.getElementById("js-sidebar").innerHTML = getSidebarTemplate();
     document.getElementById("js-header").innerHTML = getHeaderTemplate();
     document.getElementById("js-user-menu-button").innerHTML = getHeaderCircleUserTemplate();
     document.getElementById("js-header-user-menu").innerHTML = getHeaderUserMenuTemplate();
+}
+
+/**
+ * Injects the prepared header template on the summary page.
+ */
+function addHeader() {
+    const header = document.getElementById("js-header");
+    header.innerHTML = getHeaderTemplate();
+}
+
+/**
+ * Adds the user button to the header using the getHeaderCircleUserTemplate function.
+ */
+function addUserButton() {
+    const userButton = document.getElementById("js-user-menu-button");
+    userButton.innerHTML = getHeaderCircleUserTemplate();
+}
+
+/**
+ * Adds the user menu to the header using the getHeaderUserMenuTemplate function.
+ */
+function addUserMenu() {
+    const userMenu = document.getElementById("js-header-user-menu");
+    userMenu.innerHTML = getHeaderUserMenuTemplate();
 }
 
 /**
@@ -122,6 +153,15 @@ function addHelpToUserMenu(maxWidthMobile) {
  */
 function UpperCaseIntial(string) {
     return string.toUpperCase().charAt(0);
+}
+
+/**
+ * Hides the user interaction container in the header if there is no current user email stored in local storage, which indicates that the user is not logged in.
+ */
+function hideNavIfNotLoggedIn() {
+    if (localStorage.getItem("currentUserEmail") === null) {
+        document.getElementById("js-header-user-interaction-container").style.display = "none";
+    }
 }
 
 /**
