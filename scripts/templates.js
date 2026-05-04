@@ -16,6 +16,7 @@ function getHeaderUserMenuTemplate() {
         </ul>
     `;
 }
+
 function getHeaderUserMenuHelpTemplate() {
     return `<li id="js-header-user-menu-help"><a class="header__user-link" href="help.html">Help</a></li>`;
 }
@@ -73,4 +74,26 @@ function getHeaderTemplate() {
                     <div id="js-header-user-menu" class="header__user-menu"></div>
                 </div>
             </div>`;
+}
+
+function getDropdownItemTemplate(initials, color, name, email) {
+    return `
+        <div class="dropdown__avatar" style="background-color: ${color}">${initials}</div>
+        <span class="dropdown__name">${name}</span>
+        <input type="checkbox" class="dropdown__checkbox" value="${email}" />
+    `;
+}
+
+function getSelectedAvatarTemplate(initials, color) {
+    return `<div class="dropdown__avatar" style="background-color: ${color}">${initials}</div>`;
+}
+
+function getSubtaskItemTemplate(value) {
+    return `
+        <span class="subtask-list__text">${value}</span>
+        <div class="subtask-list__actions">
+            <button type="button" class="subtask-list__btn subtask-list__btn--edit">✏️</button>
+            <button type="button" class="subtask-list__btn subtask-list__btn--delete">🗑️</button>
+        </div>
+    `;
 }
