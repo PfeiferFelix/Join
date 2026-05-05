@@ -114,7 +114,7 @@ function getHeaderUserMenuTemplate() {
         <ul id="js-header-user-menu-list" class="header__user-list fs-small-regular fc-lightgrey">
             <li><a class="header__user-link" href="legal-notice.html">Legal Notice</a></li>
             <li><a class="header__user-link" href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a class="header__user-link" href="login.html">Log Out</a></li>
+            <li><a class="header__user-link" href="login.html" onclick="logout()">Log Out</a></li>
         </ul>
     `;
 }

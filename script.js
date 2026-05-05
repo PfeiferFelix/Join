@@ -6,6 +6,7 @@ let fromLogin = false;
  * Initialize function
  */
 async function init() {
+    redirectToLoginIfNotLoggedIn();
     injectSharedTemplates();
     addHelpToUserMenu(850);
     highlightActivePage();
@@ -52,35 +53,29 @@ function injectSharedTemplates() {
 }
 
 /**
- * Injects the prepared header template on the summary page.
- */
-function addHeader() {
-    const header = document.getElementById("js-header");
-    header.innerHTML = getHeaderTemplate();
-}
-
-/**
- * Adds the user button to the header using the getHeaderCircleUserTemplate function.
- */
-function addUserButton() {
-    const userButton = document.getElementById("js-user-menu-button");
-    userButton.innerHTML = getHeaderCircleUserTemplate();
-}
-
-/**
- * Adds the user menu to the header using the getHeaderUserMenuTemplate function.
- */
-function addUserMenu() {
-    const userMenu = document.getElementById("js-header-user-menu");
-    userMenu.innerHTML = getHeaderUserMenuTemplate();
-}
-
-/**
  * Toggles the visibility of the user menu when the user button is clicked.
  */
 function toggleUserMenu() {
     const userMenu = document.getElementById("js-header-user-menu");
     userMenu.style.display = userMenu.style.display === "block" ? "none" : "block";
+}
+
+/**
+ * Redirects the user to the login page if they are not logged in by checking if there is a current user email stored in local storage. If there is no email, it means the user is not logged in, and they are redirected to the login page.
+ */
+function redirectToLoginIfNotLoggedIn() {
+    if (!localStorage.getItem("currentUserEmail")) {
+        window.location.href = "login.html";
+    }
+}
+/**
+ * Logs the user out by removing the current user email, name, contacts, and boards from local storage. This effectively ends the user's session and logs them out of the application.
+ */
+function logout() {
+    localStorage.removeItem("currentUserEmail");
+    localStorage.removeItem("currentUserName");
+    localStorage.removeItem("contacs");
+    localStorage.removeItem("boards");
 }
 
 /**
