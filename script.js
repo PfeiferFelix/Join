@@ -45,7 +45,8 @@ function addSidebar() {
 }
 
 function injectSharedTemplates() {
-    document.getElementById("js-sidebar").innerHTML = getSidebarTemplate();
+    const isLoggedIn = localStorage.getItem("currentUserEmail") !== null;
+    document.getElementById("js-sidebar").innerHTML = isLoggedIn ? getSidebarTemplate() : getSidebarNotLoggedInTemplate();
     document.getElementById("js-header").innerHTML = getHeaderTemplate();
     document.getElementById("js-user-menu-button").innerHTML = getHeaderCircleUserTemplate();
     document.getElementById("js-header-user-menu").innerHTML = getHeaderUserMenuTemplate();
