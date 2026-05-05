@@ -21,6 +21,7 @@ function initSummary() {
     changeGreeting();
     addNameToGreeting();
     iteradeTasksData();
+    setDate();
     setTasksDataInSummary();
     checkIfUserJustLoggedIn();
     addAnimationToMobileSummary(maxWidth);
@@ -86,6 +87,20 @@ function getNearestDate(dueDate) {
         }
     }
 }
+/**
+ * Formats the nearest urgent date for display. If there is no nearest urgent date, it sets the value to "unavailable". If there is a nearest urgent date, it formats it as a string in the format "Month Day, Year" (e.g., "January 1, 2024") for display in the summary.
+ */
+function setDate() {
+    if (!nextUrgentDate) {
+        nextUrgentDate = "unavailable";
+    } else {
+        nextUrgentDate = nextUrgentDate.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+        });
+    }
+}
 
 /**
  * Sets the calculated summary statistics in the summary display. It updates the text content of various elements in the summary page to reflect the counts of tasks in different states, the number of urgent tasks, and the nearest urgent due date.
@@ -98,14 +113,7 @@ function setTasksDataInSummary() {
         ["js-tasks-in-progress-count", tasksInProgress],
         ["js-awaiting-feedback", awaitingFeedback],
         ["js-tasks-in-board", tasksInBoard],
-        [
-            "js-deadline-date",
-            nextUrgentDate.toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-            }),
-        ],
+        ["js-deadline-date", nextUrgentDate],
     ];
 
     for (const [id, value] of summaryFields) {

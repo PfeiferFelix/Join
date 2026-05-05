@@ -65,7 +65,9 @@ function toggleUserMenu() {
  * Redirects the user to the login page if they are not logged in by checking if there is a current user email stored in local storage. If there is no email, it means the user is not logged in, and they are redirected to the login page.
  */
 function redirectToLoginIfNotLoggedIn() {
-    if (!localStorage.getItem("currentUserEmail")) {
+    const requiredKeys = ["currentUserEmail", "currentUserName", "contacs", "boards"];
+    const isMissing = requiredKeys.some((key) => localStorage.getItem(key) === null);
+    if (isMissing) {
         window.location.href = "login.html";
     }
 }
