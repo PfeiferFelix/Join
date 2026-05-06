@@ -10,6 +10,7 @@ async function init() {
     injectSharedTemplates();
     addHelpToUserMenu(850);
     highlightActivePage();
+    removeHelpLink();
     if (currentUserNameLS) addNameInitials();
     hideNavIfNotLoggedIn();
     await waitForImages(); // Wait for all images to load before showing the page to prevent layout shifts and ensure a smooth user experience.
@@ -59,6 +60,17 @@ function injectSharedTemplates() {
 function toggleUserMenu() {
     const userMenu = document.getElementById("js-header-user-menu");
     userMenu.style.display = userMenu.style.display === "block" ? "none" : "block";
+}
+
+/**
+ * Removes the help-link if they are already on the help-page
+ */
+function removeHelpLink() {
+    const helpButton = document.getElementById("js-header-help-button");
+    const currentPage = window.location.pathname.split("/").pop().split(".")[0];
+    if (currentPage === "help") {
+        helpButton.style.visibility = "hidden";
+    }
 }
 
 /**

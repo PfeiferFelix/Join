@@ -175,6 +175,7 @@ a {
 
 .header__user-button {
     position: relative;
+    margin-left: 10px;
 }
 
 .header__user-button:hover .header__circle {
@@ -185,7 +186,6 @@ a {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
 .header__headline3 {
