@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: space-around;
     height: auto;
+    margin-bottom: 48px;
 }
 
 .sidebar {
@@ -28,10 +29,6 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 12px;
-}
-
-.board__h1 {
-    font-size: 64px;
 }
 
 .board__list {

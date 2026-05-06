@@ -1,13 +1,15 @@
+.main-content {
+    padding: 0 !important;
+}
+
 .privacy-policy {
     flex: 1;
     overflow-y: auto;
-    padding: 0 64px;
-    margin-left: var(--width-sidebar);
-    margin-top: 150px;
+    padding: 50px;
 }
 
 .privacy-policy__title {
-    font-size: 47px;
+    font-size: 61px;
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: 24px;

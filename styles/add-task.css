@@ -16,10 +16,8 @@ main {
     overflow: hidden;
 }
 
-main h1 {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 32px;
+.main-content__page-title {
+    margin-bottom: 48px;
 }
 
 .task-form {

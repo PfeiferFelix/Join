@@ -97,6 +97,16 @@ function removeFromLocalStorage(key) {
 }
 // --- Hilfsfunktionen ---
 
+function toTitleCase(str) {
+    const words = str.trim().split(' ');
+    const result = [];
+    for (let index = 0; index < words.length; index++) {
+        const word = words[index];
+        result.push(word[0].toUpperCase() + word.slice(1).toLowerCase());
+    }
+    return result.join(' ');
+}
+
 // Gibt die Initialen eines Namens zurück
 function getInitials(name) {
     const parts = name.trim().split(' ');
@@ -243,7 +253,7 @@ function onContactAdded(key, contact) {
 function handleAddContactSubmit(event) {
     event.preventDefault();
     const newContact = {
-        name: document.getElementById('addContactName').value.trim(),
+        name: toTitleCase(document.getElementById('addContactName').value),
         email: document.getElementById('addContactEmail').value.trim(),
         phone: document.getElementById('addContactPhone').value.trim(),
     };
@@ -291,7 +301,7 @@ function handleEditContactSubmit(event) {
     event.preventDefault();
     const key = document.getElementById('editContactFirebaseKey').value;
     const updated = {
-        name: document.getElementById('editContactName').value.trim(),
+        name: toTitleCase(document.getElementById('editContactName').value),
         email: document.getElementById('editContactEmail').value.trim(),
         phone: document.getElementById('editContactPhone').value.trim(),
     };
