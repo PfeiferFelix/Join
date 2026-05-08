@@ -313,7 +313,7 @@ a {
 
     .header__user-menu {
         transform: translateX(200px);
-        transition: transform 250ms ease-in-out;
+        transition: transform 125ms ease-in-out;
     }
 
     .header__user-menu-slide-in {
