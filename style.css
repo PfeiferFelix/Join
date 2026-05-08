@@ -206,9 +206,9 @@ a {
 }
 
 .header__user-menu {
-    display: none;
+    opacity: 0;
     position: absolute;
-    left: -22px;
+    right: -15px;
     top: 77px;
     background-color: var(--primary-color);
     border-radius: 20px;
@@ -238,6 +238,11 @@ a {
 
 .header__help-icon:hover {
     transform: scale(1.2);
+}
+
+/*utilites*/
+.opened {
+    opacity: 1;
 }
 
 @media (max-width: 1200px) {
@@ -307,7 +312,12 @@ a {
     }
 
     .header__user-menu {
-        left: -53px;
+        transform: translateX(200px);
+        transition: transform 250ms ease-in-out;
+    }
+
+    .header__user-menu-slide-in {
+        transform: translateX(0);
     }
 }
 
