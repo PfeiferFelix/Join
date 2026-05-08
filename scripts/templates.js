@@ -3,30 +3,30 @@
  * @returns {string} The sidebar HTML markup.
  */
 function getSidebarTemplate() {
-    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
+    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="Join" />
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-summary" class="sidebar__nav-link" href="summary.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="Summary" /> 
                                 <span>Summary</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-add-task" class="sidebar__nav-link" href="add-task.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="" />
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="Add Task" />
                                 <span>Add Task</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-boards" class="sidebar__nav-link" href="boards.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/boards.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/boards.svg" alt="Boards" /> 
                                 <span>Boards</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-contacts" class="sidebar__nav-link" href="contacts.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="Contacts" /> 
                                 <span>Contacts</span>
                             </a>
                         </li>
@@ -50,12 +50,12 @@ function getSidebarTemplate() {
  * @returns {string} The sidebar HTML markup.
  */
 function getSidebarNotLoggedInTemplate() {
-    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
+    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="Join" />
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
                             <a class="sidebar__nav-link sidebar__login-link" href="login.html">
-                                <img class="sidebar__nav-img" src="assets/icons/Login.png" alt="" />
+                                <img class="sidebar__nav-img" src="assets/icons/Login.png" alt="Login" />
                                 <span>Login</span>
                             </a>
                         </li>
@@ -79,7 +79,7 @@ function getSidebarNotLoggedInTemplate() {
  */
 function getHeaderTemplate() {
     return `<div class="header__content">
-                <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="" />
+                <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="Join" />
                 <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
                 <div id="js-header-user-interaction-container" class="header__user-interaction-container">
                     <a id="js-header-help-button" onclick="goToHelp()"><img class="header__help-icon" src="assets/icons/header/help.svg" alt="Help" /></a>
