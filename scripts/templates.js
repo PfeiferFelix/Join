@@ -4,25 +4,25 @@ function getSidebarTemplate() {
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-summary" class="sidebar__nav-link" href="summary.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/summary.svg" alt="" /> 
                                 <span>Summary</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-add-task" class="sidebar__nav-link" href="add-task.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="" />
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/add-task.svg" alt="" />
                                 <span>Add Task</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-boards" class="sidebar__nav-link" href="boards.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/boards.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/boards.svg" alt="" /> 
                                 <span>Boards</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-contacts" class="sidebar__nav-link" href="contacts.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/contacts.svg" alt="" /> 
                                 <span>Contacts</span>
                             </a>
                         </li>
@@ -47,7 +47,7 @@ function getSidebarNotLoggedInTemplate() {
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
                             <a class="sidebar__nav-link sidebar__login-link" href="login.html">
-                                <img class="sidebar__nav-img" src="assets/icons/Login.png" alt="" />
+                                <img class="sidebar__nav-img" src="assets/Login/Login.png" alt="" />
                                 <span>Login</span>
                             </a>
                         </li>
@@ -70,7 +70,7 @@ function getHeaderTemplate() {
                 <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="" />
                 <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
                 <div id="js-header-user-interaction-container" class="header__user-interaction-container">
-                    <a onclick="goToHelp()"><img class="header__help-icon" src="assets/icons/header/help.svg" alt="Help" /></a>
+                    <a onclick="goToHelp()"><img class="header__help-icon" src="assets/header/help.svg" alt="Help" /></a>
                     <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
                     <div id="js-header-user-menu" class="header__user-menu"></div>
                 </div>
@@ -154,8 +154,8 @@ function getContactCardTemplate(contact, avatarColor) {
                 <div class="contact-card__user-info">
                     <h2 class="contact-card__name">${contact.name}</h2>
                     <div class="contact-card__btn-container">
-                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/icons/edit.png" alt="" />Edit</button>
-                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/icons/delete.png" alt="" />Delete</button>
+                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/Boards/edit.png" alt="" />Edit</button>
+                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/Boards/delete.png" alt="" />Delete</button>
                     </div>
                 </div>
             </div>`;

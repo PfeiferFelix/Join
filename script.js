@@ -95,7 +95,7 @@ function highlightActivePage() {
     activeLink.classList.add("sidebar__link--active");
     const icon = activeLink.querySelector("img.sidebar__nav-img");
     if (icon) {
-        icon.src = `assets/icons/sidebar/active/${currentPage}-active.svg`;
+        icon.src = `assets/sidebar/active/${currentPage}-active.svg`;
     }
 }
 
