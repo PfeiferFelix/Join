@@ -1,4 +1,25 @@
-﻿// Switches a subtask item into inline edit mode.
+﻿// Akzeptiert die Bearbeitung eines Subtasks (speichert den Wert und verlässt den Edit-Modus)
+function acceptSubtaskItem(taskId, index) {
+    const dialog = document.getElementById('editTaskDialog');
+    if (!dialog) return;
+    const item = dialog.querySelector(`[data-subtask-index="${index}"]`);
+    if (!item) return;
+    const input = item.querySelector('.subtask-item__input');
+    if (!input) return;
+    const newTitle = input.value.trim();
+    if (!newTitle) return;
+    const task = todos.find(t => t.id == taskId);
+    if (!task) return;
+    const subtasks = getLimitedSubtasks(task.subtasks);
+    subtasks[index].title = newTitle;
+    task.subtasks = subtasks;
+    const hiddenInput = dialog.querySelector('#edit-subtasks-data');
+    if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);
+    saveBoardsToLocalStorage();
+    const list = dialog.querySelector('.subtask-list');
+    if (list) renderEditSubtaskItems(list, subtasks, taskId);
+}
+// Switches a subtask item into inline edit mode.
 function editSubtaskItem(taskId, index) {
     const dialog = document.getElementById('editTaskDialog');
     if (!dialog) return;
@@ -17,8 +38,7 @@ function editSubtaskItem(taskId, index) {
 // Re-renders editable subtask items in the dialog.
 function renderEditSubtaskItems(list, subtasks, taskId) {
     list.querySelectorAll('.subtask-item').forEach(item => item.remove());
-    const container = list.querySelector('.subtask-container__list');
-    if (!container) return;
+    const container = list.querySelector('.subtask-container__list') || list;
     const items = subtasks.map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskId, index)).join('');
     container.insertAdjacentHTML('afterbegin', items);
     updateNewSubtaskInputVisibility(list, subtasks);
@@ -26,7 +46,8 @@ function renderEditSubtaskItems(list, subtasks, taskId) {
 
 // Hides the new-subtask input when the limit is reached.
 function updateNewSubtaskInputVisibility(list, subtasks = []) {
-    const inputWrapper = list?.querySelector('.subtask-input');
+    const container = list?.closest('.subtask-container') || list?.parentElement;
+    const inputWrapper = container?.querySelector('.subtask-input');
     if (!inputWrapper) return;
     inputWrapper.hidden = getLimitedSubtasks(subtasks).length >= 2;
 }
@@ -100,6 +121,7 @@ function clearSubtasks(taskId) {
     if (!input) return;
 
     input.value = '';
+    input.closest('.subtask-input')?.querySelector('.subtask-item__actions')?.classList.remove('subtask-item__actions--active');
     input.focus();
 }
 

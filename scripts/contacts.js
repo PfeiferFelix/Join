@@ -14,9 +14,13 @@ const AVATAR_COLORS = [
     '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
 ];
 
-// Firebase wird initialisiert und Zugriff auf die Realtime Database
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// Initialisiert Firebase (falls notwendig) und liefert die Realtime Database Instanz.
+function getFirebaseDatabase() {
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    return firebase.database();
+}
+
+const db = getFirebaseDatabase();
 
 // Speichert alle geladenen Kontakte als Array von Objekten: { firebaseKey, name, email, phone }
 let contactsList = [];
@@ -38,8 +42,6 @@ function initContacts() {
     renderContacts();
     setupEventListeners();
 }
-
-
 // --- Local Storage ---
 
 // Gibt die Kontaktdaten aus dem Local Storage als Objekt zurück
@@ -66,6 +68,20 @@ function loadContactsFromLocalStorage() {
     }
 }
 
+// Lädt Kontakte aus Firebase und schreibt sie in den Local Storage als Objekt unter "contacs".
+async function syncContactsFromFirebaseToLocalStorage() {
+    try {
+        const response = await fetch(`${FIREBASE_BASE_URL}contacs.json`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const remoteContacts = await response.json() || {};
+        localStorage.setItem('contacs', JSON.stringify(remoteContacts));
+        return true;
+    } catch (error) {
+        console.error('Kontakte konnten nicht aus Firebase geladen werden:', error);
+        return false;
+    }
+}
+
 // Speichert oder überschreibt einen Kontakt im Local Storage
 function setInLocalStorage(key, contact) {
     const data = getLocalStorageData();
@@ -79,8 +95,6 @@ function removeFromLocalStorage(key) {
     delete data[key];
     localStorage.setItem('contacs', JSON.stringify(data));
 }
-
-
 // --- Hilfsfunktionen ---
 
 // Gibt die Initialen eines Namens zurück
@@ -108,7 +122,9 @@ function groupContactsAlphabetically() {
     });
     const groups = {};
     for (let index = 0; index < sorted.length; index++) {
-        const letter = sorted[index].name.trim()[0].toUpperCase();
+        const trimmed = sorted[index].name?.trim();
+        if (!trimmed) continue;
+        const letter = trimmed[0].toUpperCase();
         if (!groups[letter]) groups[letter] = [];
         groups[letter].push(sorted[index]);
     }
@@ -126,26 +142,6 @@ function buildItemsHtml(contacts) {
     }
     return html;
 }
-
-// Gibt den HTML-String für die Header-Section zurück
-function showFirebaseError(error) {
-    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
-}
-
-// Erfolgsmeldung als Toast, z.B. nach dem Erstellen eines Kontakts
-function showSuccessToast(message) {
-    Swal.fire({
-        toast: true,
-        position: 'bottom-end',
-        title: message,
-        showConfirmButton: false,
-        timer: 3000,
-        background: '#2a3647',
-        color: '#fff',
-    });
-}
-
-
 // --- Render ---
 
 // Baut die Kontaktliste in der Sidebar auf
@@ -255,8 +251,6 @@ function handleAddContactSubmit(event) {
         .then(function(snapshot) { onContactAdded(snapshot.key, newContact); })
         .catch(showFirebaseError);
 }
-
-
 // --- Edit Contact ---
 
 // Befüllt den Avatar im Edit-Dialog mit den Initialen und der Farbe des Kontakts
@@ -305,8 +299,6 @@ function handleEditContactSubmit(event) {
         .then(function() { onContactEdited(key, updated); })
         .catch(showFirebaseError);
 }
-
-
 // --- Delete Contact ---
 
 // Dialog zum Löschen eines Kontakts, mit SweetAlert
@@ -338,9 +330,7 @@ function deleteContact(key) {
         .catch(showFirebaseError);
 }
 
-
 // --- Mobile Aktionsmenü ---
-
 function openEditFromMenu() {
     closeContactActionMenu();
     openEditContactDialog(currentActiveFirebaseKey);
@@ -360,9 +350,7 @@ function closeContactActionMenu() {
     document.getElementById('contactActionPopup').classList.remove('contact-action-menu__popup--visible');
 }
 
-
 // --- Event Listeners ---
-
 function onDeleteFromEditDialog() {
     const key = document.getElementById('editContactFirebaseKey').value;
     confirmDeleteContact(key);
