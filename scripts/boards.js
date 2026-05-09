@@ -1,3 +1,4 @@
+// Hilfsfunktionen werden jetzt global aus boards-utils.js bereitgestellt
 let boardsLS = getFormattedLocalStorageItems("boards");
 let contactsLS = getFormattedLocalStorageItems("contacs");
 let defaultContacts = [];
@@ -47,8 +48,97 @@ async function postTaskToFirebase(task) {
             body: JSON.stringify(task),
         });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        if (payload?.name) {
+            task.firebaseKey = payload.name;
+            saveBoardsToLocalStorage();
+        }
     } catch (error) {
         console.error('Karte konnte nicht in Firebase gespeichert werden:', error);
+    }
+}
+
+async function resolveFirebaseKeyByTaskId(taskId) {
+    try {
+        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const remoteBoards = await response.json() || {};
+        const match = Object.entries(remoteBoards).find(([, item]) => String(item?.id) === String(taskId));
+        return match?.[0] || null;
+    } catch (error) {
+        console.error('Firebase-Key konnte nicht aufgeloest werden:', error);
+        return null;
+    }
+}
+
+async function persistTaskCategoryToFirebase(task) {
+    if (!task) return;
+    const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
+    if (!firebaseKey) return;
+    task.firebaseKey = firebaseKey;
+    try {
+        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: buildCategoryPatchBody(task),
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        saveBoardsToLocalStorage();
+    } catch (error) {
+        console.error('Kategorienwechsel konnte nicht in Firebase gespeichert werden:', error);
+    }
+}
+
+function buildCategoryPatchBody(task) {
+    return JSON.stringify({ category: task.category });
+}
+
+async function persistTaskUpdateToFirebase(task) {
+    if (!task) return { ok: false, attempted: false };
+    const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
+    if (!firebaseKey) return { ok: false, attempted: false };
+    task.firebaseKey = firebaseKey;
+    try {
+        const body = buildFirebaseTaskBody(task);
+        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
+            method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        saveBoardsToLocalStorage();
+        return { ok: true, attempted: true };
+    } catch (error) {
+        console.error('Karten-Aenderungen konnten nicht in Firebase gespeichert werden:', error);
+        return { ok: false, attempted: true };
+    }
+}
+
+function buildFirebaseTaskBody(task) {
+    return JSON.stringify({
+        id: task.id,
+        title: task.title,
+        description: task.description || '',
+        dueDate: task.dueDate || '',
+        priority: task.priority || 'Medium',
+        category: task.category || 'toDo',
+        selectedCategoryLabel: task.selectedCategoryLabel || categoryLabel(task.category || 'toDo'),
+        assignedTo: Array.isArray(task.assignedTo) ? task.assignedTo : [],
+        subtasks: Array.isArray(task.subtasks) ? task.subtasks : [],
+        subtask: task.subtask || '',
+    });
+}
+
+async function deleteTaskFromFirebase(task) {
+    if (!task) return { ok: true, attempted: false };
+    const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
+    if (!firebaseKey) return { ok: true, attempted: false };
+    try {
+        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
+            method: 'DELETE',
+        });
+        return { ok: response.ok, attempted: true };
+    } catch (error) {
+        console.error('Karte konnte nicht aus Firebase geloescht werden:', error);
+        return { ok: false, attempted: true };
     }
 }
 
@@ -58,7 +148,7 @@ async function syncBoardTasksFromFirebase() {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const remoteBoards = await response.json() || {};
         const normalizedBoards = Object.entries(remoteBoards).reduce((result, [firebaseKey, task], index) => {
-            const normalizedTask = normalizeBoardItem({ ...task, id: task?.id || Date.now() + index }, index);
+            const normalizedTask = normalizeBoardItem({ ...task, firebaseKey, id: task?.id || Date.now() + index }, index);
             result[firebaseKey] = normalizedTask;
             return result;
         }, {});
@@ -78,21 +168,15 @@ function updateBoardTodosFromLocalStorage() {
     todos = normalizeBoards(boardsLS);
 }
 
-function getLimitedSubtasks(input) {
-    const source = Array.isArray(input) ? input : [input];
-    return source
-        .map(item => typeof item === 'string' ? { title: item, done: false } : item)
-        .map(item => ({ title: (item?.title || '').trim(), done: Boolean(item?.done), }))
-        .filter(item => item.title).slice(0, 2);
-}
-
 function updateHTML() {
     document.querySelectorAll('.board__list').forEach(list => { list.style.display = ''; });
     saveBoardsToLocalStorage();
-    renderCategoryContent({ category: "toDo", cardsId: "board__cards--todo", emptyId: "noneCardTodo" });
-    renderCategoryContent({ category: "inProgress", cardsId: "board__cards--inprogress", emptyId: "noneCardInProgress" });
-    renderCategoryContent({ category: "feedback", cardsId: "board__cards--feedback", emptyId: "noneCardFeedback" });
-    renderCategoryContent({ category: "done", cardsId: "board__cards--done", emptyId: "noneCardDone" });
+    [
+        { category: "toDo", cardsId: "board__cards--todo", emptyId: "noneCardTodo" },
+        { category: "inProgress", cardsId: "board__cards--inprogress", emptyId: "noneCardInProgress" },
+        { category: "feedback", cardsId: "board__cards--feedback", emptyId: "noneCardFeedback" },
+        { category: "done", cardsId: "board__cards--done", emptyId: "noneCardDone" }
+    ].forEach(renderCategoryContent);
     updateTaskDraggableState();
     initializeTouchBoardDnD();
     initializeBoardViewportBehavior();
@@ -169,18 +253,27 @@ function searchCard(event) {
     event.preventDefault();
     const searchInput = event.currentTarget?.querySelector('input[name="search"]');
     const query = (searchInput?.value || '').trim().toLowerCase();
-    if (!query) return searchInput ? (searchInput.setCustomValidity('Bitte gib einen Suchbegriff ein.'), searchInput.reportValidity()) : undefined;
+    if (!query) {
+        if (searchInput) {
+            searchInput.setCustomValidity('Bitte gib einen Suchbegriff ein.');
+            searchInput.reportValidity();
+        }
+        return;
+    }
     if (searchInput) searchInput.setCustomValidity('');
-    const columns = [
+    getBoardColumns().forEach(col => renderSearchResultColumn(col, query));
+    updateTaskDraggableState();
+    initializeTouchBoardDnD();
+    initializeTaskMoveMenuCloseBehavior();
+}
+
+function getBoardColumns() {
+    return [
         { category: 'toDo', cardsId: 'board__cards--todo', emptyId: 'noneCardTodo' },
         { category: 'inProgress', cardsId: 'board__cards--inprogress', emptyId: 'noneCardInProgress' },
         { category: 'feedback', cardsId: 'board__cards--feedback', emptyId: 'noneCardFeedback' },
         { category: 'done', cardsId: 'board__cards--done', emptyId: 'noneCardDone' },
     ];
-    columns.forEach(col => renderSearchResultColumn(col, query));
-    updateTaskDraggableState();
-    initializeTouchBoardDnD();
-    initializeTaskMoveMenuCloseBehavior();
 }
 
 function clearSearch(event) {
@@ -197,7 +290,11 @@ function resetSearchOnEscape(event) {
 }
 
 function saveBoardsToLocalStorage() {
-    const boardsObject = todos.reduce((result, todo) => { result[todo.id] = todo; return result; }, {});
+    const boardsObject = todos.reduce((result, todo) => {
+        const key = todo.firebaseKey || todo.id;
+        result[key] = todo;
+        return result;
+    }, {});
     localStorage.setItem("boards", JSON.stringify(boardsObject));
 }
 
@@ -219,8 +316,10 @@ function moveTaskToCategory(taskId, targetCategory) {
     if (!targetCategory) return;
     const taskIndex = todos.findIndex((todo) => todo.id == taskId);
     if (taskIndex !== -1) {
-        todos[taskIndex].category = targetCategory;
+        const task = todos[taskIndex];
+        task.category = targetCategory;
         updateHTML();
+        persistTaskCategoryToFirebase(task);
     }
 }
 
@@ -241,25 +340,13 @@ function handleTaskClick(event, taskId) {
 function updateTaskCardSubtaskPreview(taskId, task, subtasks, removeEmptyState = false) {
     const card = document.getElementById(String(taskId));
     if (!card) return;
-
-    const countEl = card.querySelector('#subtaskCount');
+    const countEl = card.querySelector('.task__subtask-text');
     if (countEl) countEl.textContent = getSubtaskCountText(task);
-    const barEl = card.querySelector('.subtask');
+    const barEl = card.querySelector('.task__progress-bar');
     if (!barEl) return;
-
-    const doneCount = subtasks.filter(s => s.done).length;
-    barEl.classList.toggle('subtask--active', doneCount > 0);
-    barEl.classList.toggle('subtask--done', doneCount === subtasks.length && subtasks.length > 0);
-    if (removeEmptyState && subtasks.length === 0) barEl.classList.remove('subtask--active', 'subtask--done');
-}
-
-function normalizeContacts(items, fallback) {
-    const source = Array.isArray(items) && items.length ? items : fallback;
-    return source.filter(Boolean).map((contact, index) => ({
-        id: Number(contact?.id) || index + 1,
-        name: contact?.name || contact?.Name || '',
-        abbreviation: contact?.abbreviation || contact?.initials || buildInitials(contact?.name || contact?.Name || ''),
-    })).filter(contact => contact.name);
+    const total = subtasks.length, done = subtasks.filter(s => s.done).length;
+    barEl.style.width = total > 0 ? `${Math.round((done / total) * 100)}%` : '0%';
+    if (removeEmptyState && total === 0) barEl.style.width = '0%';
 }
 
 function toDoCardShow(taskId) {
@@ -281,41 +368,40 @@ function getFormattedLocalStorageItems(key) {
     }
 }
 
-function normalizeBoardItem(board, index) {
-    const subtasks = getLimitedSubtasks(board?.subtasks || board?.subtask || board?.sub_task || []);
-    const assignedTo = normalizeAssignedTo(board?.assignedTo || board?.assigned_to || []);
-    const category = normalizeCategory(board?.category, board?.position);
-    return {
-        ...board, id: board?.id || Date.now() + index,
-        title: board?.title || '', description: board?.description || '', dueDate: board?.dueDate || board?.due_date || '',
-        priority: normalizePriority(board?.priority), category, selectedCategoryLabel: board?.selectedCategoryLabel || categoryLabel(category),
-        assignedTo, subtasks, subtask: subtasks[0]?.title || '',
-    };
-}
 
 function mergeOrInsertTodo(newTodo) {
-    const existingTodo = todos.find(todo => todo.title === newTodo.title && todo.description === newTodo.description && todo.dueDate === newTodo.dueDate && todo.priority === newTodo.priority && todo.category === newTodo.category);
+    const existingTodo = todos.find(todo =>
+        todo.title === newTodo.title && todo.description === newTodo.description &&
+        todo.dueDate === newTodo.dueDate && todo.priority === newTodo.priority &&
+        todo.category === newTodo.category);
     if (!existingTodo) return todos.push(newTodo);
     if (!Array.isArray(existingTodo.assignedTo)) existingTodo.assignedTo = [];
-    newTodo.assignedTo.forEach(contact => { if (!existingTodo.assignedTo.some(user => user.id === contact.id)) existingTodo.assignedTo.push(contact); });
+    newTodo.assignedTo.forEach(contact => {
+        if (!existingTodo.assignedTo.some(user => user.id === contact.id))
+            existingTodo.assignedTo.push(contact);
+    });
 }
 
 function drag(event) {
-    if (!isBoardDragInteractionEnabled()) {
-        event.preventDefault();
-        return;
-    }
+    if (!isBoardDragInteractionEnabled()) return event.preventDefault();
     const taskElement = event.target.closest(".task");
     if (!taskElement) return;
     currentDraggedElement = taskElement;
     event.dataTransfer.setData("text/plain", String(taskElement.id));
 }
 
-function deleteTask(taskId) {
+async function deleteTask(taskId) {
     const taskIndex = todos.findIndex((t) => t.id == taskId);
-    if (taskIndex !== -1) {
-        todos.splice(taskIndex, 1);
-        updateHTML();
-        closeDialog();
+    if (taskIndex === -1) return;
+    const task = todos[taskIndex];
+    const remoteDelete = await deleteTaskFromFirebase(task);
+    if (remoteDelete.attempted && !remoteDelete.ok) {
+        if (typeof showFirebaseError === 'function') {
+            showFirebaseError(new Error('Karte konnte nicht in Firebase geloescht werden.'));
+        }
+        return;
     }
+    todos.splice(taskIndex, 1);
+    updateHTML();
+    closeDialog();
 }

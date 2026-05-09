@@ -109,6 +109,14 @@ function toggleSubtask(taskId, index) {
     subtasks[index].done = !subtasks[index].done;
     task.subtasks = subtasks;
     saveBoardsToLocalStorage();
+
+    // Keep the currently open show dialog in sync without a full rerender.
+    const showDialog = document.getElementById('showTaskDialog');
+    const subtaskItem = showDialog?.querySelector(`.subtask-item-show[data-subtask-index="${index}"]`);
+    if (subtaskItem) {
+        subtaskItem.classList.toggle('subtask-item-show--done', Boolean(subtasks[index].done));
+    }
+
     updateTaskCardSubtaskPreview(taskId, task, subtasks);
     const masterCheckbox = document.getElementById('selectSubtasks');
     if (masterCheckbox) masterCheckbox.checked = subtasks.every(s => s.done);

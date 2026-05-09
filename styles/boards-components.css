@@ -110,6 +110,16 @@
     justify-content: flex-start;
     flex-direction: column;
     margin-top: 10px;
+    max-height: 68px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.assigned-users-list-edit::-webkit-scrollbar {
+    display: none;
 }
 
 .assigned-users-list-addTask {
@@ -807,7 +817,14 @@
     color: #2a3647;
     cursor: pointer;
     width: 100%;
-    box-sizing: border-box
+    box-sizing: border-box;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background-color 0.15s;
+}
+
+.multiselect__checkboxes label:hover {
+    background-color: #e8edf5;
 }
 
 .multiselect__option-main {
@@ -1056,7 +1073,7 @@
 .task-form__col {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     padding-top: 40px;
 }
 
@@ -1298,7 +1315,6 @@
     border: none;
     border-radius: 14px;
     width: min(400px, 92vw);
-    height: min(618px, 90vh);
     max-height: 90vh;
     margin: auto;
     padding: 20px;

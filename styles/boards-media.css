@@ -9,7 +9,6 @@
     .showTaskDialog[open] {
         pointer-events: auto !important;
         opacity: 1 !important;
-        height: 650px !important;
     }
 }
 @media (max-width: 640px) {
@@ -240,7 +239,7 @@
     }
 
     .addTaskDialog {
-        width: 77vw !important;
+        width: 59vw !important;
         height: 800px;
         max-height: 90vh !important;
         overflow-y: auto;
@@ -253,8 +252,6 @@
     }
 
     .editTaskDialog {
-        height: 100vh !important;
-        max-height: 81vh !important;
         overflow: hidden;
         margin: auto;
     }

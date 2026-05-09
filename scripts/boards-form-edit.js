@@ -37,7 +37,7 @@ function setEditPriority(priority) {
 
 // Applies values from the edit dialog to a task object.
 function applyEditTaskValues(task, dialog) {
-    const updatedCategoryLabel = dialog.querySelector('#edit-category')?.value || 'Technical Task';
+    const updatedCategoryLabel = dialog.querySelector('#edit-category')?.value?.trim();
     const updatedAssignedIds = Array.from(dialog.querySelectorAll('#edit-assigned-to-checkboxes input[type="checkbox"]:checked'))
         .map(cb => Number(cb.value)).filter(id => Number.isFinite(id));
     const updatedSubtasks = getLimitedSubtasks(JSON.parse(dialog.querySelector('#edit-subtasks-data')?.value || '[]'));
@@ -46,20 +46,28 @@ function applyEditTaskValues(task, dialog) {
     task.dueDate = dialog.querySelector("#edit-due-date")?.value || "";
     task.priority = getSelectedEditPriority(dialog);
     task.priorityClass = getPriorityIconClass(task.priority);
-    task.selectedCategoryLabel = updatedCategoryLabel;
-    task.category = mapCategoryLabelToKey(updatedCategoryLabel);
+    if (updatedCategoryLabel) {
+        task.selectedCategoryLabel = updatedCategoryLabel;
+        task.category = mapCategoryLabelToKey(updatedCategoryLabel);
+    } else {
+        task.selectedCategoryLabel = task.selectedCategoryLabel || categoryLabel(task.category || 'toDo');
+        task.category = task.category || 'toDo';
+    }
     task.assignedTo = contacts.filter(c => updatedAssignedIds.includes(c.id));
     task.subtasks = updatedSubtasks;
     task.subtask = updatedSubtasks[0]?.title || "";
 }
 
 // Saves edited task values and refreshes the board.
-function handleEditTaskSave(event) {
+async function handleEditTaskSave(event) {
     event.preventDefault();
     const dialog = document.getElementById("editTaskDialog");
     const task = todos.find((t) => t.id == Number(dialog.dataset.taskId));
     if (!task) return;
     applyEditTaskValues(task, dialog);
+    if (typeof persistTaskUpdateToFirebase === 'function') {
+        await persistTaskUpdateToFirebase(task);
+    }
     updateHTML();
     closeDialog();
 }
@@ -94,20 +102,3 @@ function editTask(taskId) {
     if (!dialog.open) dialog.showModal();
 }
 
-// Sets up the custom category dropdown interactions.
-function setupCategoryDropdown(container) {
-    const wrapper = (container || document).querySelector('#category-wrapper');
-    if (!wrapper) return;
-    const trigger = wrapper.querySelector('#category-trigger');
-    const optionsList = wrapper.querySelector('#category-options');
-    const hiddenInput = wrapper.querySelector('#category');
-    const label = wrapper.querySelector('#category-label');
-    const open = () => { optionsList.hidden = false; trigger.setAttribute('aria-expanded', 'true'); };
-    const close = () => { optionsList.hidden = true; trigger.setAttribute('aria-expanded', 'false'); };
-    trigger.addEventListener('click', (e) => { e.stopPropagation(); optionsList.hidden ? open() : close(); });
-    trigger.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); optionsList.hidden ? open() : close(); } });
-    wrapper.querySelectorAll('.category-custom-select__option').forEach(opt => {
-        opt.addEventListener('click', () => { hiddenInput.value = opt.dataset.value; label.textContent = opt.textContent.trim(); close(); });
-    });
-    document.addEventListener('click', (e) => { if (!wrapper.contains(e.target)) close(); });
-}

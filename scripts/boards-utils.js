@@ -1,3 +1,35 @@
+// --- Ausgelagerte Hilfsfunktionen aus boards.js ---
+
+function getLimitedSubtasks(input) {
+    const source = Array.isArray(input) ? input : [input];
+    return source
+        .map(item => typeof item === 'string' ? { title: item, done: false } : item)
+        .map(item => ({ title: (item?.title || '').trim(), done: Boolean(item?.done), }))
+        .filter(item => item.title).slice(0, 2);
+}
+
+function normalizeContacts(items, fallback) {
+    const source = Array.isArray(items) && items.length ? items : fallback;
+    return source.filter(Boolean).map((contact, index) => ({
+        id: Number(contact?.id) || index + 1,
+        name: contact?.name || contact?.Name || '',
+        abbreviation: contact?.abbreviation || contact?.initials || buildInitials(contact?.name || contact?.Name || ''),
+    })).filter(contact => contact.name);
+}
+
+function normalizeBoardItem(board, index) {
+    const subtasks = getLimitedSubtasks(board?.subtasks || board?.subtask || board?.sub_task || []);
+    const assignedTo = normalizeAssignedTo(board?.assignedTo || board?.assigned_to || []);
+    const category = normalizeCategory(board?.category, board?.position);
+    return {
+        ...board, id: board?.id || Date.now() + index,
+        title: board?.title || '', description: board?.description || '', dueDate: board?.dueDate || board?.due_date || '',
+        priority: normalizePriority(board?.priority), category, selectedCategoryLabel: board?.selectedCategoryLabel || categoryLabel(category),
+        assignedTo, subtasks, subtask: subtasks[0]?.title || '',
+    };
+}
+
+// Alle Funktionen sind jetzt global verfügbar (kein export)
 // Utility functions for board operations
 
 // Creates initials from a full name.
@@ -36,16 +68,6 @@ function getSubtaskCountText(todo) {
     const done = subtasks.filter(s => s.done).length;
     return `${done} / ${total}`;
 }
-
-// Updates the progress bar width for a task card.
-function updateSubtaskProgressBar(card, subtasks) {
-    const total = subtasks.length;
-    const doneCount = subtasks.filter(s => s.done).length;
-    const percent = total > 0 ? Math.round((doneCount / total) * 100) : 0;
-    const bar = card.querySelector('.task__progress-bar');
-    if (bar) bar.style.width = `${percent}%`;
-}
-
 // Normalizes assignedTo field from various formats.
 function normalizeAssignedTo(assignedToRaw) {
     if (!Array.isArray(assignedToRaw) || assignedToRaw.length === 0) return normalizeContacts([], []);

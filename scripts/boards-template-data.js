@@ -95,19 +95,6 @@ function getDetailSubtasksHTML(subtasks) {
     return subtasks.map((subtask, index) => `<li class="subtask-item" data-subtask-index="${index}">${subtask.title}</li>`).join('');
 }
 
-// Builds template data for the task detail dialog view.
-function buildEditTaskDetailTemplateData(task) {
-    const fixedHeaderLabel = task.selectedCategoryLabel || categoryLabel(task.category);
-    const subtasks = getLimitedSubtasks(task.subtasks);
-    const subtasksHTML = getDetailSubtasksHTML(subtasks);
-    const { text, iconClass, icon } = getPriorityView(task.priority);
-    return { id: task.id, title: task.title, description: task.description || '', dueDate: task.dueDate || '', fixedHeaderLabel,
-        headerClass: getCategoryHeaderClass(fixedHeaderLabel), assignedUsersHTML: getDetailAssignedUsersHTML(task),
-        subtaskCountText: getSubtaskCountText(task), firstSubtaskDone: Boolean(subtasks[0]?.done), firstSubtaskTitle: subtasks[0]?.title || '',
-        subtasksListHTML: subtasksHTML, subtasksHTML, subtasks, allSubtasksDone: subtasks.length > 0 && subtasks.every(s => Boolean(s.done)),
-        priorityLabel: text, iconClass, priorityIcon: icon };
-}
-
 // Builds options HTML for editable task categories.
 function getCategoryOptionsHTML(fixedHeaderLabel) {
     return ['Technical Task', 'User Story'].map(option => `<option value="${option}" ${option === fixedHeaderLabel ? 'selected' : ''}>${option}</option>`).join('');

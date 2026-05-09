@@ -329,7 +329,7 @@
 .task__moveto-btn {
     display: none;
     background: none;
-    border: none;
+    border: 1px solid #2a3647;
     cursor: pointer;
     font-size: 16px;
     padding: 0;
