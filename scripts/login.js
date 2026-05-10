@@ -5,19 +5,24 @@
 const firebaseConfig = {
     apiKey: "AIzaSyDqKUIXrAGfDTsbymcVdJ2w5ATaApioOv8",
     authDomain: "join-5bd8d.firebaseapp.com",
-    databaseURL: "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app",
+    databaseURL:
+        "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "join-5bd8d",
     storageBucket: "join-5bd8d.firebasestorage.app",
     messagingSenderId: "404471964373",
     appId: "1:404471964373:web:584fe9ea95cd3476aab85c",
 };
 
+
 /**
  * Initializes the Firebase application with the provided configuration and sets up a reference to the Realtime Database.
  * This allows the application to interact with the Firebase services, such as authentication and database operations.
+ * @param {object} firebaseConfig - The configuration object containing the Firebase project credentials and settings.
+ * @returns {object} - A reference to the initialized Firebase application and the Realtime Database.
  */
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+
 
 /**
  * This function handles the user login process. It retrieves the email and password from the input fields, then queries the Firebase Realtime Database for all users under the "users" node.
@@ -28,7 +33,11 @@ function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     db.ref("users").once("value", function (snapshot) {
-        const loginSuccess = checkIfUserExistsForLogin(snapshot, email, password);
+        const loginSuccess = checkIfUserExistsForLogin(
+            snapshot,
+            email,
+            password,
+        );
         if (loginSuccess) {
             loadDataToLocalStorage();
         } else {
@@ -37,8 +46,13 @@ function loginUser() {
     });
 }
 
+
 /**
  * This function checks if a user with the provided email and password exists in the Firebase Realtime Database.
+ * @param {object} snapshot - The snapshot of the Firebase Realtime Database.
+ * @param {string} email - The email of the user to check.
+ * @param {string} password - The password of the user to check.
+ * @returns {boolean} - A boolean value indicating whether the user exists.
  */
 function checkIfUserExistsForLogin(snapshot, email, password) {
     let loginSuccess = false;
@@ -52,6 +66,7 @@ function checkIfUserExistsForLogin(snapshot, email, password) {
     });
     return loginSuccess;
 }
+
 
 /**
  * This function checks the result of the login attempt. If the login was successful (login Success is ture), it redirects to the summary page.
@@ -72,11 +87,13 @@ function checkLoginResults(loginSuccess) {
     }
 }
 
+
 /**
  * This function loads data from the Firebase Realtime Database to the local storage of the browser.
  * It retrieves the data from the root of the database, extracts the "boards" and "contacs" data, and stores them in local storage as JSON strings.
  * After successfully loading the data, it calls the checkLoginResults function with a true value to indicate a successful login and data loading process.
  * This allows the application to have access to the necessary data for the user after logging in, and ensures that the user is redirected to the appropriate page.
+ * @param {object} snapshot - The snapshot of the Firebase Realtime Database.
  */
 function loadDataToLocalStorage() {
     db.ref("/").once("value", function (snapshot) {
@@ -87,8 +104,11 @@ function loadDataToLocalStorage() {
     });
 }
 
+
 /**
  * This function allows users to log in as a guest by setting predefined values for the current user's name and email in local storage.
+ * @param {string} name - The name of the guest user to be set in local storage.
+ * @param {string} email - The email of the guest user to be set in local storage.
  */
 function guestLogin() {
     localStorage.setItem("currentUserName", "Gast");
@@ -96,9 +116,12 @@ function guestLogin() {
     loadDataToLocalStorage();
 }
 
+
 /**
  * This function handles the user registration process. It retrieves the password and password confirmation from the input fields, checks if they match, and if they do, it calls the checkIfUserExists function to verify if the user already exists in the database.
  * If the passwords do not match, it displays an error message using the SweetAlert library and exits the function.
+ * @param {string} password - The password entered by the user for registration.
+ * @param {string} passwordconfirm - The password confirmation entered by the user for registration.
  */
 function registerUser() {
     const password = document.getElementById("password").value;
@@ -115,9 +138,12 @@ function registerUser() {
     checkIfUserExists();
 }
 
+
 /**
  * This function checks if the user has accepted the privacy policy by checking the stat of a checkbox with the id "privacy".
  * If the checkbox is not checked, it displays an error massage using SewwtAlert.
+ * @param {boolean} privacyChecked - A boolean value indicating whether the privacy policy checkbox is checked or not.
+ * @returns {boolean} - A boolean value indicating whether the user has accepted the privacy policy or not.
  */
 function checkPrivacy() {
     const privacy = document.getElementById("privacy");
@@ -132,11 +158,15 @@ function checkPrivacy() {
     return true;
 }
 
+
 /**
  * This function checks if a user with the provided email already exists in the Firebase Realtime Database.
  * It retrieves the name, email, and password from the input fields, then queries the database for all users under the "users" node.
  * It iterates through the users in the database and checks if any user has a matching email. If a match is found, it calls the userAlreadyExistsError function to display an error message.
  * If no match is found, it calls the saveUser function to save the new user's data to the database.
+ * @param {string} name - The name of the user to check.
+ * @param {string} email - The email of the user to check.
+ * @param {string} password - The password of the user to check.
  */
 function checkIfUserExists() {
     const name = document.getElementById("name").value;
@@ -152,9 +182,13 @@ function checkIfUserExists() {
     });
 }
 
+
 /**
  * This function iterates through the users in the Firebase Realtime Database snapshot and checks if any user has a matching email.
  * If a match is found, it sets the userExists variable to true. After iterating through all users, it returns the value of userExists, indicating whether a user with the provided email already exists in the database or not.
+ * @param {object} snapshot - The snapshot of the Firebase Realtime Database.
+ * @param {string} email - The email to check for.
+ * @returns {boolean} - A boolean value indicating whether a user with the provided email already exists in the database or not.
  */
 function findExistingUser(snapshot, email) {
     let userExists = false;
@@ -167,6 +201,7 @@ function findExistingUser(snapshot, email) {
     return userExists;
 }
 
+
 /** * This function displays an error message using the SweetAlert library, indicating that a user with the provided email already exists in the database.
  */
 function userAlreadyExistsError() {
@@ -176,6 +211,7 @@ function userAlreadyExistsError() {
         text: "Benutzer Existiert Bereits!",
     });
 }
+
 
 /**
  * This function saves a new user to the Realtime Database under the "users" node.
@@ -197,6 +233,7 @@ function saveUser(name, email, password) {
         .catch(saveUserError);
 }
 
+
 /** * This function displays a success message using the SweetAlert library, indicating that the registration was successful.
  * After the user clicks the "OK" button on the alert, it redirects the user to the login page (login.html).
  */
@@ -209,6 +246,7 @@ function saveUserSuccess() {
         window.location.href = "login.html";
     });
 }
+
 
 /** * This function displays an error message using the SweetAlert library, indicating that there was an error during the registration process.
  */
