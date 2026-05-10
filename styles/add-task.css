@@ -15,7 +15,6 @@ main {
     flex-direction: column;
     height: calc(100vh - 155px);
     overflow: hidden;
-    padding: 24px 16px 0 16px;
 }
 
 main h1 {

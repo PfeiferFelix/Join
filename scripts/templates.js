@@ -1,32 +1,32 @@
 /**
- * Generates the HTML template for the sidebar navigation, including the logo, navigation. links and legal inforamtions.
- * @returns {string}
+ * Returns the sidebar template for logged-in users.
+ * @returns {string} The sidebar HTML markup.
  */
 function getSidebarTemplate() {
-    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
+    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="Join" />
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-summary" class="sidebar__nav-link" href="summary.html">
-                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/summary.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="Summary" /> 
                                 <span>Summary</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-add-task" class="sidebar__nav-link" href="add-task.html">
-                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/add-task.svg" alt="" />
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="Add Task" />
                                 <span>Add Task</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-boards" class="sidebar__nav-link" href="boards.html">
-                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/boards.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/boards.svg" alt="Boards" /> 
                                 <span>Boards</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-contacts" class="sidebar__nav-link" href="contacts.html">
-                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/contacts.svg" alt="" /> 
+                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="Contacts" /> 
                                 <span>Contacts</span>
                             </a>
                         </li>
@@ -45,18 +45,17 @@ function getSidebarTemplate() {
                 </footer>`;
 }
 
-
 /**
- * Generates the HTML template for the sidebar navigation when the user is not logged in.
- * @returns {string}
+ * Returns the sidebar template for logged-out users.
+ * @returns {string} The sidebar HTML markup.
  */
 function getSidebarNotLoggedInTemplate() {
-    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="" />
+    return `<img class="sidebar__logo" src="assets/logos/logo.svg" alt="Join" />
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
                             <a class="sidebar__nav-link sidebar__login-link" href="login.html">
-                                <img class="sidebar__nav-img" src="assets/Login/Login.png" alt="" />
+                                <img class="sidebar__nav-img" src="assets/icons/Login.png" alt="Login" />
                                 <span>Login</span>
                             </a>
                         </li>
@@ -74,26 +73,25 @@ function getSidebarNotLoggedInTemplate() {
                 </footer>`;
 }
 
-
 /**
- * Generates the HTML template for the header section.
- * @returns {string}
+ * Returns the shared header template.
+ * @returns {string} The header HTML markup.
  */
 function getHeaderTemplate() {
     return `<div class="header__content">
-                <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="" />
+                <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="Join" />
                 <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
                 <div id="js-header-user-interaction-container" class="header__user-interaction-container">
-                    <a onclick="goToHelp()"><img class="header__help-icon" src="assets/header/help.svg" alt="Help" /></a>
+                    <a id="js-header-help-button" onclick="goToHelp()"><img class="header__help-icon" src="assets/icons/header/help.svg" alt="Help" /></a>
                     <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
                     <div id="js-header-user-menu" class="header__user-menu"></div>
                 </div>
             </div>`;
 }
 
-
-/** * Generates the HTML template for the user avatar in the header, which is a circle with the user's initials.
- * @returns {string}
+/**
+ * Returns the SVG template for the header user circle.
+ * @returns {string} The SVG markup.
  */
 function getHeaderCircleUserTemplate() {
     return `
@@ -104,10 +102,9 @@ function getHeaderCircleUserTemplate() {
     `;
 }
 
-
 /**
- * Generates the HTML template for the user menu in the header.
- * @returns {string}
+ * Returns the user menu template shown in the header.
+ * @returns {string} The user menu HTML markup.
  */
 function getHeaderUserMenuTemplate() {
     return `
@@ -119,17 +116,17 @@ function getHeaderUserMenuTemplate() {
     `;
 }
 
-
-/** * Generates the HTML template for the "Help" item in the user menu of the header.
- * @returns {string}
+/**
+ * Returns the mobile help entry for the header user menu.
+ * @returns {string} The list item HTML markup.
  */
 function getHeaderUserMenuHelpTemplate() {
     return `<li id="js-header-user-menu-help"><a class="header__user-link" href="help.html">Help</a></li>`;
 }
 
-
-/** * Generates the HTML template for the user avatar in the header, which is a circle with the user's initials.
- * @returns {string}
+/**
+ * Returns the SVG template for the header user circle.
+ * @returns {string} The SVG markup.
  */
 function getHeaderCircleUserTemplate() {
     return `
@@ -140,9 +137,9 @@ function getHeaderCircleUserTemplate() {
     `;
 }
 
-
-/** * Generates the HTML template for the user menu in the header.
- * @returns {string}
+/**
+ * Returns the user menu template shown in the header.
+ * @returns {string} The user menu HTML markup.
  */
 function getHeaderUserMenuTemplate() {
     return `
@@ -154,21 +151,20 @@ function getHeaderUserMenuTemplate() {
     `;
 }
 
-
-/** * Generates the HTML template for the "Help" item in the user menu of the header.
- * @returns {string}
+/**
+ * Returns the mobile help entry for the header user menu.
+ * @returns {string} The list item HTML markup.
  */
 function getHeaderUserMenuHelpTemplate() {
     return `<li id="js-header-user-menu-help"><a class="header__user-link" href="help.html">Help</a></li>`;
 }
 
-
 /**
- * Generates the HTML template for a single contact item in the sidebar list.
- * @param {*} contact
- * @param {*} isActiveClass
- * @param {*} avatarColor
- * @returns {string}
+ * Returns the sidebar entry template for a single contact.
+ * @param {object} contact - The contact data.
+ * @param {string} isActiveClass - CSS class for the active state.
+ * @param {string} avatarColor - Background color for the avatar.
+ * @returns {string} The contact item HTML markup.
  */
 function getContactItemTemplate(contact, isActiveClass, avatarColor) {
     return `<div class="contact-item ${isActiveClass}" data-firebase-key="${contact.firebaseKey}" onclick="showContactDetail('${contact.firebaseKey}')">
@@ -180,12 +176,11 @@ function getContactItemTemplate(contact, isActiveClass, avatarColor) {
             </div>`;
 }
 
-
 /**
- * Generates the HTML template for a contact group in the sidebar list.
- * @param {string} letter
- * @param {string} itemsHtml
- * @returns {string}
+ * Returns the grouped contact list template for one starting letter.
+ * @param {string} letter - The letter heading for the group.
+ * @param {string} itemsHtml - Rendered contact items for the group.
+ * @returns {string} The contact group HTML markup.
  */
 function getContactGroupTemplate(letter, itemsHtml) {
     return `<div class="contact-group">
@@ -197,11 +192,11 @@ function getContactGroupTemplate(letter, itemsHtml) {
             </div>`;
 }
 
-
-/** * Generates the HTML template for the contact card in the detail view, including the avatar, name and action buttons.
- * @param {*} contact
- * @param {*} avatarColor
- * @returns {string}
+/**
+ * Returns the contact detail card template.
+ * @param {object} contact - The contact data.
+ * @param {string} avatarColor - Background color for the avatar.
+ * @returns {string} The contact card HTML markup.
  */
 function getContactCardTemplate(contact, avatarColor) {
     return `<div class="contact-card">
@@ -216,10 +211,10 @@ function getContactCardTemplate(contact, avatarColor) {
             </div>`;
 }
 
-
-/** * Generates the HTML template for the contact information section in the contact detail view, including email and phone number.
- * @param {*} contact
- * @returns {string}
+/**
+ * Returns the contact detail information template.
+ * @param {object} contact - The contact data.
+ * @returns {string} The contact information HTML markup.
  */
 function getContactInfoTemplate(contact) {
     return `<div class="contact-card__info">
@@ -235,14 +230,13 @@ function getContactInfoTemplate(contact) {
             </div>`;
 }
 
-
 /**
- * Generates the HTML template for an item in the dropdown menu.
- * @param {string} initials
- * @param {string} color
- * @param {string} name
- * @param {string} email
- * @returns {string}
+ * Returns a selectable contact entry for the assignee dropdown.
+ * @param {string} initials - Initials shown in the avatar.
+ * @param {string} color - Background color for the avatar.
+ * @param {string} name - Display name of the contact.
+ * @param {string} email - Contact email used as the checkbox value.
+ * @returns {string} The dropdown item HTML markup.
  */
 function getDropdownItemTemplate(initials, color, name, email) {
     return `
@@ -252,20 +246,20 @@ function getDropdownItemTemplate(initials, color, name, email) {
     `;
 }
 
-
-/** * Generates the HTML template for the selected avatar in the dropdown menu, which is a circle with the user's initials.
- * @param {string} initials
- * @param {string} color
- * @returns {string}
+/**
+ * Returns an avatar template for a selected assignee.
+ * @param {string} initials - Initials shown in the avatar.
+ * @param {string} color - Background color for the avatar.
+ * @returns {string} The selected avatar HTML markup.
  */
 function getSelectedAvatarTemplate(initials, color) {
     return `<div class="dropdown__avatar" style="background-color: ${color}">${initials}</div>`;
 }
 
-
-/** * Generates the HTML template for a subtask item in the subtask list, including the subtask text and action buttons.
- * @param {string} value
- * @returns {string}
+/**
+ * Returns a template for one subtask list item.
+ * @param {string} value - Text content of the subtask.
+ * @returns {string} The subtask item HTML markup.
  */
 function getSubtaskItemTemplate(value) {
     return `

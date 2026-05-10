@@ -9,54 +9,53 @@
         <link rel="stylesheet" href="styles/registrations.css" />
     </head>
 
-<body>
-    <header>
-        <img src="./assets/logos/logo_dark.jpg" alt="logo" class="logo">
-    </header>
-    <main>
-        <div class="container">
-            <div class="title__row">
-                <a href="login.html">
-                    <img src="assets/Login/arrow-left-line.png" alt="back" class="back__arrow">
-                </a>
-                <span class="container__headline">Sign up</span>
+    <body>
+        <header>
+            <img src="./assets/logos/logo_dark.jpg" alt="Join" class="logo" />
+        </header>
+        <main>
+            <div class="container">
+                <div class="title__row">
+                    <a href="login.html">
+                        <img src="assets/Login/arrow-left-line.png" alt="Go back" class="back__arrow" />
+                    </a>
+                    <span class="container__headline">Sign up</span>
+                </div>
+                <div class="title__underline"></div>
+                <form class="login__form">
+                    <div class="input__wrapper">
+                        <input id="name" type="name" placeholder="Name" maxlength="20" required />
+                        <img src="assets/Contacs/person.png" alt="Name" class="input__icon" />
+                    </div>
+                    <div class="input__wrapper">
+                        <input id="email" type="email" placeholder="Email" required />
+                        <img src="assets/Login/mail.png" alt="Email" class="input__icon" />
+                    </div>
+                    <div class="input__wrapper">
+                        <input id="password" type="password" placeholder="Password" required />
+                        <img src="assets/Login/lock.png" alt="Password" class="input__icon" />
+                    </div>
+                    <div class="input__wrapper">
+                        <input id="passwordconfirm" type="password" placeholder="Confirm password" required />
+                        <img src="assets/Login/lock.png" alt="Password" class="input__icon" />
+                    </div>
+                    <div class="checkbox__row">
+                        <input type="checkbox" id="privacy" required />
+                        <label for="privacy">I accept the <a href="privacy-policy.html">Privacy policy</a></label>
+                    </div>
+                    <div class="button__row">
+                        <button type="button" onclick="registerUser()" class="Login__btn">Sign up</button>
+                    </div>
+                </form>
             </div>
-            <div class="title__underline"></div>
-            <form class="login__form">
-                <div class="input__wrapper">
-                    <input id="name" type="name" placeholder="Name" maxlength="20" required>
-                    <img src="assets/Contacs/person.png" alt="person icon" class="input__icon">
-                </div>
-                <div class="input__wrapper">
-                    <input id="email" type="email" placeholder="Email" required>
-                    <img src="assets/Login/mail.png" alt="mail icon" class="input__icon">
-                </div>
-                <div class="input__wrapper">
-                    <input id="password" type="password" placeholder="Password" required>
-                    <img src="assets/Login/lock.png" alt="lock icon" class="input__icon">
-                </div>
-                <div class="input__wrapper">
-                    <input id="passwordconfirm" type="password" placeholder="Confirm password" required>
-                    <img src="assets/Login/lock.png" alt="lock icon" class="input__icon">
-                </div>
-                <div class="checkbox__row">
-                    <input type="checkbox" id="privacy" required>
-                    <label for="privacy">I accept the <a href="privacy-policy.html">Privacy policy</a></label>
-                </div>
-                <div class="button__row">
-                    <button type="button" onclick="registerUser()" class="Login__btn">Sign up</button>
-                </div>
-            </form>
-        </div>
-    </main>
-    <footer>
-        <a class="footer__Link" href="privacy-policy.html">Privacy Policy</a>
-        <a class="footer__Link" href="legal-notice.html">Legal Notice</a>
-    </footer>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="scripts/login.js"></script>
-</body>
-
+        </main>
+        <footer>
+            <a class="footer__Link" href="privacy-policy.html">Privacy Policy</a>
+            <a class="footer__Link" href="legal-notice.html">Legal Notice</a>
+        </footer>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="scripts/login.js"></script>
+    </body>
 </html>

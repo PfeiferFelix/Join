@@ -1,15 +1,19 @@
 let currentUserNameLS = localStorage.getItem("currentUserName");
 let currentUserEmailLS = localStorage.getItem("currentUserEmail");
 let fromLogin = false;
+const mobileQuery = window.matchMedia("(max-width: 850px)");
+let userMenuOpen = false;
+let userMenuCloseTimer;
 
 /**
- * Initialize function
+ * Initializes shared page elements and reveals the layout after key images are ready.
  */
 async function init() {
     redirectToLoginIfNotLoggedIn();
     injectSharedTemplates();
     addHelpToUserMenu(850);
     highlightActivePage();
+    removeHelpLink();
     if (currentUserNameLS) addNameInitials();
     hideNavIfNotLoggedIn();
     await waitForImages(); // Wait for all images to load before showing the page to prevent layout shifts and ensure a smooth user experience.
@@ -17,10 +21,8 @@ async function init() {
 }
 
 /**
- * Search for all images in the sidebar and header and put them in an array. Look for images in that array that are not yet loaded.
- * For each of them create a promise that resolves when the image is loaded or if there is an error loading the image.
- * Return a promise that resolves when all image promises are resolved, meaning that all images are loaded and ready to be displayed.
- * @returns {Promise} A promise that resolves when all images are loaded.
+ * Waits until all sidebar and header images have finished loading.
+ * @returns {promise} Resolves when all relevant images are loaded or failed.
  */
 async function waitForImages() {
     const imagePromises = [...document.querySelectorAll("#js-sidebar img, #js-header img")].filter((img) => !img.complete).map((img) => new Promise((resolve) => (img.onload = img.onerror = resolve)));
@@ -28,16 +30,16 @@ async function waitForImages() {
 }
 
 /**
- * Reads a JSON object from local storage by key and returns its values as an array.
- * @param {string} key - Local storage key that contains a JSON-serialized object.
- * @returns {Array} Array of first-level values from the stored object.
+ * Reads a serialized object from local storage and returns its first-level values.
+ * @param {string} key - Local storage key containing a serialized object.
+ * @returns {array} First-level values from the stored object.
  */
 function importandFormatLocalStorageData(key) {
     return Object.values(JSON.parse(localStorage.getItem(key)));
 }
 
 /**
- * Injects all shared templates (sidebar, header, user button, user menu) into their respective placeholder elements.
+ * Renders the sidebar that matches the current login state.
  */
 function addSidebar() {
     const sidebar = document.getElementById("js-sidebar");
@@ -45,6 +47,9 @@ function addSidebar() {
     sidebar.innerHTML = isLoggedIn ? getSidebarTemplate() : getSidebarNotLoggedInTemplate();
 }
 
+/**
+ * Injects the shared sidebar and header templates into the current page.
+ */
 function injectSharedTemplates() {
     const isLoggedIn = localStorage.getItem("currentUserEmail") !== null;
     document.getElementById("js-sidebar").innerHTML = isLoggedIn ? getSidebarTemplate() : getSidebarNotLoggedInTemplate();
@@ -53,16 +58,88 @@ function injectSharedTemplates() {
     document.getElementById("js-header-user-menu").innerHTML = getHeaderUserMenuTemplate();
 }
 
+mobileQuery.addEventListener("change", () => {
+    applyUserMenuState();
+});
+
 /**
- * Toggles the visibility of the user menu when the user button is clicked.
+ * Toggles the user menu state and reapplies the matching classes.
  */
 function toggleUserMenu() {
-    const userMenu = document.getElementById("js-header-user-menu");
-    userMenu.style.display = userMenu.style.display === "block" ? "none" : "block";
+    userMenuOpen = !userMenuOpen;
+    applyUserMenuState();
 }
 
 /**
- * Redirects the user to the login page if they are not logged in by checking if there is a current user email stored in local storage. If there is no email, it means the user is not logged in, and they are redirected to the login page.
+ * Synchronizes the user menu classes with the current viewport and open state.
+ */
+function applyUserMenuState() {
+    const userMenu = document.getElementById("js-header-user-menu");
+
+    resetUserMenuCloseTimer();
+
+    if (!mobileQuery.matches) {
+        toggleDesktopUserMenu(userMenu);
+        return;
+    }
+
+    if (userMenuOpen) {
+        openMobileUserMenu(userMenu);
+        return;
+    }
+
+    closeMobileUserMenu(userMenu);
+}
+
+/**
+ * Cancels a pending delayed close action for the mobile user menu.
+ */
+function resetUserMenuCloseTimer() {
+    clearTimeout(userMenuCloseTimer);
+}
+
+/**
+ * Applies the desktop user menu state without mobile animation classes.
+ * @param {HTMLElement} userMenu - The user menu element.
+ */
+function toggleDesktopUserMenu(userMenu) {
+    userMenu.classList.toggle("opened", userMenuOpen);
+    userMenu.classList.remove("header__user-menu-slide-in");
+}
+
+/**
+ * Opens the mobile user menu and applies the slide-in animation class.
+ * @param {HTMLElement} userMenu - The user menu element.
+ */
+function openMobileUserMenu(userMenu) {
+    userMenu.classList.add("opened");
+    userMenu.classList.add("header__user-menu-slide-in");
+}
+
+/**
+ * Starts the mobile closing animation and hides the menu after the transition delay.
+ * @param {HTMLElement} userMenu - The user menu element.
+ */
+function closeMobileUserMenu(userMenu) {
+    userMenu.classList.remove("header__user-menu-slide-in");
+    userMenuCloseTimer = setTimeout(() => {
+        userMenu.classList.remove("opened");
+    }, 260);
+}
+
+/**
+ * Hides the help button while the current page is the help page.
+ */
+function removeHelpLink() {
+    const helpButton = document.getElementById("js-header-help-button");
+    const currentPage = window.location.pathname.split("/").pop().split(".")[0];
+    if (currentPage === "help") {
+        helpButton.style.visibility = "hidden";
+    }
+}
+
+/**
+ * Redirects the user to the login page when required session data is missing.
  */
 function redirectToLoginIfNotLoggedIn() {
     const requiredKeys = ["currentUserEmail", "currentUserName", "contacs", "boards"];
@@ -71,8 +148,9 @@ function redirectToLoginIfNotLoggedIn() {
         window.location.href = "login.html";
     }
 }
+
 /**
- * Logs the user out by removing the current user email, name, contacts, and boards from local storage. This effectively ends the user's session and logs them out of the application.
+ * Logs the user out by removing the stored session data.
  */
 function logout() {
     localStorage.removeItem("currentUserEmail");
@@ -82,10 +160,10 @@ function logout() {
 }
 
 /**
- * Highlights the active page in the sidebar by comparing the current URL with the href attributes of the sidebar links. It also changes the icon of the active link to its active version.
+ * Marks the current sidebar entry as active and swaps its icon.
  */
 function highlightActivePage() {
-    const sidebarLinks = document.querySelectorAll("a[id^='js-sidebar-']"); // Select all sidebar links with IDs starting with "js-sidebar-"
+    const sidebarLinks = document.querySelectorAll("a[id^='js-sidebar-']");
     const currentPage = window.location.pathname.split("/").pop().split(".")[0];
     const activeLink = Array.from(sidebarLinks).find((link) => link.id.replace("js-sidebar-", "") === currentPage);
 
@@ -100,36 +178,36 @@ function highlightActivePage() {
 }
 
 /**
- * Navigates to the help page and passes the current page URL as a parameter to allow going back to the previous page from the help page. It uses encodeURIComponent to ensure that the URL is properly formatted when passed as a parameter.
+ * Opens the help page and stores the current page in the query string.
  */
 function goToHelp() {
-    const from = window.location.href; // Save current page URL
-    window.location.href = "help.html?from=" + encodeURIComponent(from); // Navigate to help page and add current page URL as a parameter to go back later. Use encodeURIComponent to ensure the URL is properly formatted.
+    const from = window.location.href;
+    window.location.href = "help.html?from=" + encodeURIComponent(from);
 }
 
 /**
- * Navigates back to the previous page. It first checks if there is a "from" parameter in the URL, which contains the URL of the previous page. If it exists, it navigates back to that URL. If not, it uses the browser's history to go back to the previous page.
+ * Returns to the page stored in the query string or falls back to browser history.
  */
 function goBack() {
-    const params = new URLSearchParams(window.location.search); // Get URL parameters. A parameter always follows after a "?" in the URL, so we use window.location.search to get the part of the URL that contains the parameters.
-    const from = params.get("from"); // Get the "from" parameter which contains the URL of the previous page.
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from");
     if (from) {
-        window.location.href = from; // Navigate back to the previous page
+        window.location.href = from;
     } else {
-        window.history.back(); // If no "from" parameter is found, use the browser's history to go back
+        window.history.back();
     }
 }
 
 /**
- * Adds the help link to the user menu when the window is resized and the width is below the specified maximum width for mobile devices.
+ * Keeps the mobile help entry in sync after resize events.
  */
 window.addEventListener("resize", () => {
     addHelpToUserMenu(850);
 });
 
 /**
- * Adds the help link to the user menu when the window is resized and the width is below the specified maximum width for mobile devices.
- * @param {number} maxWidthMobile - The maximum width for mobile devices.
+ * Adds or removes the help entry inside the user menu based on viewport width.
+ * @param {number} maxWidthMobile - Maximum width that counts as mobile.
  */
 function addHelpToUserMenu(maxWidthMobile) {
     const userMenu = document.getElementById("js-header-user-menu-list");
@@ -145,16 +223,16 @@ function addHelpToUserMenu(maxWidthMobile) {
 }
 
 /**
- *Returns the first character of the input text in uppercase.
- *@param {string} string - The input text.
- *@returns {string} The uppercase first character.
+ * Returns the first character of a string in uppercase.
+ * @param {string} string - The source text.
+ * @returns {string} The uppercase first character.
  */
 function UpperCaseIntial(string) {
     return string.toUpperCase().charAt(0);
 }
 
 /**
- * Hides the user interaction container in the header if there is no current user email stored in local storage, which indicates that the user is not logged in.
+ * Hides the user interaction area when no user is logged in.
  */
 function hideNavIfNotLoggedIn() {
     if (localStorage.getItem("currentUserEmail") === null) {
@@ -163,7 +241,7 @@ function hideNavIfNotLoggedIn() {
 }
 
 /**
- * Reads the current user name from session storage and displays the initials in the header.
+ * Builds the current user's initials and displays them in the header.
  */
 function addNameInitials() {
     let userNameArray = currentUserNameLS.split(" ");
@@ -177,8 +255,8 @@ function addNameInitials() {
 }
 
 /**
- * Delays the execution of code for a specified amount of time. It returns a Promise that resolves after the specified time has passed, allowing you to use it with async/await syntax to create a pause in the execution of your code.
- * @param {Number} time
+ * Waits for the given amount of time.
+ * @param {number} time - Delay in milliseconds.
  */
 function timeDelay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
