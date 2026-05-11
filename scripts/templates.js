@@ -201,7 +201,7 @@ function getSubtaskItemTemplate(value) {
 function getSubtaskEditActionsTemplate() {
     return `
         <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/icons/delete.png" alt="delete" /></button>
-        <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/icons/check.svg" alt="confirm" /></button>
+        <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/icons/check grey.svg" alt="confirm" /></button>
     `;
 }
 
