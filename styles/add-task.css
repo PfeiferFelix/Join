@@ -92,14 +92,18 @@ textarea {
 
 .priority-buttons__btn {
     flex: 1;
-    padding: 10px;
+    padding: 16px 10px;
     border: 2px solid transparent;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     background-color: white;
     color: black;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .priority-buttons__btn--urgent.priority-buttons__btn--active {
@@ -150,14 +154,14 @@ textarea {
 }
 
 .task-form__btn {
-    padding: 12px 24px;
+    padding: 16px;
     border-radius: 10px;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
 }
 
 .task-form__btn--clear {
