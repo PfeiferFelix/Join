@@ -101,12 +101,21 @@ function handleClear(form) {
     clearErrors();
     clearSubtaskList();
     clearSelectedUsers();
+    enableSubtaskInput();
 }
 
+/**
+ * Clear the subtask list.
+ * @returns {void}
+ */
 function clearSubtaskList() {
     document.getElementById('subtask-list').innerHTML = '';
 }
 
+/**
+ * Clear the selected users avatars and uncheck checkboxes.
+ * @returns {void}
+ */
 function clearSelectedUsers() {
     document.getElementById('selected-avatars').innerHTML = '';
     document.querySelectorAll('.dropdown__checkbox').forEach(cb => cb.checked = false);
@@ -168,9 +177,9 @@ function addUserToTask() {
 
 
 /**
- * 
- * @param {*} contact 
- * @returns  
+ * Create a list item element for a contact in the dropdown.
+ * @param {Object} contact - The contact object with name and email.
+ * @returns {HTMLLIElement} The created list item element.
  */
 function createContactListItem(contact) {
     const initials = getInitials(contact.name);
@@ -372,10 +381,37 @@ function addSubtask() {
     const li = document.createElement('li');
     li.classList.add('subtask-list__item');
     li.innerHTML = getSubtaskItemTemplate(value);
-    li.querySelector('.subtask-list__btn--delete').addEventListener('click', () => li.remove());
+    li.querySelector('.subtask-list__btn--delete').addEventListener('click', () => onSubtaskDelete(li));
     li.querySelector('.subtask-list__btn--edit').addEventListener('click', () => editSubtask(li, value));
     document.getElementById('subtask-list').appendChild(li);
     clearSubtaskInput();
+    if (document.querySelectorAll('.subtask-list__item').length >= 2) disableSubtaskInput();
+}
+
+/**
+ * Disable the subtask input by hiding it.
+ * @returns {void}
+ */
+function disableSubtaskInput() {
+    document.querySelector('.subtask-input').style.display = 'none';
+}
+
+/**
+ * Enable the subtask input by showing it.
+ * @returns {void}
+ */
+function enableSubtaskInput() {
+    document.querySelector('.subtask-input').style.display = 'flex';
+}
+
+/**
+ * Handle deletion of a subtask item.
+ * @param {HTMLLIElement} li - The list item to remove.
+ * @returns {void}
+ */
+function onSubtaskDelete(li) {
+    li.remove();
+    enableSubtaskInput();
 }
 
 /**
@@ -385,9 +421,16 @@ function addSubtask() {
 function clearSubtaskInput() {
     const input = document.getElementById('subtask');
     input.value = '';
+    input.placeholder = 'Add new subtask';
     input.closest('.subtask-input').classList.remove('subtask-input--active');
 }
 
+/**
+ * Enable editing mode for a subtask item.
+ * @param {HTMLLIElement} li - The list item to edit.
+ * @param {string} value - The current text value.
+ * @returns {void}
+ */
 function editSubtask(li, value) {
     const span = li.querySelector('.subtask-list__text');
     const input = document.createElement('input');
@@ -405,12 +448,19 @@ function editSubtask(li, value) {
     });
 }
 
+/**
+ * Confirm and save the edited subtask.
+ * @param {HTMLLIElement} li - The list item being edited.
+ * @param {HTMLInputElement} input - The input element with new value.
+ * @returns {void}
+ */
 function confirmEditSubtask(li, input) {
     const span = document.createElement('span');
     span.classList.add('subtask-list__text');
     span.textContent = input.value.trim();
     input.replaceWith(span);
-    const editBtn = li.querySelector('.subtask-list__btn--edit');
-    editBtn.innerHTML = '<img src="assets/icons/edit.png" alt="edit" />';
-    editBtn.addEventListener('click', () => editSubtask(li, span.textContent));
+    const actions = li.querySelector('.subtask-list__actions');
+    actions.innerHTML = getSubtaskNormalActionsTemplate();
+    actions.querySelector('.subtask-list__btn--delete').addEventListener('click', () => onSubtaskDelete(li));
+    actions.querySelector('.subtask-list__btn--edit').addEventListener('click', () => editSubtask(li, span.textContent));
 }

@@ -446,7 +446,7 @@ body {
     flex-direction: column;
     gap: 8px;
     margin-top: 8px;
-    max-height: 64px;
+    max-height: 72px;
     overflow-y: auto;
 }
 
