@@ -6,8 +6,6 @@ const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.
 
 let contactsLS = importandFormatLocalStorageData("contacs");
 
-
-
 /**
  * Initialize add task page functionality.
  * @returns {void}
@@ -20,7 +18,6 @@ function initAddTask() {
     setupDropdownEvents();
     setupSubtaskEvents();
 }
-
 
 /**
  * Set the default active priority button and attach click handlers.
@@ -175,7 +172,6 @@ function addUserToTask() {
     });
 }
 
-
 /**
  * Create a list item element for a contact in the dropdown.
  * @param {Object} contact - The contact object with name and email.
@@ -321,7 +317,6 @@ function closeDropdownOnOutsideClick(event) {
             .classList.remove('dropdown__list--visible');
     }
 }
-
 
 /**
  * Enable or disable the form action buttons.
