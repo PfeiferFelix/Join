@@ -151,16 +151,25 @@ textarea {
 
 .task-form__btn {
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .task-form__btn--clear {
     background-color: white;
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
     color: var(--primary-color);
+}
+
+.task-form__btn img {
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
 }
 
 .task-form__btn--submit {
