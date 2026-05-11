@@ -6,6 +6,12 @@ const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.
 
 let contactsLS = importandFormatLocalStorageData("contacs");
 
+const AVATAR_COLORS = [
+    '#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8',
+    '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701',
+    '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
+];
+
 /**
  * Initialize add task page functionality.
  * @returns {void}
@@ -179,7 +185,7 @@ function addUserToTask() {
  */
 function createContactListItem(contact) {
     const initials = getInitials(contact.name);
-    const color = getAvatarColor(contact.name);
+    const color = getAvatarColor(contact.email);
     const li = document.createElement('li');
     li.classList.add('dropdown__item');
     li.innerHTML = getDropdownItemTemplate(initials, color, contact.name, contact.email);
@@ -210,10 +216,12 @@ function getInitials(name) {
  * @param {string} name - The full name of the contact.
  * @returns {string} The selected color code.
  */
-function getAvatarColor(name) {
-    const colors = ['#ff5733', '#33ff57', '#3357ff', '#ff33a8', '#ffa833', '#a833ff'];
-    const index = name.charCodeAt(0) % colors.length;
-    return colors[index];
+function getAvatarColor(email) {
+    let sum = 0;
+    for (let index = 0; index < email.length; index++) {
+        sum += email.charCodeAt(index);
+    }
+    return AVATAR_COLORS[sum % AVATAR_COLORS.length];
 }
 
 /**
