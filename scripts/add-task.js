@@ -212,8 +212,8 @@ function getInitials(name) {
 }
 
 /**
- * Choose an avatar color based on the contact name.
- * @param {string} name - The full name of the contact.
+ * Choose an avatar color based on the contact email.
+ * @param {string} email - The email of the contact.
  * @returns {string} The selected color code.
  */
 function getAvatarColor(email) {
