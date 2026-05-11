@@ -396,9 +396,10 @@ function editSubtask(li, value) {
     span.replaceWith(input);
     input.focus();
 
-    const editBtn = li.querySelector('.subtask-list__btn--edit');
-    editBtn.textContent = '✓';
-    editBtn.addEventListener('click', () => confirmEditSubtask(li, input));
+    const actions = li.querySelector('.subtask-list__actions');
+    actions.innerHTML = getSubtaskEditActionsTemplate();
+    actions.querySelector('.subtask-list__btn--delete').addEventListener('click', () => li.remove());
+    actions.querySelector('.subtask-list__btn--edit').addEventListener('click', () => confirmEditSubtask(li, input));
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') confirmEditSubtask(li, input);
     });

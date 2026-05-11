@@ -446,7 +446,7 @@ body {
     flex-direction: column;
     gap: 8px;
     margin-top: 8px;
-    max-height: 40px;
+    max-height: 64px;
     overflow-y: auto;
 }
 
@@ -465,10 +465,6 @@ body {
 
 .subtask-list__text::before {
     content: "• ";
-}
-
-.subtask-list__actions {
-    display: none;
 }
 
 .subtask-list__item:hover .subtask-list__actions {
