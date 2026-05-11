@@ -192,8 +192,8 @@ function getSubtaskItemTemplate(value) {
     return `
         <span class="subtask-list__text">${value}</span>
         <div class="subtask-list__actions">
-            <button type="button" class="subtask-list__btn subtask-list__btn--edit">✏️</button>
-            <button type="button" class="subtask-list__btn subtask-list__btn--delete">🗑️</button>
+            <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/icons/edit.png" alt="edit" /></button>
+            <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/icons/delete.png" alt="delete" /></button>
         </div>
     `;
 }

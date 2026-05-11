@@ -394,6 +394,6 @@ function confirmEditSubtask(li, input) {
     span.textContent = input.value.trim();
     input.replaceWith(span);
     const editBtn = li.querySelector('.subtask-list__btn--edit');
-    editBtn.textContent = '✏️';
+    editBtn.innerHTML = '<img src="assets/icons/edit.png" alt="edit" />';
     editBtn.addEventListener('click', () => editSubtask(li, span.textContent));
 }
