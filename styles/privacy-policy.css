@@ -28,7 +28,7 @@
     max-width: 800px;
 }
 
-@media (max-width: 851px) {
+@media (max-width: 850px) {
     .privacy-policy {
         flex: 1;
         overflow-y: auto;

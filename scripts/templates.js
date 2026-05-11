@@ -8,25 +8,25 @@ function getSidebarTemplate() {
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-summary" class="sidebar__nav-link" href="summary.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/summary.svg" alt="Summary" /> 
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/summary.svg" alt="Summary" /> 
                                 <span>Summary</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-add-task" class="sidebar__nav-link" href="add-task.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/add-task.svg" alt="Add Task" />
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/add-task.svg" alt="Add Task" />
                                 <span>Add Task</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-boards" class="sidebar__nav-link" href="boards.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/boards.svg" alt="Boards" /> 
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/boards.svg" alt="Boards" /> 
                                 <span>Boards</span>
                             </a>
                         </li>
                         <li class="sidebar__list-item">
                             <a id="js-sidebar-contacts" class="sidebar__nav-link" href="contacts.html">
-                                <img class="sidebar__nav-img" src="assets/icons/sidebar/inactive/contacts.svg" alt="Contacts" /> 
+                                <img class="sidebar__nav-img" src="assets/sidebar/inactive/contacts.svg" alt="Contacts" /> 
                                 <span>Contacts</span>
                             </a>
                         </li>
@@ -54,8 +54,8 @@ function getSidebarNotLoggedInTemplate() {
                 <nav class="sidebar__nav">
                     <ul class="sidebar__nav-list">
                         <li class="sidebar__list-item">
-                            <a class="sidebar__nav-link sidebar__login-link" href="login.html">
-                                <img class="sidebar__nav-img" src="assets/icons/Login.png" alt="Login" />
+                            <a class="sidebar__nav-link sidebar__login-link" href="index.html">
+                                <img class="sidebar__nav-img" src="assets/login/Login.png" alt="Login" />
                                 <span>Login</span>
                             </a>
                         </li>
@@ -82,7 +82,7 @@ function getHeaderTemplate() {
                 <img class="header__mobile-logo" src="assets/logos/logo-mobile.svg" alt="Join" />
                 <h3 class="header__headline3 fs-medium-regular">Kanban Project Management Tool</h3>
                 <div id="js-header-user-interaction-container" class="header__user-interaction-container">
-                    <a id="js-header-help-button" onclick="goToHelp()"><img class="header__help-icon" src="assets/icons/header/help.svg" alt="Help" /></a>
+                    <a id="js-header-help-button" onclick="goToHelp()"><img class="header__help-icon" src="assets/header/help.svg" alt="Help" /></a>
                     <button id="js-user-menu-button" onclick="toggleUserMenu()" class="header__user-button"></button>
                     <div id="js-header-user-menu" class="header__user-menu"></div>
                 </div>
@@ -111,7 +111,7 @@ function getHeaderUserMenuTemplate() {
         <ul id="js-header-user-menu-list" class="header__user-list fs-small-regular fc-lightgrey">
             <li><a class="header__user-link" href="legal-notice.html">Legal Notice</a></li>
             <li><a class="header__user-link" href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a class="header__user-link" href="login.html">Log Out</a></li>
+            <li><a class="header__user-link" href="index.html">Log Out</a></li>
         </ul>
     `;
 }
@@ -146,7 +146,7 @@ function getHeaderUserMenuTemplate() {
         <ul id="js-header-user-menu-list" class="header__user-list fs-small-regular fc-lightgrey">
             <li><a class="header__user-link" href="legal-notice.html">Legal Notice</a></li>
             <li><a class="header__user-link" href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a class="header__user-link" href="login.html" onclick="logout()">Log Out</a></li>
+            <li><a class="header__user-link" href="index.html" onclick="logout()">Log Out</a></li>
         </ul>
     `;
 }
@@ -204,8 +204,8 @@ function getContactCardTemplate(contact, avatarColor) {
                 <div class="contact-card__user-info">
                     <h2 class="contact-card__name">${contact.name}</h2>
                     <div class="contact-card__btn-container">
-                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/Boards/edit.png" alt="" />Edit</button>
-                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/Boards/delete.png" alt="" />Delete</button>
+                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/boards/edit.png" alt="" />Edit</button>
+                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/boards/delete.png" alt="" />Delete</button>
                     </div>
                 </div>
             </div>`;

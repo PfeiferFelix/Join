@@ -37,7 +37,7 @@
     cursor: pointer;
 }
 
-@media (max-width: 851px) {
+@media (max-width: 850px) {
     .legal-notice {
         flex: 1;
         overflow-y: auto;

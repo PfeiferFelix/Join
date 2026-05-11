@@ -216,7 +216,7 @@ function closeAddContactDialog() {
 function resetAddContactAvatar() {
     const avatar = document.getElementById('addContactAvatar');
     avatar.classList.add('add-contact__avatar--placeholder');
-    avatar.innerHTML = '<img src="assets/Contacs/person.png" alt="Person" class="add-contact__avatar-icon" />';
+    avatar.innerHTML = '<img src="assets/contacts/person.png" alt="Person" class="add-contact__avatar-icon" />';
     avatar.style.backgroundColor = '';
 }
 

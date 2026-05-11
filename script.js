@@ -145,7 +145,7 @@ function redirectToLoginIfNotLoggedIn() {
     const requiredKeys = ["currentUserEmail", "currentUserName", "contacs", "boards"];
     const isMissing = requiredKeys.some((key) => localStorage.getItem(key) === null);
     if (isMissing) {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     }
 }
 

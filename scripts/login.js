@@ -235,7 +235,7 @@ function saveUser(name, email, password) {
 
 
 /** * This function displays a success message using the SweetAlert library, indicating that the registration was successful.
- * After the user clicks the "OK" button on the alert, it redirects the user to the login page (login.html).
+ * After the user clicks the "OK" button on the alert, it redirects the user to the login page (index.html).
  */
 function saveUserSuccess() {
     Swal.fire({
@@ -243,7 +243,7 @@ function saveUserSuccess() {
         icon: "success",
         draggable: true,
     }).then(function () {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     });
 }
 
