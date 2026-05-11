@@ -485,6 +485,15 @@ body {
     gap: 8px;
 }
 
+@media (min-width: 856px) {
+    .subtask-list__actions {
+        display: none;
+    }
+    .subtask-list__item:hover .subtask-list__actions {
+        display: flex;
+    }
+}
+
 .subtask-list__btn {
     background: none;
     border: none;
