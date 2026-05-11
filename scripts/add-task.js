@@ -161,16 +161,32 @@ function clearErrors() {
 function addUserToTask() {
     const list = document.getElementById('assigned-to-list');
     contactsLS.forEach(contact => {
-        const initials = getInitials(contact.name);
-        const color = getAvatarColor(contact.name);
-        const li = document.createElement('li');
-        li.classList.add('dropdown__item');
-        li.innerHTML = getDropdownItemTemplate(initials, color, contact.name, contact.email);
-        li.querySelector('.dropdown__checkbox').addEventListener('change', () => {
-            updateSelectedAvatars();
-        });
+        const li = createContactListItem(contact);
         list.appendChild(li);
     });
+}
+
+
+/**
+ * 
+ * @param {*} contact 
+ * @returns  
+ */
+function createContactListItem(contact) {
+    const initials = getInitials(contact.name);
+    const color = getAvatarColor(contact.name);
+    const li = document.createElement('li');
+    li.classList.add('dropdown__item');
+    li.innerHTML = getDropdownItemTemplate(initials, color, contact.name, contact.email);
+    const checkbox = li.querySelector('.dropdown__checkbox');
+    checkbox.addEventListener('change', () => updateSelectedAvatars());
+    li.addEventListener('click', (e) => {
+        if (e.target !== checkbox) {
+            checkbox.checked = !checkbox.checked;
+            updateSelectedAvatars();
+        }
+    });
+    return li;
 }
 
 /**
