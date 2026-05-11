@@ -142,7 +142,7 @@ textarea {
 
 .task-form__footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding-top: 32px;
     padding-bottom: 32px;
@@ -485,12 +485,22 @@ body {
     gap: 8px;
 }
 
+.task-form__required-hint--desktop {
+    display: none;
+}
+
 @media (min-width: 856px) {
     .subtask-list__actions {
         display: none;
     }
     .subtask-list__item:hover .subtask-list__actions {
         display: flex;
+    }
+    .task-form__required-hint--mobile {
+        display: none;
+    }
+    .task-form__required-hint--desktop {
+        display: block;
     }
 }
 
