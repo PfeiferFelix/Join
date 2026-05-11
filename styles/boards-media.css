@@ -1,16 +1,19 @@
 /* Karten neben offenem MoveTo Panel nicht anklickbar */
 @media (max-width: 1024px) {
-    .task-move-panel--open ~ .task,
-    .task--move-panel-open ~ .task,
+
+    .task-move-panel--open~.task,
+    .task--move-panel-open~.task,
     .task--move-panel-open:not(.task--move-panel-open) {
         pointer-events: none !important;
         opacity: 0.6;
     }
+
     .showTaskDialog[open] {
         pointer-events: auto !important;
         opacity: 1 !important;
     }
 }
+
 @media (max-width: 640px) {
     .task__moveto-btn {
         display: flex !important;
@@ -24,7 +27,7 @@
         justify-content: center;
         margin-bottom: 10px;
     }
-    
+
     .board__cards {
         padding: 0 !important;
         scrollbar-width: none;
@@ -81,11 +84,13 @@
         width: 96%;
         /* Firefox */
     }
-        .board__cards::-webkit-scrollbar {
+
+    .board__cards::-webkit-scrollbar {
         display: none;
         /* Chrome, Safari, Opera */
     }
 }
+
 @media (max-width: 1024px) {
     .task {
         margin-right: 14px;
@@ -137,7 +142,7 @@
     .task-move-panel__body {
         display: flex;
         flex-direction: column;
-        padding: 10px 0px 5px 0px;
+        padding: 10px 0px 10px 0px;
         overflow-y: auto;
         overflow-x: hidden;
         background-color: #2a3647;
@@ -175,7 +180,8 @@
     .task-move-panel__item:hover {
         background-color: #091931;
         color: white;
-        width: 100%;
+        width: 80%;
+        margin: 0 auto;
     }
 
     .task-move-panel__item:disabled {
@@ -220,8 +226,7 @@
     }
 
     .example-mobile {
-        width: fit-content;
-        max-width: 100%;
+        width: 50%;
         margin: 0 auto;
     }
 
@@ -233,9 +238,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-left: 20px;
-        margin-right: 23px;
         height: 80px;
+        width: 90%;
+        margin: 0 auto;
     }
 
     .addTaskDialog {
@@ -339,6 +344,18 @@
 }
 
 @media (max-width: 640px) {
+    .headline__AddTask {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+        width: 90%;
+        margin: 0 auto;
+    }
+        .example-mobile {
+        width: 90%;
+        margin: 0 auto;
+    }
     .task__moveto-btn {
         border: 1px solid #2a3647;
         border-radius: 8px;
@@ -386,7 +403,7 @@
         justify-content: flex-end;
         align-items: center;
     }
-    
+
     .task__description {
         font-size: 11px;
     }
@@ -458,5 +475,28 @@
         scroll-snap-align: center;
         scroll-snap-stop: always;
         touch-action: none;
+    }
+
+    .headline__AddTask {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 425px) {
+    .headline__AddTask {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .editTaskDialog {
+        padding: 6px 6px;
     }
 }

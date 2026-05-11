@@ -57,13 +57,13 @@ function getEditTaskFormTemplate(taskView) {
             <span class="task-form__label">Priority</span>
             <div class="priority-buttons">
                 <button id="edit-priority-urgent" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Urgent' ? 'priority-buttons__btn--urgent' : ''}" onclick="setEditPriority('Urgent')">
-                    Urgent <span class="priority-buttons__icon priority-buttons__icon--up">⟪</span>
+                    <p class="prioText">Urgent</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--up">⟪</span>
                 </button>
                 <button id="edit-priority-medium" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Medium' ? 'priority-buttons__btn--medium' : ''}" onclick="setEditPriority('Medium')">
-                    Medium <span class="priority-buttons__icon priority-buttons__icon--medium">‖</span>
+                    <p class="prioText">Medium</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--medium">‖</span>
                 </button>
                 <button id="edit-priority-low" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Low' ? 'priority-buttons__btn--low' : ''}" onclick="setEditPriority('Low')">
-                    Low <span class="priority-buttons__icon priority-buttons__icon--down">⟪</span>
+                    <p class="prioText">Low</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--down">⟪</span>
                 </button>
             </div>
             <label class="task-form__label" for="edit-assigned-to-multiselect">Assigned to</label>
@@ -126,14 +126,14 @@ function getaddTaskTemplateDialog() {
                             <div class="task-form__col task-form__col--right">
                                 <span class="task-form__label">Priority</span>
                                 <div class="priority-buttons">
-                                    <button id="priority-urgent" type="button" class="priority-btn-color-none priority-buttons__btn--urgent btnHover">Urgent
-                                    <span class="priority-buttons__icon priority-buttons__icon--up"> ⟪</span>
+                                    <button id="priority-urgent" type="button" class="priority-btn-color-none priority-buttons__btn--urgent btnHover"><p class="prioText">Urgent</p>
+                                    <span class="extrasize priority-buttons__icon priority-buttons__icon--up"> ⟪</span>
                                     </button>
-                                    <button id="priority-medium" type="button" class="priority-btn-color-none priority-buttons__btn--medium btnHover">Medium 
-                                    <span class="priority-buttons__icon priority-buttons__icon--medium"> ‖</span>
+                                    <button id="priority-medium" type="button" class="priority-btn-color-none priority-buttons__btn--medium btnHover"><p class="prioText">Medium</p>
+                                    <span class="extrasize priority-buttons__icon priority-buttons__icon--medium"> ‖</span>
                                     </button>
-                                    <button id="priority-low" type="button" class="priority-btn-color-none priority-buttons__btn--low btnHover">Low 
-                                    <span class="priority-buttons__icon priority-buttons__icon--down"> ⟪
+                                    <button id="priority-low" type="button" class="priority-btn-color-none priority-buttons__btn--low btnHover"><p class="prioText">Low</p>
+                                    <span class="extrasize priority-buttons__icon priority-buttons__icon--down"> ⟪
                                     </span></button>
                                 </div>
 

@@ -66,7 +66,7 @@ function getSubtaskCountText(todo) {
     const subtasks = getLimitedSubtasks(todo?.subtasks);
     const total = subtasks.length;
     const done = subtasks.filter(s => s.done).length;
-    return `${done} / ${total}`;
+    return `${done}/${total} Subtasks`;
 }
 // Normalizes assignedTo field from various formats.
 function normalizeAssignedTo(assignedToRaw) {

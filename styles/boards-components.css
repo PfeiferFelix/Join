@@ -51,7 +51,6 @@
 
 /* --- Edit Task Dialog Custom Layout --- */
 .editTaskDialog__content--form {
-    padding: 0 8px;
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -73,17 +72,23 @@
     gap: 8px;
     margin: 8px 0 8px 0;
 }
-
+.extrasize {
+    font-size: 16px!important;
+}
+.prioText {
+    font-size: 16px!important;
+    padding: 0 8px;
+}
 .priority-btn-color-none {
     border: 0.5px solid #d6d6d6;
     background-color: transparent;
     border-radius: 10px;
-    height: 42px;
-    width: 90px;
+    height: 48px;
+    width: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -111,6 +116,7 @@
     flex-direction: column;
     margin-top: 10px;
     max-height: 68px;
+    height: 68px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 4px;
@@ -178,9 +184,6 @@
 }
 
 /* --- Show Task Dialog Custom Layout --- */
-.editTaskDialog__content--show {
-    padding: 0 8px;
-}
 
 .headline__task-show {
     font-size: 2.2rem;
@@ -358,6 +361,7 @@
 
 .priority-label {
     display: flex;
+    align-items: center;
     gap: 20px;
     font-size: 16px
 }
@@ -941,12 +945,12 @@
     border: 0.5px solid #d6d6d6;
     background-color: transparent;
     border-radius: 10px;
-    height: 42px;
-    width: 90px;
+    height: 48px;
+    width: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px
+    gap: 4px
 }
 
 .priority-buttons {
@@ -959,7 +963,8 @@
     background-color: #27ae60;
     color: white;
     border: none;
-    width: 90px;
+    width: 100px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center
@@ -969,7 +974,8 @@
     background-color: #f39c12;
     color: white;
     border: none;
-    width: 90px;
+    width: 100px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center
@@ -979,7 +985,8 @@
     background-color: #e74c3c;
     color: white;
     border: none;
-    width: 90px;
+    width: 100px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center
@@ -1013,7 +1020,7 @@
 }
 
 .priority-buttons__icon--down {
-    font-size: 16px;
+    font-size: 22px;
     font-weight: bold;
     color: #27ae60;
     transform: rotate(-90deg)
@@ -1021,7 +1028,7 @@
 
 .priority-buttons__icon--medium {
     color: #f39c12;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: bold;
     transform: rotate(90deg)
 }
@@ -1029,7 +1036,7 @@
 .priority-buttons__icon--up {
     color: #e74c3c;
     transform: rotate(90deg);
-    font-size: 16px;
+    font-size: 22px;
     font-weight: bold
 }
 
@@ -1037,7 +1044,8 @@
     position: relative;
     width: 100%;
     min-width: 0;
-    cursor: pointer
+    cursor: pointer;
+    height: 32px;
 }
 
 .selectBox select {
@@ -1299,7 +1307,7 @@
     width: min(400px, 92vw);
     max-height: 84vh;
     margin: auto;
-    padding: 20px 12px;
+    padding: 12px 12px;
     box-sizing: border-box;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
     overflow: hidden;
@@ -1359,8 +1367,7 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0 4px;
-    gap: 48px;
+    padding: 0 8px;
 }
 
 .editTaskDialog__delete-btn,

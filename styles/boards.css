@@ -84,12 +84,14 @@
     border-radius: 0;
     padding-left: 8px;
     outline: unset;
+    flex: 1;
+    min-width: 0;
 }
 
 .example,
 .example-mobile {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     border: 1px solid #ccc;
     align-items: center;
     border-radius: 8px;
@@ -243,7 +245,7 @@
     padding: 6px 16px;
     border-radius: 8px;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 300;
     margin: 0;
     flex-shrink: 0;
 }
@@ -255,6 +257,11 @@
     color: #2a3647;
     margin: 0;
     min-height: 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     overflow-wrap: anywhere;
     word-break: break-word;
 }
@@ -273,14 +280,17 @@
 
 .task__subtask-progress {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    min-width: 0;
 }
 
 .task__progress-bar-container {
-    width: 100%;
-    height: 40%;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 8px;
     background: #e0e0e0;
     border-radius: 4px;
     overflow: hidden;
@@ -293,11 +303,16 @@
 }
 
 .task__subtask-text {
-    font-size: 16px;
+    font-size: 14px;
     color: #2a3647;
     margin: 0;
-    display: inline;
+    display: inline-block;
+    flex: 0 1 auto;
+    max-width: 60%;
+    min-width: 0;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .task__footer {
@@ -361,10 +376,11 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 18px;
-    padding-left: 7px;
-    padding-right: 7px;
+    padding-left: 18px;
+    padding-right: 18px;
     height: 38px;
     margin-left: 20px;
+    font-weight: 600;
 }
 
 .addTaskBtnBoard {
