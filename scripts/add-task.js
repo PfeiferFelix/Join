@@ -104,7 +104,6 @@ function handleClear(form) {
     clearErrors();
     clearSubtaskList();
     clearSelectedUsers();
-    enableSubtaskInput();
 }
 
 /**
@@ -388,23 +387,6 @@ function addSubtask() {
     li.querySelector('.subtask-list__btn--edit').addEventListener('click', () => editSubtask(li, value));
     document.getElementById('subtask-list').appendChild(li);
     clearSubtaskInput();
-    if (document.querySelectorAll('.subtask-list__item').length >= 2) disableSubtaskInput();
-}
-
-/**
- * Disable the subtask input by hiding it.
- * @returns {void}
- */
-function disableSubtaskInput() {
-    document.querySelector('.subtask-input').style.display = 'none';
-}
-
-/**
- * Enable the subtask input by showing it.
- * @returns {void}
- */
-function enableSubtaskInput() {
-    document.querySelector('.subtask-input').style.display = 'flex';
 }
 
 /**
@@ -414,7 +396,6 @@ function enableSubtaskInput() {
  */
 function onSubtaskDelete(li) {
     li.remove();
-    enableSubtaskInput();
 }
 
 /**
