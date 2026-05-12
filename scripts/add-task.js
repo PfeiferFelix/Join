@@ -6,7 +6,11 @@ const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.
 
 let contactsLS = importandFormatLocalStorageData("contacs");
 
-
+const AVATAR_COLORS = [
+    '#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8',
+    '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701',
+    '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
+];
 
 /**
  * Initialize add task page functionality.
@@ -20,7 +24,6 @@ function initAddTask() {
     setupDropdownEvents();
     setupSubtaskEvents();
 }
-
 
 /**
  * Set the default active priority button and attach click handlers.
@@ -103,15 +106,6 @@ function handleClear(form) {
     clearSelectedUsers();
 }
 
-function clearSubtaskList() {
-    document.getElementById('subtask-list').innerHTML = '';
-}
-
-function clearSelectedUsers() {
-    document.getElementById('selected-avatars').innerHTML = '';
-    document.querySelectorAll('.dropdown__checkbox').forEach(cb => cb.checked = false);
-}
-
 /**
  * Validate that all required form fields are filled.
  * @returns {boolean} True when the form is valid.
@@ -154,24 +148,9 @@ function clearErrors() {
     });
 }
 
-/**
- * Render contacts in the "Assigned to" dropdown.
- * @returns {void}
- */
-function addUserToTask() {
-    const list = document.getElementById('assigned-to-list');
-    contactsLS.forEach(contact => {
-        const initials = getInitials(contact.name);
-        const color = getAvatarColor(contact.name);
-        const li = document.createElement('li');
-        li.classList.add('dropdown__item');
-        li.innerHTML = getDropdownItemTemplate(initials, color, contact.name, contact.email);
-        li.querySelector('.dropdown__checkbox').addEventListener('change', () => {
-            updateSelectedAvatars();
-        });
-        list.appendChild(li);
-    });
-}
+
+
+
 
 /**
  * Return initials for a name string.
@@ -185,52 +164,21 @@ function getInitials(name) {
 }
 
 /**
- * Choose an avatar color based on the contact name.
- * @param {string} name - The full name of the contact.
+ * Choose an avatar color based on the contact email.
+ * @param {string} email - The email of the contact.
  * @returns {string} The selected color code.
  */
-function getAvatarColor(name) {
-    const colors = ['#ff5733', '#33ff57', '#3357ff', '#ff33a8', '#ffa833', '#a833ff'];
-    const index = name.charCodeAt(0) % colors.length;
-    return colors[index];
+function getAvatarColor(email) {
+    let sum = 0;
+    for (let index = 0; index < email.length; index++) {
+        sum += email.charCodeAt(index);
+    }
+    return AVATAR_COLORS[sum % AVATAR_COLORS.length];
 }
 
-/**
- * Toggle the visibility of the assigned contacts dropdown.
- * @returns {void}
- */
-function toggleDropdown() {
-    const list = document.getElementById('assigned-to-list');
-    list.classList.toggle('dropdown__list--visible');
-}
 
-/**
- * Filter dropdown items by the search input.
- * @returns {void}
- */
-function filterDropdown() {
-    const search = document.getElementById('assigned-to-search').value.toLowerCase();
-    const items = document.querySelectorAll('.dropdown__item');
-    items.forEach(item => {
-        const name = item.querySelector('.dropdown__name').textContent.toLowerCase();
-        item.style.display = name.includes(search) ? 'flex' : 'none';
-    });
-}
 
-/**
- * Update the selected avatars display for checked contacts.
- * @returns {void}
- */
-function updateSelectedAvatars() {
-    const container = document.getElementById('selected-avatars');
-    container.innerHTML = '';
-    document.querySelectorAll('.dropdown__checkbox:checked').forEach(checkbox => {
-        const item = checkbox.closest('.dropdown__item');
-        const initials = item.querySelector('.dropdown__avatar').textContent;
-        const color = item.querySelector('.dropdown__avatar').style.backgroundColor;
-        container.innerHTML += getSelectedAvatarTemplate(initials, color);
-    });
-}
+
 
 /**
  * POST data to Firebase Realtime Database.
@@ -269,33 +217,8 @@ async function uploadTask() {
     await postData("boards", taskData);
 }
 
-/**
- * Setup dropdown event listeners including outside click handling.
- * @returns {void}
- */
-function setupDropdownEvents() {
-    document.getElementById('assigned-to-search')
-        .addEventListener('focus', toggleDropdown);
-    document.getElementById('assigned-to-arrow')
-        .addEventListener('click', toggleDropdown);
-    document.getElementById('assigned-to-search')
-        .addEventListener('input', filterDropdown);
 
-    document.addEventListener('click', closeDropdownOnOutsideClick);
-}
 
-/**
- * Close the dropdown menu when clicking outside of it.
- * @param {Event} event - The click event object.
- * @returns {void}
- */
-function closeDropdownOnOutsideClick(event) {
-    const dropdown = document.getElementById('assigned-to-dropdown');
-    if (!dropdown.contains(event.target)) {
-        document.getElementById('assigned-to-list')
-            .classList.remove('dropdown__list--visible');
-    }
-}
 
 
 /**
@@ -321,79 +244,4 @@ function setupSubtaskEvents() {
     input.addEventListener('keydown', handleSubtaskEnter);
     clearBtn.addEventListener('click', clearSubtaskInput);
     confirmBtn.addEventListener('click', addSubtask);
-}
-
-/**
- * Show or hide subtask buttons based on input value.
- * @returns {void}
- */
-function toggleSubtaskButtons() {
-    const input = document.getElementById('subtask');
-    const wrapper = input.closest('.subtask-input');
-    wrapper.classList.toggle('subtask-input--active', input.value.trim().length > 0);
-}
-
-/**
- * Add subtask on Enter key press without submitting the form.
- * @param {KeyboardEvent} e - The keyboard event.
- * @returns {void}
- */
-function handleSubtaskEnter(e) {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        addSubtask();
-    }
-}
-
-/**
- * Add the current subtask input value to the subtask list.
- * @returns {void}
- */
-function addSubtask() {
-    const input = document.getElementById('subtask');
-    const value = input.value.trim();
-    if (!value) return;
-    const li = document.createElement('li');
-    li.classList.add('subtask-list__item');
-    li.innerHTML = getSubtaskItemTemplate(value);
-    li.querySelector('.subtask-list__btn--delete').addEventListener('click', () => li.remove());
-    li.querySelector('.subtask-list__btn--edit').addEventListener('click', () => editSubtask(li, value));
-    document.getElementById('subtask-list').appendChild(li);
-    clearSubtaskInput();
-}
-
-/**
- * Clear the subtask input field and hide the action buttons.
- * @returns {void}
- */
-function clearSubtaskInput() {
-    const input = document.getElementById('subtask');
-    input.value = '';
-    input.closest('.subtask-input').classList.remove('subtask-input--active');
-}
-
-function editSubtask(li, value) {
-    const span = li.querySelector('.subtask-list__text');
-    const input = document.createElement('input');
-    input.value = value;
-    input.classList.add('subtask-list__edit-input');
-    span.replaceWith(input);
-    input.focus();
-
-    const editBtn = li.querySelector('.subtask-list__btn--edit');
-    editBtn.textContent = '✓';
-    editBtn.addEventListener('click', () => confirmEditSubtask(li, input));
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') confirmEditSubtask(li, input);
-    });
-}
-
-function confirmEditSubtask(li, input) {
-    const span = document.createElement('span');
-    span.classList.add('subtask-list__text');
-    span.textContent = input.value.trim();
-    input.replaceWith(span);
-    const editBtn = li.querySelector('.subtask-list__btn--edit');
-    editBtn.textContent = '✏️';
-    editBtn.addEventListener('click', () => editSubtask(li, span.textContent));
 }
