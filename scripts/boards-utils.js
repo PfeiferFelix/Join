@@ -1,11 +1,13 @@
 // --- Ausgelagerte Hilfsfunktionen aus boards.js ---
 
+const BOARD_SUBTASK_LIMIT = 10;
+
 function getLimitedSubtasks(input) {
     const source = Array.isArray(input) ? input : [input];
     return source
         .map(item => typeof item === 'string' ? { title: item, done: false } : item)
         .map(item => ({ title: (item?.title || '').trim(), done: Boolean(item?.done), }))
-        .filter(item => item.title).slice(0, 2);
+        .filter(item => item.title).slice(0, BOARD_SUBTASK_LIMIT);
 }
 
 function normalizeContacts(items, fallback) {
@@ -28,9 +30,6 @@ function normalizeBoardItem(board, index) {
         assignedTo, subtasks, subtask: subtasks[0]?.title || '',
     };
 }
-
-// Alle Funktionen sind jetzt global verfügbar (kein export)
-// Utility functions for board operations
 
 // Creates initials from a full name.
 function buildInitials(name) {
@@ -68,6 +67,7 @@ function getSubtaskCountText(todo) {
     const done = subtasks.filter(s => s.done).length;
     return `${done}/${total} Subtasks`;
 }
+
 // Normalizes assignedTo field from various formats.
 function normalizeAssignedTo(assignedToRaw) {
     if (!Array.isArray(assignedToRaw) || assignedToRaw.length === 0) return normalizeContacts([], []);

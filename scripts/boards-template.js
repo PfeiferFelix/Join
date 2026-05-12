@@ -278,4 +278,3 @@ function getAssignedUserWithNameTemplate(user, fill) {
         `</div>`,
     ].join('');
 }
-

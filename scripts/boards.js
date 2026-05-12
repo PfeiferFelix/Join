@@ -1,4 +1,4 @@
-// Hilfsfunktionen werden jetzt global aus boards-utils.js bereitgestellt
+﻿// Helper utilities are provided globally by boards-utils.js.
 let boardsLS = getFormattedLocalStorageItems("boards");
 let contactsLS = getFormattedLocalStorageItems("contacs");
 let defaultContacts = [];
@@ -13,9 +13,6 @@ let taskMoveMenuCloseListenerBound = false;
 let boardViewportListenerBound = false;
 
 const BOARD_TOUCH_DND_MIN_WIDTH = 640;
-const BOARD_FIREBASE_BASE_URL = (typeof FIREBASE_BASE_URL === 'string' && FIREBASE_BASE_URL)
-    ? FIREBASE_BASE_URL
-    : "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
 
 const BOARD_DROP_ZONE_CATEGORY_MAP = {
     "board__list--todo": "toDo",
@@ -26,6 +23,7 @@ const BOARD_DROP_ZONE_CATEGORY_MAP = {
 
 const BOARD_CATEGORY_FLOW = ['toDo', 'inProgress', 'feedback', 'done'];
 
+// Initializes the board page data and renders the board.
 async function initBoardsPage() {
     await init();
     await syncBoardContactsFromFirebase();
@@ -35,158 +33,51 @@ async function initBoardsPage() {
     updateHTML();
 }
 
-async function syncBoardContactsFromFirebase() {
-    if (typeof syncContactsFromFirebaseToLocalStorage !== 'function') return;
-    await syncContactsFromFirebaseToLocalStorage();
-}
-
-async function postTaskToFirebase(task) {
-    try {
-        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(task),
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const payload = await response.json();
-        if (payload?.name) {
-            task.firebaseKey = payload.name;
-            saveBoardsToLocalStorage();
-        }
-    } catch (error) {
-        console.error('Karte konnte nicht in Firebase gespeichert werden:', error);
-    }
-}
-
-async function resolveFirebaseKeyByTaskId(taskId) {
-    try {
-        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const remoteBoards = await response.json() || {};
-        const match = Object.entries(remoteBoards).find(([, item]) => String(item?.id) === String(taskId));
-        return match?.[0] || null;
-    } catch (error) {
-        console.error('Firebase-Key konnte nicht aufgeloest werden:', error);
-        return null;
-    }
-}
-
-async function persistTaskCategoryToFirebase(task) {
-    if (!task) return;
-    const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
-    if (!firebaseKey) return;
-    task.firebaseKey = firebaseKey;
-    try {
-        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: buildCategoryPatchBody(task),
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        saveBoardsToLocalStorage();
-    } catch (error) {
-        console.error('Kategorienwechsel konnte nicht in Firebase gespeichert werden:', error);
-    }
-}
-
-function buildCategoryPatchBody(task) {
-    return JSON.stringify({ category: task.category });
-}
-
-async function persistTaskUpdateToFirebase(task) {
-    if (!task) return { ok: false, attempted: false };
-    const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
-    if (!firebaseKey) return { ok: false, attempted: false };
-    task.firebaseKey = firebaseKey;
-    try {
-        const body = buildFirebaseTaskBody(task);
-        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
-            method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        saveBoardsToLocalStorage();
-        return { ok: true, attempted: true };
-    } catch (error) {
-        console.error('Karten-Aenderungen konnten nicht in Firebase gespeichert werden:', error);
-        return { ok: false, attempted: true };
-    }
-}
-
-function buildFirebaseTaskBody(task) {
-    return JSON.stringify({
-        id: task.id,
-        title: task.title,
-        description: task.description || '',
-        dueDate: task.dueDate || '',
-        priority: task.priority || 'Medium',
-        category: task.category || 'toDo',
-        selectedCategoryLabel: task.selectedCategoryLabel || categoryLabel(task.category || 'toDo'),
-        assignedTo: Array.isArray(task.assignedTo) ? task.assignedTo : [],
-        subtasks: Array.isArray(task.subtasks) ? task.subtasks : [],
-        subtask: task.subtask || '',
-    });
-}
-
-async function deleteTaskFromFirebase(task) {
-    if (!task) return { ok: true, attempted: false };
-    const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
-    if (!firebaseKey) return { ok: true, attempted: false };
-    try {
-        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
-            method: 'DELETE',
-        });
-        return { ok: response.ok, attempted: true };
-    } catch (error) {
-        console.error('Karte konnte nicht aus Firebase geloescht werden:', error);
-        return { ok: false, attempted: true };
-    }
-}
-
-async function syncBoardTasksFromFirebase() {
-    try {
-        const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const remoteBoards = await response.json() || {};
-        const normalizedBoards = Object.entries(remoteBoards).reduce((result, [firebaseKey, task], index) => {
-            const normalizedTask = normalizeBoardItem({ ...task, firebaseKey, id: task?.id || Date.now() + index }, index);
-            result[firebaseKey] = normalizedTask;
-            return result;
-        }, {});
-        localStorage.setItem("boards", JSON.stringify(normalizedBoards));
-    } catch (error) {
-        console.error('Board-Karten konnten nicht aus Firebase geladen werden:', error);
-    }
-}
-
+// Refreshes the in-memory contacts list from local storage.
 function updateBoardContactsFromLocalStorage() {
     contactsLS = getFormattedLocalStorageItems("contacs");
     contacts = normalizeContacts(contactsLS, defaultContacts);
 }
 
+// Refreshes the in-memory task list from local storage.
 function updateBoardTodosFromLocalStorage() {
     boardsLS = getFormattedLocalStorageItems("boards");
     todos = normalizeBoards(boardsLS);
 }
 
-function updateHTML() {
-    document.querySelectorAll('.board__list').forEach(list => { list.style.display = ''; });
-    saveBoardsToLocalStorage();
-    [
+// Returns all board columns with their rendering targets.
+function getBoardColumnsForRendering() {
+    return [
         { category: "toDo", cardsId: "board__cards--todo", emptyId: "noneCardTodo" },
         { category: "inProgress", cardsId: "board__cards--inprogress", emptyId: "noneCardInProgress" },
         { category: "feedback", cardsId: "board__cards--feedback", emptyId: "noneCardFeedback" },
         { category: "done", cardsId: "board__cards--done", emptyId: "noneCardDone" }
-    ].forEach(renderCategoryContent);
+    ].filter(Boolean);
+}
+
+// Initializes all board interaction handlers and UI state.
+function initializeBoardInteractions() {
     updateTaskDraggableState();
     initializeTouchBoardDnD();
     initializeBoardViewportBehavior();
     initializeTaskMoveMenuCloseBehavior();
 }
 
+// Re-renders all board columns and reinitializes board interactions.
+function updateHTML() {
+    const boardLists = Array.from(document.querySelectorAll('.board__list')).filter(Boolean);
+    for (const list of boardLists) list.style.display = '';
+    saveBoardsToLocalStorage();
+    getBoardColumnsForRendering().forEach(col => renderCategoryContent(col));
+    initializeBoardInteractions();
+}
+
+// Returns whether drag interactions are enabled for the current viewport.
 function isBoardDragInteractionEnabled() {
     return window.innerWidth >= BOARD_TOUCH_DND_MIN_WIDTH;
 }
 
+// Binds drag start and end event handlers to a task card once.
 function bindTaskDragEvents(task) {
     if (task.dataset.dragBound) return;
     task.addEventListener('dragstart', (event) => {
@@ -199,6 +90,7 @@ function bindTaskDragEvents(task) {
     task.dataset.dragBound = 'true';
 }
 
+// Updates draggable state and drag bindings for all visible task cards.
 function updateTaskDraggableState() {
     const isDragEnabled = isBoardDragInteractionEnabled();
     document.querySelectorAll('.task').forEach(task => {
@@ -207,6 +99,7 @@ function updateTaskDraggableState() {
     });
 }
 
+// Initializes viewport resize behavior for board interactions.
 function initializeBoardViewportBehavior() {
     if (boardViewportListenerBound) return;
     window.addEventListener('resize', () => {
@@ -218,6 +111,7 @@ function initializeBoardViewportBehavior() {
     boardViewportListenerBound = true;
 }
 
+// Closes all board-related dialogs and restores page scrolling.
 function closeDialog() {
     const addTaskDialog = document.getElementById("addTaskDialog");
     const showTaskDialog = document.getElementById("showTaskDialog");
@@ -228,6 +122,7 @@ function closeDialog() {
     document.body.style.overflow = '';
 }
 
+// Renders all task cards for a single board category.
 function renderCategoryContent({ category, cardsId, emptyId }) {
     const container = document.getElementById(cardsId);
     const noCardElement = document.getElementById(emptyId);
@@ -237,6 +132,7 @@ function renderCategoryContent({ category, cardsId, emptyId }) {
     noCardElement.style.display = categoryTasks.length === 0 ? 'flex' : 'none';
 }
 
+// Renders one board column with cards matching the current search query.
 function renderSearchResultColumn({ category, cardsId, emptyId }, query) {
     const container = document.getElementById(cardsId);
     const noCardElement = document.getElementById(emptyId);
@@ -249,24 +145,46 @@ function renderSearchResultColumn({ category, cardsId, emptyId }, query) {
     if (boardList) boardList.style.display = categoryTasks.length > 0 ? '' : 'none';
 }
 
-function searchCard(event) {
-    event.preventDefault();
-    const searchInput = event.currentTarget?.querySelector('input[name="search"]');
-    const query = (searchInput?.value || '').trim().toLowerCase();
-    if (!query) {
-        if (searchInput) {
-            searchInput.setCustomValidity('Bitte gib einen Suchbegriff ein.');
-            searchInput.reportValidity();
-        }
-        return;
+// Returns the search input element from the submitted search form.
+function getSearchInputFromForm(form) {
+    return form?.querySelector('input[name="search"]') || null;
+}
+
+// Normalizes the raw search input to a lowercase query string.
+function getNormalizedSearchQuery(searchInput) {
+    return (searchInput?.value || '').trim().toLowerCase();
+}
+
+// Validates the search query and shows browser validity feedback when empty.
+function validateSearchQuery(searchInput, query) {
+    if (query) {
+        if (searchInput) searchInput.setCustomValidity('');
+        return true;
     }
-    if (searchInput) searchInput.setCustomValidity('');
+    if (!searchInput) return false;
+    searchInput.setCustomValidity('Bitte gib einen Suchbegriff ein.');
+    searchInput.reportValidity();
+    return false;
+}
+
+// Renders all search result columns and reapplies board interaction bindings.
+function renderSearchResults(query) {
     getBoardColumns().forEach(col => renderSearchResultColumn(col, query));
     updateTaskDraggableState();
     initializeTouchBoardDnD();
     initializeTaskMoveMenuCloseBehavior();
 }
 
+// Handles board search form submit events.
+function searchCard(event) {
+    event.preventDefault();
+    const searchInput = getSearchInputFromForm(event.currentTarget);
+    const query = getNormalizedSearchQuery(searchInput);
+    if (!validateSearchQuery(searchInput, query)) return;
+    renderSearchResults(query);
+}
+
+// Returns the static board column metadata used for rendering and search.
 function getBoardColumns() {
     return [
         { category: 'toDo', cardsId: 'board__cards--todo', emptyId: 'noneCardTodo' },
@@ -276,12 +194,14 @@ function getBoardColumns() {
     ];
 }
 
+// Clears custom validation and restores the full board when search is emptied.
 function clearSearch(event) {
     event.currentTarget?.setCustomValidity('');
     if (event.currentTarget?.value.trim()) return;
     updateHTML();
 }
 
+// Resets the current search and restores the full board on Escape.
 function resetSearchOnEscape(event) {
     if (event.key !== 'Escape') return;
     event.preventDefault();
@@ -289,6 +209,7 @@ function resetSearchOnEscape(event) {
     updateHTML();
 }
 
+// Persists the current in-memory tasks to local storage.
 function saveBoardsToLocalStorage() {
     const boardsObject = todos.reduce((result, todo) => {
         const key = todo.firebaseKey || todo.id;
@@ -298,11 +219,13 @@ function saveBoardsToLocalStorage() {
     localStorage.setItem("boards", JSON.stringify(boardsObject));
 }
 
+// Enables dropping on a board column when drag interactions are active.
 function allowDrop(event) {
     if (!isBoardDragInteractionEnabled()) return;
     event.preventDefault();
 }
 
+// Handles task drop events and moves tasks to the target category.
 function drop(event) {
     if (!isBoardDragInteractionEnabled()) return;
     event.preventDefault();
@@ -312,6 +235,7 @@ function drop(event) {
     moveTaskToCategory(taskId, targetCategory);
 }
 
+// Moves a task to a category and persists the category change.
 function moveTaskToCategory(taskId, targetCategory) {
     if (!targetCategory) return;
     const taskIndex = todos.findIndex((todo) => todo.id == taskId);
@@ -323,6 +247,7 @@ function moveTaskToCategory(taskId, targetCategory) {
     }
 }
 
+// Handles task card click behavior, including move panel suppression.
 function handleTaskClick(event, taskId) {
     const taskCard = event.currentTarget?.closest('.task') || event.target?.closest('.task');
     if (taskCard?.querySelector('.task-move-panel--open')) {
@@ -349,6 +274,7 @@ function updateTaskCardSubtaskPreview(taskId, task, subtasks, removeEmptyState =
     if (removeEmptyState && total === 0) barEl.style.width = '0%';
 }
 
+// Opens the task details dialog for the selected task.
 function toDoCardShow(taskId) {
     const task = todos.find((t) => t.id == taskId);
     if (!task) return;
@@ -359,6 +285,7 @@ function toDoCardShow(taskId) {
     document.body.style.overflow = 'hidden';
 }
 
+// Safely reads and normalizes local storage data by key.
 function getFormattedLocalStorageItems(key) {
     try {
         const items = importandFormatLocalStorageData(key);
@@ -368,7 +295,7 @@ function getFormattedLocalStorageItems(key) {
     }
 }
 
-
+// Merges a new task into an existing match or inserts it as a new task.
 function mergeOrInsertTodo(newTodo) {
     const existingTodo = todos.find(todo =>
         todo.title === newTodo.title && todo.description === newTodo.description &&
@@ -382,6 +309,7 @@ function mergeOrInsertTodo(newTodo) {
     });
 }
 
+// Starts drag behavior for a task card.
 function drag(event) {
     if (!isBoardDragInteractionEnabled()) return event.preventDefault();
     const taskElement = event.target.closest(".task");
@@ -390,6 +318,7 @@ function drag(event) {
     event.dataTransfer.setData("text/plain", String(taskElement.id));
 }
 
+// Deletes a task locally and remotely, then updates the UI.
 async function deleteTask(taskId) {
     const taskIndex = todos.findIndex((t) => t.id == taskId);
     if (taskIndex === -1) return;

@@ -35,27 +35,49 @@ function setEditPriority(priority) {
     else if (priority === "Low") low.classList.add("priority-buttons__btn--low");
 }
 
-// Applies values from the edit dialog to a task object.
-function applyEditTaskValues(task, dialog) {
-    const updatedCategoryLabel = dialog.querySelector('#edit-category')?.value?.trim();
-    const updatedAssignedIds = Array.from(dialog.querySelectorAll('#edit-assigned-to-checkboxes input[type="checkbox"]:checked'))
-        .map(cb => Number(cb.value)).filter(id => Number.isFinite(id));
-    const updatedSubtasks = getLimitedSubtasks(JSON.parse(dialog.querySelector('#edit-subtasks-data')?.value || '[]'));
+function getUpdatedAssignedIds(dialog) {
+    return Array.from(dialog.querySelectorAll('#edit-assigned-to-checkboxes input[type="checkbox"]:checked'))
+        .map(cb => Number(cb.value))
+        .filter(id => Number.isFinite(id));
+}
+
+function getUpdatedSubtasks(dialog) {
+    const subtasksData = dialog.querySelector('#edit-subtasks-data')?.value || '[]';
+    return getLimitedSubtasks(JSON.parse(subtasksData));
+}
+
+function applyTaskBaseFields(task, dialog) {
     task.title = dialog.querySelector("#edit-title")?.value.trim() || "";
     task.description = dialog.querySelector("#edit-description")?.value.trim() || "";
     task.dueDate = dialog.querySelector("#edit-due-date")?.value || "";
     task.priority = getSelectedEditPriority(dialog);
     task.priorityClass = getPriorityIconClass(task.priority);
+}
+
+function applyTaskCategory(task, updatedCategoryLabel) {
     if (updatedCategoryLabel) {
         task.selectedCategoryLabel = updatedCategoryLabel;
         task.category = mapCategoryLabelToKey(updatedCategoryLabel);
-    } else {
-        task.selectedCategoryLabel = task.selectedCategoryLabel || categoryLabel(task.category || 'toDo');
-        task.category = task.category || 'toDo';
+        return;
     }
+    task.selectedCategoryLabel = task.selectedCategoryLabel || categoryLabel(task.category || 'toDo');
+    task.category = task.category || 'toDo';
+}
+
+function applyTaskAssignmentsAndSubtasks(task, updatedAssignedIds, updatedSubtasks) {
     task.assignedTo = contacts.filter(c => updatedAssignedIds.includes(c.id));
     task.subtasks = updatedSubtasks;
     task.subtask = updatedSubtasks[0]?.title || "";
+}
+
+// Applies values from the edit dialog to a task object.
+function applyEditTaskValues(task, dialog) {
+    const updatedCategoryLabel = dialog.querySelector('#edit-category')?.value?.trim();
+    const updatedAssignedIds = getUpdatedAssignedIds(dialog);
+    const updatedSubtasks = getUpdatedSubtasks(dialog);
+    applyTaskBaseFields(task, dialog);
+    applyTaskCategory(task, updatedCategoryLabel);
+    applyTaskAssignmentsAndSubtasks(task, updatedAssignedIds, updatedSubtasks);
 }
 
 // Saves edited task values and refreshes the board.

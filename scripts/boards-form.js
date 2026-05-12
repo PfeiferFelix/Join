@@ -70,6 +70,22 @@ function attachAddTaskFormHandlers(dialog) {
     if (form) form.addEventListener("submit", handleCreateTask);
     const cancelBtn = dialog.querySelector("#cancel-btn");
     if (cancelBtn && form) cancelBtn.addEventListener("click", () => form.reset());
+    if (form) form.addEventListener('reset', () => {
+        clearAddDialogSubtasks(dialog);
+        updateCreateTaskButtonState(dialog);
+    });
+}
+
+// Clears all accepted subtasks from the add-task dialog.
+function clearAddDialogSubtasks(dialog) {
+    const hiddenInput = dialog.querySelector('#add-subtasks-data');
+    const list = dialog.querySelector('#add-subtasks-list');
+    const input = dialog.querySelector('#subtask-input');
+    const actions = dialog.querySelector('#add-subtask-actions');
+    if (hiddenInput) hiddenInput.value = '[]';
+    if (list && hiddenInput) renderAddDialogSubtasks(list, hiddenInput);
+    if (input) input.value = '';
+    actions?.classList.remove('subtask-item__actions--active');
 }
 
 // Extracts the category dropdown open/close logic.
@@ -142,37 +158,40 @@ function bindSubtaskInputFieldEvents(input, addBtn, clearBtn, dialog, actionsCon
     return updateActions;
 }
 
-// Initializes add-dialog subtask interactions (Enter, buttons, and list rendering).
-function setupAddDialogSubtaskInput(dialog) {
-    const wrapper = dialog.querySelector('#add-subtask-input-wrapper');
-    const input = dialog.querySelector('#subtask-input');
-    const addBtn = dialog.querySelector('#add-subtask-confirm');
-    const clearBtn = dialog.querySelector('#add-subtask-clear');
-    const list = dialog.querySelector('#add-subtasks-list');
-    const hiddenInput = dialog.querySelector('#add-subtasks-data');
-    if (!wrapper || !input || !addBtn || !clearBtn || !list || !hiddenInput) return;
-    const actionsContainer = dialog.querySelector('#add-subtask-actions');
-    const updateActions = bindSubtaskInputFieldEvents(input, addBtn, clearBtn, dialog, actionsContainer);
-    bindSubtaskListClickEvents(list, hiddenInput);
-    bindSubtaskListKeydownEvents(list, hiddenInput);
-    renderAddDialogSubtasks(list, hiddenInput);
-    updateActions();
+// Retrieves all subtask input elements from the add dialog.
+function getAddDialogSubtaskElements(dialog) {
+    return {
+        wrapper: dialog.querySelector('#add-subtask-input-wrapper'),
+        input: dialog.querySelector('#subtask-input'),
+        addBtn: dialog.querySelector('#add-subtask-confirm'),
+        clearBtn: dialog.querySelector('#add-subtask-clear'),
+        list: dialog.querySelector('#add-subtasks-list'),
+        hiddenInput: dialog.querySelector('#add-subtasks-data'),
+        actionsContainer: dialog.querySelector('#add-subtask-actions'),
+    };
 }
 
-// Collects and validates the DOM elements needed for add-dialog subtask input.
-function getAddDialogSubtaskElements(dialog) {
-    const wrapper = dialog.querySelector('#add-subtask-input-wrapper');
-    const input = dialog.querySelector('#subtask-input');
-    const hiddenInput = dialog.querySelector('#add-subtasks-data');
-    const list = dialog.querySelector('#add-subtasks-list');
-    if (!wrapper || !input || !hiddenInput || !list) return null;
-    return { wrapper, input, hiddenInput, list };
+// Binds all event handlers for subtask input and list interactions.
+function bindAddDialogSubtaskHandlers(elements, dialog) {
+    if (!elements.wrapper || !elements.input || !elements.addBtn || !elements.clearBtn || !elements.list || !elements.hiddenInput) return false;
+    const updateActions = bindSubtaskInputFieldEvents(elements.input, elements.addBtn, elements.clearBtn, dialog, elements.actionsContainer);
+    bindSubtaskListClickEvents(elements.list, elements.hiddenInput);
+    bindSubtaskListKeydownEvents(elements.list, elements.hiddenInput);
+    renderAddDialogSubtasks(elements.list, elements.hiddenInput);
+    updateActions();
+    return true;
+}
+
+// Initializes add-dialog subtask interactions (Enter, buttons, and list rendering).
+function setupAddDialogSubtaskInput(dialog) {
+    const elements = getAddDialogSubtaskElements(dialog);
+    bindAddDialogSubtaskHandlers(elements, dialog);
 }
 
 // Appends a subtask entry to the hidden data store and re-renders the list.
 function appendSubtaskEntry(title, wrapper, input, hiddenInput, list) {
     const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-    if (subtasks.length >= 2) {
+    if (subtasks.length >= 10) {
         input.value = '';
         return;}
     subtasks.push({ title, done: false });
@@ -200,19 +219,30 @@ function renderAddDialogSubtasks(list, hiddenInput) {
     ).join('');
     const wrapper = hiddenInput.closest('dialog, form, .subtask-container')?.querySelector('#add-subtask-input-wrapper')
         ?? hiddenInput.parentElement?.querySelector('#add-subtask-input-wrapper');
-    if (wrapper) wrapper.style.display = subtasks.length >= 2 ? 'none' : '';
+    if (wrapper) wrapper.style.display = subtasks.length >= 10 ? 'none' : '';
+}
+
+// Validates and finds a subtask item element by index.
+function findSubtaskItemForEdit(list, hiddenInput, index) {
+    const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
+    if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return null;
+    const item = list.querySelector(`[data-subtask-index="${index}"]`);
+    return item && subtasks.length > index ? { item, title: subtasks[index].title } : null;
+}
+
+// Replaces a subtask title with an editable input field.
+function convertSubtaskTitleToInput(item, index, title) {
+    const titleNode = item.querySelector('.subtask-item__title');
+    if (!titleNode) return null;
+    titleNode.outerHTML = `<input type="text" class="task-form__input subtask-item__input" data-subtask-index="${index}" value="${escapeHtmlAttribute(title)}">`;
+    return item.querySelector('.subtask-item__input');
 }
 
 // Switches one accepted add-dialog subtask into inline edit mode.
 function startAddDialogSubtaskEdit(list, hiddenInput, index) {
-    const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-    if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return;
-    const item = list.querySelector(`[data-subtask-index="${index}"]`);
-    if (!item) return;
-    const titleNode = item.querySelector('.subtask-item__title');
-    if (!titleNode) return;
-    titleNode.outerHTML = `<input type="text" class="task-form__input subtask-item__input" data-subtask-index="${index}" value="${escapeHtmlAttribute(subtasks[index].title)}">`;
-    const input = item.querySelector('.subtask-item__input');
+    const data = findSubtaskItemForEdit(list, hiddenInput, index);
+    if (!data) return;
+    const input = convertSubtaskTitleToInput(data.item, index, data.title);
     if (!input) return;
     input.focus();
     input.select();

@@ -488,6 +488,23 @@
     flex-direction: column;
     gap: 8px;
     padding-left: unset;
+    max-height: 88px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+}
+
+.subtask-container__list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.subtask-container__list::-webkit-scrollbar-thumb {
+    background: #b5c6db;
+    border-radius: 8px;
+}
+
+.subtask-container__list::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .subtask-container__list:has(.subtask-item) .edit-subtask-btn,
@@ -691,18 +708,51 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding-left: unset
+    padding-left: unset;
+    max-height: 88px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+    
+}
+
+.subtask-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.subtask-list::-webkit-scrollbar-thumb {
+    background: #b5c6db;
+    border-radius: 8px;
+}
+
+.subtask-list::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .subtask-list-task {
     display: flex;
     flex-direction: column;
-    padding-left: 0;
-    margin-bottom: 12px;
-    width: 100%
+    max-height: 68px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-left: unset;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.subtask-list-task:hover,
+.subtask-list-task::-webkit-scrollbar {
+    width: 6px;
+}
+
+.subtask-list-task::-webkit-scrollbar-thumb {
+    background: #b5c6db;
+    border-radius: 8px;
+}
+
+.subtask-list-task::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 .subtask-item:hover {
     cursor: pointer
 }
@@ -1082,7 +1132,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-top: 40px;
+    padding-top: 20px;
 }
 
 .task-form__footer {
@@ -1227,6 +1277,36 @@
     padding: 32px;
     animation: dialogSlideIn 0.3s ease-out;
     position: relative;
+}
+
+.addTaskDialog[open] {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.addTaskDialog .task-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.addTaskDialog .task-form__body {
+    flex: 1;
+    min-height: 496px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding-right: 8px;
+}
+
+.addTaskDialog .task-form__footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background: #fff;
+    margin-top: 12px;
+    padding-top: 10px;
 }
 
 .add-task-success {
