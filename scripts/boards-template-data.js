@@ -97,7 +97,7 @@ function getDetailSubtasksHTML(subtasks) {
 
 // Builds options HTML for editable task categories.
 function getCategoryOptionsHTML(fixedHeaderLabel) {
-    return ['Technical Task', 'User Story'].map(option => `<option value="${option}" ${option === fixedHeaderLabel ? 'selected' : ''}>${option}</option>`).join('');
+    return ['Technical Task', 'User Story'].map(option => `<option value="${option}" ${option === fixedHeaderLabel ? 'plus Zeichen' : ''}>${option}</option>`).join('');
 }
 
 // Builds template data for the editable task form view.

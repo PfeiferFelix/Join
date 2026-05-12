@@ -72,6 +72,7 @@ function getEditTaskFormTemplate(taskView) {
                     <select class="task-form__select" aria-hidden="true" tabindex="-1">
                         <option id="edit-assigned-to-summary">Select contacts to assign</option>
                     </select>
+                    <input class="selectBox__input" id="edit-assigned-to-search" type="text" placeholder="Select contacts to assign" autocomplete="off">
                     <div class="overSelect"></div>
                 </div>
                 <div id="edit-assigned-to-checkboxes" class="multiselect__checkboxes" hidden></div>
@@ -143,6 +144,7 @@ function getaddTaskTemplateDialog() {
                                                 <select class="task-form__select" aria-hidden="true" tabindex="-1">
                                                         <option id="assigned-to-summary">Select contacts to assign</option>
                                                 </select>
+                                        <input class="selectBox__input" id="assigned-to-search" type="text" placeholder="Select contacts to assign" autocomplete="off">
                                                 <div class="overSelect"></div>
                                         </div>
                                         <div id="assigned-to-checkboxes" class="multiselect__checkboxes" hidden></div>
@@ -277,4 +279,9 @@ function getAssignedUserWithNameTemplate(user, fill) {
         `<span class="assigned-user-name">${user?.name || user?.abbreviation || 'Unknown User'}</span>`,
         `</div>`,
     ].join('');
+}
+
+// Builds one selected assigned-user row from avatar markup.
+function getAssignedUserRowTemplate(contentHTML) {
+    return `<div class="assigned-user-row">${contentHTML}</div>`;
 }

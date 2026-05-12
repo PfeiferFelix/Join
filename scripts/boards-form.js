@@ -76,18 +76,6 @@ function attachAddTaskFormHandlers(dialog) {
     });
 }
 
-// Clears all accepted subtasks from the add-task dialog.
-function clearAddDialogSubtasks(dialog) {
-    const hiddenInput = dialog.querySelector('#add-subtasks-data');
-    const list = dialog.querySelector('#add-subtasks-list');
-    const input = dialog.querySelector('#subtask-input');
-    const actions = dialog.querySelector('#add-subtask-actions');
-    if (hiddenInput) hiddenInput.value = '[]';
-    if (list && hiddenInput) renderAddDialogSubtasks(list, hiddenInput);
-    if (input) input.value = '';
-    actions?.classList.remove('subtask-item__actions--active');
-}
-
 // Extracts the category dropdown open/close logic.
 function bindCategoryDropdownEvents(trigger, optionsList, hiddenInput, label) {
     const open = () => { optionsList.hidden = false; trigger.setAttribute('aria-expanded', 'true'); };
@@ -116,156 +104,7 @@ function populateCategoryOptions(dialog) {
     bindCategoryDropdownEvents(trigger, optionsList, hiddenInput, label);
 }
 
-// Handles click events on the add-dialog subtask list.
-function bindSubtaskListClickEvents(list, hiddenInput) {
-    list.addEventListener('click', (event) => {
-        const editBtn = event.target.closest('[data-edit-subtask-index]');
-        if (editBtn) {
-            startAddDialogSubtaskEdit(list, hiddenInput, Number(editBtn.dataset.editSubtaskIndex));
-            return;}
-        const deleteBtn = event.target.closest('[data-remove-subtask-index]');
-        if (!deleteBtn) return;
-        const index = Number(deleteBtn.dataset.removeSubtaskIndex);
-        const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-        if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return;
-        subtasks.splice(index, 1);
-        hiddenInput.value = JSON.stringify(subtasks);
-        renderAddDialogSubtasks(list, hiddenInput);});
-}
 
-// Handles keydown events on the add-dialog subtask list.
-function bindSubtaskListKeydownEvents(list, hiddenInput) {
-    list.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter') return;
-        const inputField = event.target.closest('.subtask-item__input');
-        if (!inputField) return;
-        event.preventDefault();
-        saveAddDialogSubtaskEdit(list, hiddenInput, Number(inputField.dataset.subtaskIndex), inputField.value);
-    });
-}
-
-// Handles input and action button events for the subtask input field.
-function bindSubtaskInputFieldEvents(input, addBtn, clearBtn, dialog, actionsContainer) {
-    const updateActions = () => actionsContainer?.classList.toggle('subtask-item__actions--active', input.value.trim().length > 0);
-    input.addEventListener('input', updateActions);
-    input.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter') return;
-        event.preventDefault();
-        addDialogSubtask(dialog);
-    });
-    addBtn.addEventListener('click', () => addDialogSubtask(dialog));
-    clearBtn.addEventListener('click', () => { input.value = ''; updateActions(); input.focus(); });
-    return updateActions;
-}
-
-// Retrieves all subtask input elements from the add dialog.
-function getAddDialogSubtaskElements(dialog) {
-    return {
-        wrapper: dialog.querySelector('#add-subtask-input-wrapper'),
-        input: dialog.querySelector('#subtask-input'),
-        addBtn: dialog.querySelector('#add-subtask-confirm'),
-        clearBtn: dialog.querySelector('#add-subtask-clear'),
-        list: dialog.querySelector('#add-subtasks-list'),
-        hiddenInput: dialog.querySelector('#add-subtasks-data'),
-        actionsContainer: dialog.querySelector('#add-subtask-actions'),
-    };
-}
-
-// Binds all event handlers for subtask input and list interactions.
-function bindAddDialogSubtaskHandlers(elements, dialog) {
-    if (!elements.wrapper || !elements.input || !elements.addBtn || !elements.clearBtn || !elements.list || !elements.hiddenInput) return false;
-    const updateActions = bindSubtaskInputFieldEvents(elements.input, elements.addBtn, elements.clearBtn, dialog, elements.actionsContainer);
-    bindSubtaskListClickEvents(elements.list, elements.hiddenInput);
-    bindSubtaskListKeydownEvents(elements.list, elements.hiddenInput);
-    renderAddDialogSubtasks(elements.list, elements.hiddenInput);
-    updateActions();
-    return true;
-}
-
-// Initializes add-dialog subtask interactions (Enter, buttons, and list rendering).
-function setupAddDialogSubtaskInput(dialog) {
-    const elements = getAddDialogSubtaskElements(dialog);
-    bindAddDialogSubtaskHandlers(elements, dialog);
-}
-
-// Appends a subtask entry to the hidden data store and re-renders the list.
-function appendSubtaskEntry(title, wrapper, input, hiddenInput, list) {
-    const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-    if (subtasks.length >= 10) {
-        input.value = '';
-        return;}
-    subtasks.push({ title, done: false });
-    hiddenInput.value = JSON.stringify(getLimitedSubtasks(subtasks));
-    input.value = '';
-    wrapper.classList.remove('subtask-input--active');
-    renderAddDialogSubtasks(list, hiddenInput);
-    input.focus();
-}
-
-// Adds one accepted subtask entry from the current add-dialog input.
-function addDialogSubtask(dialog) {
-    const elements = getAddDialogSubtaskElements(dialog);
-    if (!elements) return;
-    const title = elements.input.value.trim();
-    if (!title) return;
-    appendSubtaskEntry(title, elements.wrapper, elements.input, elements.hiddenInput, elements.list);
-}
-
-// Renders accepted subtasks below the add-dialog input field.
-function renderAddDialogSubtasks(list, hiddenInput) {
-    const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-    list.innerHTML = subtasks.map((subtask, index) =>
-        `<li class="subtask-item" data-subtask-index="${index}"><span class="subtask-item__title">${escapeHtmlText(subtask.title)}</span><div class="subtask-item__actions"><button type="button" class="edit-subtask-btn" data-edit-subtask-index="${index}" aria-label="Edit subtask">&#9998;</button><span class="subtask-item__separator" aria-hidden="true"></span><button type="button" class="clear-subtasks-btn" data-remove-subtask-index="${index}" aria-label="Remove subtask">&#128465;</button></div></li>`
-    ).join('');
-    const wrapper = hiddenInput.closest('dialog, form, .subtask-container')?.querySelector('#add-subtask-input-wrapper')
-        ?? hiddenInput.parentElement?.querySelector('#add-subtask-input-wrapper');
-    if (wrapper) wrapper.style.display = subtasks.length >= 10 ? 'none' : '';
-}
-
-// Validates and finds a subtask item element by index.
-function findSubtaskItemForEdit(list, hiddenInput, index) {
-    const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-    if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return null;
-    const item = list.querySelector(`[data-subtask-index="${index}"]`);
-    return item && subtasks.length > index ? { item, title: subtasks[index].title } : null;
-}
-
-// Replaces a subtask title with an editable input field.
-function convertSubtaskTitleToInput(item, index, title) {
-    const titleNode = item.querySelector('.subtask-item__title');
-    if (!titleNode) return null;
-    titleNode.outerHTML = `<input type="text" class="task-form__input subtask-item__input" data-subtask-index="${index}" value="${escapeHtmlAttribute(title)}">`;
-    return item.querySelector('.subtask-item__input');
-}
-
-// Switches one accepted add-dialog subtask into inline edit mode.
-function startAddDialogSubtaskEdit(list, hiddenInput, index) {
-    const data = findSubtaskItemForEdit(list, hiddenInput, index);
-    if (!data) return;
-    const input = convertSubtaskTitleToInput(data.item, index, data.title);
-    if (!input) return;
-    input.focus();
-    input.select();
-    input.addEventListener('blur', () => saveAddDialogSubtaskEdit(list, hiddenInput, index, input.value), { once: true });
-}
-
-// Saves an inline edited subtask title in the add dialog.
-function saveAddDialogSubtaskEdit(list, hiddenInput, index, nextTitle) {
-    const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-    if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return;
-    const cleanedTitle = String(nextTitle || '').trim();
-    if (!cleanedTitle) return renderAddDialogSubtasks(list, hiddenInput);
-    subtasks[index].title = cleanedTitle;
-    hiddenInput.value = JSON.stringify(subtasks);
-    renderAddDialogSubtasks(list, hiddenInput);
-}
-
-// Accepts one pending subtask text before creating the task.
-function acceptPendingAddDialogSubtask(dialog) {
-    const input = dialog.querySelector('#subtask-input');
-    if (!input || !input.value.trim()) return;
-    addDialogSubtask(dialog);
-}
 
 // Binds click behavior for add-task priority buttons.
 function bindAddTaskPriorityButtons() {
@@ -349,19 +188,21 @@ function setupAssignedToMultiselect(dialog, config = {}) {
     const trigger = dialog.querySelector(`#${cfg.triggerId}`);
     const checkboxContainer = dialog.querySelector(`#${cfg.checkboxContainerId}`);
     const summary = dialog.querySelector(`#${cfg.summaryId}`);
+    const searchInput = dialog.querySelector(`#${cfg.searchInputId}`);
     const selectedAvatarsContainer = dialog.querySelector(`#${cfg.selectedAvatarsId}`);
     if (!trigger || !checkboxContainer || !summary) return;
     renderAssignedToOptions(checkboxContainer, cfg.optionIdPrefix, cfg.preselectedIds);
     checkboxContainer.removeAttribute('hidden');
-    bindAssignedToDropdownEvents(dialog, cfg, trigger, checkboxContainer, summary, selectedAvatarsContainer);
+    bindAssignedToDropdownEvents(dialog, cfg, trigger, checkboxContainer, summary, selectedAvatarsContainer, searchInput);
     closeAssignedToDropdown(trigger, checkboxContainer);
-    setAssignedToSummary(summary, checkboxContainer, selectedAvatarsContainer, cfg);
+    setAssignedToSummary(summary, checkboxContainer, selectedAvatarsContainer, cfg, searchInput);
 }
 
 // Builds assigned-to control configuration with defaults.
 function getAssignedToConfig(config = {}) {
     return {
         triggerId: 'assigned-to-trigger',
+        searchInputId: 'assigned-to-search',
         checkboxContainerId: 'assigned-to-checkboxes',
         summaryId: 'assigned-to-summary',
         wrapperId: 'assigned-to-multiselect',
@@ -388,10 +229,11 @@ function renderAssignedToOptions(container, optionIdPrefix, preselectedIds) {
 }
 
 // Updates the assigned-to summary text from selected users.
-function setAssignedToSummary(summary, container, selectedAvatarsContainer, cfg = {}) {
+function setAssignedToSummary(summary, container, selectedAvatarsContainer, cfg = {}, searchInput = null) {
     const selectedCheckboxes = Array.from(container.querySelectorAll('input[type="checkbox"]:checked'));
-    summary.textContent = selectedCheckboxes.length > 0 ? 'Selected User' : 'Select contacts to assign';
-
+    const summaryText = selectedCheckboxes.length > 0 ? `${selectedCheckboxes.length} selected` : 'Select users';
+    summary.textContent = summaryText;
+    if (searchInput) searchInput.placeholder = summaryText;
     if (!selectedAvatarsContainer) return;
     selectedAvatarsContainer.innerHTML = selectedCheckboxes.map((checkbox, index) => {
         const label = checkbox.closest('label');
@@ -399,9 +241,18 @@ function setAssignedToSummary(summary, container, selectedAvatarsContainer, cfg 
         const name = label?.querySelector('.multiselect__option-name')?.textContent?.trim() || '';
         const avatarHTML = avatar ? avatar.outerHTML.replace('width="50"', 'width="32"').replace('height="50"', 'height="32"') : '';
         if (!avatarHTML) return '';
-        if (cfg.avatarsOnly) return `<div class="assigned-user-row">${avatarHTML}</div>`;
-        return `<div class="assigned-user-row">${avatarHTML}<span class="assigned-user-name">${name}</span></div>`;
+        const rowContentHTML = cfg.avatarsOnly ? avatarHTML : `${avatarHTML}<span class="assigned-user-name">${name}</span>`;
+        return getAssignedUserRowTemplate(rowContentHTML);
     }).join('');
+}
+
+// Filters assigned-to options by typed contact name.
+function filterAssignedToOptions(container, query = '') {
+    const normalizedQuery = (query || '').trim().toLowerCase();
+    container.querySelectorAll('label').forEach(label => {
+        const name = label.querySelector('.multiselect__option-name')?.textContent?.trim().toLowerCase() || '';
+        label.style.display = !normalizedQuery || name.includes(normalizedQuery) ? 'flex' : 'none';
+    });
 }
 
 // Opens the assigned-to dropdown and updates ARIA state.
@@ -416,13 +267,67 @@ function closeAssignedToDropdown(trigger, container) {
     trigger.setAttribute('aria-expanded', 'false');
 }
 
+function resetAssignedToSearch(searchInput, container) {
+    if (!searchInput) return;
+    searchInput.value = '';
+    filterAssignedToOptions(container, '');
+}
+
+function toggleAssignedToDropdown(event, trigger, container, searchInput) {
+    if (event) preventAndStopEvent(event);
+    const isOpen = container.classList.contains('is-open');
+    if (isOpen) return closeAssignedToDropdown(trigger, container);
+    openAssignedToDropdown(trigger, container);
+    focusElement(searchInput);
+}
+
+function bindAssignedToTriggerEvents(trigger, container, searchInput) {
+    trigger.addEventListener('click', (event) => {
+        toggleAssignedToDropdown(event, trigger, container, searchInput);
+    });
+    trigger.addEventListener('keydown', (event) => {
+        if (!isEnterOrSpace(event)) return;
+        toggleAssignedToDropdown(event, trigger, container, searchInput);
+    });
+}
+
+function bindAssignedToSearchEvents(searchInput, trigger, container) {
+    if (!searchInput) return;
+    searchInput.addEventListener('click', stopEventPropagation);
+    searchInput.addEventListener('keydown', stopEventPropagation);
+    searchInput.addEventListener('focus', (event) => {
+        stopEventPropagation(event);
+        if (!container.classList.contains('is-open')) openAssignedToDropdown(trigger, container);
+    });
+    searchInput.addEventListener('input', () => {
+        if (!container.classList.contains('is-open')) openAssignedToDropdown(trigger, container);
+        filterAssignedToOptions(container, searchInput.value);
+    });
+}
+
+function bindAssignedToCheckboxEvents(container, summary, selectedAvatarsContainer, cfg, searchInput) {
+    container.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+        checkbox.addEventListener('change', () => {
+            setAssignedToSummary(summary, container, selectedAvatarsContainer, cfg, searchInput);
+        });
+    });
+}
+
+function bindAssignedToOutsideClick(dialog, cfg, trigger, container, searchInput) {
+    dialog.addEventListener('click', (event) => {
+        const wrapper = dialog.querySelector(`#${cfg.wrapperId}`);
+        if (!wrapper || wrapper.contains(event.target)) return;
+        closeAssignedToDropdown(trigger, container);
+        resetAssignedToSearch(searchInput, container);
+    });
+}
+
 // Binds interaction events for the assigned-to dropdown.
-function bindAssignedToDropdownEvents(dialog, cfg, trigger, container, summary, selectedAvatarsContainer) {
-    const toggle = (event) => { if (event) { event.preventDefault(); event.stopPropagation(); } container.classList.contains('is-open') ? closeAssignedToDropdown(trigger, container) : openAssignedToDropdown(trigger, container); };
-    trigger.addEventListener('click', toggle);
-    trigger.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') toggle(event); });
-    container.addEventListener('click', (event) => event.stopPropagation());
-    container.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.addEventListener('change', () => setAssignedToSummary(summary, container, selectedAvatarsContainer, cfg)));
-    dialog.addEventListener('click', (event) => { const wrapper = dialog.querySelector(`#${cfg.wrapperId}`); if (wrapper && !wrapper.contains(event.target)) closeAssignedToDropdown(trigger, container); });
+function bindAssignedToDropdownEvents(dialog, cfg, trigger, container, summary, selectedAvatarsContainer, searchInput) {
+    bindAssignedToTriggerEvents(trigger, container, searchInput);
+    bindAssignedToSearchEvents(searchInput, trigger, container);
+    container.addEventListener('click', stopEventPropagation);
+    bindAssignedToCheckboxEvents(container, summary, selectedAvatarsContainer, cfg, searchInput);
+    bindAssignedToOutsideClick(dialog, cfg, trigger, container, searchInput);
 }
 

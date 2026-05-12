@@ -113,12 +113,18 @@ function initializeBoardViewportBehavior() {
 
 // Closes all board-related dialogs and restores page scrolling.
 function closeDialog() {
-    const addTaskDialog = document.getElementById("addTaskDialog");
-    const showTaskDialog = document.getElementById("showTaskDialog");
-    const editTaskDialog = document.getElementById("editTaskDialog");
-    if (addTaskDialog?.open) addTaskDialog.close();
-    if (showTaskDialog?.open) showTaskDialog.close();
-    if (editTaskDialog?.open) editTaskDialog.close();
+    const addTask = document.getElementById("addTaskDialog");
+    if (addTask?.open) {
+        addTask.classList.add('addTaskDialog--closing');
+        addTask.addEventListener('animationend', () => {
+            addTask.classList.remove('addTaskDialog--closing');
+            addTask.close();
+            document.body.style.overflow = '';
+        }, { once: true });
+        return;
+    }
+    document.getElementById("showTaskDialog")?.close();
+    document.getElementById("editTaskDialog")?.close();
     document.body.style.overflow = '';
 }
 

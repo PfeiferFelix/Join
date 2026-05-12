@@ -6,6 +6,7 @@
     border-radius: 6px;
     transition: background 0.15s, color 0.15s;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .subtask-item__actions button:hover {
@@ -488,7 +489,7 @@
     flex-direction: column;
     gap: 8px;
     padding-left: unset;
-    max-height: 88px;
+    max-height: 68px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
@@ -551,6 +552,11 @@
     display: flex !important;
 }
 
+.subtask-item__actions--active {
+    display: flex !important;
+    visibility: visible !important;
+}
+
 .subtask-input .subtask-item__actions .subtask-input__separator {
     display: inline-block;
     width: 1px;
@@ -594,7 +600,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 8px 4px 20px;
+    padding: 0 8px 0 20px;
     border-radius: 8px;
 }
 
@@ -616,7 +622,7 @@
 }
 
 .subtask-item:has(.subtask-item__input) .subtask-item__actions {
-    display: flex
+    visibility: visible;
 }
 
 .subtask-item:has(.subtask-item__input)::before {
@@ -632,12 +638,13 @@
 }
 
 .subtask-item:hover .subtask-item__actions {
-    display: flex !important;
+    visibility: visible;
 }
 
 .subtask-item__actions {
-    display: none;
-    gap: 4px
+    display: flex;
+    gap: 4px;
+    visibility: hidden;
 }
 
 .subtask-item__separator {
@@ -732,7 +739,7 @@
 .subtask-list-task {
     display: flex;
     flex-direction: column;
-    max-height: 68px;
+    max-height: 72px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-left: unset;
@@ -987,8 +994,26 @@
 }
 
 .overSelect::before {
-    content: 'Selected User';
+    content: '';
     flex: 1
+}
+
+.selectBox__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 32px 0 12px;
+    font-size: 16px;
+    color: #2a3647;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.selectBox__input::placeholder {
+    color: #7a8a99;
 }
 
 .priority-btn-color-none {
@@ -1094,7 +1119,7 @@
     position: relative;
     width: 100%;
     min-width: 0;
-    cursor: pointer;
+    cursor: text;
     height: 32px;
 }
 
@@ -1225,8 +1250,16 @@
 }
 
 .category-custom-select__trigger:focus {
-    outline: 2px solid #29abe2;
-    outline-offset: 1px
+    outline: none;
+    border-color: #d1d1d1;
+    box-shadow: none;
+}
+
+.category-custom-select__trigger:focus-visible,
+.category-custom-select__trigger:active {
+    outline: none;
+    border-color: #d1d1d1;
+    box-shadow: none;
 }
 
 .category-custom-select__arrow {
@@ -1275,7 +1308,7 @@
     height: 600px;
     margin: auto;
     padding: 32px;
-    animation: dialogSlideIn 0.3s ease-out;
+    animation: dialogSlideInRight 0.3s ease-out;
     position: relative;
 }
 
@@ -1590,4 +1623,20 @@
         opacity: 1;
         transform: translateX(0)
     }
+}
+
+@keyframes dialogSlideOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0)
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-60px)
+    }
+}
+
+.addTaskDialog--closing {
+    animation: dialogSlideOutUp 0.3s ease-in forwards !important;
 }

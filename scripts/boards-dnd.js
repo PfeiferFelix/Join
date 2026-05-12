@@ -219,4 +219,3 @@ function initializeTaskMoveMenuCloseBehavior() {
 
     taskMoveMenuCloseListenerBound = true;
 }
-

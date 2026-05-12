@@ -101,6 +101,7 @@ function setupEditTaskDialog(dialog, task) {
     if (subtaskList) updateNewSubtaskInputVisibility(subtaskList, task.subtasks || []);
     setupAssignedToMultiselect(dialog, {
         triggerId: 'edit-assigned-to-trigger',
+        searchInputId: 'edit-assigned-to-search',
         checkboxContainerId: 'edit-assigned-to-checkboxes',
         summaryId: 'edit-assigned-to-summary',
         wrapperId: 'edit-assigned-to-multiselect',
@@ -123,4 +124,3 @@ function editTask(taskId) {
     setupEditTaskDialog(dialog, task);
     if (!dialog.open) dialog.showModal();
 }
-

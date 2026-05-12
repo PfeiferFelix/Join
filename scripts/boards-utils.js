@@ -2,6 +2,25 @@
 
 const BOARD_SUBTASK_LIMIT = 10;
 
+function stopEventPropagation(event) {
+    if (!event) return;
+    event.stopPropagation();
+}
+
+function preventAndStopEvent(event) {
+    if (!event) return;
+    event.preventDefault();
+    stopEventPropagation(event);
+}
+
+function isEnterOrSpace(event) {
+    return event?.key === 'Enter' || event?.key === ' ';
+}
+
+function focusElement(element) {
+    if (element) element.focus();
+}
+
 function getLimitedSubtasks(input) {
     const source = Array.isArray(input) ? input : [input];
     return source
