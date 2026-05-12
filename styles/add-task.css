@@ -81,8 +81,9 @@ select:focus {
 }
 
 textarea {
-    resize: none;
+    resize: vertical;
     height: 120px;
+    max-height: 200px;
 }
 
 .priority-buttons {
