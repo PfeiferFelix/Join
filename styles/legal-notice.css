@@ -1,11 +1,6 @@
-.main-content {
-    padding: 0 !important;
-}
-
 .legal-notice {
     flex: 1;
     overflow-y: auto;
-    padding: 50px;
 }
 
 .legal-notice__title {
