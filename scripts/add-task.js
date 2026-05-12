@@ -3,6 +3,7 @@
  * @constant {string}
  */
 const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
+const ADD_TASK_DEFAULT_RETURN = "boards.html";
 
 let contactsLS = importandFormatLocalStorageData("contacs");
 
@@ -11,6 +12,105 @@ const AVATAR_COLORS = [
     '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701',
     '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
 ];
+// Returns add-task query params for source/target handling.
+function getAddTaskParams() {
+    return new URLSearchParams(window.location.search);
+}
+
+// Returns the board return target after creating a task.
+function getAddTaskReturnTarget() {
+    return getAddTaskParams().get("returnTo") || ADD_TASK_DEFAULT_RETURN;
+}
+
+// Returns the preselected board category from the URL.
+function getRequestedBoardCategory() {
+    return getAddTaskParams().get("boardCategory") || "";
+}
+
+// Converts add-task category select value to board category key.
+function mapFormCategoryToBoardCategory(value) {
+    if (value === "user-story") return "inProgress";
+    return "toDo";
+}
+
+// Converts board category key to display label.
+function getBoardCategoryLabel(category) {
+    if (category === "inProgress") return "User Story";
+    if (category === "feedback") return "Awaiting Feedback";
+    if (category === "done") return "Done";
+    return "Technical Task";
+}
+
+// Returns board category using URL preference over form value.
+function getBoardCategoryFromContext() {
+    const fromUrl = getRequestedBoardCategory();
+    if (fromUrl) return fromUrl;
+    return mapFormCategoryToBoardCategory(document.getElementById("category").value);
+}
+
+// Returns selected contact names from assigned-to checkboxes.
+function getSelectedContactNames() {
+    return Array.from(document.querySelectorAll('.dropdown__checkbox:checked')).map((checkbox) => {
+        const item = checkbox.closest('.dropdown__item');
+        return item.querySelector('.dropdown__name').textContent;
+    });
+}
+
+// Returns selected contacts in board-assigned format.
+function getAssignedUsersForBoardTask() {
+    const selectedNames = getSelectedContactNames();
+    return contactsLS.filter(c => selectedNames.includes(c.name)).map((contact, index) => ({
+        id: Number(contact.id) || index + 1,
+        name: contact.name,
+        abbreviation: contact.abbreviation || getInitials(contact.name || ""),
+    }));
+}
+
+// Returns selected priority in board-compatible format.
+function getBoardPriorityLabel() {
+    const active = document.querySelector('.priority-buttons__btn--active');
+    const value = active?.dataset.priority || "medium";
+    if (value === "urgent") return "Urgent";
+    if (value === "low") return "Low";
+    return "Medium";
+}
+
+// Returns entered subtasks in board-compatible format.
+function getBoardSubtasks() {
+    return Array.from(document.querySelectorAll('.subtask-list__text')).map((span) => ({
+        title: span.textContent.replace('• ', '').trim(),
+        done: false,
+    }));
+}
+
+// Creates board task object in boards.js-compatible shape.
+function buildBoardTask() {
+    const category = getBoardCategoryFromContext();
+    const subtasks = getBoardSubtasks();
+    return {
+        id: Date.now(), title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(), dueDate: document.getElementById('due-date').value,
+        priority: getBoardPriorityLabel(), category, selectedCategoryLabel: getBoardCategoryLabel(category),
+        assignedTo: getAssignedUsersForBoardTask(), subtasks, subtask: subtasks[0]?.title || '',
+    };
+}
+
+// Persists one task in local storage under boards key.
+function saveBoardTaskToLocalStorage(task) {
+    const boards = JSON.parse(localStorage.getItem("boards") || "{}");
+    boards[task.id] = task;
+    localStorage.setItem("boards", JSON.stringify(boards));
+}
+
+// Applies optional URL presets to the add-task form.
+function applyAddTaskContext() {
+    const requested = getRequestedBoardCategory();
+    const categorySelect = document.getElementById("category");
+    if (!requested || !categorySelect) return;
+    if (requested === "inProgress") categorySelect.value = "user-story";
+    else categorySelect.value = "technical";
+}
+
 
 /**
  * Initialize add task page functionality.
@@ -19,6 +119,7 @@ const AVATAR_COLORS = [
 function initAddTask() {
     setActivePriority();
     setMinDueDate();
+    applyAddTaskContext();
     handleFormSubmit();
     addUserToTask();
     setupDropdownEvents();
@@ -85,12 +186,19 @@ async function handleSubmit(form) {
     clearErrors();
     if (validateForm()) {
         disableButtons(true);
-        await uploadTask();
-        showToast();
-        form.reset();
-        setTimeout(() => {
-            window.location.href = "boards.html";
-        }, 2000);
+        try {
+            await uploadTask();
+            saveBoardTaskToLocalStorage(buildBoardTask());
+            showToast();
+            form.reset();
+            setTimeout(() => {
+                window.location.href = getAddTaskReturnTarget();
+            }, 2000);
+        } catch (error) {
+            console.error('Aufgabe konnte nicht gespeichert werden:', error);
+            disableButtons(false);
+            alert('Fehler beim Speichern der Aufgabe. Bitte versuche es erneut.');
+        }
     }
 }
 
@@ -148,9 +256,25 @@ function clearErrors() {
     });
 }
 
-
-
-
+/**
+ * Render contacts in the "Assigned to" dropdown.
+ * @returns {void}
+ */
+function addUserToTask() {
+    const list = document.getElementById('assigned-to-list');
+    contactsLS.forEach(contact => {
+        if (!contact.name) return;
+        const initials = getInitials(contact.name);
+        const color = getAvatarColor(contact.name);
+        const li = document.createElement('li');
+        li.classList.add('dropdown__item');
+        li.innerHTML = getDropdownItemTemplate(initials, color, contact.name, contact.email);
+        li.querySelector('.dropdown__checkbox').addEventListener('change', () => {
+            updateSelectedAvatars();
+        });
+        list.appendChild(li);
+    });
+}
 
 /**
  * Return initials for a name string.
@@ -158,7 +282,9 @@ function clearErrors() {
  * @returns {string} The generated initials.
  */
 function getInitials(name) {
+    if (!name) return '';
     return name.split(' ')
+        .filter(word => word.length > 0)
         .map(word => word[0].toUpperCase())
         .join('');
 }
@@ -189,8 +315,10 @@ function getAvatarColor(email) {
 async function postData(path, data) {
     const response = await fetch(BASE_URL + path + ".json", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
+    if (!response.ok) throw new Error(`Firebase POST fehlgeschlagen: HTTP ${response.status}`);
     return await response.json();
 }
 
@@ -199,6 +327,8 @@ async function postData(path, data) {
  * @returns {Promise<void>}
  */
 async function uploadTask() {
+    const boardCategory = getBoardCategoryFromContext();
+    const selectedNames = getSelectedContactNames();
     const taskData = {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
@@ -206,13 +336,9 @@ async function uploadTask() {
         category: document.getElementById('category').value,
         sub_task: Array.from(document.querySelectorAll('.subtask-list__text'))
             .map(span => span.textContent.replace('• ', '').trim()),
-        position: "todo",
+        position: boardCategory,
         priority: document.querySelector('.priority-buttons__btn--active') ? document.querySelector('.priority-buttons__btn--active').dataset.priority || "medium" : "medium",
-        assigned_to: Array.from(document.querySelectorAll('.dropdown__checkbox:checked'))
-            .map(checkbox => {
-                const item = checkbox.closest('.dropdown__item');
-                return item.querySelector('.dropdown__name').textContent;
-            })
+        assigned_to: selectedNames,
     };
     await postData("boards", taskData);
 }
