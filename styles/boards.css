@@ -10,7 +10,7 @@
 .board__addtask {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     height: auto;
     margin-bottom: 48px;
 }
