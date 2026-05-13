@@ -197,9 +197,9 @@ a {
 }
 
 .main-content {
-    margin-top: 150px;
+    margin-top: 100px !important;
     max-width: var(--content-limit);
-    padding: 0 50px;
+    padding: 50px !important;
     margin-left: var(--width-sidebar);
     box-sizing: border-box;
     margin-bottom: var(--distance-bottom-main-sides);

@@ -1,11 +1,10 @@
 .legal-notice {
     flex: 1;
     overflow-y: auto;
-    padding: 48px 64px;
 }
 
 .legal-notice__title {
-    font-size: 47px;
+    font-size: 61px;
     font-weight: 700;
     color: var(--primary-color);
     margin-bottom: 24px;

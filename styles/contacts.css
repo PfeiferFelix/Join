@@ -17,6 +17,10 @@ main {
     overflow: hidden;
 }
 
+.main-content {
+    padding: 0 !important;
+}
+
 /* -- Contacts Page --- */
 
 .contacts {
@@ -34,7 +38,7 @@ main {
     width: 400px;
     flex-shrink: 0;
     background-color: rgba(255, 255, 255, 1);
-    padding: 30px 20px;
+    padding: 30px 50px;
     border-right: 4px solid #d1d7db;
     gap: 20px;
     height: 100%;
@@ -173,23 +177,18 @@ main {
     flex-direction: column;
     flex: 1;
     height: 100%;
+    padding: 50px;
 }
 
 .contact-content__header {
     display: flex;
     align-items: center;
-    padding: 50px 0 0 20px;
 }
 
 .contact-content__header-left {
     display: flex;
     align-items: center;
     gap: 5px;
-}
-
-.contact-content__header h1 {
-    font-size: 61px;
-    font-weight: 700;
 }
 
 .contact-content__header p {
@@ -286,7 +285,6 @@ main {
 .contact-card__info h3 {
     font-size: 20px;
     font-weight: 500;
-    padding: 20px 0;
 }
 
 .contact-card__information {
@@ -714,7 +712,7 @@ main {
     }
 
     .contact-card__name {
-        font-size: 32px;
+        font-size: 36px;
     }
 
     .contact-content__info {
@@ -839,17 +837,12 @@ main {
         font-size: 24px;
     }
 
-    .contact-card__name {
-        font-size: 26px;
-    }
-
     .contact-card__info h3 {
         font-size: 18px;
-        padding: 8px 0;
     }
 
     .contacts--detail-open .contact-content__header h1 {
-        font-size: 40px;
+        font-size: 47px;
         margin: 0;
     }
 

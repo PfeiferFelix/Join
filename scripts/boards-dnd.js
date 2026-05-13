@@ -1,5 +1,6 @@
 ﻿// Indicates whether touch drag-and-drop is enabled.
 function isTouchBoardDnDEnabled() {
+    if (window.innerWidth < BOARD_TOUCH_DND_MIN_WIDTH) return false;
     const hasTouchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const hasCoarsePointer = typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches;
     return hasTouchSupport || hasCoarsePointer;
@@ -57,7 +58,7 @@ function handleTaskTouchMove(event) {
     const touch = event.touches[0], deltaX = Math.abs(touch.clientX - activeTouchDrag.startX), deltaY = Math.abs(touch.clientY - activeTouchDrag.startY);
     if (!activeTouchDrag.moved && deltaX < 10 && deltaY < 10) return;
     activeTouchDrag.moved = true;
-    event.preventDefault();
+    if (event.cancelable) event.preventDefault();
     activeTouchDrag.taskElement.classList.add('task--touch-dragging');
     const nextDropZone = getTouchDropZone(touch.clientX, touch.clientY);
     if (activeTouchDrag.currentDropZone === nextDropZone) return;
@@ -76,12 +77,24 @@ function initializeTouchBoardDnD() {
     document.querySelectorAll('.task').forEach(task => {
         if (task.dataset.touchDndBound === 'true') return;
 
-        task.addEventListener('touchstart', handleTaskTouchStart, { passive: true });
+        task.addEventListener('touchstart', handleTaskTouchStart, { passive: false });
         task.addEventListener('touchmove', handleTaskTouchMove, { passive: false });
         task.addEventListener('touchend', handleTaskTouchEnd);
         task.addEventListener('touchcancel', handleTaskTouchEnd);
         task.dataset.touchDndBound = 'true';
     });
+}
+
+// Sets the open state of the move panel toggle button.
+function updateMovePanelToggleButton(button, isOpen) {
+    if (!button) return;
+    if (isOpen) {
+        button.classList.add('task__moveto-btn--open');
+        button.setAttribute('aria-expanded', 'true');
+    } else {
+        button.classList.remove('task__moveto-btn--open');
+        button.setAttribute('aria-expanded', 'false');
+    }
 }
 
 // Opens the move panel for a specific task.
@@ -90,13 +103,31 @@ function openTaskMovePanel(event, taskId) {
     event.stopPropagation();
     const panel = document.getElementById(`task-move-panel-${taskId}`);
     const toggleButton = document.getElementById(`task-move-btn-${taskId}`);
+    const task = panel?.closest('.task');
     if (!panel) return;
     closeAllTaskMovePanels();
     panel.removeAttribute('hidden');
     panel.classList.add('task-move-panel--open');
-    if (!toggleButton) return;
-    toggleButton.classList.add('task__moveto-btn--open');
-    toggleButton.setAttribute('aria-expanded', 'true');
+    if (task) task.classList.add('task--move-panel-open');
+    ensureTaskMovePanelIsVisible(panel);
+    updateMovePanelToggleButton(toggleButton, true);
+}
+
+// Scrolls the move panel into view within its scroll container.
+function scrollPanelIntoView(scrollContainer, panel) {
+    const panelRect = panel.getBoundingClientRect();
+    const containerRect = scrollContainer.getBoundingClientRect();
+    const visibleRightEdge = Math.min(containerRect.right, window.innerWidth) - 12;
+    const hiddenRightWidth = panelRect.right - visibleRightEdge;
+    if (hiddenRightWidth > 0) scrollContainer.scrollBy({ left: hiddenRightWidth + 12, behavior: 'smooth' });
+}
+
+// Scrolls the mobile task row so an opened move panel remains fully visible.
+function ensureTaskMovePanelIsVisible(panel) {
+    if (window.innerWidth > 1010) return;
+    const scrollContainer = panel.closest('.board__cards');
+    if (!scrollContainer) return;
+    requestAnimationFrame(() => scrollPanelIntoView(scrollContainer, panel));
 }
 
 // Closes the move panel for a specific task.
@@ -104,8 +135,10 @@ function closeTaskMovePanel(event, taskId) {
     if (event) { event.preventDefault(); event.stopPropagation(); }
     const panel = document.getElementById(`task-move-panel-${taskId}`);
     const toggleButton = document.getElementById(`task-move-btn-${taskId}`);
+    const task = panel?.closest('.task');
     if (!panel) return;
     panel.classList.remove('task-move-panel--open');
+    if (task) task.classList.remove('task--move-panel-open');
     if (toggleButton) { toggleButton.classList.remove('task__moveto-btn--open'); toggleButton.setAttribute('aria-expanded', 'false'); }
     setTimeout(() => panel.setAttribute('hidden', ''), 200);
 }
@@ -148,7 +181,7 @@ function getNextBoardCategory(category) {
 function getBoardColumnLabel(category) {
     if (category === 'toDo') return 'To Do';
     if (category === 'inProgress') return 'In Progress';
-    if (category === 'feedback') return 'Awaiting Feedback';
+    if (category === 'feedback') return 'Await Feedback';
     if (category === 'done') return 'Done';
     return 'Next Step';
 }
@@ -186,4 +219,3 @@ function initializeTaskMoveMenuCloseBehavior() {
 
     taskMoveMenuCloseListenerBound = true;
 }
-

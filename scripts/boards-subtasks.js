@@ -1,4 +1,40 @@
-﻿// Switches a subtask item into inline edit mode.
+﻿// Accepts a subtask edit (saves the value and exits edit mode).
+function getEditDialogSubtaskInput(index) {
+    const dialog = document.getElementById('editTaskDialog');
+    if (!dialog) return { dialog: null, input: null };
+    const item = dialog.querySelector(`[data-subtask-index="${index}"]`);
+    return { dialog, input: item?.querySelector('.subtask-item__input') || null };
+}
+
+function updateTaskSubtaskTitle(taskId, index, newTitle) {
+    const task = todos.find(t => t.id == taskId);
+    if (!task) return null;
+    const subtasks = getLimitedSubtasks(task.subtasks);
+    if (!subtasks[index]) return null;
+    subtasks[index].title = newTitle;
+    task.subtasks = subtasks;
+    return subtasks;
+}
+
+function syncEditedSubtasksToDialog(dialog, subtasks, taskId) {
+    const hiddenInput = dialog.querySelector('#edit-subtasks-data');
+    if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);
+    saveBoardsToLocalStorage();
+    const list = dialog.querySelector('.subtask-list');
+    if (list) renderEditSubtaskItems(list, subtasks, taskId);
+}
+
+function acceptSubtaskItem(taskId, index) {
+    const { dialog, input } = getEditDialogSubtaskInput(index);
+    if (!dialog || !input) return;
+    const newTitle = input.value.trim();
+    if (!newTitle) return;
+    const subtasks = updateTaskSubtaskTitle(taskId, index, newTitle);
+    if (!subtasks) return;
+    syncEditedSubtasksToDialog(dialog, subtasks, taskId);
+}
+
+// Switches a subtask item into inline edit mode.
 function editSubtaskItem(taskId, index) {
     const dialog = document.getElementById('editTaskDialog');
     if (!dialog) return;
@@ -17,8 +53,7 @@ function editSubtaskItem(taskId, index) {
 // Re-renders editable subtask items in the dialog.
 function renderEditSubtaskItems(list, subtasks, taskId) {
     list.querySelectorAll('.subtask-item').forEach(item => item.remove());
-    const container = list.querySelector('.subtask-container__list');
-    if (!container) return;
+    const container = list.querySelector('.subtask-container__list') || list;
     const items = subtasks.map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskId, index)).join('');
     container.insertAdjacentHTML('afterbegin', items);
     updateNewSubtaskInputVisibility(list, subtasks);
@@ -26,9 +61,10 @@ function renderEditSubtaskItems(list, subtasks, taskId) {
 
 // Hides the new-subtask input when the limit is reached.
 function updateNewSubtaskInputVisibility(list, subtasks = []) {
-    const inputWrapper = list?.querySelector('.subtask-input');
+    const container = list?.closest('.subtask-container') || list?.parentElement;
+    const inputWrapper = container?.querySelector('.subtask-input');
     if (!inputWrapper) return;
-    inputWrapper.hidden = getLimitedSubtasks(subtasks).length >= 2;
+    inputWrapper.hidden = getLimitedSubtasks(subtasks).length >= 10;
 }
 
 // Saves an edited subtask title for a task.
@@ -56,7 +92,7 @@ function addNewSubtask(taskId) {
     const title = input.value.trim();
     if (!title) return;
     const currentSubtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
-    if (currentSubtasks.length >= 2) { input.value = ''; return updateNewSubtaskInputVisibility(list, currentSubtasks); }
+    if (currentSubtasks.length >= 10) { input.value = ''; return updateNewSubtaskInputVisibility(list, currentSubtasks); }
     const updatedSubtasks = getLimitedSubtasks([...currentSubtasks, { title, done: false }]);
     hiddenInput.value = JSON.stringify(updatedSubtasks); renderEditSubtaskItems(list, updatedSubtasks, taskId); input.value = '';
     const task = todos.find(t => t.id == taskId); if (!task) return;
@@ -79,6 +115,19 @@ function deleteSubtaskItem(taskId, index) {
     updateTaskCardSubtaskPreview(taskId, task, subtasks, true);
 }
 
+function syncShowDialogSubtaskState(index, isDone) {
+    const showDialog = document.getElementById('showTaskDialog');
+    const subtaskItem = showDialog?.querySelector(`.subtask-item-show[data-subtask-index="${index}"]`);
+    if (!subtaskItem) return;
+    subtaskItem.classList.toggle('subtask-item-show--done', Boolean(isDone));
+}
+
+function syncSubtasksMasterCheckbox(subtasks) {
+    const masterCheckbox = document.getElementById('selectSubtasks');
+    if (!masterCheckbox) return;
+    masterCheckbox.checked = subtasks.every(s => s.done);
+}
+
 // Toggles the completion state of a subtask.
 function toggleSubtask(taskId, index) {
     const task = todos.find(t => t.id == taskId);
@@ -88,9 +137,9 @@ function toggleSubtask(taskId, index) {
     subtasks[index].done = !subtasks[index].done;
     task.subtasks = subtasks;
     saveBoardsToLocalStorage();
+    syncShowDialogSubtaskState(index, subtasks[index].done);
     updateTaskCardSubtaskPreview(taskId, task, subtasks);
-    const masterCheckbox = document.getElementById('selectSubtasks');
-    if (masterCheckbox) masterCheckbox.checked = subtasks.every(s => s.done);
+    syncSubtasksMasterCheckbox(subtasks);
 }
 
 // Clears and focuses the new-subtask input field.
@@ -100,6 +149,7 @@ function clearSubtasks(taskId) {
     if (!input) return;
 
     input.value = '';
+    input.closest('.subtask-input')?.querySelector('.subtask-item__actions')?.classList.remove('subtask-item__actions--active');
     input.focus();
 }
 

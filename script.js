@@ -5,6 +5,9 @@ const mobileQuery = window.matchMedia("(max-width: 850px)");
 let userMenuOpen = false;
 let userMenuCloseTimer;
 
+// Firebase configuration
+const FIREBASE_BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
+
 /**
  * Initializes shared page elements and reveals the layout after key images are ready.
  */
@@ -260,4 +263,19 @@ function addNameInitials() {
  */
 function timeDelay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+
+// Shows a Firebase error using SweetAlert.
+function showFirebaseError(error) {
+    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+}
+
+// Shows a success toast notification.
+function showSuccessToast(message) {
+    Swal.fire({
+        toast: true, position: 'bottom-end', title: message,
+        showConfirmButton: false, timer: 3000,
+        background: '#2a3647', color: '#fff',
+    });
 }
