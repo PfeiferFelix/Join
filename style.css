@@ -206,6 +206,7 @@ a {
 }
 
 .header__user-menu {
+    pointer-events: none;
     opacity: 0;
     position: absolute;
     right: -15px;
@@ -242,6 +243,7 @@ a {
 
 /*utilites*/
 .opened {
+    pointer-events: auto;
     opacity: 1;
 }
 
