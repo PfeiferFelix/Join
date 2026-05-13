@@ -45,7 +45,9 @@ function getBoardCategoryLabel(category) {
 function getBoardCategoryFromContext() {
     const fromUrl = getRequestedBoardCategory();
     if (fromUrl) return fromUrl;
-    return mapFormCategoryToBoardCategory(document.getElementById("category").value);
+    return mapFormCategoryToBoardCategory(
+        document.getElementById('category-selected').dataset.value || ''
+    );
 }
 
 // Returns selected contact names from assigned-to checkboxes.
@@ -204,7 +206,6 @@ async function handleSubmit(form) {
         } catch (error) {
             console.error('Aufgabe konnte nicht gespeichert werden:', error);
             disableButtons(false);
-            alert('Fehler beim Speichern der Aufgabe. Bitte versuche es erneut.');
         }
     }
 }
@@ -289,6 +290,7 @@ function getInitials(name) {
  * @returns {string} The selected color code.
  */
 function getAvatarColor(email) {
+    if (!email) return AVATAR_COLORS[0];
     let sum = 0;
     for (let index = 0; index < email.length; index++) {
         sum += email.charCodeAt(index);
@@ -327,19 +329,16 @@ async function uploadTask() {
     const taskData = {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
-        due_date: document.getElementById('due-date').value,
+        dueDate: document.getElementById('due-date').value,
         category: document.getElementById('category-selected').dataset.value || '',
-        sub_task: Array.from(document.querySelectorAll('.subtask-list__text'))
+        subTask: Array.from(document.querySelectorAll('.subtask-list__text'))
             .map(span => span.textContent.replace('• ', '').trim()),
         position: boardCategory,
         priority: document.querySelector('.priority-buttons__btn--active') ? document.querySelector('.priority-buttons__btn--active').dataset.priority || "medium" : "medium",
-        assigned_to: selectedNames,
+        assignedTo: selectedNames,
     };
     await postData("boards", taskData);
 }
-
-
-
 
 
 /**
