@@ -199,7 +199,7 @@ a {
 .main-content {
     margin-top: 100px !important;
     max-width: var(--content-limit);
-    padding: 50px !important;
+    padding: 50px 50px;
     margin-left: var(--width-sidebar);
     box-sizing: border-box;
     margin-bottom: var(--distance-bottom-main-sides);
@@ -339,12 +339,12 @@ a {
 
 @media (max-width: 600px) {
     .main-content {
-        padding: 0 25px;
+        padding: 50px 25px;
     }
 }
 
 @media (max-width: 400px) {
     .main-content {
-        padding: 0 10px;
+        padding: 50px 10px;
     }
 }

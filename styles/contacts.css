@@ -167,7 +167,7 @@ main {
 
 .contact-item__mail {
     font-size: 14px;
-    color: #007CEE;
+    color: #007cee;
 }
 
 /* -- Contact Content -- */
@@ -202,7 +202,6 @@ main {
     height: 60px;
     margin: 0 16px;
 }
-
 
 .contact-content__info {
     display: flex;
@@ -295,7 +294,7 @@ main {
 
 .contact-card__information a {
     text-decoration: none;
-    color: #007CEE;
+    color: #007cee;
 }
 
 .contact-card__information a[href^="tel:"] {
@@ -564,7 +563,7 @@ main {
 }
 
 .contacts__back-btn::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -654,7 +653,7 @@ main {
 }
 
 .contact-action-menu__item:hover {
-    color: #29ABE2;
+    color: #29abe2;
 }
 
 .contact-action-menu__item img {

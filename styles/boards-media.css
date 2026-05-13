@@ -1,8 +1,7 @@
 /* Karten neben offenem MoveTo Panel nicht anklickbar */
 @media (max-width: 1024px) {
-
-    .task-move-panel--open~.task,
-    .task--move-panel-open~.task,
+    .task-move-panel--open ~ .task,
+    .task--move-panel-open ~ .task,
     .task--move-panel-open:not(.task--move-panel-open) {
         pointer-events: none !important;
         opacity: 0.6;
@@ -67,7 +66,6 @@
 
     .board__addtask {
         gap: 12px;
-        padding: 0 24px;
         height: auto;
     }
 
@@ -352,7 +350,7 @@
         width: 90%;
         margin: 0 auto;
     }
-        .example-mobile {
+    .example-mobile {
         width: 90%;
         margin: 0 auto;
     }

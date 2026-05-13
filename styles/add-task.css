@@ -53,7 +53,7 @@ main {
 .task-form__separator {
     height: 424px;
     width: 2px;
-    background-color: #D1D1D1;
+    background-color: #d1d1d1;
     margin: 20px 0;
 }
 
@@ -186,7 +186,6 @@ textarea {
     .main-content {
         margin-top: 0;
         margin-left: 0;
-        padding: 0;
         margin-bottom: 0;
     }
     .header-main__container {
