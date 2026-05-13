@@ -26,10 +26,10 @@
     <div class="content__container fs-small-regular">
         <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
 
-            <div class="header-main__container">
-                <header id="js-header" class="header"></header>
-                <main class="main-content__body main-content">
-                    <h1 class="main-content__page-title fs-xxlarge-bold">Add Task</h1>
+        <div class="header-main__container">
+            <header id="js-header" class="header"></header>
+            <main class="main-content__body main-content">
+                <h1 class="main-content__page-title fs-xxlarge-bold">Add Task</h1>
 
                 <div class="task-form__scroll-area">
                     <form class="task-form" novalidate>
@@ -54,17 +54,17 @@
                                 <div class="priority-buttons">
                                     <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent" data-priority="urgent">
         <div class="priority-buttons__row">
-            Urgent <img src="assets/icons/Prio alta.svg" alt="urgent" class="priority-buttons__icon" />
+            Urgent <img src="assets/add-task/Prio alta.svg" alt="urgent" class="priority-buttons__icon" />
         </div>
     </button>
                                     <button type="button" class="priority-buttons__btn priority-buttons__btn--medium" data-priority="medium">
         <div class="priority-buttons__row">
-            Medium <img src="assets/icons/Prio media.svg" alt="medium" class="priority-buttons__icon" />
+            Medium <img src="assets/add-task/Prio media.svg" alt="medium" class="priority-buttons__icon" />
         </div>
     </button>
                                     <button type="button" class="priority-buttons__btn priority-buttons__btn--low" data-priority="low">
         <div class="priority-buttons__row">
-            Low <img src="assets/icons/Prio baja.svg" alt="low" class="priority-buttons__icon" />
+            Low <img src="assets/add-task/Prio baja.svg" alt="low" class="priority-buttons__icon" />
         </div>
     </button>
                                 </div>
@@ -73,26 +73,31 @@
                                 <div class="dropdown" id="assigned-to-dropdown">
                                     <div class="dropdown__trigger">
                                         <input type="text" class="dropdown__search" placeholder="Select contacts to assign" id="assigned-to-search" />
-                                        <span class="dropdown__arrow" id="assigned-to-arrow"><img src="assets/icons/arrow_drop_downaa.svg" alt=""></span>
+                                        <span class="dropdown__arrow" id="assigned-to-arrow"><img src="assets/add-task/arrow_drop_downaa.svg" alt=""></span>
                                     </div>
                                     <ul class="dropdown__list" id="assigned-to-list"></ul>
                                 </div>
                                 <div class="dropdown__selected-avatars" id="selected-avatars"></div>
 
                                 <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
-                                <select class="task-form__select" id="category" required>
-                                        <option value="">Select task category</option>
-                                        <option value="technical">Technical Task</option>
-                                        <option value="user-story">User Story</option>
-                                    </select>
+                                <div class="dropdown" id="category-dropdown">
+                                    <div class="dropdown__trigger" id="category-trigger">
+                                        <span class="dropdown__selected-text" id="category-selected">Select task category</span>
+                                        <img src="assets/add-task/arrow_drop_downaa.svg" alt="arrow" class="dropdown__arrow-icon" id="category-arrow" />
+                                    </div>
+                                    <ul class="dropdown__list" id="category-list">
+                                        <li class="dropdown__item dropdown__item--simple" data-value="technical">Technical Task</li>
+                                        <li class="dropdown__item dropdown__item--simple" data-value="user-story">User Story</li>
+                                    </ul>
+                                </div>
                                 <span class="task-form__error" id="category-error"></span>
 
                                 <label class="task-form__label" for="subtask">Subtask</label>
                                 <div class="subtask-input">
                                     <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
-                                    <button type="button" class="subtask-input__btn subtask-input__btn--clear" id="subtask-clear"><img src="assets/icons/vector.png" alt="clear" /></button>
+                                    <button type="button" class="subtask-input__btn subtask-input__btn--clear" id="subtask-clear"><img src="assets/add-task/Vector.png" alt="clear" /></button>
                                     <div class="subtask-input__separator"></div>
-                                    <button type="button" class="subtask-input__btn subtask-input__btn--confirm" id="subtask-confirm"><img src="assets/icons/check grey.svg" alt="confirm" /></button>
+                                    <button type="button" class="subtask-input__btn subtask-input__btn--confirm" id="subtask-confirm"><img src="assets/add-task/check grey.svg" alt="confirm" /></button>
                                 </div>
                                 <ul class="subtask-list" id="subtask-list"></ul>
                                 <p class="task-form__required-hint task-form__required-hint--mobile">
@@ -108,14 +113,14 @@
                         <span class="task-form__required">*</span>This field is required
                     </p>
                     <div class="task-form__actions">
-                        <button class="task-form__btn task-form__btn--clear" type="reset">Clear <img src="assets/icons/iconoir_cancel.svg" alt=""></button>
-                        <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/icons/check.svg" alt=""></button>
+                        <button class="task-form__btn task-form__btn--clear" type="reset">Clear <img src="assets/add-task/iconoir_cancel.svg" alt=""></button>
+                        <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt=""></button>
                     </div>
                 </div>
 
                 <dialog class="toast" id="add__task_toast">
                     Task added to board
-                    <img src="assets/sidebar/inactive/boards.svg" alt="Boards" />
+                    <img src="assets/add-task/boards.svg" alt="Boards" />
                 </dialog>
             </main>
         </div>

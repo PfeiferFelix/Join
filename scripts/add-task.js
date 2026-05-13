@@ -69,7 +69,7 @@ function getAssignedUsersForBoardTask() {
 // Returns selected priority in board-compatible format.
 function getBoardPriorityLabel() {
     const active = document.querySelector('.priority-buttons__btn--active');
-    const value = active?.dataset.priority || "medium";
+    const value = active ? active.dataset.priority || "medium" : "medium";
     if (value === "urgent") return "Urgent";
     if (value === "low") return "Low";
     return "Medium";
@@ -88,10 +88,16 @@ function buildBoardTask() {
     const category = getBoardCategoryFromContext();
     const subtasks = getBoardSubtasks();
     return {
-        id: Date.now(), title: document.getElementById('title').value.trim(),
-        description: document.getElementById('description').value.trim(), dueDate: document.getElementById('due-date').value,
-        priority: getBoardPriorityLabel(), category, selectedCategoryLabel: getBoardCategoryLabel(category),
-        assignedTo: getAssignedUsersForBoardTask(), subtasks, subtask: subtasks[0]?.title || '',
+        id: Date.now(),
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        dueDate: document.getElementById('due-date').value,
+        priority: getBoardPriorityLabel(),
+        category,
+        selectedCategoryLabel: getBoardCategoryLabel(category),
+        assignedTo: getAssignedUsersForBoardTask(),
+        subtasks,
+        subtask: subtasks[0] ? subtasks[0].title || '' : '',
     };
 }
 
@@ -124,6 +130,7 @@ function initAddTask() {
     addUserToTask();
     setupDropdownEvents();
     setupSubtaskEvents();
+    setupCategoryDropdown();
 }
 
 /**
@@ -228,6 +235,11 @@ function validateForm() {
             isValid = false;
         }
     });
+    if (!document.getElementById('category-selected').dataset.value) {
+        document.getElementById('category-error').textContent = 'This field is required*';
+        document.getElementById('category-trigger').style.borderColor = 'red';
+        isValid = false;
+    }
 
     return isValid;
 }
@@ -254,27 +266,9 @@ function clearErrors() {
     document.querySelectorAll("[required]").forEach((field) => {
         field.style.borderColor = "";
     });
+    document.getElementById('category-trigger').style.borderColor = '';
 }
 
-/**
- * Render contacts in the "Assigned to" dropdown.
- * @returns {void}
- */
-function addUserToTask() {
-    const list = document.getElementById('assigned-to-list');
-    contactsLS.forEach(contact => {
-        if (!contact.name) return;
-        const initials = getInitials(contact.name);
-        const color = getAvatarColor(contact.name);
-        const li = document.createElement('li');
-        li.classList.add('dropdown__item');
-        li.innerHTML = getDropdownItemTemplate(initials, color, contact.name, contact.email);
-        li.querySelector('.dropdown__checkbox').addEventListener('change', () => {
-            updateSelectedAvatars();
-        });
-        list.appendChild(li);
-    });
-}
 
 /**
  * Return initials for a name string.
@@ -313,6 +307,7 @@ function getAvatarColor(email) {
  * @returns {Promise<any>} The JSON response.
  */
 async function postData(path, data) {
+    console.log('postData aufgerufen:', path, data);
     const response = await fetch(BASE_URL + path + ".json", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -333,7 +328,7 @@ async function uploadTask() {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
         due_date: document.getElementById('due-date').value,
-        category: document.getElementById('category').value,
+        category: document.getElementById('category-selected').dataset.value || '',
         sub_task: Array.from(document.querySelectorAll('.subtask-list__text'))
             .map(span => span.textContent.replace('• ', '').trim()),
         position: boardCategory,
@@ -370,4 +365,29 @@ function setupSubtaskEvents() {
     input.addEventListener('keydown', handleSubtaskEnter);
     clearBtn.addEventListener('click', clearSubtaskInput);
     confirmBtn.addEventListener('click', addSubtask);
+}
+
+function setupCategoryDropdown() {
+    document.getElementById('category-trigger').addEventListener('click', toggleCategoryDropdown);
+    document.getElementById('category-list').querySelectorAll('.dropdown__item--simple').forEach(item => {
+        item.addEventListener('click', () => selectCategory(item));
+    });
+    document.addEventListener('click', closeCategoryOnOutsideClick);
+}
+
+function toggleCategoryDropdown() {
+    document.getElementById('category-list').classList.toggle('dropdown__list--visible');
+}
+
+function selectCategory(item) {
+    document.getElementById('category-selected').textContent = item.textContent;
+    document.getElementById('category-selected').dataset.value = item.dataset.value;
+    document.getElementById('category-list').classList.remove('dropdown__list--visible');
+}
+
+function closeCategoryOnOutsideClick(event) {
+    const dropdown = document.getElementById('category-dropdown');
+    if (!dropdown.contains(event.target)) {
+        document.getElementById('category-list').classList.remove('dropdown__list--visible');
+    }
 }

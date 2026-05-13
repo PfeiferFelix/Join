@@ -351,3 +351,24 @@ body {
 .priority-buttons__btn--low.priority-buttons__btn--active .priority-buttons__icon {
     filter: brightness(0) invert(1);
 }
+
+.dropdown__item--simple {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdown__item--simple:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown__arrow-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.dropdown__selected-text {
+    flex: 1;
+    font-size: 16px;
+    color: #888;
+}
