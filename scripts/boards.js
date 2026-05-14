@@ -237,7 +237,7 @@ function buildStorageTask(todo) {
     return {
         ...cleanTodo,
         position: mapCategoryToSummaryPosition(todo.category || todo.position),
-        due_date: cleanTodo.dueDate || cleanTodo.due_date || '',
+        dueDate: cleanTodo.dueDate || '',
         priority: mapPriorityToSummaryValue(cleanTodo.priority),
     };
 }

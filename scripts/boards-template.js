@@ -190,7 +190,7 @@ function getaddTaskTemplateDialog() {
                 <div id="add-task-success" class="add-task-success" hidden aria-live="polite">
                     <div class="add-task-success__content">
                         <span>Task added to Board</span>
-                        <img src="assets/icons/sidebar/inactive/boards.svg" alt="" />
+                        <img src="assets/sidebar/inactive/boards.svg" alt="Task added to Board" />
                     </div>
                 </div>`;
 }

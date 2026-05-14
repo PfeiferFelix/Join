@@ -13,21 +13,6 @@ async function syncBoardContactsFromFirebase() {
     await syncContactsFromFirebaseToLocalStorage();
 }
 
-// Sends a new task to Firebase and returns the response payload.
-async function postTaskRequestToFirebase(task) {
-    const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(task),
-    });
-    if (isUnauthorizedResponse(response)) {
-        console.warn('Firebase task creation unauthorized (HTTP 401). Using local storage only.');
-        return null;
-    }
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-}
-
 // Stores the generated Firebase key on the task and persists local state.
 function syncPostedTaskFirebaseKey(task, payload) {
     if (!payload?.name) return;
@@ -144,7 +129,6 @@ function buildFirebaseTaskBody(task) {
         title: task.title,
         description: task.description || '',
         dueDate: task.dueDate || '',
-        due_date: task.dueDate || task.due_date || '',
         priority: mapPriorityToSummaryValue(task.priority),
         position: mapCategoryToSummaryPosition(task.category || task.position),
         category: task.category || mapSummaryPositionToCategory(task.position) || 'toDo',

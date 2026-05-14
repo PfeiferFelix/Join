@@ -45,7 +45,7 @@ function normalizeBoardItem(board, index) {
     const category = normalizeCategory(board?.category, board?.position);
     return {
         ...boardWithoutPriorityClass, id: board?.id || Date.now() + index,
-        title: board?.title || '', description: board?.description || '', dueDate: board?.dueDate || board?.due_date || '',
+        title: board?.title || '', description: board?.description || '', dueDate: board?.dueDate || '',
         priority: normalizePriority(board?.priority), category, selectedCategoryLabel: board?.selectedCategoryLabel || categoryLabel(category),
         assignedTo, subtasks, subtask: subtasks[0]?.title || '',
     };
