@@ -36,7 +36,6 @@ header {
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 10px;
-    font-size: 15px;
     text-decoration: none;
 }
 
@@ -54,9 +53,8 @@ header {
     box-sizing: border-box;
 }
  .container__headline{
-        font-size: 50px;
         margin-left: 5px;
-        font-weight: bold;
+        font-weight: 700;
     }
 .title__row {
     position: relative;
@@ -80,7 +78,6 @@ header {
 
 .container h1 {
     margin: 0;
-    font-size: 48px;
     font-weight: 700;
     color: #1a1a2e;
 }
@@ -98,6 +95,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    
 }
 
 .input__wrapper {
@@ -117,6 +115,7 @@ header {
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s;
+    cursor: pointer;
 }
 
 .input__wrapper input::placeholder {
@@ -145,8 +144,6 @@ header {
 .Login__btn,
 .GuestLogin__btn {
     padding: 14px 32px;
-    font-size: 16px;
-    font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
 }
@@ -206,6 +203,7 @@ footer {
 
 .checkbox__row input[type="checkbox"]:checked {
     background-color: #2A3647;
+    background-image: url("../assets/check.svg");
     background-size: 14px;
     background-repeat: no-repeat;
     background-position: center;
