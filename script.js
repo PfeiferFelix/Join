@@ -279,3 +279,13 @@ function showSuccessToast(message) {
         background: '#2a3647', color: '#fff',
     });
 }
+// Centralized postData function for Firebase operations
+async function postData(path, data) {
+    const response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) throw new Error(`Firebase POST failed: HTTP ${response.status}`);
+    return await response.json();
+}

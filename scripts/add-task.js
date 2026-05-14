@@ -97,8 +97,52 @@ function buildBoardTask() {
 
 // Persists one task in local storage under boards key.
 function saveBoardTaskToLocalStorage(task) {
+    // Erstelle eine Kopie ohne id, subtask/sub_task und firebaseKey
+    const { id, subtask, sub_task, firebaseKey, ...cleanTask } = task;
     const boards = JSON.parse(localStorage.getItem("boards") || "{}");
-    boards[task.id] = task;
+    // Nutze als Key z.B. den Titel und das Fälligkeitsdatum, um Kollisionen zu vermeiden
+    const key = `${cleanTask.title}_${cleanTask.dueDate || cleanTask.due_date}`;
+    boards[key] = cleanTask;
+    localStorage.setItem("boards", JSON.stringify(boards));
+}
+
+// Returns selected priority in board-compatible format.
+function getBoardPriorityLabel() {
+    const active = document.querySelector('.priority-buttons__btn--active');
+    const value = active?.dataset.priority || "medium";
+    if (value === "urgent") return "Urgent";
+    if (value === "low") return "Low";
+    return "Medium";
+}
+
+// Returns entered subtasks in board-compatible format.
+function getBoardSubtasks() {
+    return Array.from(document.querySelectorAll('.subtask-list__text')).map((span) => ({
+        title: span.textContent.replace('• ', '').trim(),
+        done: false,
+    }));
+}
+
+// Creates board task object in boards.js-compatible shape.
+function buildBoardTask() {
+    const category = getBoardCategoryFromContext();
+    const subtasks = getBoardSubtasks();
+    return {
+        id: Date.now(), title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(), dueDate: document.getElementById('due-date').value,
+        priority: getBoardPriorityLabel(), category, selectedCategoryLabel: getBoardCategoryLabel(category),
+        assignedTo: getAssignedUsersForBoardTask(), subtasks, subtask: subtasks[0]?.title || '',
+    };
+}
+
+// Persists one task in local storage under boards key.
+function saveBoardTaskToLocalStorage(task) {
+    // Erstelle eine Kopie ohne id, subtask/sub_task und firebaseKey
+    const { id, subtask, sub_task, firebaseKey, ...cleanTask } = task;
+    const boards = JSON.parse(localStorage.getItem("boards") || "{}");
+    // Nutze als Key z.B. den Titel und das Fälligkeitsdatum, um Kollisionen zu vermeiden
+    const key = `${cleanTask.title}_${cleanTask.dueDate || cleanTask.due_date}`;
+    boards[key] = cleanTask;
     localStorage.setItem("boards", JSON.stringify(boards));
 }
 
@@ -328,7 +372,7 @@ async function postData(path, data) {
  */
 async function uploadTask() {
     const boardCategory = getBoardCategoryFromContext();
-    const selectedNames = getSelectedContactNames();
+    const assignedTo = getSelectedContactNames();
     const taskData = {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
@@ -337,8 +381,8 @@ async function uploadTask() {
         sub_task: Array.from(document.querySelectorAll('.subtask-list__text'))
             .map(span => span.textContent.replace('• ', '').trim()),
         position: boardCategory,
-        priority: document.querySelector('.priority-buttons__btn--active') ? document.querySelector('.priority-buttons__btn--active').dataset.priority || "medium" : "medium",
-        assigned_to: selectedNames,
+        priority: getBoardPriorityLabel(),
+        assignedTo: assignedTo, // Nur assignedTo verwenden
     };
     await postData("boards", taskData);
 }

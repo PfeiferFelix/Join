@@ -151,7 +151,7 @@ function buildNewTodoFromDialog(dialog) {
     const priority = getSelectedPriority(dialog);
     const assignedTo = getAssignedContactsFromDialog(dialog);
     return {
-        id: Date.now(), title, description: dialog.querySelector("#description")?.value.trim() || '', dueDate: dialog.querySelector("#due-date")?.value || '', priority, priorityClass: getPriorityIconClass(priority), assignedTo,
+        id: Date.now(), title, description: dialog.querySelector("#description")?.value.trim() || '', dueDate: dialog.querySelector("#due-date")?.value || '', priority, assignedTo,
         category: resolveCategoryFromDialog(categoryValue, dialog.dataset.category), selectedCategoryLabel: categoryValue || 'Technical Task', subtasks, subtask: subtasks[0]?.title || ''
     };
 }
@@ -175,11 +175,11 @@ function getSelectedPriority(dialog) {
     const priorityUrgent = dialog.querySelector("#priority-urgent");
     const priorityMedium = dialog.querySelector("#priority-medium");
     const priorityLow = dialog.querySelector("#priority-low");
-    if (!priorityUrgent || !priorityMedium || !priorityLow) return "None";
-    if (priorityUrgent.classList.contains("priority-buttons__btn--urgent")) return "⟪";
-    if (priorityMedium.classList.contains("priority-buttons__btn--medium")) return "‖";
-    if (priorityLow.classList.contains("priority-buttons__btn--low")) return "⟫";
-    return "None";
+    if (!priorityUrgent || !priorityMedium || !priorityLow) return "Medium";
+    if (priorityUrgent.classList.contains("priority-buttons__btn--urgent")) return "Urgent";
+    if (priorityMedium.classList.contains("priority-buttons__btn--medium")) return "Medium";
+    if (priorityLow.classList.contains("priority-buttons__btn--low")) return "Low";
+    return "Medium";
 }
 
 // Initializes the assigned-to multi-select control.

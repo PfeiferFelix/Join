@@ -39,11 +39,12 @@ function normalizeContacts(items, fallback) {
 }
 
 function normalizeBoardItem(board, index) {
+    const { priorityClass, ...boardWithoutPriorityClass } = board || {};
     const subtasks = getLimitedSubtasks(board?.subtasks || board?.subtask || board?.sub_task || []);
     const assignedTo = normalizeAssignedTo(board?.assignedTo || board?.assigned_to || []);
     const category = normalizeCategory(board?.category, board?.position);
     return {
-        ...board, id: board?.id || Date.now() + index,
+        ...boardWithoutPriorityClass, id: board?.id || Date.now() + index,
         title: board?.title || '', description: board?.description || '', dueDate: board?.dueDate || board?.due_date || '',
         priority: normalizePriority(board?.priority), category, selectedCategoryLabel: board?.selectedCategoryLabel || categoryLabel(category),
         assignedTo, subtasks, subtask: subtasks[0]?.title || '',
@@ -104,10 +105,41 @@ function normalizePriority(priorityRaw) {
     return 'Medium';
 }
 
+// Maps internal board category keys to summary-compatible position values.
+function mapCategoryToSummaryPosition(categoryRaw) {
+    if (categoryRaw === 'toDo') return 'todo';
+    if (categoryRaw === 'inProgress') return 'in progress';
+    if (categoryRaw === 'feedback') return 'awaiting feedback';
+    if (categoryRaw === 'done') return 'done';
+    const normalized = String(categoryRaw || '').toLowerCase();
+    if (normalized === 'todo' || normalized === 'in progress' || normalized === 'awaiting feedback' || normalized === 'done') return normalized;
+    return 'todo';
+}
+
+// Maps summary-compatible position values back to internal board category keys.
+function mapSummaryPositionToCategory(positionRaw) {
+    const p = String(positionRaw || '').toLowerCase();
+    if (p === 'todo' || p === 'to do' || p === 'todo ') return 'toDo';
+    if (p === 'in progress') return 'inProgress';
+    if (p === 'awaiting feedback') return 'feedback';
+    if (p === 'done') return 'done';
+    return null;
+}
+
+// Maps normalized priority labels to summary-compatible lowercase values.
+function mapPriorityToSummaryValue(priorityRaw) {
+    const p = normalizePriority(priorityRaw);
+    if (p === 'Urgent') return 'urgent';
+    if (p === 'Low') return 'low';
+    return 'medium';
+}
+
 // Normalizes category into valid board category.
 function normalizeCategory(categoryRaw, position) {
     const VALID_BOARD_CATEGORIES = ['toDo', 'inProgress', 'feedback', 'done'];
-    return (categoryRaw && VALID_BOARD_CATEGORIES.includes(categoryRaw)) ? categoryRaw : (position || 'toDo');
+    if (categoryRaw && VALID_BOARD_CATEGORIES.includes(categoryRaw)) return categoryRaw;
+    const mappedCategory = mapSummaryPositionToCategory(position);
+    return mappedCategory || 'toDo';
 }
 
 // Normalizes board items loaded from storage.
