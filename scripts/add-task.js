@@ -58,7 +58,7 @@ function getSelectedContactNames() {
     });
 }
 
-// Returns selected contacts in board-assigned format.
+// Returns selected contacts in board-assigned format. Wenn ich das benutze, brauche ich getSelectedContactNames() nicht mehr.
 function getAssignedUsersForBoardTask() {
     const selectedNames = getSelectedContactNames();
     return contactsLS.filter(c => selectedNames.includes(c.name)).map((contact, index) => ({

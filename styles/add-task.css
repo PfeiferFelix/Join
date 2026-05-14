@@ -34,7 +34,7 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
     padding: 0 32px;
 }
 
@@ -44,6 +44,7 @@ main {
 
 .task-form__col--right {
     padding-right: 0;
+    gap: 8px;
 }
 
 .task-form__required {
@@ -179,6 +180,10 @@ textarea {
 }
 
 @media (min-width: 320px) and (max-width: 855px) {
+    html,
+    body {
+        overflow-x: hidden;
+    }
     main {
         padding: 0;
         overflow: hidden;
@@ -220,6 +225,9 @@ textarea {
     .task-form__col {
         padding: 0;
     }
+    .task-form__col--right {
+        gap: 16px;
+    }
     .task-form__separator {
         display: none;
     }
@@ -253,6 +261,14 @@ textarea {
     }
     .sidebar {
         z-index: 100;
+    }
+    .priority-buttons__btn {
+        padding: 10px 6px;
+        font-size: 12px;
+    }
+    .priority-buttons__icon {
+        width: 12px;
+        height: 12px;
     }
 }
 
