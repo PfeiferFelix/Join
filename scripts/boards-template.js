@@ -126,7 +126,7 @@ function getaddTaskTemplateDialog() {
                         <span class="task-form__error" id="due-date-error"></span>
                     </div>
 
-                    <div class="task-form__separator"></div>
+                    <div class="task-form__separator addTaskDialog__separator"></div>
 
                     <div class="task-form__col task-form__col--right">
                         <span class="task-form__label">Priority</span>
@@ -186,7 +186,7 @@ function getaddTaskTemplateDialog() {
                 <span class="task-form__required">*</span>This field is required
             </p>
             <div class="task-form__actions">
-                <button class="task-form__btn task-form__btn--clear" type="reset">Clear <img src="assets/add-task/iconoir_cancel.svg" alt=""></button>
+                <button class="task-form__btn task-form__btn--clear" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt=""></button>
                 <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt=""></button>
             </div>
         </div>
