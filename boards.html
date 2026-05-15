@@ -62,7 +62,7 @@
                 <div class="board__addtask--mobile" id="board__addtask--mobile">
                     <div class="headline__AddTask">
                         <h1 class="board__h1">Board</h1>
-                        <button onclick="addTask()" type="button" class="addTaskBtnMobile">&#43;</button>
+                        <button onclick="addTask(); initAddTask();" type="button" class="addTaskBtnMobile">&#43;</button>
                     </div>
                     <form class="example-mobile" method="get" onsubmit="searchCard(event)">
                         <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)" />
@@ -74,7 +74,7 @@
                     <div class="board__list" id="board__list--todo" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">To Do</h2>
-                            <button onclick="addTaskByCategory('toDo')" type="button" class="addTaskBtnBoard">&#43;</button>
+                            <button onclick="addTaskByCategory('toDo'); initAddTask();" type="button" class="addTaskBtnBoard">&#43;</button>
                         </div>
                         <div class="board__cards" id="board__cards--todo"></div>
                         <div class="board__nonecard" id="noneCardTodo">No tasks To Do</div>
@@ -87,7 +87,7 @@
                     <div class="board__list" id="board__list--inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">In Progress</h2>
-                            <button onclick="addTaskByCategory('inProgress')" type="button" class="addTaskBtnBoard">&#43;</button>
+                            <button onclick="addTaskByCategory('inProgress'); initAddTask();" type="button" class="addTaskBtnBoard">&#43;</button>
                         </div>
                         <div class="board__cards" id="board__cards--inprogress"></div>
                         <div class="board__nonecard" id="noneCardInProgress">No tasks In Progress</div>
@@ -96,7 +96,7 @@
                     <div class="board__list" id="board__list--feedback" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">Await Feedback</h2>
-                            <button onclick="addTaskByCategory('feedback')" type="button" class="addTaskBtnBoard">&#43;</button>
+                            <button onclick="addTaskByCategory('feedback'); initAddTask();" type="button" class="addTaskBtnBoard">&#43;</button>
                         </div>
                         <div class="board__cards" id="board__cards--feedback"></div>
                         <div class="board__nonecard" id="noneCardFeedback">No tasks Awaiting Feedback</div>
