@@ -13,7 +13,7 @@
 .headline1__separator {
     width: 3px;
     height: 50px;
-    background-color: var(--color-accent);
+    background-color: var(--color-brand-accent);
     border-radius: 2px;
 }
 
@@ -45,7 +45,7 @@
     left: 0;
     bottom: var(--height-sidebar-mobile);
     transition: opacity 500ms ease-out;
-    background-color: var(--color-surface);
+    background-color: var(--color-neutral-50);
 }
 
 .welcoming__fade-out {
@@ -140,7 +140,7 @@
 }
 
 .tasks__separator {
-    background-color: var(--color-neutral-300);
+    background-color: var(--color-neutral-400);
     height: 100px;
     width: 2px;
 }
@@ -172,7 +172,7 @@
 .tasks__in-board:hover,
 .tasks__in-progress:hover,
 .tasks__awaiting-feedback:hover {
-    background-color: var(--color-primary);
+    background-color: var(--color-brand-primary);
     color: white;
     transform: scale(1.04);
     box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.5);
