@@ -30,7 +30,7 @@ header {
 }
 
 .buttonRegistration {
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -53,11 +53,11 @@ header {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
 }
- .container__headline{
-        font-size: 50px;
-        margin-left: 5px;
-        font-weight: bold;
-    }
+.container__headline {
+    font-size: 50px;
+    margin-left: 5px;
+    font-weight: bold;
+}
 .title__row {
     position: relative;
     width: 100%;
@@ -73,9 +73,15 @@ header {
 }
 
 .back__arrow {
+    border-radius: 50%;
     width: 32px;
     height: 32px;
     cursor: pointer;
+}
+
+.back__arrow:hover {
+    transform: scale(1.2);
+    background-color: var(--lightergrey-color);
 }
 
 .container h1 {
@@ -86,9 +92,9 @@ header {
 }
 
 .title__underline {
-    width: 260px;
+    width: 120px;
     height: 3px;
-    background-color: #29ABE2;
+    background-color: var(--light-blue-color);
     border-radius: 2px;
     margin: 12px 0 32px;
 }
@@ -124,7 +130,7 @@ header {
 }
 
 .input__wrapper input:focus {
-    border-color: #29ABE2;
+    border-color: var(--light-blue-color);
 }
 
 .input__icon {
@@ -152,25 +158,31 @@ header {
 }
 
 .Login__btn {
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     transition: background-color 0.2s;
 }
 
-.Login__btn:hover {
-    background-color: #3a4a5c;
+.Login__btn:hover,
+.buttonRegistration:hover {
+    background-color: var(--light-blue-color);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 .GuestLogin__btn {
     background-color: white;
-    color: #2A3647;
-    border: 2px solid #2A3647;
-    transition: background-color 0.2s, color 0.2s;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    transition:
+        background-color 0.2s,
+        color 0.2s;
 }
 
 .GuestLogin__btn:hover {
-    background-color: #f0f2f5;
+    border-color: var(--light-blue-color);
+    color: var(--light-blue-color);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 footer {
@@ -183,6 +195,13 @@ footer {
     color: #9ca3af;
     text-decoration: none;
     margin-left: 20px;
+    display: inline-block;
+    width: 110px;
+}
+
+.footer__Link:hover {
+    color: var(--light-blue-color);
+    font-weight: 700;
 }
 
 .checkbox__row {
@@ -198,14 +217,14 @@ footer {
     -webkit-appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #2A3647;
+    border: 2px solid var(--primary-color);
     border-radius: 4px;
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .checkbox__row input[type="checkbox"]:checked {
-    background-color: #2A3647;
+    background-color: var(--primary-color);
     background-size: 14px;
     background-repeat: no-repeat;
     background-position: center;
@@ -218,7 +237,7 @@ footer {
 }
 
 .checkbox__row label a {
-    color: #29ABE2;
+    color: var(--light-blue-color);
     text-decoration: none;
 }
 
@@ -230,8 +249,8 @@ footer {
     .container {
         width: 80%;
         padding: 32px 20px;
-    };
-     .container__headline{
+    }
+    .container__headline {
         font-size: 30px;
         margin-left: 5px;
     }
@@ -250,7 +269,8 @@ footer {
         flex-direction: column;
         gap: 12px;
     }
-    .Login__btn, .GuestLogin__btn {
+    .Login__btn,
+    .GuestLogin__btn {
         width: 100%;
         padding: 12px;
     }
@@ -290,11 +310,11 @@ footer {
         margin-top: 24px;
         justify-content: center;
     }
-    .container__headline{
+    .container__headline {
         font-size: 30px;
         margin-left: 10px;
     }
-      .title__underline {
+    .title__underline {
         width: 200px;
     }
 }
