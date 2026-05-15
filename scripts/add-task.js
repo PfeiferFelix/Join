@@ -12,28 +12,46 @@ const ADD_TASK_AVATAR_COLORS = [
     '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701',
     '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
 ];
-// Returns add-task query params for source/target handling.
+/**
+ * Create a URLSearchParams object for the current page query string.
+ * @returns {URLSearchParams} The parsed query parameters.
+ */
 function getAddTaskParams() {
     return new URLSearchParams(window.location.search);
 }
 
-// Returns the board return target after creating a task.
+/**
+ * Get the target page to return to after adding a task.
+ * Falls back to `ADD_TASK_DEFAULT_RETURN` when not provided.
+ * @returns {string} The return target path.
+ */
 function getAddTaskReturnTarget() {
     return getAddTaskParams().get("returnTo") || ADD_TASK_DEFAULT_RETURN;
 }
 
-// Returns the preselected board category from the URL.
+/**
+ * Read an optionally requested board category from the URL.
+ * @returns {string} The requested board category or empty string.
+ */
 function getRequestedBoardCategory() {
     return getAddTaskParams().get("boardCategory") || "";
 }
 
-// Converts add-task category select value to board category key.
+/**
+ * Map the form-select category value to the internal board category key.
+ * @param {string} value - The category value from the form select.
+ * @returns {string} The mapped board category key.
+ */
 function mapFormCategoryToBoardCategory(value) {
     if (value === "user-story") return "inProgress";
     return "toDo";
 }
 
-// Converts board category key to display label.
+/**
+ * Convert an internal board category key to a human-readable label.
+ * @param {string} category - The internal category key.
+ * @returns {string} The display label for the category.
+ */
 function getBoardCategoryLabel(category) {
     if (category === "inProgress") return "User Story";
     if (category === "feedback") return "Awaiting Feedback";
@@ -41,7 +59,10 @@ function getBoardCategoryLabel(category) {
     return "Technical Task";
 }
 
-// Returns board category using URL preference over form value.
+/**
+ * Determine the board category for the new task, preferring the URL parameter.
+ * @returns {string} The chosen board category key.
+ */
 function getBoardCategoryFromContext() {
     const fromUrl = getRequestedBoardCategory();
     if (fromUrl) return fromUrl;
@@ -50,7 +71,10 @@ function getBoardCategoryFromContext() {
     );
 }
 
-// Returns selected contact names from assigned-to checkboxes.
+/**
+ * Read names of contacts selected in the assigned-to dropdown.
+ * @returns {string[]} Array of selected contact names.
+ */
 function getSelectedContactNames() {
     return Array.from(document.querySelectorAll('.dropdown__checkbox:checked')).map((checkbox) => {
         const item = checkbox.closest('.dropdown__item');
@@ -58,7 +82,11 @@ function getSelectedContactNames() {
     });
 }
 
-// Returns selected contacts in board-assigned format. Wenn ich das benutze, brauche ich getSelectedContactNames() nicht mehr.
+/**
+ * Build the `assignedTo` array in the shape used by boards.js for a task.
+ * Filters local-storage contacts down to the ones selected in the form.
+ * @returns {Array<{id:number,name:string,abbreviation:string}>} Assigned users array.
+ */
 function getAssignedUsersForBoardTask() {
     const selectedNames = getSelectedContactNames();
     return addTaskContactsLS.filter(c => selectedNames.includes(c.name)).map((contact, index) => ({
@@ -68,7 +96,10 @@ function getAssignedUsersForBoardTask() {
     }));
 }
 
-// Returns selected priority in board-compatible format.
+/**
+ * Read the active priority button and convert to board label.
+ * @returns {string} One of 'Urgent', 'Medium' or 'Low'.
+ */
 function getBoardPriorityLabel() {
     const active = document.querySelector('.priority-buttons__btn--active');
     const value = active ? active.dataset.priority || "medium" : "medium";
@@ -77,7 +108,10 @@ function getBoardPriorityLabel() {
     return "Medium";
 }
 
-// Returns entered subtasks in board-compatible format.
+/**
+ * Collect subtasks from the UI and map them to the board subtask shape.
+ * @returns {Array<{title:string,done:boolean}>} Array of subtask objects.
+ */
 function getBoardSubtasks() {
     return Array.from(document.querySelectorAll('.subtask-list__text')).map((span) => ({
         title: span.textContent.replace('• ', '').trim(),
@@ -85,7 +119,10 @@ function getBoardSubtasks() {
     }));
 }
 
-// Creates board task object in boards.js-compatible shape.
+/**
+ * Build the complete task object ready to be saved to boards and Firebase.
+ * @returns {Object} Task object with fields expected by boards.js.
+ */
 function buildBoardTask() {
     const category = getBoardCategoryFromContext();
     const subtasks = getBoardSubtasks();
@@ -103,7 +140,12 @@ function buildBoardTask() {
     };
 }
 
-// Persists one task in local storage under boards key.
+/**
+ * Save a task representation into `localStorage` under the `boards` key.
+ * Removes transient fields like `id`, `subtask` and `firebaseKey` before saving.
+ * @param {Object} task - The task object to persist.
+ * @returns {void}
+ */
 function saveBoardTaskToLocalStorage(task) {
     // Erstelle eine Kopie ohne id, subtask/sub_task und firebaseKey
     const { id, subtask, sub_task, firebaseKey, ...cleanTask } = task;
@@ -114,7 +156,11 @@ function saveBoardTaskToLocalStorage(task) {
     localStorage.setItem("boards", JSON.stringify(boards));
 }
 
-// Applies optional URL presets to the add-task form.
+/**
+ * Apply optional presets from the URL to the add-task form elements.
+ * For example, pre-select the category when `boardCategory` is provided.
+ * @returns {void}
+ */
 function applyAddTaskContext() {
     const requested = getRequestedBoardCategory();
     const categorySelect = document.getElementById("category");
@@ -305,8 +351,6 @@ function getAvatarColor(email) {
 }
 
 
-
-
 /**
  * Enable or disable the form action buttons.
  * @param {boolean} disabled - True to disable, false to enable.
@@ -332,6 +376,10 @@ function setupSubtaskEvents() {
     confirmBtn.addEventListener('click', addSubtask);
 }
 
+/**
+ * Initialize event handlers for the category dropdown in the form.
+ * @returns {void}
+ */
 function setupCategoryDropdown() {
     document.getElementById('category-trigger').addEventListener('click', toggleCategoryDropdown);
     document.getElementById('category-list').querySelectorAll('.dropdown__item--simple').forEach(item => {
@@ -340,16 +388,30 @@ function setupCategoryDropdown() {
     document.addEventListener('click', closeCategoryOnOutsideClick);
 }
 
+/**
+ * Toggle visibility of the category dropdown list.
+ * @returns {void}
+ */
 function toggleCategoryDropdown() {
     document.getElementById('category-list').classList.toggle('dropdown__list--visible');
 }
 
+/**
+ * Select a category from the dropdown and update the UI state.
+ * @param {HTMLElement} item - The clicked dropdown item element.
+ * @returns {void}
+ */
 function selectCategory(item) {
     document.getElementById('category-selected').textContent = item.textContent;
     document.getElementById('category-selected').dataset.value = item.dataset.value;
     document.getElementById('category-list').classList.remove('dropdown__list--visible');
 }
 
+/**
+ * Close the category dropdown when clicking outside of it.
+ * @param {MouseEvent} event - The click event.
+ * @returns {void}
+ */
 function closeCategoryOnOutsideClick(event) {
     const dropdown = document.getElementById('category-dropdown');
     if (!dropdown.contains(event.target)) {
