@@ -141,32 +141,32 @@ header {
     margin-top: 8px;
 }
 
-.Login__btn,
-.GuestLogin__btn {
+.login__btn,
+.guestLogin__btn {
     padding: 14px 32px;
     border-radius: 10px;
     cursor: pointer;
 }
 
-.Login__btn {
+.login__btn {
     background-color: #2A3647;
     color: white;
     border: none;
     transition: background-color 0.2s;
 }
 
-.Login__btn:hover {
+.login__btn:hover {
     background-color: #3a4a5c;
 }
 
-.GuestLogin__btn {
+.guestLogin__btn {
     background-color: white;
     color: #2A3647;
     border: 2px solid #2A3647;
     transition: background-color 0.2s, color 0.2s;
 }
 
-.GuestLogin__btn:hover {
+.guestLogin__btn:hover {
     background-color: #f0f2f5;
 }
 
@@ -248,7 +248,7 @@ footer {
         flex-direction: column;
         gap: 12px;
     }
-    .Login__btn, .GuestLogin__btn {
+    .login__btn, .guestLogin__btn {
         width: 100%;
         padding: 12px;
     }
