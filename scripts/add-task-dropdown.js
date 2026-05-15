@@ -4,7 +4,7 @@
  */
 function addUserToTask() {
     const list = document.getElementById('assigned-to-list');
-    contactsLS.forEach(contact => {
+    addTaskContactsLS.forEach(contact => {
         const li = createContactListItem(contact);
         list.appendChild(li);
     });

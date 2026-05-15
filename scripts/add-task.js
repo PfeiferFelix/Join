@@ -5,12 +5,9 @@
 const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
 const ADD_TASK_DEFAULT_RETURN = "boards.html";
 
-let contactsLS = (() => {
-    try { return importandFormatLocalStorageData("contacs") || []; }
-    catch { return []; }
-})();
+let addTaskContactsLS = importandFormatLocalStorageData("contacs");
 
-const AVATAR_COLORS = [
+const ADD_TASK_AVATAR_COLORS = [
     '#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8',
     '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701',
     '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
@@ -48,7 +45,9 @@ function getBoardCategoryLabel(category) {
 function getBoardCategoryFromContext() {
     const fromUrl = getRequestedBoardCategory();
     if (fromUrl) return fromUrl;
-    return mapFormCategoryToBoardCategory(document.getElementById("category").value);
+    return mapFormCategoryToBoardCategory(
+        document.getElementById('category-selected').dataset.value || ''
+    );
 }
 
 // Returns selected contact names from assigned-to checkboxes.
@@ -59,10 +58,10 @@ function getSelectedContactNames() {
     });
 }
 
-// Returns selected contacts in board-assigned format.
+// Returns selected contacts in board-assigned format. Wenn ich das benutze, brauche ich getSelectedContactNames() nicht mehr.
 function getAssignedUsersForBoardTask() {
     const selectedNames = getSelectedContactNames();
-    return contactsLS.filter(c => selectedNames.includes(c.name)).map((contact, index) => ({
+    return addTaskContactsLS.filter(c => selectedNames.includes(c.name)).map((contact, index) => ({
         id: Number(contact.id) || index + 1,
         name: contact.name,
         abbreviation: contact.abbreviation || getInitials(contact.name || ""),
@@ -72,7 +71,7 @@ function getAssignedUsersForBoardTask() {
 // Returns selected priority in board-compatible format.
 function getBoardPriorityLabel() {
     const active = document.querySelector('.priority-buttons__btn--active');
-    const value = active?.dataset.priority || "medium";
+    const value = active ? active.dataset.priority || "medium" : "medium";
     if (value === "urgent") return "Urgent";
     if (value === "low") return "Low";
     return "Medium";
@@ -91,10 +90,16 @@ function buildBoardTask() {
     const category = getBoardCategoryFromContext();
     const subtasks = getBoardSubtasks();
     return {
-        id: Date.now(), title: document.getElementById('title').value.trim(),
-        description: document.getElementById('description').value.trim(), dueDate: document.getElementById('due-date').value,
-        priority: getBoardPriorityLabel(), category, selectedCategoryLabel: getBoardCategoryLabel(category),
-        assignedTo: getAssignedUsersForBoardTask(), subtasks, subtask: subtasks[0]?.title || '',
+        id: Date.now(),
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        dueDate: document.getElementById('due-date').value,
+        priority: getBoardPriorityLabel(),
+        category,
+        selectedCategoryLabel: getBoardCategoryLabel(category),
+        assignedTo: getAssignedUsersForBoardTask(),
+        subtasks,
+        subtask: subtasks[0] ? subtasks[0].title || '' : '',
     };
 }
 
@@ -131,6 +136,7 @@ function initAddTask() {
     addUserToTask();
     setupDropdownEvents();
     setupSubtaskEvents();
+    setupCategoryDropdown();
 }
 
 /**
@@ -206,7 +212,6 @@ async function handleSubmit(form) {
         } catch (error) {
             console.error('Aufgabe konnte nicht gespeichert werden:', error);
             disableButtons(false);
-            alert('Fehler beim Speichern der Aufgabe. Bitte versuche es erneut.');
         }
     }
 }
@@ -237,6 +242,11 @@ function validateForm() {
             isValid = false;
         }
     });
+    if (!document.getElementById('category-selected').dataset.value) {
+        document.getElementById('category-error').textContent = 'This field is required*';
+        document.getElementById('category-trigger').style.borderColor = 'red';
+        isValid = false;
+    }
 
     return isValid;
 }
@@ -263,7 +273,9 @@ function clearErrors() {
     document.querySelectorAll("[required]").forEach((field) => {
         field.style.borderColor = "";
     });
+    document.getElementById('category-trigger').style.borderColor = '';
 }
+
 
 /**
  * Return initials for a name string.
@@ -278,15 +290,61 @@ function getInitials(name) {
         .join('');
 }
 
-function getAvatarColor(value) {
-    const str = value || '';
+/**
+ * Choose an avatar color based on the contact email.
+ * @param {string} email - The email of the contact.
+ * @returns {string} The selected color code.
+ */
+function getAvatarColor(email) {
+    if (!email) return ADD_TASK_AVATAR_COLORS[0];
     let sum = 0;
-    for (let i = 0; i < str.length; i++) sum += str.charCodeAt(i);
-    return AVATAR_COLORS[sum % AVATAR_COLORS.length];
+    for (let index = 0; index < email.length; index++) {
+        sum += email.charCodeAt(index);
+    }
+    return ADD_TASK_AVATAR_COLORS[sum % ADD_TASK_AVATAR_COLORS.length];
 }
 
 
 
+
+
+/**
+ * POST data to Firebase Realtime Database.
+ * @param {string} path - The subpath under the database URL.
+ * @param {Object} data - The payload to send.
+ * @returns {Promise<any>} The JSON response.
+ */
+async function postData(path, data) {
+    console.log('postData aufgerufen:', path, data);
+    const response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) throw new Error(`Firebase POST fehlgeschlagen: HTTP ${response.status}`);
+    return await response.json();
+}
+
+/**
+ * Collect task form data and upload it.
+ * @returns {Promise<void>}
+ */
+async function uploadTask() {
+    const boardCategory = getBoardCategoryFromContext();
+    const selectedNames = getSelectedContactNames();
+    const taskData = {
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value,
+        dueDate: document.getElementById('due-date').value,
+        category: document.getElementById('category-selected').dataset.value || '',
+        subTask: Array.from(document.querySelectorAll('.subtask-list__text'))
+            .map(span => span.textContent.replace('• ', '').trim()),
+        position: boardCategory,
+        priority: document.querySelector('.priority-buttons__btn--active') ? document.querySelector('.priority-buttons__btn--active').dataset.priority || "medium" : "medium",
+        assignedTo: selectedNames,
+    };
+    await postData("boards", taskData);
+}
 
 
 /**
@@ -312,4 +370,29 @@ function setupSubtaskEvents() {
     input.addEventListener('keydown', handleSubtaskEnter);
     clearBtn.addEventListener('click', clearSubtaskInput);
     confirmBtn.addEventListener('click', addSubtask);
+}
+
+function setupCategoryDropdown() {
+    document.getElementById('category-trigger').addEventListener('click', toggleCategoryDropdown);
+    document.getElementById('category-list').querySelectorAll('.dropdown__item--simple').forEach(item => {
+        item.addEventListener('click', () => selectCategory(item));
+    });
+    document.addEventListener('click', closeCategoryOnOutsideClick);
+}
+
+function toggleCategoryDropdown() {
+    document.getElementById('category-list').classList.toggle('dropdown__list--visible');
+}
+
+function selectCategory(item) {
+    document.getElementById('category-selected').textContent = item.textContent;
+    document.getElementById('category-selected').dataset.value = item.dataset.value;
+    document.getElementById('category-list').classList.remove('dropdown__list--visible');
+}
+
+function closeCategoryOnOutsideClick(event) {
+    const dropdown = document.getElementById('category-dropdown');
+    if (!dropdown.contains(event.target)) {
+        document.getElementById('category-list').classList.remove('dropdown__list--visible');
+    }
 }

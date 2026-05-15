@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="styles/boards-media.css" />
     <link rel="stylesheet" href="styles/variable.css" />
     <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/add-task.css" />
+    <link rel="stylesheet" href="styles/add-task-dropdown.css" />
+    <link rel="stylesheet" href="styles/add-task-subtask.css" />
+    <link rel="stylesheet" href="styles/add-task-dialog.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="script.js"></script>
@@ -26,6 +30,9 @@
     <script src="scripts/boards-dnd.js"></script>
     <script src="scripts/boards-template-data.js"></script>
     <script src="scripts/boards-template.js"></script>
+    <script src="scripts/add-task.js"></script>
+    <script src="scripts/add-task-dropdown.js"></script>
+    <script src="scripts/add-task-subtask.js"></script>
     <title>Boards</title>
 </head>
 
@@ -40,14 +47,13 @@
                     <h1 class="board__h1 fs-xxlarge-bold">Board</h1>
                     <div class="search-container">
                         <form class="example" method="get" onsubmit="searchCard(event)">
-                            <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)"
-                                onkeydown="resetSearchOnEscape(event)" />
+                            <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)" />
                             <span class="seperatorleftBtn"></span>
                             <button class="searchBtn" type="submit" title="Search">
                                 <i class="fa fa-search"></i>
                             </button>
                         </form>
-                        <button onclick="addTask()" type="button" class="addTaskBtn">
+                        <button onclick="addTask(); initAddTask();" type="button" class="addTaskBtn">
                             Add Task
                             <p class="addTaskwith__plus">&#43;</p>
                         </button>
@@ -59,8 +65,7 @@
                         <button onclick="addTask()" type="button" class="addTaskBtnMobile">&#43;</button>
                     </div>
                     <form class="example-mobile" method="get" onsubmit="searchCard(event)">
-                        <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)"
-                            onkeydown="resetSearchOnEscape(event)" />
+                        <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)" />
                         <span class="seperatorleftBtn"></span>
                         <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
                     </form>
@@ -79,8 +84,7 @@
                     <dialog id="showTaskDialog" class="showTaskDialog"></dialog>
                     <dialog id="editTaskDialog" class="editTaskDialog"></dialog>
 
-                    <div class="board__list" id="board__list--inprogress" ondrop="drop(event)"
-                        ondragover="allowDrop(event)">
+                    <div class="board__list" id="board__list--inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">In Progress</h2>
                             <button onclick="addTaskByCategory('inProgress')" type="button" class="addTaskBtnBoard">&#43;</button>
@@ -89,8 +93,7 @@
                         <div class="board__nonecard" id="noneCardInProgress">No tasks In Progress</div>
                     </div>
 
-                    <div class="board__list" id="board__list--feedback" ondrop="drop(event)"
-                        ondragover="allowDrop(event)">
+                    <div class="board__list" id="board__list--feedback" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <div class="board__list-header">
                             <h2 class="board__headline">Await Feedback</h2>
                             <button onclick="addTaskByCategory('feedback')" type="button" class="addTaskBtnBoard">&#43;</button>
