@@ -202,7 +202,7 @@ async function handleSubmit(form) {
         try {
             const taskData = buildBoardTask();
             const payload = await postTaskRequestToFirebase(taskData);
-            if (payload?.name) taskData.firebaseKey = payload.name;
+            if (payload && payload.name) taskData.firebaseKey = payload.name;
             saveBoardTaskToLocalStorage(taskData);
             showToast();
             form.reset();
@@ -305,46 +305,6 @@ function getAvatarColor(email) {
 }
 
 
-
-
-
-/**
- * POST data to Firebase Realtime Database.
- * @param {string} path - The subpath under the database URL.
- * @param {Object} data - The payload to send.
- * @returns {Promise<any>} The JSON response.
- */
-async function postData(path, data) {
-    console.log('postData aufgerufen:', path, data);
-    const response = await fetch(BASE_URL + path + ".json", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    });
-    if (!response.ok) throw new Error(`Firebase POST fehlgeschlagen: HTTP ${response.status}`);
-    return await response.json();
-}
-
-/**
- * Collect task form data and upload it.
- * @returns {Promise<void>}
- */
-async function uploadTask() {
-    const boardCategory = getBoardCategoryFromContext();
-    const selectedNames = getSelectedContactNames();
-    const taskData = {
-        title: document.getElementById('title').value,
-        description: document.getElementById('description').value,
-        dueDate: document.getElementById('due-date').value,
-        category: document.getElementById('category-selected').dataset.value || '',
-        subTask: Array.from(document.querySelectorAll('.subtask-list__text'))
-            .map(span => span.textContent.replace('• ', '').trim()),
-        position: boardCategory,
-        priority: document.querySelector('.priority-buttons__btn--active') ? document.querySelector('.priority-buttons__btn--active').dataset.priority || "medium" : "medium",
-        assignedTo: selectedNames,
-    };
-    await postData("boards", taskData);
-}
 
 
 /**
