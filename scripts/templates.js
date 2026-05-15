@@ -204,8 +204,8 @@ function getContactCardTemplate(contact, avatarColor) {
                 <div class="contact-card__user-info">
                     <h2 class="contact-card__name">${contact.name}</h2>
                     <div class="contact-card__btn-container">
-                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/boards/edit.png" alt="" />Edit</button>
-                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/boards/delete.png" alt="" />Delete</button>
+                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/boards/edit.png" alt="edit" />Edit</button>
+                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/boards/delete.png" alt="delete" />Delete</button>
                     </div>
                 </div>
             </div>`;

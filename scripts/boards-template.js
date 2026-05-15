@@ -146,7 +146,7 @@ function getaddTaskTemplateDialog() {
                         <div class="dropdown" id="assigned-to-dropdown">
                             <div class="dropdown__trigger">
                                 <input type="text" class="dropdown__search" placeholder="Select contacts to assign" id="assigned-to-search" />
-                                <span class="dropdown__arrow" id="assigned-to-arrow"><img src="assets/add-task/arrow_drop_downaa.svg" alt=""></span>
+                                <span class="dropdown__arrow" id="assigned-to-arrow"><img src="assets/add-task/arrow_drop_downaa.svg" alt="arrow"></span>
                             </div>
                             <ul class="dropdown__list" id="assigned-to-list"></ul>
                         </div>
@@ -186,8 +186,8 @@ function getaddTaskTemplateDialog() {
                 <span class="task-form__required">*</span>This field is required
             </p>
             <div class="task-form__actions">
-                <button class="task-form__btn task-form__btn--clear" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt=""></button>
-                <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt=""></button>
+                <button class="task-form__btn task-form__btn--clear" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt="cancel"></button>
+                <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt="create"></button>
             </div>
         </div>
 
