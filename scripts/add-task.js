@@ -387,34 +387,3 @@ function setupCategoryDropdown() {
     });
     document.addEventListener('click', closeCategoryOnOutsideClick);
 }
-
-/**
- * Toggle visibility of the category dropdown list.
- * @returns {void}
- */
-function toggleCategoryDropdown() {
-    document.getElementById('category-list').classList.toggle('dropdown__list--visible');
-}
-
-/**
- * Select a category from the dropdown and update the UI state.
- * @param {HTMLElement} item - The clicked dropdown item element.
- * @returns {void}
- */
-function selectCategory(item) {
-    document.getElementById('category-selected').textContent = item.textContent;
-    document.getElementById('category-selected').dataset.value = item.dataset.value;
-    document.getElementById('category-list').classList.remove('dropdown__list--visible');
-}
-
-/**
- * Close the category dropdown when clicking outside of it.
- * @param {MouseEvent} event - The click event.
- * @returns {void}
- */
-function closeCategoryOnOutsideClick(event) {
-    const dropdown = document.getElementById('category-dropdown');
-    if (!dropdown.contains(event.target)) {
-        document.getElementById('category-list').classList.remove('dropdown__list--visible');
-    }
-}
