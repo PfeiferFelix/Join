@@ -1,4 +1,4 @@
-﻿.subtask-item__actions button {
+.subtask-item__actions button {
     background: transparent;
     border: none;
     color: #2a3647;
@@ -818,7 +818,7 @@
 }
 
 .create-task-btn:disabled {
-    background-color: var(--primary-color, #2a3647);
+    background-color: #2a3647;
     color: #ffffff;
     opacity: 0.55;
     cursor:default;
@@ -826,7 +826,7 @@
 }
 
 .create-task-btn:disabled:hover {
-    background-color: var(--primary-color, #2a3647);
+    background-color: #2a3647;
     transform: none;
 }
 

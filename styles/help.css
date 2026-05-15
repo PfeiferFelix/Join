@@ -54,5 +54,5 @@
 
 .help__back-button:hover {
     transform: scale(1.2);
-    background-color: var(--lightergrey-color);
+    background-color: #e2e6ec;
 }
