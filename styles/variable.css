@@ -1,9 +1,9 @@
 :root {
-    --primary-color: #2a3647;
-    --lightgrey-color: #cdcdcd;
-    --lightergrey-color: #e2e6ec;
-    --light-blue-color: #29abe2;
-    --content-background-color: #f6f7f8;
+    --color-primary: #2a3647;
+    --color-neutral-300: #cdcdcd;
+    --color-neutral-200: #e2e6ec;
+    --color-accent: #29abe2;
+    --color-surface: #f6f7f8;
     --width-sidebar: 230px;
     --height-sidebar-mobile: 100px;
     --padding-header-x: 40px;

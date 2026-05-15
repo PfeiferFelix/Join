@@ -6,7 +6,7 @@
 main {
     padding: 40px 64px;
     flex: 1;
-    background-color: #f6f7f8;
+    background-color: var(--color-surface);
     margin-top: 4px;
 }
 
@@ -75,7 +75,7 @@ select {
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #2a3647;
+    border-color: var(--color-primary);
 }
 
 textarea {
@@ -146,8 +146,8 @@ textarea {
 
 .task-form__btn--clear {
     background-color: white;
-    border: 1px solid #2a3647;
-    color: #2a3647;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
 }
 
 .task-form__btn img {
@@ -157,7 +157,7 @@ textarea {
 }
 
 .task-form__btn--submit {
-    background-color: #2a3647;
+    background-color: var(--color-primary);
     border: none;
     color: white;
 }
@@ -337,7 +337,7 @@ body {
 
 .subtask-list__edit-input {
     border: none;
-    border-bottom: 1px solid #2a3647;
+    border-bottom: 1px solid var(--color-primary);
     outline: none;
     font-size: 16px;
     background: transparent;

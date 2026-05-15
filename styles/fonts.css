@@ -10,15 +10,15 @@
 }
 
 .fc-grey {
-    color: #2a3647;
+    color: var(--color-primary);
 }
 
 .fc-lightgrey {
-    color: #cdcdcd;
+    color: var(--color-neutral-300);
 }
 
 .fc-lightblue {
-    color: #29abe2;
+    color: var(--color-accent);
 }
 
 .fc-white {
