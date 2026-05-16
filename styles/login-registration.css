@@ -30,7 +30,7 @@ header {
 }
 
 .buttonRegistration {
-    background-color: #2A3647;
+    background-color: var(--color-brand-primary);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -52,10 +52,10 @@ header {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
 }
- .container__headline{
-        margin-left: 5px;
-        font-weight: 700;
-    }
+.container__headline {
+    margin-left: 5px;
+    font-weight: 700;
+}
 .title__row {
     position: relative;
     width: 100%;
@@ -71,9 +71,15 @@ header {
 }
 
 .back__arrow {
+    border-radius: 50%;
     width: 32px;
     height: 32px;
     cursor: pointer;
+}
+
+.back__arrow:hover {
+    transform: scale(1.2);
+    background-color: var(--color-neutral-200);
 }
 
 .container h1 {
@@ -83,9 +89,9 @@ header {
 }
 
 .title__underline {
-    width: 260px;
+    width: 120px;
     height: 3px;
-    background-color: #29ABE2;
+    background-color: var(--color-brand-accent);
     border-radius: 2px;
     margin: 12px 0 32px;
 }
@@ -95,7 +101,6 @@ header {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    
 }
 
 .input__wrapper {
@@ -119,11 +124,11 @@ header {
 }
 
 .input__wrapper input::placeholder {
-    color: #9ca3af;
+    color: var(--color-neutral-500);
 }
 
 .input__wrapper input:focus {
-    border-color: #29ABE2;
+    border-color: var(--color-brand-accent);
 }
 
 .input__icon {
@@ -149,25 +154,31 @@ header {
 }
 
 .login__btn {
-    background-color: #2A3647;
+    background-color: var(--color-brand-primary);
     color: white;
     border: none;
     transition: background-color 0.2s;
 }
 
-.login__btn:hover {
-    background-color: #3a4a5c;
+.login__btn:hover,
+.buttonRegistration:hover {
+    background-color: var(--color-brand-accent);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 .guestLogin__btn {
     background-color: white;
-    color: #2A3647;
-    border: 2px solid #2A3647;
-    transition: background-color 0.2s, color 0.2s;
+    color: var(--color-brand-primary);
+    border: 2px solid var(--color-brand-primary);
+    transition:
+        background-color 0.2s,
+        color 0.2s;
 }
 
 .guestLogin__btn:hover {
-    background-color: #f0f2f5;
+    border-color: var(--color-brand-accent);
+    color: var(--color-brand-accent);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 footer {
@@ -177,9 +188,16 @@ footer {
 }
 
 .footer__Link {
-    color: #9ca3af;
+    color: var(--color-neutral-500);
     text-decoration: none;
     margin-left: 20px;
+    display: inline-block;
+    width: 110px;
+}
+
+.footer__Link:hover {
+    color: var(--color-brand-accent);
+    font-weight: 700;
 }
 
 .checkbox__row {
@@ -195,14 +213,14 @@ footer {
     -webkit-appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #2A3647;
+    border: 2px solid var(--color-brand-primary);
     border-radius: 4px;
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .checkbox__row input[type="checkbox"]:checked {
-    background-color: #2A3647;
+    background-color: var(--color-brand-primary);
     background-image: url("../assets/check.svg");
     background-size: 14px;
     background-repeat: no-repeat;
@@ -211,12 +229,12 @@ footer {
 
 .checkbox__row label {
     font-size: 15px;
-    color: #9ca3af;
+    color: var(--color-neutral-500);
     cursor: pointer;
 }
 
 .checkbox__row label a {
-    color: #29ABE2;
+    color: var(--color-brand-accent);
     text-decoration: none;
 }
 
@@ -228,8 +246,8 @@ footer {
     .container {
         width: 80%;
         padding: 32px 20px;
-    };
-     .container__headline{
+    }
+    .container__headline {
         font-size: 30px;
         margin-left: 5px;
     }
@@ -248,7 +266,8 @@ footer {
         flex-direction: column;
         gap: 12px;
     }
-    .login__btn, .guestLogin__btn {
+    .login__btn,
+    .guestLogin__btn {
         width: 100%;
         padding: 12px;
     }
@@ -288,11 +307,11 @@ footer {
         margin-top: 24px;
         justify-content: center;
     }
-    .container__headline{
+    .container__headline {
         font-size: 30px;
         margin-left: 10px;
     }
-      .title__underline {
+    .title__underline {
         width: 200px;
     }
 }

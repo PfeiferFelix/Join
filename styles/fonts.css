@@ -6,23 +6,23 @@
 }
 
 .fc-black {
-    color: #000000;
+    color: var(--color-black);
 }
 
 .fc-grey {
-    color: #2a3647;
+    color: var(--color-brand-primary);
 }
 
 .fc-lightgrey {
-    color: #cdcdcd;
+    color: var(--color-neutral-400);
 }
 
 .fc-lightblue {
-    color: #29abe2;
+    color: var(--color-brand-accent);
 }
 
 .fc-white {
-    color: #ffffff;
+    color: var(--color-neutral-0);
 }
 
 .fs-small-regular {
