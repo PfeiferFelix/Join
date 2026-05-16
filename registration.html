@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="styles/fonts.css" />
         <link rel="stylesheet" href="styles/login-registration.css" />
         <link rel="stylesheet" href="styles/variable.css" />
+        <link rel="stylesheet" href="styles/components.css" />
     </head>
 
     <body>
@@ -17,8 +18,8 @@
         <main>
             <div class="container">
                 <div class="title__row">
-                    <a href="index.html">
-                        <img src="assets/login/arrow-left-line.png" alt="Go back" class="back__arrow" />
+                    <a href="index.html" class="btn-back">
+                        <img src="assets/login/arrow-left-line.png" alt="Go back" />
                     </a>
                     <span class="container__headline fs-xlarge-medium">Sign up</span>
                 </div>
@@ -45,14 +46,14 @@
                         <label for="privacy">I accept the <a href="privacy-policy.html">Privacy policy</a></label>
                     </div>
                     <div class="button__row">
-                        <button type="button" onclick="registerUser()" class="login__btn fs-small-regular">Sign up</button>
+                        <button type="button" onclick="registerUser()" class="btn-primary fs-small-regular">Sign up</button>
                     </div>
                 </form>
             </div>
         </main>
         <footer>
-            <a class="footer__Link" href="privacy-policy.html">Privacy Policy</a>
-            <a class="footer__Link" href="legal-notice.html">Legal Notice</a>
+            <a class="footer__Link link-hover" href="privacy-policy.html">Privacy Policy</a>
+            <a class="footer__Link link-hover" href="legal-notice.html">Legal Notice</a>
         </footer>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>

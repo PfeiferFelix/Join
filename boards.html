@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg" />
         <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="styles/components.css" />
         <link rel="stylesheet" href="styles/boards.css" />
         <link rel="stylesheet" href="styles/boards-components.css" />
         <link rel="stylesheet" href="styles/boards-media.css" />
@@ -45,7 +46,7 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
-                            <button onclick="addTask()" type="button" class="addTaskBtn">
+                            <button onclick="addTask()" type="button" class="addTaskBtn btn-primary">
                                 Add Task
                                 <p class="addTaskwith__plus">&#43;</p>
                             </button>
@@ -66,7 +67,7 @@
                         <div class="board__list" id="board__list--todo" ondrop="drop(event)" ondragover="allowDrop(event)">
                             <div class="board__list-header">
                                 <h2 class="board__headline">To Do</h2>
-                                <button onclick="addTaskByCategory('toDo')" type="button" class="addTaskBtnBoard">&#43;</button>
+                                <button onclick="addTaskByCategory('toDo')" type="button" class="btn-secondary addTaskBtnBoard">&#43;</button>
                             </div>
                             <div class="board__cards" id="board__cards--todo"></div>
                             <div class="board__nonecard" id="noneCardTodo">No tasks To Do</div>
@@ -79,7 +80,7 @@
                         <div class="board__list" id="board__list--inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
                             <div class="board__list-header">
                                 <h2 class="board__headline">In Progress</h2>
-                                <button onclick="addTaskByCategory('inProgress')" type="button" class="addTaskBtnBoard">&#43;</button>
+                                <button onclick="addTaskByCategory('inProgress')" type="button" class="btn-secondary addTaskBtnBoard">&#43;</button>
                             </div>
                             <div class="board__cards" id="board__cards--inprogress"></div>
                             <div class="board__nonecard" id="noneCardInProgress">No tasks In Progress</div>
@@ -88,7 +89,7 @@
                         <div class="board__list" id="board__list--feedback" ondrop="drop(event)" ondragover="allowDrop(event)">
                             <div class="board__list-header">
                                 <h2 class="board__headline">Await Feedback</h2>
-                                <button onclick="addTaskByCategory('feedback')" type="button" class="addTaskBtnBoard">&#43;</button>
+                                <button onclick="addTaskByCategory('feedback')" type="button" class="btn-secondary addTaskBtnBoard">&#43;</button>
                             </div>
                             <div class="board__cards" id="board__cards--feedback"></div>
                             <div class="board__nonecard" id="noneCardFeedback">No tasks Awaiting Feedback</div>

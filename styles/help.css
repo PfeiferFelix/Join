@@ -44,15 +44,3 @@
 .help__how-to-use {
     padding-left: 0;
 }
-
-.help__back-button {
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.help__back-button:hover {
-    transform: scale(1.2);
-    background-color: var(--color-neutral-200);
-}

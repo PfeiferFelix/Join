@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="styles/fonts.css" />
         <link rel="stylesheet" href="styles/login-registration.css" />
         <link rel="stylesheet" href="styles/variable.css" />
+        <link rel="stylesheet" href="styles/components.css" />
     </head>
 
     <body>
@@ -15,7 +16,7 @@
             <img src="./assets/logos/logo_dark.jpg" alt="Join" class="logo" />
             <div class="header__right">
                 <span class="noUser">Not a Join user yet?</span>
-                <a href="registration.html" class="buttonRegistration fs-small-regular">Sign up</a>
+                <a href="registration.html" class="btn-primary fs-small-regular">Sign up</a>
             </div>
         </header>
         <main>
@@ -32,19 +33,19 @@
                         <img src="assets/login/lock.png" alt="Password" class="input__icon" />
                     </div>
                     <div class="button__row">
-                        <button onclick="loginUser()" type="button" class="login__btn fs-small-regular">Log in</button>
-                        <button onclick="guestLogin()" type="button" class="guestLogin__btn fs-small-regular">Gast Log in</button>
+                        <button onclick="loginUser()" type="button" class="btn-primary fs-small-regular">Log in</button>
+                        <button onclick="guestLogin()" type="button" class="btn-secondary fs-small-regular">Gast Log in</button>
                     </div>
                 </form>
             </div>
             <div class="mobile-signup">
                 <span class="noUser">Not a Join user yet?</span>
-                <a href="registration.html" class="buttonRegistration fs-small-regular">Sign up</a>
+                <a href="registration.html" class="btn-primary fs-small-regular">Sign up</a>
             </div>
         </main>
         <footer>
-            <a class="footer__Link" href="privacy-policy.html">Privacy Policy</a>
-            <a class="footer__Link" href="legal-notice.html">Legal Notice</a>
+            <a class="footer__Link link-hover" href="privacy-policy.html">Privacy Policy</a>
+            <a class="footer__Link link-hover" href="legal-notice.html">Legal Notice</a>
         </footer>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>

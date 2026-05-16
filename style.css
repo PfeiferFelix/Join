@@ -123,12 +123,6 @@ a {
     padding: 10px 60px;
 }
 
-.sidebar__legal-information-link:hover {
-    transform: scale(1.05);
-    transform-origin: left;
-    color: var(--color-brand-accent);
-}
-
 .sidebar__login-link {
     display: flex;
     align-items: center;

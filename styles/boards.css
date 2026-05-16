@@ -1,4 +1,4 @@
-/* Effekt für Touch-Dragging auf allen Geräten */
+/* Effekt fï¿½r Touch-Dragging auf allen Gerï¿½ten */
 .task--touch-dragging {
     box-shadow:
         0 8px 32px rgba(42, 54, 71, 0.32),
@@ -369,24 +369,15 @@
 .addTaskBtn {
     display: flex;
     align-items: center;
-    background-color: var(--color-brand-primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
     font-size: 18px;
-    padding-left: 18px;
-    padding-right: 18px;
     height: 38px;
     margin-left: 20px;
     font-weight: 600;
 }
 
 .addTaskBtnBoard {
-    color: var(--color-brand-primary);
+    box-shadow: none !important;
     border: 3px solid var(--color-brand-primary);
-    border-radius: 8px;
-    cursor: pointer;
     height: 32px;
     width: 32px;
     font-size: 18px;
