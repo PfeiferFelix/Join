@@ -128,15 +128,11 @@ function changeGreeting() {
     let hour = currentDate.getHours();
 
     if (hour >= 5 && hour < 11) {
-        greetingString = "Guten Morgen";
-    } else if (hour >= 11 && hour < 14) {
-        greetingString = "Guten Mittag";
-    } else if (hour >= 14 && hour < 18) {
-        greetingString = "Guten Nachmittag";
-    } else if (hour >= 18 && hour < 22) {
-        greetingString = "Guten Abend";
+        greetingString = "Good morning";
+    } else if (hour >= 11 && hour < 17) {
+        greetingString = "Good afternoon";
     } else {
-        greetingString = "Erholsame Nacht";
+        greetingString = "Good evening";
     }
 
     document.getElementById("js-greeting-morning").textContent = greetingString;
