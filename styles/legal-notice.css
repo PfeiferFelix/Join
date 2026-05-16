@@ -1,6 +1,7 @@
 .legal-notice {
     flex: 1;
     overflow-y: auto;
+    padding: 50px;
 }
 
 .legal-notice__title {
@@ -40,7 +41,9 @@
     .legal-notice {
         flex: 1;
         overflow-y: auto;
-        padding: 32px 32px 130px;
+        padding: 0 32px 130px;
+        margin-left: 0;
+        margin-top: 120px;
     }
 
     .legal-notice__title {
