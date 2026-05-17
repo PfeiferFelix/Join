@@ -1,4 +1,13 @@
-﻿// Accepts a subtask edit (saves the value and exits edit mode).
+﻿// Fügt einen Subtask hinzu und blendet danach die Aktionsbuttons aus
+function addNewSubtaskAndHideBtns(btn, taskId) {
+    addNewSubtask(taskId);
+    const input = btn.closest('.subtask-input').querySelector('input[type="text"]');
+    if (input) {
+        input.value = '';
+        btn.closest('.subtask-input').querySelector('.subtask-item__actions').classList.remove('subtask-item__actions--active');
+    }
+}
+// Accepts a subtask edit (saves the value and exits edit mode).
 function getEditDialogSubtaskInput(index) {
     const dialog = document.getElementById('editTaskDialog');
     if (!dialog) return { dialog: null, input: null };
@@ -45,7 +54,7 @@ function editSubtaskItem(taskId, index) {
     const currentTitle = titleSpan?.textContent.trim() || '';
     titleSpan.outerHTML = getSubtaskEditInputTemplate(currentTitle, taskId, index);
     const editBtn = item.querySelector('.edit-subtask-btn');
-    editBtn.innerHTML = '&#10003;';
+    editBtn.innerHTML = '<img src="assets/add-task/check grey.svg" alt="Save">';
     editBtn.setAttribute('onclick', `saveSubtaskItem(null, ${taskId}, ${index})`);
     item.querySelector('.subtask-item__input')?.focus();
 }

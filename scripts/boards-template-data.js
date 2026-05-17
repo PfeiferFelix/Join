@@ -12,8 +12,20 @@ function getAvatarFillColor(index) {
 function getPriorityView(priority) {
     const iconClass = getPriorityIconClass(priority || '');
     const priorityLabel = priority || '';
-    const text = priorityLabel === '⟪' ? 'Urgent' : priorityLabel === '‖' ? 'Medium' : priorityLabel === '⟫' ? 'Low' : (priorityLabel || 'Medium');
-    const icon = iconClass === 'up' ? '⟪' : iconClass === 'down' ? '⟫' : '‖';
+    let text, icon;
+    if (iconClass === 'up') {
+        text = 'Urgent';
+        icon = 'assets/add-task/Prio alta.svg';
+    } else if (iconClass === 'medium') {
+        text = 'Medium';
+        icon = 'assets/add-task/Prio media.svg';
+    } else if (iconClass === 'down') {
+        text = 'Low';
+        icon = 'assets/add-task/Prio baja.svg';
+    } else {
+        text = 'Medium';
+        icon = 'assets/add-task/Prio media.svg';
+    }
     return { text, iconClass, icon };
 }
 

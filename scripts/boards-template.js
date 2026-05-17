@@ -15,7 +15,8 @@ function getShowTaskTemplate(taskView) {
             </div>
             <div class="task-meta-row">
                 <span class="task-meta-label">Priority:</span>
-                <span class="task-meta-value priority-label priority-label--${taskView.iconClass}">${taskView.priorityLabel} <span class="priority-buttons__icon priority-buttons__icon--${taskView.iconClass}">${taskView.priorityIcon}</span></span>
+                <span>${taskView.priorityLabel}</span>
+                <img class="task-meta-value priority-label priority-label--${taskView.iconClass}" src="${taskView.priorityIcon}" alt="${taskView.priorityLabel}">
             </div>
             <div class="UserList">
                 <span class="task-meta-label-users">Assigned To:</span>
@@ -34,8 +35,8 @@ function getShowTaskTemplate(taskView) {
         </div>
     </section>
     <footer class="editTaskDialog__footer-show">
-        <button class="editTaskDialog__delete-btn" type="button" onclick="deleteTask(${taskView.id})">Delete &#128465;</button>
-        <button class="editTaskDialog__edit-btn" type="button" onclick="editTask(${taskView.id})">Edit &#9998;</button>
+        <button class="editTaskDialog__delete-btn" type="button" onclick="deleteTask(${taskView.id})"><p class="delete-task">Delete</p><img src="assets/boards/delete.png" alt="Delete"></button>
+        <button class="editTaskDialog__edit-btn" type="button" onclick="editTask(${taskView.id})"><p class="edit-task">Edit</p><img src="assets/boards/edit.png" alt="Edit"></button>
     </footer>
     `;
 }
@@ -44,9 +45,9 @@ function getShowTaskTemplate(taskView) {
 function getEditTaskFormTemplate(taskView) {
     return `
     <header class="editTaskDialog__header">
-        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
+        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog"><img src="assets/add-task/Vector.png" alt="Close"></button>
     </header>
-    <label class="editTaskDialog__label" for="edit-title">Title</label>
+    <label class="task-form__label" for="edit-title">Title</label>
     <input class="editTaskDialog__input" type="text" id="edit-title" value="${taskView.title}" required>
     <form class="edit-task-form" id="edit-task-form">
         <section class="editTaskDialog__content editTaskDialog__content--form">
@@ -57,13 +58,13 @@ function getEditTaskFormTemplate(taskView) {
             <span class="task-form__label">Priority</span>
             <div class="priority-buttons">
                 <button id="edit-priority-urgent" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Urgent' ? 'priority-buttons__btn--urgent' : ''}" onclick="setEditPriority('Urgent')">
-                    <p class="prioText">Urgent</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--up">⟪</span>
+                    <p class="prioText">Urgent</p> <img src="assets/add-task/Prio alta.svg" alt="Urgent" class="extrasize priority-buttons__icon priority-buttons__icon--up" />
                 </button>
                 <button id="edit-priority-medium" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Medium' ? 'priority-buttons__btn--medium' : ''}" onclick="setEditPriority('Medium')">
-                    <p class="prioText">Medium</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--medium">‖</span>
+                    <p class="prioText">Medium</p> <img src="assets/add-task/Prio media.svg" alt="Medium" class="extrasize priority-buttons__icon priority-buttons__icon--medium" />
                 </button>
                 <button id="edit-priority-low" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Low' ? 'priority-buttons__btn--low' : ''}" onclick="setEditPriority('Low')">
-                    <p class="prioText">Low</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--down">⟪</span>
+                    <p class="prioText">Low</p> <img src="assets/add-task/Prio baja.svg" alt="Low" class="extrasize priority-buttons__icon priority-buttons__icon--down" />
                 </button>
             </div>
             <label class="task-form__label" for="edit-assigned-to-multiselect">Assigned to</label>
@@ -86,9 +87,9 @@ function getEditTaskFormTemplate(taskView) {
                     <input class="task-form__input-edit" type="text" id="new-subtask-input" placeholder="Add new subtask" onkeydown="handleNewSubtaskInputKey(event, ${taskView.id})" oninput="this.closest('.subtask-input').querySelector('.subtask-item__actions').classList.toggle('subtask-item__actions--active', this.value.trim().length > 0)">
                     <input type="hidden" id="edit-subtasks-data" value='${JSON.stringify(taskView.subtasks || [])}'>
                     <div class="subtask-item__actions">
-                        <button type="button" class="edit-subtask-btn" onclick="addNewSubtask(${taskView.id})" aria-label="Add subtask">&#10003;</button>
+                        <button type="button" class="clear-subtasks-btn" onclick="clearSubtasks(${taskView.id})" aria-label="Clear subtasks"><img src="assets/add-task/Vector.png" alt="Clear"></button>
                         <span class="subtask-input__separator" aria-hidden="true"></span>
-                        <button type="button" class="clear-subtasks-btn" onclick="clearSubtasks(${taskView.id})" aria-label="Clear subtasks">&#10008;</button>
+                        <button type="button" class="edit-subtask-btn" onclick="addNewSubtaskAndHideBtns(this, ${taskView.id})" aria-label="Add subtask"><img src="assets/add-task/check grey.svg" alt="Add"></button>
                     </div>
                 </div>
                 <ul class="subtask-list-task subtask-list">
@@ -97,7 +98,7 @@ function getEditTaskFormTemplate(taskView) {
             </div>
         </section>
         <footer class="editTaskDialog__footer-edit">
-            <button class="editTaskDialog__save-btn" type="submit" form="edit-task-form">OK &#10003;</button>
+            <button class="editTaskDialog__save-btn" type="submit" form="edit-task-form">OK<img src="assets/add-task/check grey.svg" alt="OK"></button>
         </footer>
     </form>`;
 }
@@ -107,7 +108,7 @@ function getaddTaskTemplateDialog() {
     return `
         <header class="addTaskDialog__header">
             <h2 class="addTaskDialog__title">Add Task</h2>
-            <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
+            <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog"><img src="assets/add-task/Vector.png" alt="Close"></button>
         </header>
 
         <div class="task-form__scroll-area">
@@ -132,13 +133,13 @@ function getaddTaskTemplateDialog() {
                         <span class="task-form__label">Priority</span>
                         <div class="priority-buttons">
                             <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent" data-priority="urgent">
-                                <div class="priority-buttons__row">Urgent <img src="assets/add-task/Prio alta.svg" alt="urgent" class="priority-buttons__icon" /></div>
+                                <div class="priority-buttons__row"><span class="prio__string">Urgent</span> <img src="assets/add-task/Prio alta.svg" alt="urgent" class="priority-buttons__icon" /></div>
                             </button>
                             <button type="button" class="priority-buttons__btn priority-buttons__btn--medium" data-priority="medium">
-                                <div class="priority-buttons__row">Medium <img src="assets/add-task/Prio media.svg" alt="medium" class="priority-buttons__icon" /></div>
+                                <div class="priority-buttons__row"><span class="prio__string">Medium</span> <img src="assets/add-task/Prio media.svg" alt="medium" class="priority-buttons__icon" /></div>
                             </button>
                             <button type="button" class="priority-buttons__btn priority-buttons__btn--low" data-priority="low">
-                                <div class="priority-buttons__row">Low <img src="assets/add-task/Prio baja.svg" alt="low" class="priority-buttons__icon" /></div>
+                                <div class="priority-buttons__row"><span class="prio__string">Low</span> <img src="assets/add-task/Prio baja.svg" alt="low" class="priority-buttons__icon" /></div>
                             </button>
                         </div>
 
@@ -173,18 +174,17 @@ function getaddTaskTemplateDialog() {
                             <button type="button" class="subtask-input__btn subtask-input__btn--confirm" id="subtask-confirm"><img src="assets/add-task/check grey.svg" alt="confirm" /></button>
                         </div>
                         <ul class="subtask-list" id="subtask-list"></ul>
-                        <p class="task-form__required-hint task-form__required-hint--mobile">
-                            <span class="task-form__required">*</span>This field is required
-                        </p>
+                        <p class="task-form__required-hint task-form__required-hint--mobile">This field is required</p>
                     </div>
                 </div>
             </form>
         </div>
 
         <div class="task-form__footer">
-            <p class="task-form__required-hint task-form__required-hint--desktop">
-                <span class="task-form__required">*</span>This field is required
-            </p>
+        <div class="task-form__required-note">
+            <span class="task-form__required">*</span>
+            <p class="task-form__required-hint task-form__required-hint--desktop">This field is required</p>
+        </div>
             <div class="task-form__actions">
                 <button class="task-form__btn task-form__btn--clear" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt="cancel"></button>
                 <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt="create"></button>
@@ -224,7 +224,7 @@ function generateTodoHTML(todoView) {
             <div class="task__assigned-users" id="users">
                 ${todoView.assignedUsersHTML}
             </div>
-            <p class="task__priority-icon priority-buttons__icon priority-buttons__icon--${todoView.iconClass}" id="priorityLevel" title="${todoView.priorityLabel}" aria-label="Priority ${todoView.priorityLabel}">${todoView.priorityIcon}</p>
+            <img class="task__priority-icon priority-buttons__icon priority-buttons__icon--${todoView.iconClass}" id="priorityLevel" title="${todoView.priorityLabel}" aria-label="Priority ${todoView.priorityLabel}" src="${todoView.priorityIcon}" />
         </div>
     </div>`;
 };
@@ -249,9 +249,9 @@ function getEditableSubtaskItemTemplate(subtaskTitle, taskId, index) {
     return `<li class="subtask-item" data-subtask-index="${index}">
         <span class="subtask-item__title">${escapeHtmlText(subtaskTitle)}</span>
         <div class="subtask-item__actions">
-            <button type="button" class="edit-subtask-btn" onclick="editSubtaskItem(${taskId}, ${index})" title="Bearbeiten">&#9998;</button>
+            <button type="button" class="edit-subtask-btn" onclick="editSubtaskItem(${taskId}, ${index})" title="accept"><img src="assets/Boards/edit.png" alt="Bearbeiten"></button>
             <span class="subtask-item__separator"></span>
-            <button type="button" class="clear-subtasks-btn" onclick="deleteSubtaskItem(${taskId}, ${index})" title="Löschen">&#128465;</button>
+            <button type="button" class="clear-subtasks-btn" onclick="deleteSubtaskItem(${taskId}, ${index})" title="delete"><img src="assets/Boards/delete.png" alt="Löschen"></button>
         </div>
     </li>`;
 }

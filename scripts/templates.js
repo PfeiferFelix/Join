@@ -280,7 +280,7 @@ function getSubtaskEditActionsTemplate() {
 
 function getSubtaskNormalActionsTemplate() {
     return `
-        <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/icons/edit.png" alt="edit" /></button>
-        <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/icons/delete.png" alt="delete" /></button>
+        <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/Boards/edit.png" alt="edit" /></button>
+        <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/Boards/delete.png" alt="delete" /></button>
     `;
 }

@@ -11,6 +11,7 @@ let activeTouchDrag = null;
 let suppressNextTaskClick = false;
 let taskMoveMenuCloseListenerBound = false;
 let boardViewportListenerBound = false;
+let addTaskDialogOutsideCloseBound = false;
 
 const BOARD_TOUCH_DND_MIN_WIDTH = 640;
 
@@ -61,6 +62,27 @@ function initializeBoardInteractions() {
     initializeTouchBoardDnD();
     initializeBoardViewportBehavior();
     initializeTaskMoveMenuCloseBehavior();
+    initializeAddTaskDialogOutsideClose();
+}
+
+// Returns true when a click happened outside the visible dialog box.
+function isOutsideDialogBounds(event, dialog) {
+    const rect = dialog.getBoundingClientRect();
+    return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+}
+
+// Binds click-on-backdrop behavior to close the add-task dialog.
+function initializeAddTaskDialogOutsideClose() {
+    if (addTaskDialogOutsideCloseBound) return;
+    const dialog = document.getElementById('addTaskDialog');
+    if (!dialog) return;
+    dialog.addEventListener('click', (event) => {
+        if (!dialog.open) return;
+        if (event.target !== dialog) return;
+        if (!isOutsideDialogBounds(event, dialog)) return;
+        closeDialog();
+    });
+    addTaskDialogOutsideCloseBound = true;
 }
 
 // Re-renders all board columns and reinitializes board interactions.

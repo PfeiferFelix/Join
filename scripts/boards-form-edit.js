@@ -83,6 +83,12 @@ function applyEditTaskValues(task, dialog) {
 async function handleEditTaskSave(event) {
     event.preventDefault();
     const dialog = document.getElementById("editTaskDialog");
+    const saveBtn = dialog.querySelector('.editTaskDialog__save-btn');
+    if (saveBtn) {
+        const original = saveBtn.innerHTML;
+        saveBtn.innerHTML = 'OK <img src="assets/add-task/check grey.svg" alt="Save">';
+        setTimeout(() => { saveBtn.innerHTML = 'OK'; }, 900);
+    }
     const task = todos.find((t) => t.id == Number(dialog.dataset.taskId));
     if (!task) return;
     applyEditTaskValues(task, dialog);

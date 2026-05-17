@@ -68,12 +68,13 @@ function initCreateTaskButtonState(dialog) {
 function attachAddTaskFormHandlers(dialog) {
     const form = dialog.querySelector(".task-form");
     if (form) form.addEventListener("submit", handleCreateTask);
-    const cancelBtn = dialog.querySelector("#cancel-btn");
-    if (cancelBtn && form) cancelBtn.addEventListener("click", () => form.reset());
-    if (form) form.addEventListener('reset', () => {
-        clearAddDialogSubtasks(dialog);
-        updateCreateTaskButtonState(dialog);
-    });
+    const cancelBtn = dialog.querySelector("#cancel-btn") || dialog.querySelector(".task-form__btn--clear");
+    if (cancelBtn) {
+        cancelBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            closeDialog();
+        });
+    }
 }
 
 // Extracts the category dropdown open/close logic.

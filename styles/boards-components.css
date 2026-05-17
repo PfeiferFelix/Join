@@ -1,3 +1,29 @@
+﻿.editTaskDialog__delete-btn img,
+.editTaskDialog__edit-btn img {
+    transition: filter 0.2s, transform 0.2s;
+}
+
+.editTaskDialog__delete-btn:hover,
+.editTaskDialog__edit-btn:hover {
+    color: #29abe2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editTaskDialog__delete-btn:hover {
+    transform: translateX(1px);
+}
+
+.editTaskDialog__edit-btn:hover {
+    transform: translateY(1px);
+}
+
+.editTaskDialog__delete-btn:hover img,
+.editTaskDialog__edit-btn:hover img {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(99%) saturate(747%) hue-rotate(165deg) brightness(95%) contrast(92%);
+    transform: scale(1.1);
+}
+
 .subtask-item__actions button {
     background: transparent;
     border: none;
@@ -9,6 +35,13 @@
         color 0.15s;
     cursor: pointer;
     font-size: 20px;
+}
+
+.edit-task,
+.delete-task {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 !important;
 }
 
 .subtask-item__actions button:hover {
@@ -57,6 +90,10 @@
     display: flex;
     flex-direction: column;
     gap: 18px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .task-form__textarea {
@@ -75,13 +112,16 @@
     gap: 8px;
     margin: 8px 0 8px 0;
 }
+
 .extrasize {
     font-size: 16px !important;
 }
+
 .prioText {
     font-size: 16px !important;
     padding: 0 8px;
 }
+
 .priority-btn-color-none {
     border: 0.5px solid #d6d6d6;
     background-color: transparent;
@@ -145,10 +185,6 @@
     flex: 0 0 32px;
 }
 
-.subtask-container {
-    margin-top: 8px;
-}
-
 .subtask-item-edit {
     display: flex;
     align-items: center;
@@ -167,6 +203,8 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-top: auto;
+    padding-top: 12px;
 }
 
 .editTaskDialog__save-btn {
@@ -178,7 +216,6 @@
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
-    padding: 10px 32px;
     border: none;
     cursor: pointer;
     transition: background 0.15s;
@@ -208,7 +245,7 @@
 
 .task-meta-row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     font-size: 1rem;
     margin-bottom: 2px;
@@ -362,10 +399,7 @@
 }
 
 .priority-label {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 16px;
+    width: 16px;
 }
 
 .priority-low {
@@ -456,6 +490,11 @@
     padding-left: 8px;
 }
 
+.edit-subtask-btn img,
+.clear-subtasks-btn img {
+    transition: filter 0.2s, transform 0.2s;
+}
+
 .edit-subtask-btn,
 .clear-subtasks-btn {
     display: none;
@@ -477,6 +516,7 @@
 .clear-subtasks-btn:hover {
     background-color: transparent;
     color: var(--color-brand-accent);
+    transform: translateX(1px);
 }
 
 .subtask-container {
@@ -539,6 +579,18 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+.subtask-input .edit-subtask-btn:hover,
+.subtask-input .clear-subtasks-btn:hover {
+    background-color: transparent;
+    color: #29abe2;
+}
+
+.editTaskDialog .subtask-input .edit-subtask-btn:hover,
+.editTaskDialog .subtask-input .clear-subtasks-btn:hover {
+    background-color: #f0f0f0;
+    color: #2a3647;
 }
 
 .subtask-input .subtask-item__actions {
@@ -605,6 +657,11 @@
     border-radius: 8px;
 }
 
+.subtask-item:hover {
+    background-color: #e3e3e3;
+    transition: background-color 0.15s;
+}
+
 .subtask-item::before {
     content: "\2022";
     position: absolute;
@@ -616,7 +673,7 @@
 }
 
 .subtask-item:has(.subtask-item__input) {
-    padding: 4px 8px;
+
     border-bottom: 1px solid var(--color-brand-accent);
     border-radius: 0%;
     background-color: transparent;
@@ -664,7 +721,7 @@
     padding-left: 6px;
 }
 
-.subtask-item__input:hover,
+/* .subtask-item__input:hover,
 .subtask-item__input:focus,
 .subtask-item__input:active {
     background-color: transparent;
@@ -678,10 +735,12 @@
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    padding-left: 10px;
 }
 
 .subtask-item-show {
     list-style-type: none;
+    padding: 4px 0;
     padding: 4px 0;
 }
 
@@ -690,6 +749,13 @@
     height: 16px;
     cursor: pointer;
     accent-color: var(--color-brand-primary);
+}
+
+.task-form__label {
+    font-size: 16px;
+    color: #2a3647;
+    font-weight: 500;
+    margin-bottom: 4px;
 }
 
 .subtask-item-show__label {
@@ -721,6 +787,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
+    transition: padding-left 0.15s, background-color 0.15s;
 }
 
 .subtask-list::-webkit-scrollbar {
@@ -739,12 +806,12 @@
 .subtask-list-task {
     display: flex;
     flex-direction: column;
-    max-height: 72px;
+    padding-left: unset;
+    min-height: 64px;
+    max-height: 64px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-left: unset;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding-right: 6px;
 }
 
 .subtask-list-task::-webkit-scrollbar {
@@ -758,10 +825,6 @@
 
 .subtask-list-task::-webkit-scrollbar-track {
     background: transparent;
-}
-
-.subtask-item:hover {
-    cursor: pointer;
 }
 
 .subtask-preview {
@@ -915,8 +978,7 @@
 
 .multiselect__checkboxes label input[type="checkbox"] {
     flex: 0 0 auto;
-    width: 18px;
-    height: 18px;
+    padding: 4px;
     margin: 0;
     border: 2px solid var(--color-brand-primary);
     border-radius: 4px;
@@ -969,7 +1031,7 @@
     max-width: 100%;
     opacity: 1;
     pointer-events: auto;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .multiselect__checkboxes:not(.is-open) {
@@ -1026,8 +1088,8 @@
 .priority-btn-color-none {
     border: 0.5px solid #d6d6d6;
     background-color: transparent;
-    border-radius: 10px;
-    height: 48px;
+    border-radius: 8px;
+    height: 40px;
     width: 100px;
     display: flex;
     align-items: center;
@@ -1046,7 +1108,7 @@
     color: white;
     border: none;
     width: 100px;
-    height: 48px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1057,7 +1119,7 @@
     color: white;
     border: none;
     width: 100px;
-    height: 48px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1068,7 +1130,7 @@
     color: white;
     border: none;
     width: 100px;
-    height: 48px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1163,6 +1225,7 @@
 .task-form__col {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 10px;
     padding-top: 20px;
 }
@@ -1174,9 +1237,7 @@
 }
 
 .task-form__input {
-    width: 100%;
     border-radius: 10px;
-    border: none;
     font-size: 16px;
     outline: none;
 }
@@ -1197,21 +1258,41 @@
     padding: 8px;
 }
 
+.task-form__input-title,
+.task-form__input-date,
 .task-form__input-edit {
     width: 100%;
-    border: none;
+    border-radius: 10px;
+    padding: 5px;
     font-size: 16px;
     outline: none;
     padding-left: 6px;
 }
 
-.task-form__input-title,
-.task-form__input-date {
+.editTaskDialog .task-form__input-edit {
     width: 100%;
-    border-radius: 10px;
-    padding: 8px;
-    font-size: 16px;
-    outline: none;
+    box-sizing: border-box;
+    border: none;
+}
+
+.editTaskDialog .subtask-input {
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    transition: border-color 0.15s;
+    height: 32px;
+    padding-left: 8px;
+}
+
+.editTaskDialog .subtask-input:hover,
+.editTaskDialog .subtask-input:active,
+.editTaskDialog .subtask-input:focus-within {
+    border-color: #29abe2;
+}
+
+.editTaskDialog .subtask-input:active .subtask-item__input,
+.editTaskDialog .subtask-input:focus-within .subtask-item__input {
+    border: 1px solid #29abe2;
+    border-radius: 8px;
 }
 
 .task-form__input-title,
@@ -1325,6 +1406,7 @@
 
 .addTaskDialog[open] {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     overflow: hidden;
 }
@@ -1338,10 +1420,10 @@
 
 .addTaskDialog .task-form__body {
     flex: 1;
-    min-height: 496px;
     overflow-y: hidden;
     overflow-x: hidden;
-    padding-right: 8px;
+    display: flex;
+    align-items: center;
 }
 
 .addTaskDialog .task-form__footer {
@@ -1350,8 +1432,30 @@
     z-index: 2;
     background: var(--color-neutral-0);
     margin-top: 12px;
-    padding-top: 10px;
+    padding-top: 12px;
 }
+
+.task-form__required-note {
+    font-size: 16px;
+    color: #2a3647;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.addTaskDialog .task-form__btn--submit:hover {
+    background-color: #29abe2;
+    transition: all 0.2s ease;
+    transform: scale(1.01);
+}
+
+.addTaskDialog .task-form__btn--submit img {
+    filter: brightness(0) invert(1);
+}
+
+/* .editTaskDialog img[src*="check grey.svg"] {
+    filter: brightness(0) invert(1);
+} */
 
 .add-task-success {
     position: absolute;
@@ -1429,7 +1533,6 @@
     border: none;
     border-radius: 14px;
     width: min(400px, 92vw);
-    max-height: 84vh;
     margin: auto;
     padding: 12px 12px;
     box-sizing: border-box;
@@ -1439,6 +1542,11 @@
 }
 
 .editTaskDialog:has(.editTaskDialog__content--show) {
+    height: min(800px, 90vh);
+    max-height: 90vh;
+}
+
+.editTaskDialog:has(.editTaskDialog__content--form) {
     height: min(800px, 90vh);
     max-height: 90vh;
 }
@@ -1475,13 +1583,21 @@
 .editTaskDialog[open] {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     animation: dialogSlideInRight 0.3s ease-out;
+    width: min(400px, 92vw);
+    max-height: 90vh;
+    overflow: hidden;
+    overflow-x: hidden;
+    padding: 16px 24px;
 }
 
 .editTaskDialog__content {
     display: grid;
     grid-template-columns: 1fr;
     gap: 4px;
+    min-width: 0;
+    overflow-x: hidden;
 }
 
 .editTaskDialog__content--show {
@@ -1605,6 +1721,8 @@
 .edit-task-form {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-height: 0;
 }
 
 @keyframes dialogSlideIn {

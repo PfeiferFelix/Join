@@ -51,7 +51,7 @@
     }
 
     .board__nonecard {
-        font-size: 13px;
+        margin-top: 12px;
         width: auto;
         padding: 4px;
     }
@@ -70,11 +70,11 @@
     }
 
     .task {
-        padding: 12px !important;
+        padding: 12px 12px 52px !important;
     }
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 1110px) {
     .board__cards {
         padding: 0 !important;
         scrollbar-width: none;
@@ -82,7 +82,9 @@
         width: 96%;
         /* Firefox */
     }
-
+    .main-content {
+        padding: 0 !important;
+    }
     .board__cards::-webkit-scrollbar {
         display: none;
         /* Chrome, Safari, Opera */
@@ -90,6 +92,10 @@
 }
 
 @media (max-width: 1024px) {
+    .addTaskDialog .task-form__col {
+        padding: 0 !important;
+    }
+    
     .task {
         margin-right: 14px;
     }
@@ -112,6 +118,8 @@
         max-height: none;
         overflow-x: visible;
         overflow-y: visible;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
     }
 
     :root {
@@ -169,7 +177,7 @@
         background-color: transparent;
         color: var(--color-neutral-0);
         padding: 5px 5px;
-        font-size: 12px;
+        font-size: 16px;
         font-weight: 600;
         cursor: pointer;
         text-align: center;
@@ -279,6 +287,7 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
+        padding-left: 8px!important;
     }
 
     .task-form__textarea {
@@ -287,6 +296,7 @@
         width: 100% !important;
         border: 1px solid var(--color-neutral-450);
         border-radius: 8px;
+        padding: 8px;
     }
 
     .task-form__actions {
@@ -354,6 +364,7 @@
         width: 90%;
         margin: 0 auto;
     }
+
     .task__moveto-btn {
         border: 1px solid var(--color-brand-primary);
         border-radius: 8px;
@@ -403,7 +414,7 @@
     }
 
     .task__description {
-        font-size: 11px;
+        font-size: 16px;
     }
 
     .task-move-panel--open {
@@ -447,12 +458,6 @@
         word-break: break-word;
         padding-right: 4px;
     }
-
-    .main-content {
-        /* margin-bottom: 130px; */
-        margin-left: 0;
-        margin-top: 85px;
-    }
 }
 
 @media (max-width: 580px) {
@@ -486,6 +491,15 @@
 }
 
 @media (max-width: 425px) {
+        .main-content {
+        margin-bottom: 54px !important;
+        margin-top: 36px !important;
+        padding: 5px !important;
+        margin-top: 96px !important;
+    }
+    .board__cards {
+        padding-left: 10px !important;
+    }
     .headline__AddTask {
         display: flex;
         justify-content: space-between;
@@ -494,7 +508,17 @@
         width: 90%;
         margin: 0 auto;
     }
+
     .editTaskDialog {
         padding: 6px 6px;
+    }
+    .main-content {
+        margin-bottom: 54px !important;
+        margin-top: 36px !important;
+        padding: 5px !important;
+        margin-top: 96px !important;
+    }
+    .board__cards {
+        padding-left: 10px !important;
     }
 }
