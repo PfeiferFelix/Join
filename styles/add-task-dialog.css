@@ -3,21 +3,24 @@
 }
 
 .addTaskDialog .task-form__footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background: #fff;
+    margin-top: 12px;
     padding-top: 16px;
     padding-bottom: 16px;
 }
 
 .addTaskDialog .subtask-list {
-    max-height: 80px;
+    min-height: 64px;
+    max-height: 64px;
+    overflow-y: auto;
 }
 
 .addTaskDialog .dropdown__selected-avatars {
     max-height: 50px;
     overflow-y: auto;
-}
-
-.addTaskDialog .task-form__footer {
-    margin-top: auto;
 }
 
 .addTaskDialog .task-form__textarea {
@@ -26,23 +29,25 @@
 }
 
 .addTaskDialog .priority-buttons__btn {
-    padding: 8px 6px;
-    font-size: 12px;
     border: 1px solid #d1d1d1;
 }
 
-.addTaskDialog .priority-buttons__icon {
-    width: 12px;
-    height: 12px;
+.addTaskDialog .priority-buttons__btn:not(.priority-buttons__btn--active):hover {
+    transition: all 0.2s ease;
+    transform: scale(1.05);
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+    border-top: none;
 }
 
 .addTaskDialog .task-form__label {
-    font-size: 14px;
+    font-size: 16px;
 }
-
+.addTaskDialog .priority-buttons {
+    margin: 4px;
+}
 .addTaskDialog .dropdown__trigger {
     padding: 4px 8px;
-    font-size: 14px;
+    font-size: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -51,11 +56,11 @@
 }
 
 .addTaskDialog .dropdown__search {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .addTaskDialog .dropdown__selected-text {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .addTaskDialog label,
@@ -65,8 +70,23 @@
 
 .addTaskDialog .task-form__btn {
     font-weight: 400;
+    padding: 0;
+    height: 48px;
+    width: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .addTaskDialog .task-form__col {
     gap: 4px;
+}
+.prio__string {
+    font-size: 16px;
+}
+.addTaskDialog .task-form__col--left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
 }

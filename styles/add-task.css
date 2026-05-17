@@ -3,20 +3,20 @@
     scroll-behavior: smooth;
 }
 
-main {
+body.add-task-page main {
     padding: 40px 64px;
     flex: 1;
     background-color: var(--content-background-color);
     margin-top: 4px;
 }
 
-.main-content__body {
+body.add-task-page .main-content__body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-.main-content__page-title {
+body.add-task-page .main-content__page-title {
     margin-bottom: 48px;
 }
 
@@ -95,8 +95,6 @@ textarea {
     padding: 16px 10px;
     border: 2px solid transparent;
     border-radius: 10px;
-    font-size: 14px;
-    font-weight: 700;
     cursor: pointer;
     background-color: white;
     color: black;
@@ -104,6 +102,13 @@ textarea {
     align-items: center;
     justify-content: center;
     gap: 8px;
+}
+
+.priority-buttons__btn:not(.priority-buttons__btn--active):hover {
+    transition: all 0.2s ease;
+    transform: scale(1.05);
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
+    border-top: none;
 }
 
 .priority-buttons__btn--urgent.priority-buttons__btn--active {
@@ -176,31 +181,32 @@ textarea {
 .priority-buttons__row {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 12px;
+
 }
 
 @media (min-width: 320px) and (max-width: 855px) {
-    html,
-    body {
+    body.add-task-page {
         overflow-x: hidden;
     }
-    main {
+    body.add-task-page main {
         padding: 0;
         overflow: hidden;
     }
-    .main-content {
+    body.add-task-page .main-content {
         margin-top: 0;
         margin-left: 0;
         padding: 0;
         margin-bottom: 0;
     }
-    .header-main__container {
+    body.add-task-page .header-main__container {
         max-height: 100vh;
         overflow: hidden;
         display: flex;
         flex-direction: column;
     }
-    .main-content__body {
+    body.add-task-page .main-content__body {
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -208,7 +214,7 @@ textarea {
         overflow: hidden;
         padding: 24px 16px 0 16px;
     }
-    .main-content__page-title {
+    body.add-task-page .main-content__page-title {
         flex-shrink: 0;
         font-size: 32px;
         margin-bottom: 24px;
@@ -295,8 +301,7 @@ textarea {
     bottom: 440px;
 }
 
-html,
-body {
+body.add-task-page {
     height: 100%;
     overflow: hidden;
 }
@@ -329,12 +334,6 @@ body {
 }
 
 @media (min-width: 856px) {
-    .subtask-list__actions {
-        display: none;
-    }
-    .subtask-list__item:hover .subtask-list__actions {
-        display: flex;
-    }
     .task-form__required-hint--mobile {
         display: none;
     }
@@ -360,6 +359,22 @@ body {
     flex: 1;
     padding: 0;
     border-radius: 0;
+}
+
+.subtask-list__edit-input:hover,
+.subtask-list__edit-input:focus,
+.subtask-list__edit-input:active {
+    background-color: transparent;
+}
+
+.subtask-list__edit-input:-webkit-autofill,
+.subtask-list__edit-input:-webkit-autofill:hover,
+.subtask-list__edit-input:-webkit-autofill:focus,
+.subtask-list__edit-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+    box-shadow: 0 0 0 1000px transparent inset;
+    -webkit-text-fill-color: #2a3647;
+    transition: background-color 9999s ease-out 0s;
 }
 
 .priority-buttons__btn--urgent.priority-buttons__btn--active .priority-buttons__icon,

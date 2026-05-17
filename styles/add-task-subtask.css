@@ -11,14 +11,31 @@
     flex: 1;
     border: none;
     border-radius: 0;
+    background-color: transparent;
 }
 
 .subtask-input__field:focus {
-    border-color: transparent;
+    background-color: transparent !important;
+}
+
+.subtask-input__field:hover,
+.subtask-input__field:active {
+    background-color: transparent;
+}
+
+.subtask-input__field:-webkit-autofill,
+.subtask-input__field:-webkit-autofill:hover,
+.subtask-input__field:-webkit-autofill:focus,
+.subtask-input__field:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+    box-shadow: 0 0 0 1000px transparent inset;
+    -webkit-text-fill-color: #2a3647;
+    transition: background-color 9999s ease-out 0s;
 }
 
 .subtask-input__btn:hover {
     background-color: #f0f0f0;
+    color: #2a3647;
 }
 
 .subtask-input--active .subtask-input__btn {
@@ -72,4 +89,14 @@
 .subtask-list__item:hover .subtask-list__actions {
     display: flex;
     gap: 8px;
+}
+
+.subtask-list__actions {
+    display: flex;
+    gap: 8px;
+    visibility: hidden;
+}
+
+.subtask-list__item:hover .subtask-list__actions {
+    visibility: visible;
 }
