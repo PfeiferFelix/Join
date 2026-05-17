@@ -4,7 +4,6 @@
 }
 
 body.add-task-page main {
-    padding: 40px 64px;
     flex: 1;
     background-color: var(--color-neutral-50);
     margin-top: 4px;
@@ -171,7 +170,6 @@ textarea {
         overflow-x: hidden;
     }
     body.add-task-page main {
-        padding: 0;
         overflow: hidden;
     }
     body.add-task-page .main-content {
