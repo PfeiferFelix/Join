@@ -191,7 +191,7 @@ textarea {
         flex: 1;
         min-height: 0;
         overflow: hidden;
-        padding: 16px 25px 0 25px;
+        padding: 16px 25px 0 50px;
     }
     body.add-task-page .main-content__page-title {
         flex-shrink: 0;
