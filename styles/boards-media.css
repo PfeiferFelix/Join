@@ -23,7 +23,6 @@
 
 @media (max-width: 1330px) {
     #board__list--done .board__list-header {
-        justify-content: center;
         margin-bottom: 10px;
     }
 
@@ -213,16 +212,14 @@
 
     .board__list-header {
         display: flex;
-        justify-content: space-between;
         width: 100%;
-        height: 27px;
         margin-top: 16px !important;
         margin-bottom: 16px !important;
     }
 
     .board__list {
         max-width: 100%;
-        width: 90%;
+        width: 100%;
         padding-left: 0 !important;
     }
 
@@ -232,8 +229,7 @@
     }
 
     .example-mobile {
-        width: 50%;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .board__addtask {
@@ -245,8 +241,7 @@
         justify-content: space-between;
         align-items: center;
         height: 80px;
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .addTaskDialog {
@@ -322,17 +317,13 @@
 
     .board__lists {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
         gap: 16px;
         width: 100%;
         min-width: 100%;
         height: auto;
         min-height: max-content;
         padding-bottom: 24px;
-    }
-
-    .board__h1 {
-        font-size: 48px;
     }
 
     .task-form__required-note {
@@ -357,12 +348,10 @@
         justify-content: space-between;
         align-items: center;
         height: 80px;
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
     }
     .example-mobile {
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .task__moveto-btn {
@@ -397,10 +386,6 @@
     .board__headline {
         font-size: 24px;
         font-weight: 600;
-    }
-
-    .board__h1 {
-        font-size: 40px;
     }
 
     .category__header {
@@ -466,7 +451,7 @@
         justify-content: flex-start;
         flex-wrap: nowrap;
         overflow-x: auto;
-        width: 111%;
+        width: 100%;
     }
 
     .task {
@@ -485,8 +470,7 @@
         justify-content: space-between;
         align-items: center;
         height: 80px;
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
     }
 }
 
@@ -505,8 +489,7 @@
         justify-content: space-between;
         align-items: center;
         height: 80px;
-        width: 90%;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .editTaskDialog {
