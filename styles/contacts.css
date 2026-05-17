@@ -66,10 +66,6 @@ main {
 }
 
 .contacts-sidebar__add-btn {
-    color: white;
-    background-color: var(--color-brand-primary);
-    border: none;
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,12 +73,7 @@ main {
     width: 100%;
     font-size: 24px;
     font-weight: 700;
-    padding: 10px 40px;
     cursor: pointer;
-}
-
-.contacts-sidebar__add-btn:hover {
-    background-color: rgba(41, 171, 226, 1);
 }
 
 .contacts-sidebar__groups {
@@ -486,19 +477,9 @@ main {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 14px 24px;
-    border: 2px solid var(--color-brand-primary);
     background: white;
-    border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
-    color: var(--color-brand-primary);
-}
-
-.add-contact__btn--cancel:hover {
-    border: 2px solid rgba(41, 171, 226, 1);
-    color: rgba(41, 171, 226, 1);
 }
 
 .add-contact__btn--cancel:hover img {
@@ -509,18 +490,9 @@ main {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 14px 24px;
-    border: none;
-    background-color: var(--color-brand-primary);
-    border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
     color: white;
-}
-
-.add-contact__btn--create:hover {
-    background-color: rgba(41, 171, 226, 1);
 }
 
 .contact-item--active {

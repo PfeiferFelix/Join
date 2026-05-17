@@ -38,10 +38,11 @@ body {
 button {
     border: none;
     background: none;
-    cursor: pointer;
 }
 
-a {
+a,
+input,
+button {
     cursor: pointer;
 }
 
@@ -121,12 +122,6 @@ a {
 .sidebar__legal-information-link {
     display: block;
     padding: 10px 60px;
-}
-
-.sidebar__legal-information-link:hover {
-    transform: scale(1.05);
-    transform-origin: left;
-    color: var(--color-brand-accent);
 }
 
 .sidebar__login-link {

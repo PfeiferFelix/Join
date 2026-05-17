@@ -135,37 +135,17 @@ textarea {
 }
 
 .task-form__btn {
-    padding: 16px;
-    border-radius: 10px;
     font-size: 16px;
     font-weight: 700;
-    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 4px;
-}
-
-.task-form__btn--clear {
-    background-color: white;
-    border: 1px solid var(--color-brand-primary);
-    color: var(--color-brand-primary);
 }
 
 .task-form__btn img {
     vertical-align: middle;
     width: 24px;
     height: 24px;
-}
-
-.task-form__btn--submit {
-    background-color: var(--color-brand-primary);
-    border: none;
-    color: white;
-}
-
-.task-form__btn--clear:hover,
-.task-form__btn--submit:hover {
-    opacity: 0.85;
 }
 
 .priority-buttons__icon {

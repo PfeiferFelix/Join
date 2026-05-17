@@ -29,16 +29,6 @@ header {
     margin-right: 80px;
 }
 
-.buttonRegistration {
-    background-color: var(--color-brand-primary);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 10px;
-    text-decoration: none;
-}
-
 .container {
     display: flex;
     flex-direction: column;
@@ -68,18 +58,6 @@ header {
 .title__row a {
     position: absolute;
     left: 0;
-}
-
-.back__arrow {
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-}
-
-.back__arrow:hover {
-    transform: scale(1.2);
-    background-color: var(--color-neutral-200);
 }
 
 .container h1 {
@@ -146,41 +124,6 @@ header {
     margin-top: 8px;
 }
 
-.login__btn,
-.guestLogin__btn {
-    padding: 14px 32px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.login__btn {
-    background-color: var(--color-brand-primary);
-    color: white;
-    border: none;
-    transition: background-color 0.2s;
-}
-
-.login__btn:hover,
-.buttonRegistration:hover {
-    background-color: var(--color-brand-accent);
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-}
-
-.guestLogin__btn {
-    background-color: white;
-    color: var(--color-brand-primary);
-    border: 2px solid var(--color-brand-primary);
-    transition:
-        background-color 0.2s,
-        color 0.2s;
-}
-
-.guestLogin__btn:hover {
-    border-color: var(--color-brand-accent);
-    color: var(--color-brand-accent);
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-}
-
 footer {
     margin-top: auto;
     padding: 20px;
@@ -193,11 +136,6 @@ footer {
     margin-left: 20px;
     display: inline-block;
     width: 110px;
-}
-
-.footer__Link:hover {
-    color: var(--color-brand-accent);
-    font-weight: 700;
 }
 
 .checkbox__row {
