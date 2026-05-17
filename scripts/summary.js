@@ -44,7 +44,7 @@ function addNameToGreeting() {
 function iteradeTasksData() {
     for (const element of boardsLS) {
         calcTasksDataSummary(element);
-        getNearestDate(element.dueDate);
+        getNearestUrgentDate(element);
     }
 }
 
@@ -73,11 +73,11 @@ function calcTasksDataSummary(element) {
 
 /**
  * Stores the earliest upcoming due date from urgent tasks.
- * @param {string} dueDate - Due date in YYYY-MM-DD format.
+ * @param {object} element - The task object containing due date and priority.
  */
-function getNearestDate(dueDate) {
-    if (dueDate) {
-        const [year, month, day] = dueDate.split("-").map(Number);
+function getNearestUrgentDate(element) {
+    if (element.dueDate && element.priority === "urgent") {
+        const [year, month, day] = element.dueDate.split("-").map(Number);
         const dueDateFormatted = new Date(year, month - 1, day);
 
         if (dueDateFormatted > today && (!nextUrgentDate || dueDateFormatted < nextUrgentDate)) {

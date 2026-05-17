@@ -29,7 +29,7 @@ function getShowTaskTemplate(taskView) {
         <div class="subtask-container">
             <span class="task-meta-label">Subtasks:</span>
             <ul class="subtask-list-task">
-                ${taskView.subtasksHTML || ''}
+                ${taskView.subtasksHTML || ""}
             </ul>
         </div>
     </section>
@@ -56,13 +56,13 @@ function getEditTaskFormTemplate(taskView) {
             <input class="task-form__input-date" id="edit-due-date" type="date" value="${taskView.dueDate}" required>
             <span class="task-form__label">Priority</span>
             <div class="priority-buttons">
-                <button id="edit-priority-urgent" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Urgent' ? 'priority-buttons__btn--urgent' : ''}" onclick="setEditPriority('Urgent')">
+                <button id="edit-priority-urgent" type="button" class="priority-btn-color-none btnHover ${taskView.priority === "Urgent" ? "priority-buttons__btn--urgent" : ""}" onclick="setEditPriority('Urgent')">
                     <p class="prioText">Urgent</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--up">⟪</span>
                 </button>
-                <button id="edit-priority-medium" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Medium' ? 'priority-buttons__btn--medium' : ''}" onclick="setEditPriority('Medium')">
+                <button id="edit-priority-medium" type="button" class="priority-btn-color-none btnHover ${taskView.priority === "Medium" ? "priority-buttons__btn--medium" : ""}" onclick="setEditPriority('Medium')">
                     <p class="prioText">Medium</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--medium">‖</span>
                 </button>
-                <button id="edit-priority-low" type="button" class="priority-btn-color-none btnHover ${taskView.priority === 'Low' ? 'priority-buttons__btn--low' : ''}" onclick="setEditPriority('Low')">
+                <button id="edit-priority-low" type="button" class="priority-btn-color-none btnHover ${taskView.priority === "Low" ? "priority-buttons__btn--low" : ""}" onclick="setEditPriority('Low')">
                     <p class="prioText">Low</p> <span class="extrasize priority-buttons__icon priority-buttons__icon--down">⟪</span>
                 </button>
             </div>
@@ -92,7 +92,7 @@ function getEditTaskFormTemplate(taskView) {
                     </div>
                 </div>
                 <ul class="subtask-list-task subtask-list">
-                    ${(taskView.subtasks || []).map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskView.id, index)).join('')}
+                    ${(taskView.subtasks || []).map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskView.id, index)).join("")}
                 </ul>
             </div>
         </section>
@@ -107,7 +107,7 @@ function getaddTaskTemplateDialog() {
     return `
         <header class="addTaskDialog__header">
             <h2 class="addTaskDialog__title">Add Task</h2>
-            <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
+            <button onclick="closeDialog()" class="btn-close" aria-label="Close dialog"></button>
         </header>
 
         <div class="task-form__scroll-area">
@@ -186,8 +186,8 @@ function getaddTaskTemplateDialog() {
                 <span class="task-form__required">*</span>This field is required
             </p>
             <div class="task-form__actions">
-                <button class="task-form__btn task-form__btn--clear" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt="cancel"></button>
-                <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt="create"></button>
+                <button class="task-form__btn task-form__btn--clear btn-secondary" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt="cancel"></button>
+                <button class="task-form__btn task-form__btn--submit btn-primary" type="submit">Create Task <img src="assets/add-task/check.svg" alt="create"></button>
             </div>
         </div>
 
@@ -207,7 +207,7 @@ function generateTodoHTML(todoView) {
             <nav class="task-move-panel" id="task-move-panel-${todoView.id}" aria-label="Move task to category" hidden>
                 <div class="task-move-panel__body">
                     <h4 class="task-move-panel__body-title">Move To</h4>
-                    <button type="button" class="task-move-panel__item" onclick="moveTaskToNextCategory(event, ${todoView.id})" ${todoView.nextMoveDisabled ? 'disabled' : ''}><span>${todoView.nextMoveArrow}</span> ${todoView.nextMoveLabel}</button>
+                    <button type="button" class="task-move-panel__item" onclick="moveTaskToNextCategory(event, ${todoView.id})" ${todoView.nextMoveDisabled ? "disabled" : ""}><span>${todoView.nextMoveArrow}</span> ${todoView.nextMoveLabel}</button>
                     <button type="button" class="task-move-panel__item" onclick="openTaskReviewDialogFromMenu(event, ${todoView.id})">Review</button>
                 </div>
             </nav>
@@ -227,7 +227,7 @@ function generateTodoHTML(todoView) {
             <p class="task__priority-icon priority-buttons__icon priority-buttons__icon--${todoView.iconClass}" id="priorityLevel" title="${todoView.priorityLabel}" aria-label="Priority ${todoView.priorityLabel}">${todoView.priorityIcon}</p>
         </div>
     </div>`;
-};
+}
 
 // Returns the avatar badge template for an assigned user.
 function getCircleUserTemplate(userAbbreviation, fill) {
@@ -258,9 +258,9 @@ function getEditableSubtaskItemTemplate(subtaskTitle, taskId, index) {
 
 // Returns one display-only subtask list-item template for the task show dialog.
 function getShowSubtaskItemTemplate(subtask, taskId, index) {
-    return `<li class="subtask-item-show ${subtask.done ? 'subtask-item-show--done' : ''}" data-subtask-index="${index}">
+    return `<li class="subtask-item-show ${subtask.done ? "subtask-item-show--done" : ""}" data-subtask-index="${index}">
         <label class="subtask-item-show__label">
-            <input type="checkbox" class="subtask-item-show__checkbox" ${subtask.done ? 'checked' : ''} onchange="toggleSubtask(${taskId}, ${index})">
+            <input type="checkbox" class="subtask-item-show__checkbox" ${subtask.done ? "checked" : ""} onchange="toggleSubtask(${taskId}, ${index})">
             ${escapeHtmlText(subtask.title)}
         </label>
     </li>`;
@@ -273,15 +273,7 @@ function getSubtaskTitleTemplate(title) {
 
 // Builds the assigned-user row template with avatar and name.
 function getAssignedUserWithNameTemplate(user, fill) {
-    return [
-        `<div class="assigned-user-row">`,
-        `<svg class="assigned-user-avatar" width="40" height="40" viewBox="0 0 80 80" aria-hidden="true">`,
-        `<circle class="header__circle" cx="40" cy="40" r="38" fill="${fill}" stroke="#ffffff" stroke-width="4" />`,
-        `<text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#fff" font-weight="700">${user?.abbreviation || ''}</text>`,
-        `</svg>`,
-        `<span class="assigned-user-name">${user?.name || user?.abbreviation || 'Unknown User'}</span>`,
-        `</div>`,
-    ].join('');
+    return [`<div class="assigned-user-row">`, `<svg class="assigned-user-avatar" width="40" height="40" viewBox="0 0 80 80" aria-hidden="true">`, `<circle class="header__circle" cx="40" cy="40" r="38" fill="${fill}" stroke="#ffffff" stroke-width="4" />`, `<text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#fff" font-weight="700">${user?.abbreviation || ""}</text>`, `</svg>`, `<span class="assigned-user-name">${user?.name || user?.abbreviation || "Unknown User"}</span>`, `</div>`].join("");
 }
 
 // Builds one selected assigned-user row from avatar markup.

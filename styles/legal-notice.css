@@ -34,7 +34,6 @@
 
 .legal-notice__email {
     color: var(--color-brand-primary);
-    cursor: pointer;
 }
 
 @media (max-width: 850px) {

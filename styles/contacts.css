@@ -73,7 +73,6 @@ main {
     width: 100%;
     font-size: 24px;
     font-weight: 700;
-    cursor: pointer;
 }
 
 .contacts-sidebar__groups {
@@ -122,7 +121,6 @@ main {
     gap: 32px;
     padding: 10px 20px;
     border-radius: 10px;
-    cursor: pointer;
 }
 
 .contact-item:hover {
@@ -253,9 +251,6 @@ main {
     gap: 8px;
     font-size: 16px;
     font-weight: 400;
-    border: none;
-    background: none;
-    cursor: pointer;
 }
 
 .contact-card__btn:hover {
@@ -396,18 +391,7 @@ main {
     position: absolute;
     top: 20px;
     right: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
     z-index: 1;
-    padding: 4px;
-}
-
-.add-contact__close img {
-    width: 20px;
-    height: 20px;
-    display: block;
-    filter: brightness(0);
 }
 
 .add-contact__body {
@@ -482,10 +466,6 @@ main {
     font-weight: 600;
 }
 
-.add-contact__btn--cancel:hover img {
-    filter: invert(60%) sepia(80%) saturate(400%) hue-rotate(170deg);
-}
-
 .add-contact__btn--create {
     display: flex;
     align-items: center;
@@ -526,9 +506,6 @@ main {
     display: none;
     width: 40px;
     height: 40px;
-    background: none;
-    border: none;
-    cursor: pointer;
     margin-left: auto;
     flex-shrink: 0;
     position: relative;
@@ -557,8 +534,6 @@ main {
     height: 56px;
     border-radius: 50%;
     background-color: var(--color-brand-primary);
-    border: none;
-    cursor: pointer;
     align-items: center;
     justify-content: center;
     z-index: 50;
@@ -589,8 +564,6 @@ main {
     height: 56px;
     border-radius: 50%;
     background-color: var(--color-brand-primary);
-    border: none;
-    cursor: pointer;
     color: white;
     font-size: 28px;
     display: flex;
@@ -616,10 +589,7 @@ main {
     align-items: center;
     gap: 10px;
     padding: 12px 20px;
-    border: none;
-    background: none;
     font-size: 16px;
-    cursor: pointer;
     width: 100%;
     white-space: nowrap;
 }
@@ -820,10 +790,6 @@ main {
     .contacts--detail-open .contact-content__header p {
         font-size: 16px;
         margin: 5px 0;
-    }
-
-    .add-contact__close img {
-        filter: brightness(0) invert(1);
     }
 
     .add-contact__dialog {

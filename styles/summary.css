@@ -145,18 +145,6 @@
     width: 2px;
 }
 
-.tasks__to-do,
-.tasks__done,
-.tasks__urgent,
-.tasks__in-board,
-.tasks__in-progress,
-.tasks__awaiting-feedback {
-    transition:
-        background-color 125ms ease-in-out,
-        transform 125ms ease-in-out,
-        color 125ms ease-in-out;
-}
-
 .tasks__to-do *,
 .tasks__done *,
 .tasks__urgent *,

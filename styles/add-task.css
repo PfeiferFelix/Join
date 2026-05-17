@@ -97,7 +97,6 @@ textarea {
     border-radius: 10px;
     font-size: 14px;
     font-weight: 700;
-    cursor: pointer;
     background-color: white;
     color: black;
     display: inline-flex;
@@ -289,8 +288,6 @@ body {
 }
 
 .subtask-input__btn {
-    border: none;
-    cursor: pointer;
     font-size: 16px;
     padding: 0;
     width: 32px;
@@ -298,7 +295,6 @@ body {
     border-radius: 50%;
     align-items: center;
     justify-content: center;
-    background: none;
     color: var(--color-neutral-600);
     display: none;
 }
@@ -323,9 +319,6 @@ body {
 }
 
 .subtask-list__btn {
-    background: none;
-    border: none;
-    cursor: pointer;
     font-size: 14px;
     padding: 0 4px;
 }
@@ -349,7 +342,6 @@ body {
 
 .dropdown__item--simple {
     padding: 10px 16px;
-    cursor: pointer;
     font-size: 16px;
 }
 

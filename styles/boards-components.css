@@ -1,13 +1,11 @@
 .subtask-item__actions button {
     background: transparent;
-    border: none;
     color: var(--color-brand-primary);
     padding: 2px 6px;
     border-radius: 6px;
     transition:
         background 0.15s,
         color 0.15s;
-    cursor: pointer;
     font-size: 20px;
 }
 
@@ -94,7 +92,6 @@
     gap: 4px;
     font-size: 1rem;
     font-weight: 500;
-    cursor: pointer;
     transition:
         background 0.15s,
         color 0.15s;
@@ -179,8 +176,6 @@
     font-size: 1.1rem;
     font-weight: 600;
     padding: 10px 32px;
-    border: none;
-    cursor: pointer;
     transition: background 0.15s;
 }
 
@@ -425,10 +420,7 @@
     display: flex;
     align-items: center;
     gap: 0;
-    border: none;
-    background: none;
     padding: 0;
-    cursor: pointer;
 }
 
 .user__profile button svg {
@@ -459,7 +451,6 @@
 .edit-subtask-btn,
 .clear-subtasks-btn {
     display: none;
-    border: none;
     background: transparent;
     color: var(--color-brand-primary);
     padding: 0 4px;
@@ -587,11 +578,9 @@
 }
 
 .subtask-input__button {
-    border: none;
     border-radius: 8px;
     width: 28px;
     height: 28px;
-    cursor: pointer;
     display: none;
 }
 
@@ -688,7 +677,6 @@
 .subtask-item-show__checkbox {
     width: 16px;
     height: 16px;
-    cursor: pointer;
     accent-color: var(--color-brand-primary);
 }
 
@@ -696,7 +684,6 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
     font-size: 16px;
     color: var(--color-brand-primary);
     padding: 4px;
@@ -760,10 +747,6 @@
     background: transparent;
 }
 
-.subtask-item:hover {
-    cursor: pointer;
-}
-
 .subtask-preview {
     display: flex;
     align-items: center;
@@ -777,7 +760,6 @@
     background-color: transparent;
     color: var(--color-brand-primary);
     font-size: 16px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -802,11 +784,9 @@
 .create-task-btn {
     background-color: var(--color-brand-primary);
     color: white;
-    border: none;
     border-radius: 8px;
     padding: 10px 10px;
     font-size: 16px;
-    cursor: pointer;
     height: min-content;
     transition: all 0.2s ease;
 }
@@ -881,7 +861,6 @@
     gap: 8px;
     font-size: 16px;
     color: var(--color-brand-primary);
-    cursor: pointer;
     width: 100%;
     box-sizing: border-box;
     padding: 4px 8px;
@@ -923,7 +902,6 @@
     -webkit-appearance: none;
     appearance: none;
     background-color: var(--color-neutral-0);
-    cursor: pointer;
     display: inline-grid;
     place-content: center;
     transition:
@@ -1044,7 +1022,6 @@
 .priority-buttons__btn--low {
     background-color: var(--color-status-success);
     color: white;
-    border: none;
     width: 100px;
     height: 48px;
     display: flex;
@@ -1055,7 +1032,6 @@
 .priority-buttons__btn--medium {
     background-color: var(--color-status-warning);
     color: white;
-    border: none;
     width: 100px;
     height: 48px;
     display: flex;
@@ -1066,7 +1042,6 @@
 .priority-buttons__btn--urgent {
     background-color: var(--color-status-danger);
     color: white;
-    border: none;
     width: 100px;
     height: 48px;
     display: flex;
@@ -1245,7 +1220,6 @@
     padding: 4px 8px;
     border: 1px solid var(--color-neutral-350);
     font-size: 16px;
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1291,7 +1265,6 @@
 
 .category-custom-select__option {
     padding: 8px 12px;
-    cursor: pointer;
     font-size: 16px;
     transition:
         background-color 0.15s,
@@ -1384,32 +1357,6 @@
     height: 24px;
 }
 
-.addTaskDialog__close-btn {
-    border: none;
-    outline: none;
-    background: none;
-    cursor: pointer;
-    font-size: 24px;
-    color: var(--color-neutral-700);
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    padding: 0;
-}
-
-.addTaskDialog__close-btn:active {
-    background-color: #e0e6ed;
-}
-
-.addTaskDialog__close-btn:hover {
-    background-color: #f0f3f7;
-    color: #2c3e50;
-}
-
 .addTaskDialog__header {
     display: flex;
     justify-content: space-between;
@@ -1496,11 +1443,9 @@
 
 .editTaskDialog__delete-btn,
 .editTaskDialog__edit-btn {
-    border: none;
     background: transparent;
     color: var(--color-brand-primary);
     font-size: 18px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1509,14 +1454,12 @@
 
 .editTaskDialog__delete-btn:hover {
     color: var(--color-brand-accent);
-    cursor: pointer;
     transition: all 0.2s ease;
     transform: translateX(1px);
 }
 
 .editTaskDialog__edit-btn:hover {
     color: var(--color-brand-accent);
-    cursor: pointer;
     transition: all 0.2s ease;
     transform: translateY(1px);
 }
