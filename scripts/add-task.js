@@ -229,8 +229,8 @@ function showToast() {
  */
 function handleFormSubmit() {
     const form = document.querySelector(".task-form");
-    const submitBtn = document.querySelector(".btn-primary");
-    const clearBtn = document.querySelector(".btn-secondary");
+    const submitBtn = document.querySelector(".task-form__btn--submit");
+    const clearBtn = document.querySelector(".task-form__btn--clear");
 
     submitBtn.addEventListener("click", () => handleSubmit(form));
     clearBtn.addEventListener("click", () => handleClear(form));
