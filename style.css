@@ -43,13 +43,15 @@ button,
 button *,
 a,
 a *,
-input {
+input,
+textarea {
     transition: all 125ms ease-in-out;
 }
 
 a,
 input,
-button {
+button,
+textarea {
     cursor: pointer;
 }
 
