@@ -204,8 +204,8 @@ function getContactCardTemplate(contact, avatarColor) {
                 <div class="contact-card__user-info">
                     <h2 class="contact-card__name">${contact.name}</h2>
                     <div class="contact-card__btn-container">
-                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/boards/edit.png" alt="" />Edit</button>
-                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/boards/delete.png" alt="" />Delete</button>
+                        <button class="contact-card__btn" onclick="openEditContactDialog('${contact.firebaseKey}')"><img src="assets/boards/edit.png" alt="edit" />Edit</button>
+                        <button class="contact-card__btn" onclick="confirmDeleteContact('${contact.firebaseKey}')"><img src="assets/boards/delete.png" alt="delete" />Delete</button>
                     </div>
                 </div>
             </div>`;
@@ -265,16 +265,16 @@ function getSubtaskItemTemplate(value) {
     return `
         <span class="subtask-list__text">${value}</span>
         <div class="subtask-list__actions">
-            <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/icons/edit.png" alt="edit" /></button>
-            <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/icons/delete.png" alt="delete" /></button>
+            <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/Boards/edit.png" alt="edit" /></button>
+            <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/Boards/delete.png" alt="delete" /></button>
         </div>
     `;
 }
 
 function getSubtaskEditActionsTemplate() {
     return `
-        <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/icons/delete.png" alt="delete" /></button>
-        <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/icons/check grey.svg" alt="confirm" /></button>
+        <button type="button" class="subtask-list__btn subtask-list__btn--delete"><img src="assets/Boards/delete.png" alt="delete" /></button>
+        <button type="button" class="subtask-list__btn subtask-list__btn--edit"><img src="assets/add-task/check grey.svg" alt="confirm" /></button>
     `;
 }
 

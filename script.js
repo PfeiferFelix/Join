@@ -279,3 +279,13 @@ function showSuccessToast(message) {
         background: '#2a3647', color: '#fff',
     });
 }
+// Sends a new task to Firebase Realtime Database and returns the response payload.
+async function postTaskRequestToFirebase(task) {
+    const response = await fetch(`${FIREBASE_BASE_URL}boards.json`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task),
+    });
+    if (!response.ok) throw new Error(`Firebase POST failed: HTTP ${response.status}`);
+    return response.json();
+}

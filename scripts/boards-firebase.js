@@ -13,21 +13,6 @@ async function syncBoardContactsFromFirebase() {
     await syncContactsFromFirebaseToLocalStorage();
 }
 
-// Sends a new task to Firebase and returns the response payload.
-async function postTaskRequestToFirebase(task) {
-    const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(task),
-    });
-    if (isUnauthorizedResponse(response)) {
-        console.warn('Firebase task creation unauthorized (HTTP 401). Using local storage only.');
-        return null;
-    }
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-}
-
 // Stores the generated Firebase key on the task and persists local state.
 function syncPostedTaskFirebaseKey(task, payload) {
     if (!payload?.name) return;
@@ -75,7 +60,7 @@ async function persistTaskCategoryToFirebase(task) {
     }
 }
 
-// Sends a category-only PATCH update for a task to Firebase.
+// Sends a category and position PATCH update for a task to Firebase.
 async function patchTaskCategoryToFirebase(firebaseKey, task) {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
         method: 'PATCH',
@@ -89,9 +74,12 @@ async function patchTaskCategoryToFirebase(firebaseKey, task) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 }
 
-// Builds the JSON request body for category-only task updates.
+// Builds the JSON request body for category and position task updates.
 function buildCategoryPatchBody(task) {
-    return JSON.stringify({ category: task.category });
+    return JSON.stringify({
+        category: task.category,
+        position: mapCategoryToSummaryPosition(task.category || task.position),
+    });
 }
 
 // Creates a standardized persistence result object.
@@ -138,16 +126,15 @@ async function persistTaskUpdateToFirebase(task) {
 // Builds the JSON request body for full task updates.
 function buildFirebaseTaskBody(task) {
     return JSON.stringify({
-        id: task.id,
         title: task.title,
         description: task.description || '',
         dueDate: task.dueDate || '',
-        priority: task.priority || 'Medium',
-        category: task.category || 'toDo',
-        selectedCategoryLabel: task.selectedCategoryLabel || categoryLabel(task.category || 'toDo'),
+        priority: mapPriorityToSummaryValue(task.priority),
+        position: mapCategoryToSummaryPosition(task.category || task.position),
+        category: task.category || mapSummaryPositionToCategory(task.position) || 'toDo',
+        selectedCategoryLabel: task.selectedCategoryLabel || categoryLabel(task.position || 'toDo'),
         assignedTo: Array.isArray(task.assignedTo) ? task.assignedTo : [],
         subtasks: Array.isArray(task.subtasks) ? task.subtasks : [],
-        subtask: task.subtask || '',
     });
 }
 

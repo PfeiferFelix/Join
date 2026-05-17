@@ -219,10 +219,27 @@ function resetSearchOnEscape(event) {
 function saveBoardsToLocalStorage() {
     const boardsObject = todos.reduce((result, todo) => {
         const key = todo.firebaseKey || todo.id;
-        result[key] = todo;
+        result[key] = buildStorageTask(todo);
         return result;
     }, {});
     localStorage.setItem("boards", JSON.stringify(boardsObject));
+}
+
+// Removes internal-only fields before persisting tasks.
+function stripInternalTaskFields(todo) {
+    const { id, firebaseKey, priorityClass, subtask, sub_task, ...cleanTodo } = todo;
+    return cleanTodo;
+}
+
+// Builds a summary-compatible storage object for one task.
+function buildStorageTask(todo) {
+    const cleanTodo = stripInternalTaskFields(todo);
+    return {
+        ...cleanTodo,
+        position: mapCategoryToSummaryPosition(todo.category || todo.position),
+        dueDate: cleanTodo.dueDate || '',
+        priority: mapPriorityToSummaryValue(cleanTodo.priority),
+    };
 }
 
 // Enables dropping on a board column when drag interactions are active.
@@ -248,6 +265,7 @@ function moveTaskToCategory(taskId, targetCategory) {
     if (taskIndex !== -1) {
         const task = todos[taskIndex];
         task.category = targetCategory;
+        task.position = mapCategoryToSummaryPosition(targetCategory);
         updateHTML();
         persistTaskCategoryToFirebase(task);
     }

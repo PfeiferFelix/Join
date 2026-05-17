@@ -44,7 +44,7 @@ function addNameToGreeting() {
 function iteradeTasksData() {
     for (const element of boardsLS) {
         calcTasksDataSummary(element);
-        getNearestDate(element.due_date);
+        getNearestDate(element.dueDate);
     }
 }
 

@@ -104,95 +104,98 @@ function getEditTaskFormTemplate(taskView) {
 
 // Returns the HTML template for the add-task dialog.
 function getaddTaskTemplateDialog() {
-    return `<header class="addTaskDialog__header">
-                        <h2 class="addTaskDialog__title">Add Task</h2>
-                        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
-                    </header>
-                    <form class="task-form" id="add-task-form">
-                        <div class="task-form__body">
-                            <div class="task-form__col task-form__col--left">
-                                <label class="task-form__label" for="title"> Title <span class="task-form__required">*</span> </label>
-                                <input class="input__dialogAddTask" type="text" id="title" placeholder="Enter a title" required="">
-                                <input type="hidden" id="todo-id" value="${Date.now()}">
+    return `
+        <header class="addTaskDialog__header">
+            <h2 class="addTaskDialog__title">Add Task</h2>
+            <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
+        </header>
 
-                                <label class="task-form__label" for="description">Description</label>
-                                <textarea class="task-form__textarea" id="description" placeholder="Enter a Description"></textarea>
+        <div class="task-form__scroll-area">
+            <form class="task-form" novalidate>
+                <div class="task-form__body">
+                    <div class="task-form__col task-form__col--left">
+                        <label class="task-form__label" for="title"> Title <span class="task-form__required">*</span> </label>
+                        <input class="task-form__input" type="text" id="title" placeholder="Enter a title" required />
+                        <span class="task-form__error" id="title-error"></span>
 
-                                <label class="task-form__label" for="due-date"> Due date <span class="task-form__required">*</span> </label>
-                                <input class="task-form__inputDate" type="date" id="due-date" lang="en" required="" min="${new Date().toISOString().split('T')[0]}">
-                            </div>
+                        <label class="task-form__label" for="description">Description</label>
+                        <textarea class="task-form__textarea" id="description" placeholder="Enter a Description"></textarea>
 
-                            <div class="task-form__separator"></div>
+                        <label class="task-form__label" for="due-date"> Due date <span class="task-form__required">*</span> </label>
+                        <input class="task-form__input" type="date" id="due-date" lang="en" required />
+                        <span class="task-form__error" id="due-date-error"></span>
+                    </div>
 
-                            <div class="task-form__col task-form__col--right">
-                                <span class="task-form__label">Priority</span>
-                                <div class="priority-buttons">
-                                    <button id="priority-urgent" type="button" class="priority-btn-color-none priority-buttons__btn--urgent btnHover"><p class="prioText">Urgent</p>
-                                    <span class="extrasize priority-buttons__icon priority-buttons__icon--up"> ⟪</span>
-                                    </button>
-                                    <button id="priority-medium" type="button" class="priority-btn-color-none priority-buttons__btn--medium btnHover"><p class="prioText">Medium</p>
-                                    <span class="extrasize priority-buttons__icon priority-buttons__icon--medium"> ‖</span>
-                                    </button>
-                                    <button id="priority-low" type="button" class="priority-btn-color-none priority-buttons__btn--low btnHover"><p class="prioText">Low</p>
-                                    <span class="extrasize priority-buttons__icon priority-buttons__icon--down"> ⟪
-                                    </span></button>
-                                </div>
+                    <div class="task-form__separator addTaskDialog__separator"></div>
 
-                                <label class="task-form__label" for="assigned-to-trigger">Assigned to</label>
-                                <div class="multiselect" id="assigned-to-multiselect">
-                                        <div class="selectBox" id="assigned-to-trigger" role="button" tabindex="0" aria-expanded="false" aria-controls="assigned-to-checkboxes">
-                                                <select class="task-form__select" aria-hidden="true" tabindex="-1">
-                                                        <option id="assigned-to-summary">Select contacts to assign</option>
-                                                </select>
-                                        <input class="selectBox__input" id="assigned-to-search" type="text" placeholder="Select contacts to assign" autocomplete="off">
-                                                <div class="overSelect"></div>
-                                        </div>
-                                        <div id="assigned-to-checkboxes" class="multiselect__checkboxes" hidden></div>
-                                        <div class="assigned-users-list-addTask" id="assigned-to-selected-avatars"></div>
-                                </div>
-
-                                <label class="task-form__label" for="category-trigger"> Category <span class="task-form__required">*</span> </label>
-                                <div class="category-custom-select" id="category-wrapper">
-                                    <div class="category-custom-select__trigger" id="category-trigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
-                                        <span id="category-label">Select task category</span>
-                                        <span class="category-custom-select__arrow">&#9660;</span>
-                                    </div>
-                                    <div class="category-custom-select__options" id="category-options" hidden role="listbox">
-                                        <div class="category-custom-select__option" data-value="Technical Task" data-color-key="TechnicalTask" role="option">Technical Task</div>
-                                        <div class="category-custom-select__option" data-value="User Story" data-color-key="UserStory" role="option">User Story</div>
-                                    </div>
-                                    <input type="hidden" id="category" name="category" value="">
-                                </div>
-                                <div class="subtask-container">
-                                    <label class="task-form__label" for="subtask-input">Subtasks</label>
-                                    <div class="subtask-input" id="add-subtask-input-wrapper">
-                                        <input class="task-form__inputAddTask" type="text" id="subtask-input" placeholder="Add new subtask">
-                                        <div class="subtask-item__actions" id="add-subtask-actions">
-                                            <button type="button" class="edit-subtask-btn" id="add-subtask-confirm" aria-label="Add subtask">&#10003;</button>
-                                            <span class="subtask-input__separator" aria-hidden="true"></span>
-                                            <button type="button" class="clear-subtasks-btn" id="add-subtask-clear" aria-label="Clear subtask input">&#10008;</button>
-                                        </div>
-                                    </div>
-                                    <ul class="subtask-container__list" id="add-subtasks-list"></ul>
-                                    <input type="hidden" id="add-subtasks-data" value="[]">
-                                </div>
-                            <p class="task-form__required-note--mobile"><span class="task-form__required">*</span> This field is required</p>
-                                </div>  
+                    <div class="task-form__col task-form__col--right">
+                        <span class="task-form__label">Priority</span>
+                        <div class="priority-buttons">
+                            <button type="button" class="priority-buttons__btn priority-buttons__btn--urgent" data-priority="urgent">
+                                <div class="priority-buttons__row">Urgent <img src="assets/add-task/Prio alta.svg" alt="urgent" class="priority-buttons__icon" /></div>
+                            </button>
+                            <button type="button" class="priority-buttons__btn priority-buttons__btn--medium" data-priority="medium">
+                                <div class="priority-buttons__row">Medium <img src="assets/add-task/Prio media.svg" alt="medium" class="priority-buttons__icon" /></div>
+                            </button>
+                            <button type="button" class="priority-buttons__btn priority-buttons__btn--low" data-priority="low">
+                                <div class="priority-buttons__row">Low <img src="assets/add-task/Prio baja.svg" alt="low" class="priority-buttons__icon" /></div>
+                            </button>
                         </div>
-                    </form>
-                <footer class="task-form__footer">
-                    <p class="task-form__required-note"><span class="task-form__required">*</span> This field is required</p>
-                    <div class="task-form__actions">
-                        <button id="cancel-btn" class="cancel-btn" type="reset" form="add-task-form">Cancel <p class="cancel-btn__icon">&#215;</p></button>
-                        <button id="create-task-btn" class="create-task-btn" type="submit" form="add-task-form">Create Task &#10003;</button>
+
+                        <label class="task-form__label" for="assigned-to">Assigned to</label>
+                        <div class="dropdown" id="assigned-to-dropdown">
+                            <div class="dropdown__trigger">
+                                <input type="text" class="dropdown__search" placeholder="Select contacts to assign" id="assigned-to-search" />
+                                <span class="dropdown__arrow" id="assigned-to-arrow"><img src="assets/add-task/arrow_drop_downaa.svg" alt="arrow"></span>
+                            </div>
+                            <ul class="dropdown__list" id="assigned-to-list"></ul>
+                        </div>
+                        <div class="dropdown__selected-avatars" id="selected-avatars"></div>
+
+                        <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
+                        <div class="dropdown" id="category-dropdown">
+                            <div class="dropdown__trigger" id="category-trigger">
+                                <span class="dropdown__selected-text" id="category-selected">Select task category</span>
+                                <img src="assets/add-task/arrow_drop_downaa.svg" alt="arrow" class="dropdown__arrow-icon" id="category-arrow" />
+                            </div>
+                            <ul class="dropdown__list" id="category-list">
+                                <li class="dropdown__item dropdown__item--simple" data-value="technical">Technical Task</li>
+                                <li class="dropdown__item dropdown__item--simple" data-value="user-story">User Story</li>
+                            </ul>
+                        </div>
+                        <span class="task-form__error" id="category-error"></span>
+
+                        <label class="task-form__label" for="subtask">Subtask</label>
+                        <div class="subtask-input">
+                            <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
+                            <button type="button" class="subtask-input__btn subtask-input__btn--clear" id="subtask-clear"><img src="assets/add-task/Vector.png" alt="clear" /></button>
+                            <div class="subtask-input__separator"></div>
+                            <button type="button" class="subtask-input__btn subtask-input__btn--confirm" id="subtask-confirm"><img src="assets/add-task/check grey.svg" alt="confirm" /></button>
+                        </div>
+                        <ul class="subtask-list" id="subtask-list"></ul>
+                        <p class="task-form__required-hint task-form__required-hint--mobile">
+                            <span class="task-form__required">*</span>This field is required
+                        </p>
                     </div>
-                </footer>
-                <div id="add-task-success" class="add-task-success" hidden aria-live="polite">
-                    <div class="add-task-success__content">
-                        <span>Task added to Board</span>
-                        <img src="assets/icons/sidebar/inactive/boards.svg" alt="" />
-                    </div>
-                </div>`;
+                </div>
+            </form>
+        </div>
+
+        <div class="task-form__footer">
+            <p class="task-form__required-hint task-form__required-hint--desktop">
+                <span class="task-form__required">*</span>This field is required
+            </p>
+            <div class="task-form__actions">
+                <button class="task-form__btn task-form__btn--clear" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt="cancel"></button>
+                <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt="create"></button>
+            </div>
+        </div>
+
+        <dialog class="toast" id="add__task_toast">
+            Task added to board
+            <img src="assets/sidebar/inactive/boards.svg" alt="Boards" />
+        </dialog>
+    `;
 }
 
 // Returns the HTML template for a board task card.

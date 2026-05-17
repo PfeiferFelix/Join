@@ -5,35 +5,53 @@
 const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
 const ADD_TASK_DEFAULT_RETURN = "boards.html";
 
-let contactsLS = importandFormatLocalStorageData("contacs");
+let addTaskContactsLS = importandFormatLocalStorageData("contacs");
 
-const AVATAR_COLORS = [
+const ADD_TASK_AVATAR_COLORS = [
     '#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8',
     '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701',
     '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B',
 ];
-// Returns add-task query params for source/target handling.
+/**
+ * Create a URLSearchParams object for the current page query string.
+ * @returns {URLSearchParams} The parsed query parameters.
+ */
 function getAddTaskParams() {
     return new URLSearchParams(window.location.search);
 }
 
-// Returns the board return target after creating a task.
+/**
+ * Get the target page to return to after adding a task.
+ * Falls back to `ADD_TASK_DEFAULT_RETURN` when not provided.
+ * @returns {string} The return target path.
+ */
 function getAddTaskReturnTarget() {
     return getAddTaskParams().get("returnTo") || ADD_TASK_DEFAULT_RETURN;
 }
 
-// Returns the preselected board category from the URL.
+/**
+ * Read an optionally requested board category from the URL.
+ * @returns {string} The requested board category or empty string.
+ */
 function getRequestedBoardCategory() {
     return getAddTaskParams().get("boardCategory") || "";
 }
 
-// Converts add-task category select value to board category key.
+/**
+ * Map the form-select category value to the internal board category key.
+ * @param {string} value - The category value from the form select.
+ * @returns {string} The mapped board category key.
+ */
 function mapFormCategoryToBoardCategory(value) {
     if (value === "user-story") return "inProgress";
     return "toDo";
 }
 
-// Converts board category key to display label.
+/**
+ * Convert an internal board category key to a human-readable label.
+ * @param {string} category - The internal category key.
+ * @returns {string} The display label for the category.
+ */
 function getBoardCategoryLabel(category) {
     if (category === "inProgress") return "User Story";
     if (category === "feedback") return "Awaiting Feedback";
@@ -41,14 +59,22 @@ function getBoardCategoryLabel(category) {
     return "Technical Task";
 }
 
-// Returns board category using URL preference over form value.
+/**
+ * Determine the board category for the new task, preferring the URL parameter.
+ * @returns {string} The chosen board category key.
+ */
 function getBoardCategoryFromContext() {
     const fromUrl = getRequestedBoardCategory();
     if (fromUrl) return fromUrl;
-    return mapFormCategoryToBoardCategory(document.getElementById("category").value);
+    return mapFormCategoryToBoardCategory(
+        document.getElementById('category-selected').dataset.value || ''
+    );
 }
 
-// Returns selected contact names from assigned-to checkboxes.
+/**
+ * Read names of contacts selected in the assigned-to dropdown.
+ * @returns {string[]} Array of selected contact names.
+ */
 function getSelectedContactNames() {
     return Array.from(document.querySelectorAll('.dropdown__checkbox:checked')).map((checkbox) => {
         const item = checkbox.closest('.dropdown__item');
@@ -56,26 +82,36 @@ function getSelectedContactNames() {
     });
 }
 
-// Returns selected contacts in board-assigned format.
+/**
+ * Build the `assignedTo` array in the shape used by boards.js for a task.
+ * Filters local-storage contacts down to the ones selected in the form.
+ * @returns {Array<{id:number,name:string,abbreviation:string}>} Assigned users array.
+ */
 function getAssignedUsersForBoardTask() {
     const selectedNames = getSelectedContactNames();
-    return contactsLS.filter(c => selectedNames.includes(c.name)).map((contact, index) => ({
+    return addTaskContactsLS.filter(c => selectedNames.includes(c.name)).map((contact, index) => ({
         id: Number(contact.id) || index + 1,
         name: contact.name,
         abbreviation: contact.abbreviation || getInitials(contact.name || ""),
     }));
 }
 
-// Returns selected priority in board-compatible format.
+/**
+ * Read the active priority button and convert to board label.
+ * @returns {string} One of 'Urgent', 'Medium' or 'Low'.
+ */
 function getBoardPriorityLabel() {
     const active = document.querySelector('.priority-buttons__btn--active');
-    const value = active?.dataset.priority || "medium";
+    const value = active ? active.dataset.priority || "medium" : "medium";
     if (value === "urgent") return "Urgent";
     if (value === "low") return "Low";
     return "Medium";
 }
 
-// Returns entered subtasks in board-compatible format.
+/**
+ * Collect subtasks from the UI and map them to the board subtask shape.
+ * @returns {Array<{title:string,done:boolean}>} Array of subtask objects.
+ */
 function getBoardSubtasks() {
     return Array.from(document.querySelectorAll('.subtask-list__text')).map((span) => ({
         title: span.textContent.replace('• ', '').trim(),
@@ -83,26 +119,48 @@ function getBoardSubtasks() {
     }));
 }
 
-// Creates board task object in boards.js-compatible shape.
+/**
+ * Build the complete task object ready to be saved to boards and Firebase.
+ * @returns {Object} Task object with fields expected by boards.js.
+ */
 function buildBoardTask() {
     const category = getBoardCategoryFromContext();
     const subtasks = getBoardSubtasks();
     return {
-        id: Date.now(), title: document.getElementById('title').value.trim(),
-        description: document.getElementById('description').value.trim(), dueDate: document.getElementById('due-date').value,
-        priority: getBoardPriorityLabel(), category, selectedCategoryLabel: getBoardCategoryLabel(category),
-        assignedTo: getAssignedUsersForBoardTask(), subtasks, subtask: subtasks[0]?.title || '',
+        id: Date.now(),
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        dueDate: document.getElementById('due-date').value,
+        priority: getBoardPriorityLabel(),
+        category,
+        selectedCategoryLabel: getBoardCategoryLabel(category),
+        assignedTo: getAssignedUsersForBoardTask(),
+        subtasks,
+        subtask: subtasks[0] ? subtasks[0].title || '' : '',
     };
 }
 
-// Persists one task in local storage under boards key.
+/**
+ * Save a task representation into `localStorage` under the `boards` key.
+ * Removes transient fields like `id`, `subtask` and `firebaseKey` before saving.
+ * @param {Object} task - The task object to persist.
+ * @returns {void}
+ */
 function saveBoardTaskToLocalStorage(task) {
+    // Erstelle eine Kopie ohne id, subtask/sub_task und firebaseKey
+    const { id, subtask, sub_task, firebaseKey, ...cleanTask } = task;
     const boards = JSON.parse(localStorage.getItem("boards") || "{}");
-    boards[task.id] = task;
+    // Nutze als Key z.B. den Titel und das Fälligkeitsdatum, um Kollisionen zu vermeiden
+    const key = `${cleanTask.title}_${cleanTask.dueDate}`;
+    boards[key] = cleanTask;
     localStorage.setItem("boards", JSON.stringify(boards));
 }
 
-// Applies optional URL presets to the add-task form.
+/**
+ * Apply optional presets from the URL to the add-task form elements.
+ * For example, pre-select the category when `boardCategory` is provided.
+ * @returns {void}
+ */
 function applyAddTaskContext() {
     const requested = getRequestedBoardCategory();
     const categorySelect = document.getElementById("category");
@@ -124,6 +182,7 @@ function initAddTask() {
     addUserToTask();
     setupDropdownEvents();
     setupSubtaskEvents();
+    setupCategoryDropdown();
 }
 
 /**
@@ -187,8 +246,10 @@ async function handleSubmit(form) {
     if (validateForm()) {
         disableButtons(true);
         try {
-            await uploadTask();
-            saveBoardTaskToLocalStorage(buildBoardTask());
+            const taskData = buildBoardTask();
+            const payload = await postTaskRequestToFirebase(taskData);
+            if (payload && payload.name) taskData.firebaseKey = payload.name;
+            saveBoardTaskToLocalStorage(taskData);
             showToast();
             form.reset();
             setTimeout(() => {
@@ -197,7 +258,6 @@ async function handleSubmit(form) {
         } catch (error) {
             console.error('Aufgabe konnte nicht gespeichert werden:', error);
             disableButtons(false);
-            alert('Fehler beim Speichern der Aufgabe. Bitte versuche es erneut.');
         }
     }
 }
@@ -228,6 +288,11 @@ function validateForm() {
             isValid = false;
         }
     });
+    if (!document.getElementById('category-selected').dataset.value) {
+        document.getElementById('category-error').textContent = 'This field is required*';
+        document.getElementById('category-trigger').style.borderColor = 'red';
+        isValid = false;
+    }
 
     return isValid;
 }
@@ -254,27 +319,9 @@ function clearErrors() {
     document.querySelectorAll("[required]").forEach((field) => {
         field.style.borderColor = "";
     });
+    document.getElementById('category-trigger').style.borderColor = '';
 }
 
-/**
- * Render contacts in the "Assigned to" dropdown.
- * @returns {void}
- */
-function addUserToTask() {
-    const list = document.getElementById('assigned-to-list');
-    contactsLS.forEach(contact => {
-        if (!contact.name) return;
-        const initials = getInitials(contact.name);
-        const color = getAvatarColor(contact.name);
-        const li = document.createElement('li');
-        li.classList.add('dropdown__item');
-        li.innerHTML = getDropdownItemTemplate(initials, color, contact.name, contact.email);
-        li.querySelector('.dropdown__checkbox').addEventListener('change', () => {
-            updateSelectedAvatars();
-        });
-        list.appendChild(li);
-    });
-}
 
 /**
  * Return initials for a name string.
@@ -295,56 +342,13 @@ function getInitials(name) {
  * @returns {string} The selected color code.
  */
 function getAvatarColor(email) {
+    if (!email) return ADD_TASK_AVATAR_COLORS[0];
     let sum = 0;
     for (let index = 0; index < email.length; index++) {
         sum += email.charCodeAt(index);
     }
-    return AVATAR_COLORS[sum % AVATAR_COLORS.length];
+    return ADD_TASK_AVATAR_COLORS[sum % ADD_TASK_AVATAR_COLORS.length];
 }
-
-
-
-
-
-/**
- * POST data to Firebase Realtime Database.
- * @param {string} path - The subpath under the database URL.
- * @param {Object} data - The payload to send.
- * @returns {Promise<any>} The JSON response.
- */
-async function postData(path, data) {
-    const response = await fetch(BASE_URL + path + ".json", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    });
-    if (!response.ok) throw new Error(`Firebase POST fehlgeschlagen: HTTP ${response.status}`);
-    return await response.json();
-}
-
-/**
- * Collect task form data and upload it.
- * @returns {Promise<void>}
- */
-async function uploadTask() {
-    const boardCategory = getBoardCategoryFromContext();
-    const selectedNames = getSelectedContactNames();
-    const taskData = {
-        title: document.getElementById('title').value,
-        description: document.getElementById('description').value,
-        due_date: document.getElementById('due-date').value,
-        category: document.getElementById('category').value,
-        sub_task: Array.from(document.querySelectorAll('.subtask-list__text'))
-            .map(span => span.textContent.replace('• ', '').trim()),
-        position: boardCategory,
-        priority: document.querySelector('.priority-buttons__btn--active') ? document.querySelector('.priority-buttons__btn--active').dataset.priority || "medium" : "medium",
-        assigned_to: selectedNames,
-    };
-    await postData("boards", taskData);
-}
-
-
-
 
 
 /**
@@ -370,4 +374,16 @@ function setupSubtaskEvents() {
     input.addEventListener('keydown', handleSubtaskEnter);
     clearBtn.addEventListener('click', clearSubtaskInput);
     confirmBtn.addEventListener('click', addSubtask);
+}
+
+/**
+ * Initialize event handlers for the category dropdown in the form.
+ * @returns {void}
+ */
+function setupCategoryDropdown() {
+    document.getElementById('category-trigger').addEventListener('click', toggleCategoryDropdown);
+    document.getElementById('category-list').querySelectorAll('.dropdown__item--simple').forEach(item => {
+        item.addEventListener('click', () => selectCategory(item));
+    });
+    document.addEventListener('click', closeCategoryOnOutsideClick);
 }

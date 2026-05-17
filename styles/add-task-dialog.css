@@ -1,0 +1,72 @@
+.addTaskDialog__separator {
+    height: 320px;
+}
+
+.addTaskDialog .task-form__footer {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.addTaskDialog .subtask-list {
+    max-height: 80px;
+}
+
+.addTaskDialog .dropdown__selected-avatars {
+    max-height: 50px;
+    overflow-y: auto;
+}
+
+.addTaskDialog .task-form__footer {
+    margin-top: auto;
+}
+
+.addTaskDialog .task-form__textarea {
+    height: 60px;
+    font-size: 14px;
+}
+
+.addTaskDialog .priority-buttons__btn {
+    padding: 8px 6px;
+    font-size: 12px;
+    border: 1px solid #d1d1d1;
+}
+
+.addTaskDialog .priority-buttons__icon {
+    width: 12px;
+    height: 12px;
+}
+
+.addTaskDialog .task-form__label {
+    font-size: 14px;
+}
+
+.addTaskDialog .dropdown__trigger {
+    padding: 4px 8px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.addTaskDialog .dropdown__trigger:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.addTaskDialog .dropdown__search {
+    font-size: 14px;
+}
+
+.addTaskDialog .dropdown__selected-text {
+    font-size: 14px;
+}
+
+.addTaskDialog label,
+.addTaskDialog .task-form__label {
+    font-weight: 400;
+}
+
+.addTaskDialog .task-form__btn {
+    font-weight: 400;
+}
+
+.addTaskDialog .task-form__col {
+    gap: 4px;
+}

@@ -51,7 +51,6 @@ function applyTaskBaseFields(task, dialog) {
     task.description = dialog.querySelector("#edit-description")?.value.trim() || "";
     task.dueDate = dialog.querySelector("#edit-due-date")?.value || "";
     task.priority = getSelectedEditPriority(dialog);
-    task.priorityClass = getPriorityIconClass(task.priority);
 }
 
 function applyTaskCategory(task, updatedCategoryLabel) {
