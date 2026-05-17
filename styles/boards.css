@@ -146,7 +146,6 @@
 .searchBtn {
     float: right;
     font-size: 0;
-    border: none;
     cursor: pointer;
     height: 36px;
     width: 44px;
@@ -176,6 +175,11 @@
     padding-left: 12px;
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
+}
+
+.example:focus-within,
+.example-mobile:focus-within {
+    border-color: var(--input-focus-border);
 }
 
 .seperatorleftBtn {

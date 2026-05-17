@@ -25,6 +25,7 @@
     --content-limit: calc(1440px - var(--width-sidebar));
     --content-limit-header: calc(var(--content-limit) - var(--padding-header-x) * 2);
     --distance-bottom-main-sides: 50px;
+    --input-focus-border: var(--color-brand-accent);
 }
 
 @media (max-width: 1200px) {

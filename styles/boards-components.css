@@ -1,6 +1,5 @@
 .subtask-item__actions button {
     background: transparent;
-    border: none;
     color: var(--color-brand-primary);
     padding: 2px 6px;
     border-radius: 6px;
@@ -179,7 +178,6 @@
     font-size: 1.1rem;
     font-weight: 600;
     padding: 10px 32px;
-    border: none;
     cursor: pointer;
     transition: background 0.15s;
 }
@@ -425,7 +423,6 @@
     display: flex;
     align-items: center;
     gap: 0;
-    border: none;
     background: none;
     padding: 0;
     cursor: pointer;
@@ -459,7 +456,6 @@
 .edit-subtask-btn,
 .clear-subtasks-btn {
     display: none;
-    border: none;
     background: transparent;
     color: var(--color-brand-primary);
     padding: 0 4px;
@@ -587,7 +583,6 @@
 }
 
 .subtask-input__button {
-    border: none;
     border-radius: 8px;
     width: 28px;
     height: 28px;
@@ -802,7 +797,6 @@
 .create-task-btn {
     background-color: var(--color-brand-primary);
     color: white;
-    border: none;
     border-radius: 8px;
     padding: 10px 10px;
     font-size: 16px;
@@ -1044,7 +1038,6 @@
 .priority-buttons__btn--low {
     background-color: var(--color-status-success);
     color: white;
-    border: none;
     width: 100px;
     height: 48px;
     display: flex;
@@ -1055,7 +1048,6 @@
 .priority-buttons__btn--medium {
     background-color: var(--color-status-warning);
     color: white;
-    border: none;
     width: 100px;
     height: 48px;
     display: flex;
@@ -1066,7 +1058,6 @@
 .priority-buttons__btn--urgent {
     background-color: var(--color-status-danger);
     color: white;
-    border: none;
     width: 100px;
     height: 48px;
     display: flex;
@@ -1385,7 +1376,6 @@
 }
 
 .addTaskDialog__close-btn {
-    border: none;
     outline: none;
     background: none;
     cursor: pointer;
@@ -1496,7 +1486,6 @@
 
 .editTaskDialog__delete-btn,
 .editTaskDialog__edit-btn {
-    border: none;
     background: transparent;
     color: var(--color-brand-primary);
     font-size: 18px;

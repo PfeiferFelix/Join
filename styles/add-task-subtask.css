@@ -17,6 +17,10 @@
     border-color: transparent;
 }
 
+.subtask-input:focus-within {
+    border-color: var(--input-focus-border);
+}
+
 .subtask-input__btn:hover {
     background-color: var(--color-neutral-100);
 }

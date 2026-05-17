@@ -10,7 +10,6 @@
 .btn-primary {
     background-color: var(--color-brand-primary);
     color: white;
-    border: none;
 }
 
 .btn-secondary {

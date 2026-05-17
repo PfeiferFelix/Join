@@ -164,7 +164,6 @@
     }
 
     .task-move-panel__item {
-        border: none;
         border-radius: 8px;
         background-color: transparent;
         color: var(--color-neutral-0);

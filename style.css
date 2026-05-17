@@ -46,6 +46,13 @@ button {
     cursor: pointer;
 }
 
+:root input:focus,
+:root textarea:focus,
+:root select:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+}
+
 .content__container {
     display: flex;
     min-height: 100vh;
