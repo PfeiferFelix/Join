@@ -186,8 +186,8 @@ function getaddTaskTemplateDialog() {
             <p class="task-form__required-hint task-form__required-hint--desktop">This field is required</p>
         </div>
             <div class="task-form__actions">
-                <button class="task-form__btn task-form__btn--clear" type="reset">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt="cancel"></button>
-                <button class="task-form__btn task-form__btn--submit" type="submit">Create Task <img src="assets/add-task/check.svg" alt="create"></button>
+                <button class="task-form__btn task-form__btn--clear" type="reset" id="add-task-clear-btn">Cancel <img src="assets/add-task/iconoir_cancel.svg" alt="cancel"></button>
+                <button class="task-form__btn task-form__btn--submit" type="submit" id="add-task-submit-btn">Create Task <img src="assets/add-task/check.svg" alt="create"></button>
             </div>
         </div>
 
