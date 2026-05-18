@@ -46,6 +46,13 @@ button {
     cursor: pointer;
 }
 
+input:focus,
+textarea:focus,
+select:focus {
+    outline-color: var(--color-brand-accent);
+    border-color: var(--color-brand-accent);
+}
+
 .content__container {
     display: flex;
     min-height: 100vh;
@@ -179,7 +186,7 @@ button {
 }
 
 .header__user-button:hover .header__circle {
-    fill: var(--color-neutral-200);
+    fill: var(--color-neutral-400);
 }
 
 .header__user-interaction-container {

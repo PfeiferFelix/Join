@@ -53,7 +53,7 @@
     display: inline-block;
     width: 1px;
     height: 18px;
-    background: var(--color-neutral-350);
+    background: var(--color-neutral-400);
     margin: 0 4px;
     vertical-align: middle;
 }
@@ -78,11 +78,11 @@
 }
 
 .priority-buttons__btn--urgent .priority-arrow {
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
 }
 
 .priority-buttons__btn--low .priority-arrow {
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
 }
 
 /* --- Edit Task Dialog Custom Layout --- */
@@ -101,7 +101,7 @@
     min-height: 80px;
     font-size: 1rem;
     border-radius: 10px;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
     padding: 8px;
     margin-bottom: 0;
     resize: vertical;
@@ -142,17 +142,17 @@
 
 .priority-buttons__btn--urgent {
     background: var(--color-status-danger);
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
 }
 
 .priority-buttons__btn--medium {
     background: var(--color-status-warning);
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
 }
 
 .priority-buttons__btn--low {
     background: var(--color-status-success);
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
 }
 
 .assigned-users-list-edit {
@@ -212,7 +212,7 @@
     justify-content: center;
     align-items: center;
     background: var(--color-brand-primary);
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
@@ -278,15 +278,15 @@
 }
 
 .priority-label--up {
-    color: var(--color-neutral-900);
+    color: var(--color-neutral-600);
 }
 
 .priority-label--medium {
-    color: var(--color-neutral-900);
+    color: var(--color-neutral-600);
 }
 
 .priority-label--down {
-    color: var(--color-neutral-900);
+    color: var(--color-neutral-600);
 }
 
 .priority-buttons__icon--up {
@@ -350,7 +350,7 @@
 }
 
 .editTaskDialog__footer-show .editTaskDialog__delete-btn {
-    border-right: 1px solid var(--color-neutral-350);
+    border-right: 1px solid var(--color-neutral-400);
     padding-right: 8px;
 }
 
@@ -485,7 +485,7 @@
 
 /* Subtasks */
 .clear-subtasks-btn {
-    border-left: 1px solid var(--color-neutral-350);
+    border-left: 1px solid var(--color-neutral-400);
     margin-left: 2px;
     padding-left: 8px;
 }
@@ -563,7 +563,7 @@
     border: none;
     border-radius: 8px;
     outline: none;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
     height: 28px;
 }
 
@@ -614,18 +614,22 @@
     display: inline-block;
     width: 1px;
     height: 16px;
-    background-color: var(--color-neutral-350);
+    background-color: var(--color-neutral-400);
 }
 
 .subtask-input__separator {
     display: none;
     width: 1px;
     height: 16px;
-    background-color: var(--color-neutral-350);
+    background-color: var(--color-neutral-400);
 }
 
 .subtask-input.subtask-input--active .subtask-input__separator {
     display: inline-block;
+}
+
+.subtask-input:focus-within {
+    border-color: var(--color-brand-accent);
 }
 
 .subtask-input:focus-within .subtask-input__button {
@@ -708,7 +712,7 @@
 .subtask-item__separator {
     width: 1px;
     height: 16px;
-    background-color: var(--color-neutral-350);
+    background-color: var(--color-neutral-400);
     align-self: center;
 }
 
@@ -882,7 +886,7 @@
 
 .create-task-btn:disabled {
     background-color: var(--color-brand-primary);
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
     opacity: 0.55;
     cursor: default;
     transform: none;
@@ -896,7 +900,7 @@
 .input__dialogAddTask {
     width: 270px;
     border-radius: 10px;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
     font-size: 16px;
     padding: 6px;
 }
@@ -917,7 +921,7 @@
     gap: 6px;
     border: 1px solid transparent;
     border-radius: 8px;
-    background-color: var(--color-neutral-0);
+    background-color: var(--color-neutral-400);
     padding: 0 10px;
     margin-top: 0;
     max-height: 170px;
@@ -984,7 +988,7 @@
     border-radius: 4px;
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--color-neutral-0);
+    background-color: var(--color-neutral-400);
     cursor: pointer;
     display: inline-grid;
     place-content: center;
@@ -1004,7 +1008,7 @@
     height: 10px;
     transform: scale(0);
     transition: transform 0.12s ease;
-    box-shadow: inset 1em 1em var(--color-neutral-0);
+    box-shadow: inset 1em 1em var(--color-neutral-400);
     clip-path: polygon(14% 44%, 0 62%, 44% 100%, 100% 16%, 84% 0, 43% 62%);
 }
 
@@ -1042,7 +1046,7 @@
 .overSelect {
     position: absolute;
     inset: 0;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -1145,7 +1149,7 @@
 .priority-buttons__btn--low .priority-buttons__icon,
 .priority-buttons__btn--low .priority-buttons__icon--up,
 .priority-buttons__btn--low .priority-buttons__icon--down {
-    color: var(--color-neutral-0) !important;
+    color: var(--color-neutral-400) !important;
     font-size: 16px;
     font-weight: bold;
 }
@@ -1245,7 +1249,7 @@
 .task-form__inputAddTask {
     width: 270px;
     border-radius: 10px;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
     font-size: 16px;
     padding: 8px;
 }
@@ -1253,7 +1257,7 @@
 .task-form__inputDate {
     width: 270px;
     border-radius: 10px;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
     font-size: 16px;
     padding: 8px;
 }
@@ -1299,7 +1303,7 @@
 .task-form__input-date,
 .subtask-item__input {
     box-sizing: border-box;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
 }
 
 .task-form__required-note--mobile {
@@ -1310,7 +1314,7 @@
     width: 100%;
     border-radius: 6px;
     padding: 4px;
-    border: 1px solid var(--color-neutral-350);
+    border: 1px solid var(--color-neutral-400);
     font-size: 16px;
 }
 
@@ -1324,7 +1328,7 @@
     width: 100%;
     border-radius: 6px;
     padding: 4px 8px;
-    border: 1px solid var(--color-neutral-350);
+    border: 1px solid var(--color-neutral-400);
     font-size: 16px;
     cursor: pointer;
     display: flex;
@@ -1339,14 +1343,14 @@
 
 .category-custom-select__trigger:focus {
     outline: none;
-    border-color: var(--color-neutral-350);
+    border-color: var(--color-neutral-400);
     box-shadow: none;
 }
 
 .category-custom-select__trigger:focus-visible,
 .category-custom-select__trigger:active {
     outline: none;
-    border-color: var(--color-neutral-350);
+    border-color: var(--color-neutral-400);
     box-shadow: none;
 }
 
@@ -1361,7 +1365,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    border: 1px solid var(--color-neutral-350);
+    border: 1px solid var(--color-neutral-400);
     border-radius: 6px;
     background: white;
     z-index: 100;
@@ -1430,7 +1434,7 @@
     position: sticky;
     bottom: 0;
     z-index: 2;
-    background: var(--color-neutral-0);
+    background: white;
     margin-top: 12px;
     padding-top: 12px;
 }
@@ -1478,7 +1482,7 @@
     padding: 14px 20px;
     border-radius: 10px;
     background-color: var(--color-brand-primary);
-    color: var(--color-neutral-0);
+    color: var(--color-neutral-400);
     font-weight: 700;
     box-shadow: 0 8px 24px rgba(16, 24, 40, 0.28);
 }
@@ -1559,7 +1563,7 @@
     margin: auto;
     padding: 20px;
     box-sizing: border-box;
-    background-color: var(--color-neutral-0);
+    background-color: white;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
     overflow: hidden;
     overflow-x: hidden;
@@ -1647,7 +1651,7 @@
 }
 
 .editTaskDialog__footer-show .editTaskDialog__delete-btn {
-    border-right: 1px solid var(--color-neutral-350);
+    border-right: 1px solid var(--color-neutral-400);
     padding-right: 8px;
 }
 
@@ -1670,7 +1674,7 @@
 
 .editTaskDialog__input {
     width: 100%;
-    border: 1px solid var(--color-neutral-350);
+    border: 1px solid var(--color-neutral-400);
     border-radius: 10px;
     font-size: 16px;
     /* font-weight: 700; */
@@ -1693,7 +1697,7 @@
 .task-form__separator {
     height: 360px;
     width: 2px;
-    background-color: var(--color-neutral-450);
+    background-color: var(--color-neutral-400);
     margin-top: 60px;
 }
 

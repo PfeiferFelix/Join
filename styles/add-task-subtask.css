@@ -1,7 +1,7 @@
 .subtask-input {
     display: flex;
     align-items: center;
-    border: 1px solid var(--color-neutral-350);
+    border: 1px solid var(--color-neutral-400);
     border-radius: 8px;
     overflow: hidden;
     background-color: white;
@@ -12,6 +12,10 @@
     border: none;
     border-radius: 0;
     background-color: transparent;
+}
+
+.subtask-input:focus-within {
+    border-color: var(--color-brand-accent);
 }
 
 .subtask-input__field:focus {
@@ -34,7 +38,7 @@
 }
 
 .subtask-input__btn:hover {
-    background-color: var(--color-neutral-100);
+    background-color: var(--color-neutral-400);
 }
 
 .subtask-input--active .subtask-input__btn {
@@ -48,7 +52,7 @@
 .subtask-input__separator {
     width: 1px;
     height: 20px;
-    background-color: var(--color-neutral-350);
+    background-color: var(--color-neutral-400);
     flex-shrink: 0;
     display: none;
 }
@@ -78,7 +82,7 @@
 }
 
 .subtask-list__item:hover {
-    background-color: var(--color-neutral-100);
+    background-color: var(--color-neutral-400);
 }
 
 .subtask-list__text::before {

@@ -102,7 +102,7 @@ header {
 }
 
 .input__wrapper input::placeholder {
-    color: var(--color-neutral-500);
+    color: var(--color-neutral-700);
 }
 
 .input__wrapper input:focus {
@@ -131,7 +131,7 @@ footer {
 }
 
 .footer__Link {
-    color: var(--color-neutral-500);
+    color: var(--color-neutral-700);
     text-decoration: none;
     margin-left: 20px;
     display: inline-block;
@@ -167,7 +167,7 @@ footer {
 
 .checkbox__row label {
     font-size: 15px;
-    color: var(--color-neutral-500);
+    color: var(--color-neutral-700);
     cursor: pointer;
 }
 

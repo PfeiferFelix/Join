@@ -1,17 +1,9 @@
 :root {
     --color-black: #000000;
-    --color-neutral-0: #ffffff;
     --color-neutral-50: #f6f7f8;
-    --color-neutral-100: #f0f0f0;
-    --color-neutral-200: #e2e6ec;
-    --color-neutral-300: #d1d7db;
-    --color-neutral-350: #d1d1d1;
     --color-neutral-400: #cdcdcd;
-    --color-neutral-450: #ccc;
-    --color-neutral-500: #9ca3af;
     --color-neutral-600: #888;
     --color-neutral-700: #7a8a99;
-    --color-neutral-900: #222;
     --color-brand-primary: #2a3647;
     --color-brand-accent: #29abe2;
     --color-brand-soft: #b5c6db;

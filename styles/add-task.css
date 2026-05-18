@@ -53,7 +53,7 @@ body.add-task-page .main-content__page-title {
 .task-form__separator {
     height: 424px;
     width: 2px;
-    background-color: var(--color-neutral-350);
+    background-color: var(--color-neutral-400);
     margin: 20px 0;
 }
 
@@ -66,17 +66,12 @@ input,
 textarea,
 select {
     padding: 12px 16px;
-    border: 1px solid var(--color-neutral-350);
+    border: 1px solid var(--color-neutral-400);
     border-radius: 8px;
     font-size: 16px;
     outline: none;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-    border-color: var(--color-brand-primary);
-}
 
 textarea {
     resize: vertical;
@@ -223,7 +218,7 @@ textarea {
         width: 100%;
         background-color: rgb(246, 247, 248);
         padding: 16px;
-        border-top: 1px solid var(--color-neutral-350);
+        border-top: 1px solid var(--color-neutral-400);
         display: flex;
         justify-content: center;
         z-index: 60;

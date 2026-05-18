@@ -183,15 +183,14 @@ function getNormalizedSearchQuery(searchInput) {
     return (searchInput?.value || '').trim().toLowerCase();
 }
 
-// Validates the search query and shows browser validity feedback when empty.
-function validateSearchQuery(searchInput, query) {
-    if (query) {
-        if (searchInput) searchInput.setCustomValidity('');
-        return true;
-    }
-    if (!searchInput) return false;
-    searchInput.setCustomValidity('Bitte gib einen Suchbegriff ein.');
-    searchInput.reportValidity();
+// Validates the search query and shows a SweetAlert when empty.
+function validateSearchQuery(query) {
+    if (query) return true;
+    Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Bitte gib einen Suchbegriff ein.',
+    });
     return false;
 }
 
@@ -208,7 +207,7 @@ function searchCard(event) {
     event.preventDefault();
     const searchInput = getSearchInputFromForm(event.currentTarget);
     const query = getNormalizedSearchQuery(searchInput);
-    if (!validateSearchQuery(searchInput, query)) return;
+    if (!validateSearchQuery(query)) return;
     renderSearchResults(query);
 }
 
