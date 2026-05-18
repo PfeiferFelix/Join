@@ -162,16 +162,9 @@ textarea {
     justify-content: center;
     align-items: center;
     gap: 12px;
-
 }
 
 @media (min-width: 320px) and (max-width: 855px) {
-    body.add-task-page {
-        overflow-x: hidden;
-    }
-    body.add-task-page main {
-        overflow: hidden;
-    }
     body.add-task-page .main-content {
         margin-top: 0;
         margin-left: 0;
@@ -179,7 +172,6 @@ textarea {
     }
     body.add-task-page .header-main__container {
         max-height: 100vh;
-        overflow: hidden;
         display: flex;
         flex-direction: column;
     }
@@ -188,7 +180,6 @@ textarea {
         flex-direction: column;
         flex: 1;
         min-height: 0;
-        overflow: hidden;
         padding: 16px 25px 0 25px;
     }
     body.add-task-page .main-content__page-title {
@@ -198,7 +189,6 @@ textarea {
     .task-form__scroll-area {
         flex: 1;
         min-height: 0;
-        overflow-y: auto;
         padding-bottom: 200px;
     }
     .task-form__body {
@@ -228,7 +218,6 @@ textarea {
         justify-content: center;
         z-index: 60;
         box-sizing: border-box;
-        overflow: hidden;
     }
     .task-form__actions {
         width: 100%;
@@ -279,7 +268,6 @@ textarea {
 
 body.add-task-page {
     height: 100%;
-    overflow: hidden;
 }
 
 .task-form__error {
