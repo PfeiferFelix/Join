@@ -64,8 +64,7 @@
     flex-direction: column;
     gap: 8px;
     margin-top: 8px;
-    min-height: 56px;
-    max-height: 56px;
+    height: 64px;
     overflow-y: auto;
 }
 
