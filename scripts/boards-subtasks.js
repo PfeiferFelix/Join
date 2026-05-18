@@ -1,13 +1,30 @@
-﻿// Fügt einen Subtask hinzu und blendet danach die Aktionsbuttons aus
+﻿
+/**
+ * Adds a new subtask and hides the action buttons in the edit dialog.
+ * @param {HTMLElement} btn - The button that triggered the action.
+ * @param {number} taskId - The ID of the task to add the subtask to.
+ */
 function addNewSubtaskAndHideBtns(btn, taskId) {
     addNewSubtask(taskId);
+    const dialog = document.getElementById('editTaskDialog');
     const input = btn.closest('.subtask-input').querySelector('input[type="text"]');
     if (input) {
         input.value = '';
         btn.closest('.subtask-input').querySelector('.subtask-item__actions').classList.remove('subtask-item__actions--active');
     }
+    if (!dialog) return;
+    const hiddenInput = dialog.querySelector('#edit-subtasks-data');
+    const countSpan = dialog.querySelector('#edit-subtask-count');
+    if (!hiddenInput || !countSpan) return;
+    const subtasks = JSON.parse(hiddenInput.value || '[]');
+    countSpan.textContent = '+' + subtasks.length;
+    countSpan.style.display = subtasks.length === 0 ? 'none' : '';
 }
-// Accepts a subtask edit (saves the value and exits edit mode).
+/**
+ * Returns the dialog and input element for editing a subtask at a given index.
+ * @param {number} index - The subtask index.
+ * @returns {{dialog: HTMLElement|null, input: HTMLElement|null}}
+ */
 function getEditDialogSubtaskInput(index) {
     const dialog = document.getElementById('editTaskDialog');
     if (!dialog) return { dialog: null, input: null };
@@ -15,6 +32,13 @@ function getEditDialogSubtaskInput(index) {
     return { dialog, input: item?.querySelector('.subtask-item__input') || null };
 }
 
+/**
+ * Updates the title of a subtask for a given task.
+ * @param {number} taskId - The ID of the task.
+ * @param {number} index - The subtask index.
+ * @param {string} newTitle - The new title for the subtask.
+ * @returns {Array|null} The updated subtasks array or null if not found.
+ */
 function updateTaskSubtaskTitle(taskId, index, newTitle) {
     const task = todos.find(t => t.id == taskId);
     if (!task) return null;
@@ -25,6 +49,12 @@ function updateTaskSubtaskTitle(taskId, index, newTitle) {
     return subtasks;
 }
 
+/**
+ * Synchronizes the edited subtasks with the dialog and updates the UI.
+ * @param {HTMLElement} dialog - The edit dialog element.
+ * @param {Array} subtasks - The updated subtasks array.
+ * @param {number} taskId - The ID of the task.
+ */
 function syncEditedSubtasksToDialog(dialog, subtasks, taskId) {
     const hiddenInput = dialog.querySelector('#edit-subtasks-data');
     if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);
@@ -33,6 +63,11 @@ function syncEditedSubtasksToDialog(dialog, subtasks, taskId) {
     if (list) renderEditSubtaskItems(list, subtasks, taskId);
 }
 
+/**
+ * Accepts and saves the edited value of a subtask, then exits edit mode.
+ * @param {number} taskId - The ID of the task.
+ * @param {number} index - The subtask index.
+ */
 function acceptSubtaskItem(taskId, index) {
     const { dialog, input } = getEditDialogSubtaskInput(index);
     if (!dialog || !input) return;
@@ -43,7 +78,11 @@ function acceptSubtaskItem(taskId, index) {
     syncEditedSubtasksToDialog(dialog, subtasks, taskId);
 }
 
-// Switches a subtask item into inline edit mode.
+/**
+ * Switches a subtask item into inline edit mode in the dialog.
+ * @param {number} taskId - The ID of the task.
+ * @param {number} index - The subtask index.
+ */
 function editSubtaskItem(taskId, index) {
     const dialog = document.getElementById('editTaskDialog');
     if (!dialog) return;
@@ -59,7 +98,12 @@ function editSubtaskItem(taskId, index) {
     item.querySelector('.subtask-item__input')?.focus();
 }
 
-// Re-renders editable subtask items in the dialog.
+/**
+ * Renders all editable subtask items in the edit dialog.
+ * @param {HTMLElement} list - The subtask list container.
+ * @param {Array} subtasks - The subtasks array.
+ * @param {number} taskId - The ID of the task.
+ */
 function renderEditSubtaskItems(list, subtasks, taskId) {
     list.querySelectorAll('.subtask-item').forEach(item => item.remove());
     const container = list.querySelector('.subtask-container__list') || list;
@@ -68,7 +112,11 @@ function renderEditSubtaskItems(list, subtasks, taskId) {
     updateNewSubtaskInputVisibility(list, subtasks);
 }
 
-// Hides the new-subtask input when the limit is reached.
+/**
+ * Hides the new-subtask input if the subtask limit is reached.
+ * @param {HTMLElement} list - The subtask list container.
+ * @param {Array} [subtasks=[]] - The subtasks array.
+ */
 function updateNewSubtaskInputVisibility(list, subtasks = []) {
     const container = list?.closest('.subtask-container') || list?.parentElement;
     const inputWrapper = container?.querySelector('.subtask-input');
@@ -76,7 +124,12 @@ function updateNewSubtaskInputVisibility(list, subtasks = []) {
     inputWrapper.hidden = getLimitedSubtasks(subtasks).length >= 10;
 }
 
-// Saves an edited subtask title for a task.
+/**
+ * Saves an edited subtask title for a task.
+ * @param {KeyboardEvent|null} event - The triggering event (Enter key or null).
+ * @param {number} taskId - The ID of the task.
+ * @param {number} index - The subtask index.
+ */
 function saveSubtaskItem(event, taskId, index) {
     if (event && event.key !== 'Enter') return;
     if (event) event.preventDefault();
@@ -92,7 +145,10 @@ function saveSubtaskItem(event, taskId, index) {
     const list = (dialog || document).querySelector('.subtask-list'); if (list) renderEditSubtaskItems(list, subtasks, taskId);
 }
 
-// Adds a new subtask from the dialog input.
+/**
+ * Adds a new subtask from the dialog input to the task.
+ * @param {number} taskId - The ID of the task.
+ */
 function addNewSubtask(taskId) {
     const dialog = document.getElementById('editTaskDialog');
     if (!dialog) return;
@@ -108,7 +164,11 @@ function addNewSubtask(taskId) {
     task.subtasks = updatedSubtasks; task.subtask = updatedSubtasks[0]?.title || ''; updateHTML();
 }
 
-// Deletes a subtask item and updates related previews.
+/**
+ * Deletes a subtask item from a task and updates previews.
+ * @param {number} taskId - The ID of the task.
+ * @param {number} index - The subtask index.
+ */
 function deleteSubtaskItem(taskId, index) {
     const task = todos.find(t => t.id == taskId);
     if (!task) return;
@@ -124,6 +184,11 @@ function deleteSubtaskItem(taskId, index) {
     updateTaskCardSubtaskPreview(taskId, task, subtasks, true);
 }
 
+/**
+ * Synchronizes the visual state of a subtask in the show dialog.
+ * @param {number} index - The subtask index.
+ * @param {boolean} isDone - Whether the subtask is done.
+ */
 function syncShowDialogSubtaskState(index, isDone) {
     const showDialog = document.getElementById('showTaskDialog');
     const subtaskItem = showDialog?.querySelector(`.subtask-item-show[data-subtask-index="${index}"]`);
@@ -131,13 +196,21 @@ function syncShowDialogSubtaskState(index, isDone) {
     subtaskItem.classList.toggle('subtask-item-show--done', Boolean(isDone));
 }
 
+/**
+ * Updates the master checkbox state for all subtasks.
+ * @param {Array} subtasks - The subtasks array.
+ */
 function syncSubtasksMasterCheckbox(subtasks) {
     const masterCheckbox = document.getElementById('selectSubtasks');
     if (!masterCheckbox) return;
     masterCheckbox.checked = subtasks.every(s => s.done);
 }
 
-// Toggles the completion state of a subtask.
+/**
+ * Toggles the completion state of a subtask for a task.
+ * @param {number} taskId - The ID of the task.
+ * @param {number} index - The subtask index.
+ */
 function toggleSubtask(taskId, index) {
     const task = todos.find(t => t.id == taskId);
     if (!task) return;
@@ -151,7 +224,10 @@ function toggleSubtask(taskId, index) {
     syncSubtasksMasterCheckbox(subtasks);
 }
 
-// Clears and focuses the new-subtask input field.
+/**
+ * Clears and focuses the new-subtask input field in the dialog.
+ * @param {number} taskId - The ID of the task.
+ */
 function clearSubtasks(taskId) {
     const dialog = document.getElementById('editTaskDialog');
     const input = dialog?.querySelector('#new-subtask-input');
@@ -162,14 +238,22 @@ function clearSubtasks(taskId) {
     input.focus();
 }
 
-// Handles Enter key to quickly add a new subtask.
+/**
+ * Handles the Enter key to quickly add a new subtask.
+ * @param {KeyboardEvent} event - The key event.
+ * @param {number} taskId - The ID of the task.
+ */
 function handleNewSubtaskInputKey(event, taskId) {
     if (event.key !== 'Enter') return;
     event.preventDefault();
     addNewSubtask(taskId);
 }
 
-// Closes any open inline subtask input editor.
+/**
+ * Closes any open inline subtask input editor in the dialog.
+ * @param {HTMLElement} dialog - The edit dialog element.
+ * @param {number} taskId - The ID of the task.
+ */
 function closeOpenSubtaskInput(dialog, taskId) {
     const openInput = dialog.querySelector('.subtask-item__input');
     if (!openInput) return;
@@ -184,7 +268,11 @@ function closeOpenSubtaskInput(dialog, taskId) {
     openEditBtn.setAttribute('onclick', `editSubtaskItem(${taskId}, ${openIndex})`);
 }
 
-// Escapes text for safe HTML text-node rendering.
+/**
+ * Escapes text for safe HTML text-node rendering.
+ * @param {string} value - The text value to escape.
+ * @returns {string} The escaped text.
+ */
 function escapeHtmlText(value) {
     return String(value ?? '')
         .replace(/&/g, '&amp;')
@@ -192,7 +280,11 @@ function escapeHtmlText(value) {
         .replace(/>/g, '&gt;');
 }
 
-// Escapes text for safe HTML attribute rendering.
+/**
+ * Escapes text for safe HTML attribute rendering.
+ * @param {string} value - The attribute value to escape.
+ * @returns {string} The escaped attribute value.
+ */
 function escapeHtmlAttribute(value) {
     return escapeHtmlText(value)
         .replace(/"/g, '&quot;')

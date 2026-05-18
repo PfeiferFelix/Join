@@ -1,4 +1,53 @@
-﻿.editTaskDialog__delete-btn img,
+﻿/* Maximal 2 sichtbare Subtasks, Rest scrollbar */
+ul.subtask-list-task {
+    max-height: 50px; /* 2 Items à ca. 36px Höhe */
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+    scrollbar-width: thin;
+}
+ul.subtask-list-task::-webkit-scrollbar {
+    width: 6px;
+}
+ul.subtask-list-task::-webkit-scrollbar-thumb {
+    background: var(--color-brand-soft);
+    border-radius: 8px;
+}
+ul.subtask-list-task::-webkit-scrollbar-track {
+    background: transparent;
+}
+.subtask-list--edit {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+.subtask-list--edit::-webkit-scrollbar {
+    display: none;
+}
+@keyframes dialogSlideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(80px);
+    }
+}
+
+.addTaskDialog,
+.showTaskDialog,
+.editTaskDialog {
+    animation: dialogSlideInRight 0.3s ease-out;
+}
+
+.addTaskDialog--closing,
+.showTaskDialog--closing,
+.editTaskDialog--closing {
+    animation: dialogSlideOutRight 0.3s ease-in forwards !important;
+}
+
+.editTaskDialog__delete-btn img,
 .editTaskDialog__edit-btn img {
     transition: filter 0.2s, transform 0.2s;
 }
@@ -45,8 +94,9 @@
 }
 
 .subtask-item__actions button:hover {
-    background-color: transparent;
+    background-color: #ebebeb;
     color: var(--color-brand-accent);
+    border-radius: 50%;
 }
 
 .subtask-item__separator {
@@ -214,11 +264,18 @@
     background: var(--color-brand-primary);
     color: var(--color-neutral-0);
     border-radius: 8px;
+    height: 38px;
+    width: 83px;
+    gap: 4px;
     font-size: 1.1rem;
     font-weight: 600;
     border: none;
     cursor: pointer;
     transition: background 0.15s;
+}
+
+.editTaskDialog__save-btn img {
+    filter: brightness(0) invert(1);
 }
 
 .editTaskDialog__save-btn:hover {
@@ -331,10 +388,12 @@
 }
 
 .subtask-item-show__label {
+    display: flex;
+    align-items: center;
     font-size: 1rem;
     color: var(--color-brand-primary);
     gap: 8px;
-    padding: 2px 0 2px 0;
+    padding: 2px 0 2px 8px;
     border-radius: 6px;
     width: 100%;
 }
@@ -493,6 +552,8 @@
 .edit-subtask-btn img,
 .clear-subtasks-btn img {
     transition: filter 0.2s, transform 0.2s;
+    width: 16px;
+    height: 16px;
 }
 
 .edit-subtask-btn,
@@ -653,7 +714,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 8px 0 20px;
+    padding: 4px 8px 4px 20px;
     border-radius: 8px;
 }
 
@@ -693,6 +754,7 @@
 
 .subtask-item:hover {
     background-color: #f0f3f7;
+    transition: background-color 0.15s;
 }
 
 .subtask-item:hover .subtask-item__actions {
@@ -720,119 +782,9 @@
     width: 100%;
     padding-left: 6px;
 }
-
-/* .subtask-item__input:hover,
-.subtask-item__input:focus,
-.subtask-item__input:active {
-    background-color: transparent;
-    border: none;
-}
-
-.subtask-item__title {
-    flex: 1;
-    font-size: 16px;
-    color: var(--color-brand-primary);
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding-left: 10px;
-}
-
-.subtask-item-show {
-    list-style-type: none;
-    padding: 4px 0;
-    padding: 4px 0;
-}
-
-.subtask-item-show__checkbox {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    accent-color: var(--color-brand-primary);
-}
-
 .task-form__label {
-    font-size: 16px;
-    color: #2a3647;
-    font-weight: 500;
-    margin-bottom: 4px;
+    margin-bottom: 12px;
 }
-
-.subtask-item-show__label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    color: var(--color-brand-primary);
-    padding: 4px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding-left: 20px;
-}
-
-.subtask-item-show__label:hover {
-    background-color: #e3e3e3;
-    padding-right: 4px;
-}
-
-.subtask-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding-left: unset;
-    max-height: 88px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 6px;
-    transition: padding-left 0.15s, background-color 0.15s;
-}
-
-.subtask-list::-webkit-scrollbar {
-    width: 6px;
-}
-
-.subtask-list::-webkit-scrollbar-thumb {
-    background: var(--color-brand-soft);
-    border-radius: 8px;
-}
-
-.subtask-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.subtask-list-task {
-    display: flex;
-    flex-direction: column;
-    padding-left: unset;
-    min-height: 64px;
-    max-height: 64px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 6px;
-}
-
-.subtask-list-task::-webkit-scrollbar {
-    width: 6px;
-}
-
-.subtask-list-task::-webkit-scrollbar-thumb {
-    background: var(--color-brand-soft);
-    border-radius: 8px;
-}
-
-.subtask-list-task::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.subtask-preview {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
 /* Forms and Controls */
 .cancel-btn {
     border: 1px solid var(--color-brand-primary);
@@ -1148,6 +1100,7 @@
     color: var(--color-neutral-0) !important;
     font-size: 16px;
     font-weight: bold;
+    filter: brightness(0) invert(1);
 }
 
 .ArrowUp {
@@ -1167,19 +1120,16 @@
     font-size: 22px;
     font-weight: bold;
     color: var(--color-status-success);
-    transform: rotate(-90deg);
 }
 
 .priority-buttons__icon--medium {
     color: var(--color-status-warning);
     font-size: 22px;
     font-weight: bold;
-    transform: rotate(90deg);
 }
 
 .priority-buttons__icon--up {
     color: var(--color-status-danger);
-    transform: rotate(90deg);
     font-size: 22px;
     font-weight: bold;
 }
@@ -1295,11 +1245,18 @@
     border-radius: 8px;
 }
 
+.task-form__input-date {
+    width: 95%;
+    border-radius: 10px;
+    border: 1px solid var(--color-neutral-450);
+    font-size: 16px;
+    padding: 8px;
+}
+
 .task-form__input-title,
-.task-form__input-date,
 .subtask-item__input {
     box-sizing: border-box;
-    border: 1px solid var(--color-neutral-450);
+    padding: unset;
 }
 
 .task-form__required-note--mobile {
@@ -1409,6 +1366,42 @@
     justify-content: center;
     flex-direction: column;
     overflow: hidden;
+    gap: 27px;
+}
+
+.task-form__btn--clear {
+    border: 1px solid var(--color-brand-primary);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--color-brand-primary);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+
+.task-form__btn--clear:hover {
+    border: 1px solid #29abe2;
+    border-radius: 8px;
+    color: #29abe2;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    transform: scale(1.01);
+    border-top: 0.7px solid #29abe2;
+}
+
+.task-form__btn--clear:hover img {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(99%) saturate(747%) hue-rotate(165deg) brightness(95%) contrast(92%);
+    transition: filter 0.2s;
+}
+
+.task-form__btn--clear:hover svg {
+    color: #29abe2 !important;
+    fill: #29abe2 !important;
+    transition: color 0.2s, fill 0.2s;
 }
 
 .addTaskDialog .task-form {
@@ -1531,8 +1524,8 @@
 
 .editTaskDialog {
     border: none;
-    border-radius: 14px;
-    width: min(400px, 92vw);
+    border-radius: 32px;
+    width: min(450px, 92vw);
     margin: auto;
     padding: 12px 12px;
     box-sizing: border-box;
@@ -1547,14 +1540,15 @@
 }
 
 .editTaskDialog:has(.editTaskDialog__content--form) {
-    height: min(800px, 90vh);
-    max-height: 90vh;
+    height: max(861px, 90vh);
+    max-height: 91vh;
 }
 
 .showTaskDialog {
     border: none;
-    border-radius: 14px;
+    border-radius: 32px;
     width: min(400px, 92vw);
+    height: min(610px, 90vh);
     max-height: 90vh;
     margin: auto;
     padding: 20px;
@@ -1569,6 +1563,7 @@
     display: flex;
     flex-direction: column;
     animation: dialogSlideInRight 0.3s ease-out;
+    height: fit-content;
 }
 
 .showTaskDialog::backdrop {
@@ -1585,11 +1580,11 @@
     flex-direction: column;
     justify-content: flex-start;
     animation: dialogSlideInRight 0.3s ease-out;
-    width: min(400px, 92vw);
-    max-height: 90vh;
+    width: min(450px, 92vw);
+    max-height: 91vh;
     overflow: hidden;
     overflow-x: hidden;
-    padding: 16px 24px;
+    padding: 14px 24px;
 }
 
 .editTaskDialog__content {
@@ -1655,8 +1650,6 @@
     display: flex;
     justify-content: end;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
 }
 
 .editTaskDialog__label {
@@ -1700,9 +1693,7 @@
 /* Misc */
 .addTaskBtn:hover {
     background-color: var(--color-brand-accent);
-    transition: all 0.25s ease;
-    transform: scale(1.01);
-    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 .addTaskwith__plus {
@@ -1759,8 +1750,4 @@
         opacity: 0;
         transform: translateY(-60px);
     }
-}
-
-.addTaskDialog--closing {
-    animation: dialogSlideOutUp 0.3s ease-in forwards !important;
 }

@@ -1,4 +1,8 @@
-// Maps a display category label to its internal key.
+/**
+ * Maps a display category label to its internal key.
+ * @param {string} label
+ * @returns {string}
+ */
 function mapCategoryLabelToKey(label) {
     if (label === "Technical Task") return "toDo";
     if (label === "User Story") return "inProgress";
@@ -7,7 +11,11 @@ function mapCategoryLabelToKey(label) {
     return "toDo";
 }
 
-// Returns the selected priority from edit-task buttons.
+/**
+ * Returns the selected priority from edit-task buttons in the dialog.
+ * @param {HTMLElement} dialog
+ * @returns {string}
+ */
 function getSelectedEditPriority(dialog) {
     const urgent = dialog.querySelector("#edit-priority-urgent");
     const medium = dialog.querySelector("#edit-priority-medium");
@@ -19,8 +27,16 @@ function getSelectedEditPriority(dialog) {
     return "Medium";
 }
 
-// Sets the active edit-task priority button style.
+/**
+ * Sets the active edit-task priority button style in the dialog.
+ * @param {string} priority
+ */
 function setEditPriority(priority) {
+    /**
+     * Returns an array of assigned user IDs from the edit dialog.
+     * @param {HTMLElement} dialog
+     * @returns {number[]}
+     */
     const dialog = document.getElementById("editTaskDialog");
     if (!dialog) return;
     const urgent = dialog.querySelector("#edit-priority-urgent");
@@ -36,17 +52,32 @@ function setEditPriority(priority) {
 }
 
 function getUpdatedAssignedIds(dialog) {
+    /**
+     * Returns an array of updated subtasks from the edit dialog.
+     * @param {HTMLElement} dialog
+     * @returns {Array}
+     */
     return Array.from(dialog.querySelectorAll('#edit-assigned-to-checkboxes input[type="checkbox"]:checked'))
         .map(cb => Number(cb.value))
         .filter(id => Number.isFinite(id));
 }
 
 function getUpdatedSubtasks(dialog) {
+    /**
+     * Applies base fields (title, description, due date, priority) from dialog to task.
+     * @param {object} task
+     * @param {HTMLElement} dialog
+     */
     const subtasksData = dialog.querySelector('#edit-subtasks-data')?.value || '[]';
     return getLimitedSubtasks(JSON.parse(subtasksData));
 }
 
 function applyTaskBaseFields(task, dialog) {
+    /**
+     * Applies category fields from dialog to task.
+     * @param {object} task
+     * @param {string} updatedCategoryLabel
+     */
     task.title = dialog.querySelector("#edit-title")?.value.trim() || "";
     task.description = dialog.querySelector("#edit-description")?.value.trim() || "";
     task.dueDate = dialog.querySelector("#edit-due-date")?.value || "";
@@ -54,6 +85,12 @@ function applyTaskBaseFields(task, dialog) {
 }
 
 function applyTaskCategory(task, updatedCategoryLabel) {
+    /**
+     * Applies assignments and subtasks from dialog to task.
+     * @param {object} task
+     * @param {number[]} updatedAssignedIds
+     * @param {Array} updatedSubtasks
+     */
     if (updatedCategoryLabel) {
         task.selectedCategoryLabel = updatedCategoryLabel;
         task.category = mapCategoryLabelToKey(updatedCategoryLabel);
@@ -69,7 +106,11 @@ function applyTaskAssignmentsAndSubtasks(task, updatedAssignedIds, updatedSubtas
     task.subtask = updatedSubtasks[0]?.title || "";
 }
 
-// Applies values from the edit dialog to a task object.
+/**
+ * Applies all values from the edit dialog to a task object.
+ * @param {object} task
+ * @param {HTMLElement} dialog
+ */
 function applyEditTaskValues(task, dialog) {
     const updatedCategoryLabel = dialog.querySelector('#edit-category')?.value?.trim();
     const updatedAssignedIds = getUpdatedAssignedIds(dialog);
@@ -79,7 +120,11 @@ function applyEditTaskValues(task, dialog) {
     applyTaskAssignmentsAndSubtasks(task, updatedAssignedIds, updatedSubtasks);
 }
 
-// Saves edited task values and refreshes the board.
+/**
+ * Saves edited task values and refreshes the board.
+ * @param {Event} event
+ * @returns {Promise<void>}
+ */
 async function handleEditTaskSave(event) {
     event.preventDefault();
     const dialog = document.getElementById("editTaskDialog");
@@ -99,7 +144,11 @@ async function handleEditTaskSave(event) {
     closeDialog();
 }
 
-// Sets up the edit dialog content and event handlers.
+/**
+ * Sets up the edit dialog content and event handlers for editing a task.
+ * @param {HTMLElement} dialog
+ * @param {object} task
+ */
 function setupEditTaskDialog(dialog, task) {
     dialog.innerHTML = getEditTaskFormTemplate(buildEditTaskFormTemplateData(task));
     const subtaskList = dialog.querySelector('.subtask-list');
@@ -118,7 +167,10 @@ function setupEditTaskDialog(dialog, task) {
     if (editForm) editForm.addEventListener("submit", handleEditTaskSave);
 }
 
-// Opens the edit dialog for an existing task.
+/**
+ * Opens the edit dialog for an existing task.
+ * @param {string|number} taskId
+ */
 function editTask(taskId) {
     const task = todos.find((t) => t.id == taskId);
     if (!task) return;

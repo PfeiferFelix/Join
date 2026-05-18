@@ -1,4 +1,8 @@
-// Returns the avatar fill color from AVATAR_COLORS for a given index.
+/**
+ * Returns the avatar fill color from AVATAR_COLORS for a given index.
+ * @param {number} index
+ * @returns {string}
+ */
 function getAvatarFillColor(index) {
     const colors = typeof AVATAR_COLORS !== 'undefined' ? AVATAR_COLORS : [
         '#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8',
@@ -8,7 +12,11 @@ function getAvatarFillColor(index) {
     return colors[index % colors.length];
 }
 
-// Builds reusable task display labels and icon symbols.
+/**
+ * Builds reusable task display labels and icon symbols for a given priority.
+ * @param {string} priority
+ * @returns {{text: string, iconClass: string, icon: string}}
+ */
 function getPriorityView(priority) {
     const iconClass = getPriorityIconClass(priority || '');
     const priorityLabel = priority || '';
@@ -29,7 +37,11 @@ function getPriorityView(priority) {
     return { text, iconClass, icon };
 }
 
-// Returns assigned users as show-dialog row HTML.
+/**
+ * Returns assigned users as show-dialog row HTML.
+ * @param {object} task
+ * @returns {string}
+ */
 function getShowAssignedUsersHTML(task) {
     const users = Array.isArray(task.assignedTo) ? task.assignedTo : [];
     return users.map((user, index) => {
@@ -38,13 +50,21 @@ function getShowAssignedUsersHTML(task) {
     }).join('');
 }
 
-// Returns subtasks as show-dialog list HTML.
+/**
+ * Returns subtasks as show-dialog list HTML.
+ * @param {object} task
+ * @returns {string}
+ */
 function getShowSubtasksHTML(task) {
     const subtasks = getLimitedSubtasks(task.subtasks);
     return subtasks.map((subtask, index) => getShowSubtaskItemTemplate(subtask, task.id, index)).join('');
 }
 
-// Builds HTML strings for assigned users and subtasks in the show dialog.
+/**
+ * Builds HTML strings for assigned users and subtasks in the show dialog.
+ * @param {object} task
+ * @returns {{assignedUsersHTML: string, subtasksHTML: string}}
+ */
 function buildShowTaskHTML(task) {
     return {
         assignedUsersHTML: getShowAssignedUsersHTML(task),
@@ -52,7 +72,11 @@ function buildShowTaskHTML(task) {
     };
 }
 
-// Builds view data for the task detail dialog.
+/**
+ * Builds view data for the task detail dialog.
+ * @param {object} task
+ * @returns {object}
+ */
 function buildShowTaskViewData(task) {
     const fixedHeaderLabel = task.selectedCategoryLabel || categoryLabel(task.category);
     const { text, iconClass, icon } = getPriorityView(task.priority);
@@ -62,7 +86,11 @@ function buildShowTaskViewData(task) {
         assignedUsersHTML, subtasksHTML };
 }
 
-// Builds subtask-related data for a task card.
+/**
+ * Builds subtask-related data for a task card.
+ * @param {object} todo
+ * @returns {{subtasks: Array, doneCount: number, hasSubtasks: boolean, subtaskPercent: number}}
+ */
 function buildTodoCardSubtaskData(todo) {
     const subtasks = getLimitedSubtasks(todo?.subtasks);
     const doneCount = subtasks.filter(subtask => Boolean(subtask.done)).length;
@@ -71,7 +99,11 @@ function buildTodoCardSubtaskData(todo) {
     return { subtasks, doneCount, hasSubtasks, subtaskPercent };
 }
 
-// Builds assigned users HTML for a board task card.
+/**
+ * Builds assigned users HTML for a board task card.
+ * @param {object} todo
+ * @returns {string}
+ */
 function getTodoAssignedUsersHTML(todo) {
     if (!Array.isArray(todo.assignedTo)) return '';
     return todo.assignedTo.map((user, index) => {
@@ -80,7 +112,11 @@ function getTodoAssignedUsersHTML(todo) {
     }).join('');
 }
 
-// Builds template data used to render a task card.
+/**
+ * Builds template data used to render a task card.
+ * @param {object} todo
+ * @returns {object}
+ */
 function buildTodoCardTemplateData(todo) {
     const fixedHeaderLabel = todo.selectedCategoryLabel || categoryLabel(todo.category);
     const { iconClass, icon } = getPriorityView(todo.priority || 'Medium');
@@ -93,7 +129,11 @@ function buildTodoCardTemplateData(todo) {
         nextMoveArrow: getMoveDirectionArrow(todo.category, nextCategory), nextMoveLabel: getBoardColumnLabel(nextCategory), nextMoveDisabled: false };
 }
 
-// Builds assigned users HTML for task detail/edit sections.
+/**
+ * Builds assigned users HTML for task detail/edit sections.
+ * @param {object} task
+ * @returns {string}
+ */
 function getDetailAssignedUsersHTML(task) {
     if (!Array.isArray(task.assignedTo)) return '';
     return task.assignedTo.map((user, index) => {
@@ -102,17 +142,29 @@ function getDetailAssignedUsersHTML(task) {
     }).join('');
 }
 
-// Builds subtasks list item HTML for detail/edit sections.
+/**
+ * Builds subtasks list item HTML for detail/edit sections.
+ * @param {Array} subtasks
+ * @returns {string}
+ */
 function getDetailSubtasksHTML(subtasks) {
     return subtasks.map((subtask, index) => `<li class="subtask-item" data-subtask-index="${index}">${subtask.title}</li>`).join('');
 }
 
-// Builds options HTML for editable task categories.
+/**
+ * Builds options HTML for editable task categories.
+ * @param {string} fixedHeaderLabel
+ * @returns {string}
+ */
 function getCategoryOptionsHTML(fixedHeaderLabel) {
     return ['Technical Task', 'User Story'].map(option => `<option value="${option}" ${option === fixedHeaderLabel ? 'plus Zeichen' : ''}>${option}</option>`).join('');
 }
 
-// Builds template data for the editable task form view.
+/**
+ * Builds template data for the editable task form view.
+ * @param {object} task
+ * @returns {object}
+ */
 function buildEditTaskFormTemplateData(task) {
     const fixedHeaderLabel = task.selectedCategoryLabel || categoryLabel(task.category);
     const subtasks = getLimitedSubtasks(task.subtasks);

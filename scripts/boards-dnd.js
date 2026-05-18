@@ -1,4 +1,7 @@
-﻿// Indicates whether touch drag-and-drop is enabled.
+﻿/**
+ * Indicates whether touch drag-and-drop is enabled for the board.
+ * @returns {boolean}
+ */
 function isTouchBoardDnDEnabled() {
     if (window.innerWidth < BOARD_TOUCH_DND_MIN_WIDTH) return false;
     const hasTouchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -6,14 +9,21 @@ function isTouchBoardDnDEnabled() {
     return hasTouchSupport || hasCoarsePointer;
 }
 
-// Removes touch drop target highlight classes.
+/**
+ * Removes touch drop target highlight classes from all board lists.
+ */
 function clearTouchDropHighlights() {
     document.querySelectorAll('.board__list--touch-target').forEach(list => {
         list.classList.remove('board__list--touch-target');
     });
 }
 
-// Returns the board drop zone at a touch point.
+/**
+ * Returns the board drop zone element at a given touch point.
+ * @param {number} clientX
+ * @param {number} clientY
+ * @returns {Element|null}
+ */
 function getTouchDropZone(clientX, clientY) {
     const element = document.elementFromPoint(clientX, clientY);
     const list = element?.closest('.board__list');
@@ -22,7 +32,10 @@ function getTouchDropZone(clientX, clientY) {
     return BOARD_DROP_ZONE_CATEGORY_MAP[list.id] ? list : null;
 }
 
-// Finalizes a touch drag operation and applies the move.
+/**
+ * Finalizes a touch drag operation and applies the move if needed.
+ * @param {Element|null} targetList
+ */
 function finishTouchDrag(targetList = null) {
     if (!activeTouchDrag) return;
     const { taskElement, taskId, moved } = activeTouchDrag;
@@ -36,7 +49,10 @@ function finishTouchDrag(targetList = null) {
     activeTouchDrag = null;
 }
 
-// Starts touch drag tracking for a task card.
+/**
+ * Starts touch drag tracking for a task card.
+ * @param {TouchEvent} event
+ */
 function handleTaskTouchStart(event) {
     if (!isTouchBoardDnDEnabled() || event.touches.length !== 1) return;
     const taskElement = event.currentTarget;
@@ -52,7 +68,10 @@ function handleTaskTouchStart(event) {
     };
 }
 
-// Updates touch drag movement and drop target highlight.
+/**
+ * Updates touch drag movement and drop target highlight.
+ * @param {TouchEvent} event
+ */
 function handleTaskTouchMove(event) {
     if (!activeTouchDrag || event.touches.length !== 1) return;
     const touch = event.touches[0], deltaX = Math.abs(touch.clientX - activeTouchDrag.startX), deltaY = Math.abs(touch.clientY - activeTouchDrag.startY);
@@ -67,12 +86,16 @@ function handleTaskTouchMove(event) {
     activeTouchDrag.currentDropZone = nextDropZone;
 }
 
-// Ends touch dragging and commits potential drop.
+/**
+ * Ends touch dragging and commits potential drop.
+ */
 function handleTaskTouchEnd() {
     finishTouchDrag(activeTouchDrag?.currentDropZone || null);
 }
 
-// Binds touch drag listeners to all task cards.
+/**
+ * Binds touch drag listeners to all task cards on the board.
+ */
 function initializeTouchBoardDnD() {
     document.querySelectorAll('.task').forEach(task => {
         if (task.dataset.touchDndBound === 'true') return;
@@ -85,7 +108,11 @@ function initializeTouchBoardDnD() {
     });
 }
 
-// Sets the open state of the move panel toggle button.
+/**
+ * Sets the open state of the move panel toggle button.
+ * @param {HTMLElement} button
+ * @param {boolean} isOpen
+ */
 function updateMovePanelToggleButton(button, isOpen) {
     if (!button) return;
     if (isOpen) {
@@ -97,7 +124,11 @@ function updateMovePanelToggleButton(button, isOpen) {
     }
 }
 
-// Opens the move panel for a specific task.
+/**
+ * Opens the move panel for a specific task.
+ * @param {Event} event
+ * @param {string|number} taskId
+ */
 function openTaskMovePanel(event, taskId) {
     event.preventDefault();
     event.stopPropagation();
@@ -113,7 +144,11 @@ function openTaskMovePanel(event, taskId) {
     updateMovePanelToggleButton(toggleButton, true);
 }
 
-// Scrolls the move panel into view within its scroll container.
+/**
+ * Scrolls the move panel into view within its scroll container.
+ * @param {HTMLElement} scrollContainer
+ * @param {HTMLElement} panel
+ */
 function scrollPanelIntoView(scrollContainer, panel) {
     const panelRect = panel.getBoundingClientRect();
     const containerRect = scrollContainer.getBoundingClientRect();
@@ -122,7 +157,10 @@ function scrollPanelIntoView(scrollContainer, panel) {
     if (hiddenRightWidth > 0) scrollContainer.scrollBy({ left: hiddenRightWidth + 12, behavior: 'smooth' });
 }
 
-// Scrolls the mobile task row so an opened move panel remains fully visible.
+/**
+ * Scrolls the mobile task row so an opened move panel remains fully visible.
+ * @param {HTMLElement} panel
+ */
 function ensureTaskMovePanelIsVisible(panel) {
     if (window.innerWidth > 1010) return;
     const scrollContainer = panel.closest('.board__cards');
@@ -130,7 +168,11 @@ function ensureTaskMovePanelIsVisible(panel) {
     requestAnimationFrame(() => scrollPanelIntoView(scrollContainer, panel));
 }
 
-// Closes the move panel for a specific task.
+/**
+ * Closes the move panel for a specific task.
+ * @param {Event|null} event
+ * @param {string|number} taskId
+ */
 function closeTaskMovePanel(event, taskId) {
     if (event) { event.preventDefault(); event.stopPropagation(); }
     const panel = document.getElementById(`task-move-panel-${taskId}`);
@@ -143,7 +185,9 @@ function closeTaskMovePanel(event, taskId) {
     setTimeout(() => panel.setAttribute('hidden', ''), 200);
 }
 
-// Closes all currently open task move panels.
+/**
+ * Closes all currently open task move panels.
+ */
 function closeAllTaskMovePanels() {
     document.querySelectorAll('.task-move-panel--open').forEach(panel => {
         const taskId = panel.id.replace('task-move-panel-', '');
@@ -151,7 +195,11 @@ function closeAllTaskMovePanels() {
     });
 }
 
-// Moves a task to the next category in the board flow.
+/**
+ * Moves a task to the next category in the board flow.
+ * @param {Event} event
+ * @param {string|number} taskId
+ */
 function moveTaskToNextCategory(event, taskId) {
     event.preventDefault();
     event.stopPropagation();
@@ -166,7 +214,11 @@ function moveTaskToNextCategory(event, taskId) {
     closeTaskMovePanel(null, taskId);
 }
 
-// Returns the next category key in board order.
+/**
+ * Returns the next category key in board order.
+ * @param {string} category
+ * @returns {string}
+ */
 function getNextBoardCategory(category) {
     const currentIndex = BOARD_CATEGORY_FLOW.indexOf(category);
     if (currentIndex === -1) {
@@ -177,7 +229,11 @@ function getNextBoardCategory(category) {
     return BOARD_CATEGORY_FLOW[nextIndex];
 }
 
-// Converts a category key to its column label.
+/**
+ * Converts a category key to its column label.
+ * @param {string} category
+ * @returns {string}
+ */
 function getBoardColumnLabel(category) {
     if (category === 'toDo') return 'To Do';
     if (category === 'inProgress') return 'In Progress';
@@ -186,7 +242,12 @@ function getBoardColumnLabel(category) {
     return 'Next Step';
 }
 
-// Returns an arrow indicating move direction between categories.
+/**
+ * Returns an arrow indicating move direction between categories.
+ * @param {string} currentCategory
+ * @param {string} targetCategory
+ * @returns {string}
+ */
 function getMoveDirectionArrow(currentCategory, targetCategory) {
     if (!targetCategory) return '→';
 
@@ -199,7 +260,11 @@ function getMoveDirectionArrow(currentCategory, targetCategory) {
     return '→';
 }
 
-// Opens task details from the move panel menu.
+/**
+ * Opens task details from the move panel menu.
+ * @param {Event} event
+ * @param {string|number} taskId
+ */
 function openTaskReviewDialogFromMenu(event, taskId) {
     event.preventDefault();
     event.stopPropagation();
@@ -207,7 +272,9 @@ function openTaskReviewDialogFromMenu(event, taskId) {
     toDoCardShow(taskId);
 }
 
-// Binds global click handling to close move panels.
+/**
+ * Binds global click handling to close move panels when clicking outside.
+ */
 function initializeTaskMoveMenuCloseBehavior() {
     if (taskMoveMenuCloseListenerBound) return;
 

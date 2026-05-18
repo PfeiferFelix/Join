@@ -1,7 +1,22 @@
+@media (min-width: 1024px) and (max-width: 1330px) {
+    .board__nonecard {
+        writing-mode: vertical-lr;
+        text-orientation: mixed;
+        white-space: normal;
+        font-size: 18px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        height: 180px;
+        min-width: 32px;
+        padding: 12px 4px;
+        text-align: left;
+    }
+}
 /* Karten neben offenem MoveTo Panel nicht anklickbar */
 @media (max-width: 1024px) {
-    .task-move-panel--open ~ .task,
-    .task--move-panel-open ~ .task,
+
+    .task-move-panel--open~.task,
+    .task--move-panel-open~.task,
     .task--move-panel-open:not(.task--move-panel-open) {
         pointer-events: none !important;
         opacity: 0.6;
@@ -55,11 +70,18 @@
         padding: 4px;
     }
 
+    .board__list-header .addTaskBtnBoard {
+        order: 1;
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+
     .addTaskBtnBoard {
-        font-size: 14px;
+        font-size: 36px;
+        font-weight: lighter;
         padding: 10px 10px;
-        width: 24px;
-        height: 28px;
+        /* width: 30px !important; */
+        /* height: 24px; */
         margin-right: 2px;
     }
 
@@ -70,6 +92,7 @@
 
     .task {
         padding: 12px 12px 52px !important;
+        cursor: pointer;
     }
 }
 
@@ -81,7 +104,7 @@
         width: 96%;
         /* Firefox */
     }
-    
+
     .board__cards::-webkit-scrollbar {
         display: none;
         /* Chrome, Safari, Opera */
@@ -92,7 +115,7 @@
     .addTaskDialog .task-form__col {
         padding: 0 !important;
     }
-    
+
     .task {
         margin-right: 14px;
     }
@@ -278,7 +301,7 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box;
-        padding-left: 8px!important;
+        padding-left: 8px !important;
     }
 
     .task-form__textarea {
@@ -296,13 +319,17 @@
     }
 
     .addTaskBtnMobile {
-        font-size: 16px;
-        font-weight: 600;
-        width: 26px;
-        border-radius: 6px;
-        height: 28px;
         background-color: var(--color-brand-primary);
         color: white;
+        box-shadow: none !important;
+        border: 2px solid var(--color-brand-primary);
+        height: 24px;
+        width: 26px;
+        font-size: 38px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
     }
 
     .task-form__footer {
@@ -346,6 +373,7 @@
         height: 80px;
         width: 100%;
     }
+
     .example-mobile {
         width: 100%;
     }
@@ -476,7 +504,7 @@
         margin-top: 36px !important;
         margin-top: 96px !important;
     }
-    
+
     .headline__AddTask {
         display: flex;
         justify-content: space-between;
