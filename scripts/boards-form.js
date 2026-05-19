@@ -1,11 +1,9 @@
 ﻿const BOARD_ADD_TASK_PAGE_MAX_WIDTH = 768;
 
-// Returns true when add-task should be handled on dedicated page.
 function shouldUseAddTaskPage() {
     return window.innerWidth <= BOARD_ADD_TASK_PAGE_MAX_WIDTH;
 }
 
-// Opens add-task page with optional board category context.
 function openAddTaskPage(category) {
     const params = new URLSearchParams();
     if (category) params.set('boardCategory', category);
@@ -13,7 +11,6 @@ function openAddTaskPage(category) {
     window.location.href = `add-task.html?${params.toString()}`;
 }
 
-// Opens the add-task dialog for the given category.
 function addTask(category) {
     if (shouldUseAddTaskPage()) return openAddTaskPage(category || '');
     const dialog = document.getElementById("addTaskDialog");
@@ -23,12 +20,10 @@ function addTask(category) {
     document.body.style.overflow = 'hidden';
 }
 
-// Opens the add-task dialog preset for the given category key (toDo | inProgress | feedback).
 function addTaskByCategory(category) {
     addTask(category);
 }
 
-// Renders and wires the add-task dialog content.
 function renderDialogContent() {
     const dialog = document.getElementById("addTaskDialog");
     dialog.innerHTML = getaddTaskTemplateDialog();
@@ -40,7 +35,6 @@ function renderDialogContent() {
     initCreateTaskButtonState(dialog);
 }
 
-// Returns whether all required add-task dialog fields are filled.
 function canSubmitAddTaskDialog(dialog) {
     const title = dialog.querySelector('#title')?.value.trim();
     const dueDate = dialog.querySelector('#due-date')?.value.trim();
@@ -48,14 +42,12 @@ function canSubmitAddTaskDialog(dialog) {
     return Boolean(title && dueDate && category);
 }
 
-// Updates enabled/disabled state of the create-task button.
 function updateCreateTaskButtonState(dialog) {
     const createBtn = dialog.querySelector('#create-task-btn');
     if (!createBtn) return;
     createBtn.disabled = !canSubmitAddTaskDialog(dialog);
 }
 
-// Binds required field listeners for create-task button state.
 function initCreateTaskButtonState(dialog) {
     ['#title', '#due-date', '#category'].forEach((selector) => {
         dialog.querySelector(selector)?.addEventListener('input', () => updateCreateTaskButtonState(dialog));
@@ -64,7 +56,6 @@ function initCreateTaskButtonState(dialog) {
     updateCreateTaskButtonState(dialog);
 }
 
-// Attaches submit and cancel handlers to the add-task form.
 function attachAddTaskFormHandlers(dialog) {
     const form = dialog.querySelector(".task-form");
     if (form) form.addEventListener("submit", handleCreateTask);
@@ -77,7 +68,6 @@ function attachAddTaskFormHandlers(dialog) {
     }
 }
 
-// Extracts the category dropdown open/close logic.
 function bindCategoryDropdownEvents(trigger, optionsList, hiddenInput, label) {
     const open = () => { optionsList.hidden = false; trigger.setAttribute('aria-expanded', 'true'); };
     const close = () => { optionsList.hidden = true; trigger.setAttribute('aria-expanded', 'false'); };
@@ -94,7 +84,6 @@ function bindCategoryDropdownEvents(trigger, optionsList, hiddenInput, label) {
     document.addEventListener('click', (e) => { if (!trigger.closest('#category-wrapper')?.contains(e.target)) close(); });
 }
 
-// Populates category select options in the add-task dialog.
 function populateCategoryOptions(dialog) {
     const wrapper = dialog.querySelector('#category-wrapper');
     if (!wrapper) return;
@@ -107,7 +96,6 @@ function populateCategoryOptions(dialog) {
 
 
 
-// Binds click behavior for add-task priority buttons.
 function bindAddTaskPriorityButtons() {
     const urgent = document.getElementById("priority-urgent"), medium = document.getElementById("priority-medium"), low = document.getElementById("priority-low");
     if (!urgent || !medium || !low) return;
@@ -117,7 +105,6 @@ function bindAddTaskPriorityButtons() {
     low.addEventListener("click", () => { low.classList.toggle("priority-buttons__btn--low"); urgent.classList.remove("priority-buttons__btn--urgent"); medium.classList.remove("priority-buttons__btn--medium"); });
 }
 
-// Creates a new task from dialog input and updates the board.
 function handleCreateTask(event) {
     event.preventDefault();
     const dialog = document.getElementById("addTaskDialog");
@@ -133,7 +120,6 @@ function handleCreateTask(event) {
     setTimeout(() => closeDialog(), 1200);
 }
 
-// Shows centered add-task success info inside the add dialog.
 function showAddTaskSuccess(dialog) {
     const success = dialog.querySelector('#add-task-success');
     if (!success) return false;
@@ -142,7 +128,6 @@ function showAddTaskSuccess(dialog) {
     return true;
 }
 
-// Builds a new task object from the add-task dialog fields.
 function buildNewTodoFromDialog(dialog) {
     const title = dialog.querySelector("#title")?.value.trim();
     if (!title) return null;
@@ -157,7 +142,6 @@ function buildNewTodoFromDialog(dialog) {
     };
 }
 
-// Resolves the internal category key from dialog values.
 function resolveCategoryFromDialog(categoryValue, presetCategory) {
     if (presetCategory) return presetCategory;
     if (categoryValue === "Technical Task") return "toDo";
@@ -165,13 +149,11 @@ function resolveCategoryFromDialog(categoryValue, presetCategory) {
     return "toDo";
 }
 
-// Returns selected contacts from the assigned-to checkboxes.
 function getAssignedContactsFromDialog(dialog) {
     const selectedIds = Array.from(dialog.querySelectorAll('#assigned-to-checkboxes input[type="checkbox"]:checked')).map(checkbox => Number(checkbox.value)).filter(id => Number.isFinite(id));
     return contacts.filter(contact => selectedIds.includes(contact.id));
 }
 
-// Returns the selected priority from add-task buttons.
 function getSelectedPriority(dialog) {
     const priorityUrgent = dialog.querySelector("#priority-urgent");
     const priorityMedium = dialog.querySelector("#priority-medium");
@@ -183,7 +165,6 @@ function getSelectedPriority(dialog) {
     return "Medium";
 }
 
-// Initializes the assigned-to multi-select control.
 function setupAssignedToMultiselect(dialog, config = {}) {
     const cfg = getAssignedToConfig(config);
     const trigger = dialog.querySelector(`#${cfg.triggerId}`);
@@ -199,7 +180,6 @@ function setupAssignedToMultiselect(dialog, config = {}) {
     setAssignedToSummary(summary, checkboxContainer, selectedAvatarsContainer, cfg, searchInput);
 }
 
-// Builds assigned-to control configuration with defaults.
 function getAssignedToConfig(config = {}) {
     return {
         triggerId: 'assigned-to-trigger',
@@ -215,7 +195,6 @@ function getAssignedToConfig(config = {}) {
     };
 }
 
-// Renders checkbox options for assignable contacts.
 function renderAssignedToOptions(container, optionIdPrefix, preselectedIds) {
     container.innerHTML = contacts.map((contact, index) => {
         const initials = buildInitials(contact.name || '');

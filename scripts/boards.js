@@ -24,7 +24,10 @@ const BOARD_DROP_ZONE_CATEGORY_MAP = {
 
 const BOARD_CATEGORY_FLOW = ['toDo', 'inProgress', 'feedback', 'done'];
 
-// Initializes the board page data and renders the board.
+/**
+ * Initializes the board page, loads data, and renders the board.
+ * @returns {Promise<void>}
+ */
 async function initBoardsPage() {
     await init();
     await syncBoardContactsFromFirebase();
@@ -34,19 +37,26 @@ async function initBoardsPage() {
     updateHTML();
 }
 
-// Refreshes the in-memory contacts list from local storage.
+/**
+ * Updates the contacts list from local storage in memory.
+ */
 function updateBoardContactsFromLocalStorage() {
     contactsLS = getFormattedLocalStorageItems("contacs");
     contacts = normalizeContacts(contactsLS, defaultContacts);
 }
 
-// Refreshes the in-memory task list from local storage.
+/**
+ * Updates the tasks list from local storage in memory.
+ */
 function updateBoardTodosFromLocalStorage() {
     boardsLS = getFormattedLocalStorageItems("boards");
     todos = normalizeBoards(boardsLS);
 }
 
-// Returns all board columns with their rendering targets.
+/**
+ * Returns all board columns with their rendering targets.
+ * @returns {Array<{category: string, cardsId: string, emptyId: string}>}
+ */
 function getBoardColumnsForRendering() {
     return [
         { category: "toDo", cardsId: "board__cards--todo", emptyId: "noneCardTodo" },
@@ -56,7 +66,9 @@ function getBoardColumnsForRendering() {
     ].filter(Boolean);
 }
 
-// Initializes all board interaction handlers and UI state.
+/**
+ * Initializes all board interaction handlers and UI state.
+ */
 function initializeBoardInteractions() {
     updateTaskDraggableState();
     initializeTouchBoardDnD();
@@ -65,13 +77,20 @@ function initializeBoardInteractions() {
     initializeAddTaskDialogOutsideClose();
 }
 
-// Returns true when a click happened outside the visible dialog box.
+/**
+ * Checks if a click happened outside the visible dialog box.
+ * @param {MouseEvent} event
+ * @param {HTMLElement} dialog
+ * @returns {boolean}
+ */
 function isOutsideDialogBounds(event, dialog) {
     const rect = dialog.getBoundingClientRect();
     return event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
 }
 
-// Binds click-on-backdrop behavior to close the add-task dialog.
+/**
+ * Binds closing of the add-task dialog when clicking on the backdrop.
+ */
 function initializeAddTaskDialogOutsideClose() {
     if (addTaskDialogOutsideCloseBound) return;
     const dialog = document.getElementById('addTaskDialog');
@@ -85,7 +104,9 @@ function initializeAddTaskDialogOutsideClose() {
     addTaskDialogOutsideCloseBound = true;
 }
 
-// Re-renders all board columns and reinitializes board interactions.
+/**
+ * Re-renders all board columns and reinitializes board interactions.
+ */
 function updateHTML() {
     const boardLists = Array.from(document.querySelectorAll('.board__list')).filter(Boolean);
     for (const list of boardLists) list.style.display = '';
@@ -94,12 +115,18 @@ function updateHTML() {
     initializeBoardInteractions();
 }
 
-// Returns whether drag interactions are enabled for the current viewport.
+/**
+ * Returns whether drag interactions are enabled for the current viewport.
+ * @returns {boolean}
+ */
 function isBoardDragInteractionEnabled() {
     return window.innerWidth >= BOARD_TOUCH_DND_MIN_WIDTH;
 }
 
-// Binds drag start and end event handlers to a task card once.
+/**
+ * Binds drag start and end event handlers to a task card.
+ * @param {HTMLElement} task
+ */
 function bindTaskDragEvents(task) {
     if (task.dataset.dragBound) return;
     task.addEventListener('dragstart', (event) => {
@@ -112,7 +139,9 @@ function bindTaskDragEvents(task) {
     task.dataset.dragBound = 'true';
 }
 
-// Updates draggable state and drag bindings for all visible task cards.
+/**
+ * Updates draggable state and drag bindings for all visible task cards.
+ */
 function updateTaskDraggableState() {
     const isDragEnabled = isBoardDragInteractionEnabled();
     document.querySelectorAll('.task').forEach(task => {
@@ -121,7 +150,9 @@ function updateTaskDraggableState() {
     });
 }
 
-// Initializes viewport resize behavior for board interactions.
+/**
+ * Initializes viewport resize behavior for board interactions.
+ */
 function initializeBoardViewportBehavior() {
     if (boardViewportListenerBound) return;
     window.addEventListener('resize', () => {
@@ -133,24 +164,40 @@ function initializeBoardViewportBehavior() {
     boardViewportListenerBound = true;
 }
 
-// Closes all board-related dialogs and restores page scrolling.
-function closeDialog() {
-    const addTask = document.getElementById("addTaskDialog");
-    if (addTask?.open) {
-        addTask.classList.add('addTaskDialog--closing');
-        addTask.addEventListener('animationend', () => {
-            addTask.classList.remove('addTaskDialog--closing');
-            addTask.close();
-            document.body.style.overflow = '';
-        }, { once: true });
-        return;
-    }
-    document.getElementById("showTaskDialog")?.close();
-    document.getElementById("editTaskDialog")?.close();
-    document.body.style.overflow = '';
+/**
+ * Animates and closes a dialog with a given closing class.
+ * @param {HTMLElement} dialog
+ * @param {string} closingClass
+ */
+function animateAndCloseDialog(dialog, closingClass) {
+    dialog.classList.add(closingClass);
+    dialog.addEventListener('animationend', () => {
+        dialog.classList.remove(closingClass);
+        dialog.close();
+        document.body.style.overflow = '';
+    }, { once: true });
 }
 
-// Renders all task cards for a single board category.
+/**
+ * Closes all board-related dialogs and restores page scrolling.
+ */
+function closeDialog() {
+    let closed = false;
+    const dialogs = [
+        { el: document.getElementById("addTaskDialog"), cls: 'addTaskDialog--closing' },
+        { el: document.getElementById("showTaskDialog"), cls: 'showTaskDialog--closing' },
+        { el: document.getElementById("editTaskDialog"), cls: 'editTaskDialog--closing' }
+    ];
+    dialogs.forEach(({ el, cls }) => {
+        if (el?.open) { animateAndCloseDialog(el, cls); closed = true; }
+    });
+    if (!closed) document.body.style.overflow = '';
+}
+
+/**
+ * Renders all task cards for a single board category.
+ * @param {{category: string, cardsId: string, emptyId: string}} param0
+ */
 function renderCategoryContent({ category, cardsId, emptyId }) {
     const container = document.getElementById(cardsId);
     const noCardElement = document.getElementById(emptyId);
@@ -160,7 +207,11 @@ function renderCategoryContent({ category, cardsId, emptyId }) {
     noCardElement.style.display = categoryTasks.length === 0 ? 'flex' : 'none';
 }
 
-// Renders one board column with cards matching the current search query.
+/**
+ * Renders one board column with cards matching the current search query.
+ * @param {{category: string, cardsId: string, emptyId: string}} param0
+ * @param {string} query
+ */
 function renderSearchResultColumn({ category, cardsId, emptyId }, query) {
     const container = document.getElementById(cardsId);
     const noCardElement = document.getElementById(emptyId);
@@ -173,17 +224,30 @@ function renderSearchResultColumn({ category, cardsId, emptyId }, query) {
     if (boardList) boardList.style.display = categoryTasks.length > 0 ? '' : 'none';
 }
 
-// Returns the search input element from the submitted search form.
+/**
+ * Returns the search input element from the submitted search form.
+ * @param {HTMLFormElement} form
+ * @returns {HTMLInputElement|null}
+ */
 function getSearchInputFromForm(form) {
     return form?.querySelector('input[name="search"]') || null;
 }
 
-// Normalizes the raw search input to a lowercase query string.
+/**
+ * Normalizes the raw search input to a lowercase query string.
+ * @param {HTMLInputElement} searchInput
+ * @returns {string}
+ */
 function getNormalizedSearchQuery(searchInput) {
     return (searchInput?.value || '').trim().toLowerCase();
 }
 
-// Validates the search query and shows a SweetAlert when empty.
+/**
+ * Validates the search query and shows a SweetAlert when empty.
+ * @param {HTMLInputElement} searchInput
+ * @param {string} query
+ * @returns {boolean}
+ */
 function validateSearchQuery(query) {
     if (query) return true;
     Swal.fire({
@@ -194,7 +258,10 @@ function validateSearchQuery(query) {
     return false;
 }
 
-// Renders all search result columns and reapplies board interaction bindings.
+/**
+ * Renders all search result columns and reapplies board interaction bindings.
+ * @param {string} query
+ */
 function renderSearchResults(query) {
     getBoardColumns().forEach(col => renderSearchResultColumn(col, query));
     updateTaskDraggableState();
@@ -202,7 +269,10 @@ function renderSearchResults(query) {
     initializeTaskMoveMenuCloseBehavior();
 }
 
-// Handles board search form submit events.
+/**
+ * Handles board search form submit events.
+ * @param {Event} event
+ */
 function searchCard(event) {
     event.preventDefault();
     const searchInput = getSearchInputFromForm(event.currentTarget);
@@ -211,7 +281,10 @@ function searchCard(event) {
     renderSearchResults(query);
 }
 
-// Returns the static board column metadata used for rendering and search.
+/**
+ * Returns the static board column metadata used for rendering and search.
+ * @returns {Array<{category: string, cardsId: string, emptyId: string}>}
+ */
 function getBoardColumns() {
     return [
         { category: 'toDo', cardsId: 'board__cards--todo', emptyId: 'noneCardTodo' },
@@ -221,14 +294,20 @@ function getBoardColumns() {
     ];
 }
 
-// Clears custom validation and restores the full board when search is emptied.
+/**
+ * Clears custom validation and restores the full board when search is emptied.
+ * @param {Event} event
+ */
 function clearSearch(event) {
     event.currentTarget?.setCustomValidity('');
     if (event.currentTarget?.value.trim()) return;
     updateHTML();
 }
 
-// Resets the current search and restores the full board on Escape.
+/**
+ * Resets the current search and restores the full board on Escape.
+ * @param {KeyboardEvent} event
+ */
 function resetSearchOnEscape(event) {
     if (event.key !== 'Escape') return;
     event.preventDefault();
@@ -236,7 +315,9 @@ function resetSearchOnEscape(event) {
     updateHTML();
 }
 
-// Persists the current in-memory tasks to local storage.
+/**
+ * Persists the current in-memory tasks to local storage.
+ */
 function saveBoardsToLocalStorage() {
     const boardsObject = todos.reduce((result, todo) => {
         const key = todo.firebaseKey || todo.id;
@@ -246,13 +327,21 @@ function saveBoardsToLocalStorage() {
     localStorage.setItem("boards", JSON.stringify(boardsObject));
 }
 
-// Removes internal-only fields before persisting tasks.
+/**
+ * Removes internal-only fields before persisting tasks.
+ * @param {object} todo
+ * @returns {object}
+ */
 function stripInternalTaskFields(todo) {
     const { id, firebaseKey, priorityClass, subtask, sub_task, ...cleanTodo } = todo;
     return cleanTodo;
 }
 
-// Builds a summary-compatible storage object for one task.
+/**
+ * Builds a summary-compatible storage object for one task.
+ * @param {object} todo
+ * @returns {object}
+ */
 function buildStorageTask(todo) {
     const cleanTodo = stripInternalTaskFields(todo);
     return {
@@ -263,13 +352,19 @@ function buildStorageTask(todo) {
     };
 }
 
-// Enables dropping on a board column when drag interactions are active.
+/**
+ * Enables dropping on a board column when drag interactions are active.
+ * @param {DragEvent} event
+ */
 function allowDrop(event) {
     if (!isBoardDragInteractionEnabled()) return;
     event.preventDefault();
 }
 
-// Handles task drop events and moves tasks to the target category.
+/**
+ * Handles task drop events and moves tasks to the target category.
+ * @param {DragEvent} event
+ */
 function drop(event) {
     if (!isBoardDragInteractionEnabled()) return;
     event.preventDefault();
@@ -279,7 +374,11 @@ function drop(event) {
     moveTaskToCategory(taskId, targetCategory);
 }
 
-// Moves a task to a category and persists the category change.
+/**
+ * Moves a task to a category and persists the category change.
+ * @param {string|number} taskId
+ * @param {string} targetCategory
+ */
 function moveTaskToCategory(taskId, targetCategory) {
     if (!targetCategory) return;
     const taskIndex = todos.findIndex((todo) => todo.id == taskId);
@@ -292,7 +391,11 @@ function moveTaskToCategory(taskId, targetCategory) {
     }
 }
 
-// Handles task card click behavior, including move panel suppression.
+/**
+ * Handles task card click behavior, including move panel suppression.
+ * @param {Event} event
+ * @param {string|number} taskId
+ */
 function handleTaskClick(event, taskId) {
     const taskCard = event.currentTarget?.closest('.task') || event.target?.closest('.task');
     if (taskCard?.querySelector('.task-move-panel--open')) {
@@ -306,7 +409,13 @@ function handleTaskClick(event, taskId) {
     event.stopPropagation();
 }
 
-// Updates the subtask progress preview on a rendered task card.
+/**
+ * Updates the subtask progress preview on a rendered task card.
+ * @param {string|number} taskId
+ * @param {object} task
+ * @param {Array} subtasks
+ * @param {boolean} [removeEmptyState=false]
+ */
 function updateTaskCardSubtaskPreview(taskId, task, subtasks, removeEmptyState = false) {
     const card = document.getElementById(String(taskId));
     if (!card) return;
@@ -319,7 +428,10 @@ function updateTaskCardSubtaskPreview(taskId, task, subtasks, removeEmptyState =
     if (removeEmptyState && total === 0) barEl.style.width = '0%';
 }
 
-// Opens the task details dialog for the selected task.
+/**
+ * Opens the task details dialog for the selected task.
+ * @param {string|number} taskId
+ */
 function toDoCardShow(taskId) {
     const task = todos.find((t) => t.id == taskId);
     if (!task) return;
@@ -330,7 +442,11 @@ function toDoCardShow(taskId) {
     document.body.style.overflow = 'hidden';
 }
 
-// Safely reads and normalizes local storage data by key.
+/**
+ * Safely reads and normalizes local storage data by key.
+ * @param {string} key
+ * @returns {Array}
+ */
 function getFormattedLocalStorageItems(key) {
     try {
         const items = importandFormatLocalStorageData(key);
@@ -340,7 +456,10 @@ function getFormattedLocalStorageItems(key) {
     }
 }
 
-// Merges a new task into an existing match or inserts it as a new task.
+/**
+ * Merges a new task into an existing match or inserts it as a new task.
+ * @param {object} newTodo
+ */
 function mergeOrInsertTodo(newTodo) {
     const existingTodo = todos.find(todo =>
         todo.title === newTodo.title && todo.description === newTodo.description &&
@@ -354,7 +473,10 @@ function mergeOrInsertTodo(newTodo) {
     });
 }
 
-// Starts drag behavior for a task card.
+/**
+ * Starts drag behavior for a task card.
+ * @param {DragEvent} event
+ */
 function drag(event) {
     if (!isBoardDragInteractionEnabled()) return event.preventDefault();
     const taskElement = event.target.closest(".task");
@@ -363,7 +485,11 @@ function drag(event) {
     event.dataTransfer.setData("text/plain", String(taskElement.id));
 }
 
-// Deletes a task locally and remotely, then updates the UI.
+/**
+ * Deletes a task locally and remotely, then updates the UI.
+ * @param {string|number} taskId
+ * @returns {Promise<void>}
+ */
 async function deleteTask(taskId) {
     const taskIndex = todos.findIndex((t) => t.id == taskId);
     if (taskIndex === -1) return;

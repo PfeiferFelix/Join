@@ -2,25 +2,40 @@
     ? FIREBASE_BASE_URL
     : "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
 
-// Checks if a response is an unauthorized error (401).
+/**
+ * Checks if a response is an unauthorized error (401).
+ * @param {Response} response
+ * @returns {boolean}
+ */
 function isUnauthorizedResponse(response) {
     return response && response.status === 401;
 }
 
-// Syncs contacts from Firebase into local storage if available.
+/**
+ * Syncs contacts from Firebase into local storage if available.
+ * @returns {Promise<void>}
+ */
 async function syncBoardContactsFromFirebase() {
     if (typeof syncContactsFromFirebaseToLocalStorage !== 'function') return;
     await syncContactsFromFirebaseToLocalStorage();
 }
 
-// Stores the generated Firebase key on the task and persists local state.
+/**
+ * Stores the generated Firebase key on the task and persists local state.
+ * @param {object} task
+ * @param {object} payload
+ */
 function syncPostedTaskFirebaseKey(task, payload) {
     if (!payload?.name) return;
     task.firebaseKey = payload.name;
     saveBoardsToLocalStorage();
 }
 
-// Persists a newly created task to Firebase.
+/**
+ * Persists a newly created task to Firebase.
+ * @param {object} task
+ * @returns {Promise<void>}
+ */
 async function postTaskToFirebase(task) {
     try {
         const payload = await postTaskRequestToFirebase(task);
@@ -31,7 +46,11 @@ async function postTaskToFirebase(task) {
     }
 }
 
-// Resolves a Firebase key by matching a local task id against remote data.
+/**
+ * Resolves a Firebase key by matching a local task id against remote data.
+ * @param {string|number} taskId
+ * @returns {Promise<string|null>}
+ */
 async function resolveFirebaseKeyByTaskId(taskId) {
     try {
         const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`);
@@ -48,7 +67,11 @@ async function resolveFirebaseKeyByTaskId(taskId) {
         return null;}
 }
 
-// Persists a task category change to Firebase.
+/**
+ * Persists a task category change to Firebase.
+ * @param {object} task
+ * @returns {Promise<void>}
+ */
 async function persistTaskCategoryToFirebase(task) {
     const firebaseKey = await resolveTaskFirebaseKey(task);
     if (!firebaseKey) return;
@@ -60,7 +83,12 @@ async function persistTaskCategoryToFirebase(task) {
     }
 }
 
-// Sends a category and position PATCH update for a task to Firebase.
+/**
+ * Sends a category and position PATCH update for a task to Firebase.
+ * @param {string} firebaseKey
+ * @param {object} task
+ * @returns {Promise<void>}
+ */
 async function patchTaskCategoryToFirebase(firebaseKey, task) {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
         method: 'PATCH',
@@ -74,7 +102,11 @@ async function patchTaskCategoryToFirebase(firebaseKey, task) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 }
 
-// Builds the JSON request body for category and position task updates.
+/**
+ * Builds the JSON request body for category and position task updates.
+ * @param {object} task
+ * @returns {string}
+ */
 function buildCategoryPatchBody(task) {
     return JSON.stringify({
         category: task.category,
@@ -82,12 +114,21 @@ function buildCategoryPatchBody(task) {
     });
 }
 
-// Creates a standardized persistence result object.
+/**
+ * Creates a standardized persistence result object.
+ * @param {boolean} ok
+ * @param {boolean} attempted
+ * @returns {{ok: boolean, attempted: boolean}}
+ */
 function createPersistResult(ok, attempted) {
     return { ok, attempted };
 }
 
-// Resolves and caches a task's Firebase key.
+/**
+ * Resolves and caches a task's Firebase key.
+ * @param {object} task
+ * @returns {Promise<string|null>}
+ */
 async function resolveTaskFirebaseKey(task) {
     if (!task) return null;
     const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
@@ -96,7 +137,6 @@ async function resolveTaskFirebaseKey(task) {
     return firebaseKey;
 }
 
-// Sends a full task update PATCH request to Firebase.
 async function patchTaskUpdateToFirebase(firebaseKey, taskBody) {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: taskBody
@@ -108,7 +148,6 @@ async function patchTaskUpdateToFirebase(firebaseKey, taskBody) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 }
 
-// Persists full task updates to Firebase and returns a status object.
 async function persistTaskUpdateToFirebase(task) {
     const firebaseKey = await resolveTaskFirebaseKey(task);
     if (!firebaseKey) return createPersistResult(false, false);
@@ -123,7 +162,6 @@ async function persistTaskUpdateToFirebase(task) {
     }
 }
 
-// Builds the JSON request body for full task updates.
 function buildFirebaseTaskBody(task) {
     return JSON.stringify({
         title: task.title,
@@ -138,7 +176,6 @@ function buildFirebaseTaskBody(task) {
     });
 }
 
-// Sends a DELETE request for a task to Firebase.
 async function sendDeleteTaskRequest(firebaseKey) {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
         method: 'DELETE',
@@ -150,7 +187,6 @@ async function sendDeleteTaskRequest(firebaseKey) {
     return { ok: response.ok, attempted: true };
 }
 
-// Deletes a task from Firebase by its resolved key.
 async function deleteTaskFromFirebase(task) {
     if (!task) return { ok: true, attempted: false };
     const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
@@ -163,7 +199,6 @@ async function deleteTaskFromFirebase(task) {
     }
 }
 
-// Fetches all board tasks from Firebase.
 async function fetchBoardsFromFirebase() {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`);
     if (isUnauthorizedResponse(response)) {
@@ -174,7 +209,6 @@ async function fetchBoardsFromFirebase() {
     return await response.json() || {};
 }
 
-// Normalizes and persists fetched boards to local storage.
 function normalizeFetchedBoards(remoteBoards) {
     const normalizedBoards = Object.entries(remoteBoards).reduce((result, [firebaseKey, task], index) => {
         const normalizedTask = normalizeBoardItem({ ...task, firebaseKey, id: task?.id || Date.now() + index }, index);
@@ -184,7 +218,6 @@ function normalizeFetchedBoards(remoteBoards) {
     localStorage.setItem("boards", JSON.stringify(normalizedBoards));
 }
 
-// Pulls all board tasks from Firebase and writes normalized data to local storage.
 async function syncBoardTasksFromFirebase() {
     try {
         const remoteBoards = await fetchBoardsFromFirebase();

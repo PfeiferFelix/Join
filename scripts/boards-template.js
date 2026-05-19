@@ -1,4 +1,8 @@
-// Returns the HTML template for the task detail dialog.
+/**
+ * Returns the HTML template for the task detail dialog.
+ * @param {object} taskView
+ * @returns {string}
+ */
 function getShowTaskTemplate(taskView) {
     return `
     <header class="addTaskDialog__header">
@@ -41,7 +45,11 @@ function getShowTaskTemplate(taskView) {
     `;
 }
 
-// Returns the HTML template for the editable task dialog.
+/**
+ * Returns the HTML template for the editable task dialog.
+ * @param {object} taskView
+ * @returns {string}
+ */
 function getEditTaskFormTemplate(taskView) {
     return `
     <header class="editTaskDialog__header">
@@ -82,7 +90,7 @@ function getEditTaskFormTemplate(taskView) {
                 </div>
             </div>
             <div class="subtask-container">
-                <label class="task-form__label" for="new-subtask-input">Subtasks</label>
+                <label class="task-form__label" for="new-subtask-input">Subtasks${(taskView.subtasks && taskView.subtasks.length > 0) ? ` <span id=\"edit-subtask-count\">+${taskView.subtasks.length}</span>` : ''}</label>
                 <div class="subtask-input">
                     <input class="task-form__input-edit" type="text" id="new-subtask-input" placeholder="Add new subtask" onkeydown="handleNewSubtaskInputKey(event, ${taskView.id})" oninput="this.closest('.subtask-input').querySelector('.subtask-item__actions').classList.toggle('subtask-item__actions--active', this.value.trim().length > 0)">
                     <input type="hidden" id="edit-subtasks-data" value='${JSON.stringify(taskView.subtasks || [])}'>
@@ -92,8 +100,8 @@ function getEditTaskFormTemplate(taskView) {
                         <button type="button" class="edit-subtask-btn" onclick="addNewSubtaskAndHideBtns(this, ${taskView.id})" aria-label="Add subtask"><img src="assets/add-task/check grey.svg" alt="Add"></button>
                     </div>
                 </div>
-                <ul class="subtask-list-task subtask-list">
-                    ${(taskView.subtasks || []).map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskView.id, index)).join("")}
+                <ul class="subtask-list-task subtask-list subtask-list--edit">
+                    ${(taskView.subtasks || []).map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskView.id, index)).join('')}
                 </ul>
             </div>
         </section>
@@ -103,7 +111,10 @@ function getEditTaskFormTemplate(taskView) {
     </form>`;
 }
 
-// Returns the HTML template for the add-task dialog.
+/**
+ * Returns the HTML template for the add-task dialog.
+ * @returns {string}
+ */
 function getaddTaskTemplateDialog() {
     return `
         <header class="addTaskDialog__header">
@@ -198,7 +209,11 @@ function getaddTaskTemplateDialog() {
     `;
 }
 
-// Returns the HTML template for a board task card.
+/**
+ * Returns the HTML template for a board task card.
+ * @param {object} todoView
+ * @returns {string}
+ */
 function generateTodoHTML(todoView) {
     return `<div class="task" id="${todoView.id}" onclick="handleTaskClick(event, ${todoView.id})" draggable="true" ondragstart="drag(event)">
         <div class="task__header">
@@ -229,7 +244,12 @@ function generateTodoHTML(todoView) {
     </div>`;
 }
 
-// Returns the avatar badge template for an assigned user.
+/**
+ * Returns the avatar badge template for an assigned user.
+ * @param {string} userAbbreviation
+ * @param {string} fill
+ * @returns {string}
+ */
 function getCircleUserTemplate(userAbbreviation, fill) {
     return `
         <svg class="assigned-user-avatar" width="50" height="50" viewBox="0 0 80 80" aria-hidden="true">
@@ -239,12 +259,24 @@ function getCircleUserTemplate(userAbbreviation, fill) {
     `;
 }
 
-// Returns an inline edit input template for one subtask title.
+/**
+ * Returns an inline edit input template for one subtask title.
+ * @param {string} currentTitle
+ * @param {string|number} taskId
+ * @param {number} index
+ * @returns {string}
+ */
 function getSubtaskEditInputTemplate(currentTitle, taskId, index) {
     return `<input type="text" class="task-form__input subtask-item__input" value="${escapeHtmlAttribute(currentTitle)}" onkeydown="if(event.key==='Enter'){acceptSubtaskItem(${taskId}, ${index})}" onfocus="this.parentElement.classList.add('subtask-item--editing')" onblur="this.parentElement.classList.remove('subtask-item--editing')">`;
 }
 
-// Returns one editable subtask list-item template.
+/**
+ * Returns one editable subtask list-item template.
+ * @param {string} subtaskTitle
+ * @param {string|number} taskId
+ * @param {number} index
+ * @returns {string}
+ */
 function getEditableSubtaskItemTemplate(subtaskTitle, taskId, index) {
     return `<li class="subtask-item" data-subtask-index="${index}">
         <span class="subtask-item__title">${escapeHtmlText(subtaskTitle)}</span>
@@ -256,7 +288,13 @@ function getEditableSubtaskItemTemplate(subtaskTitle, taskId, index) {
     </li>`;
 }
 
-// Returns one display-only subtask list-item template for the task show dialog.
+/**
+ * Returns one display-only subtask list-item template for the task show dialog.
+ * @param {object} subtask
+ * @param {string|number} taskId
+ * @param {number} index
+ * @returns {string}
+ */
 function getShowSubtaskItemTemplate(subtask, taskId, index) {
     return `<li class="subtask-item-show ${subtask.done ? "subtask-item-show--done" : ""}" data-subtask-index="${index}">
         <label class="subtask-item-show__label">
@@ -266,17 +304,30 @@ function getShowSubtaskItemTemplate(subtask, taskId, index) {
     </li>`;
 }
 
-// Returns a display-only subtask title span template.
+/**
+ * Returns a display-only subtask title span template.
+ * @param {string} title
+ * @returns {string}
+ */
 function getSubtaskTitleTemplate(title) {
     return `<span class="subtask-item__title">${escapeHtmlText(title)}</span>`;
 }
 
-// Builds the assigned-user row template with avatar and name.
+/**
+ * Builds the assigned-user row template with avatar and name.
+ * @param {object} user
+ * @param {string} fill
+ * @returns {string}
+ */
 function getAssignedUserWithNameTemplate(user, fill) {
     return [`<div class="assigned-user-row">`, `<svg class="assigned-user-avatar" width="40" height="40" viewBox="0 0 80 80" aria-hidden="true">`, `<circle class="header__circle" cx="40" cy="40" r="38" fill="${fill}" stroke="#ffffff" stroke-width="4" />`, `<text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" font-size="28" font-family="Inter, sans-serif" fill="#fff" font-weight="700">${user?.abbreviation || ""}</text>`, `</svg>`, `<span class="assigned-user-name">${user?.name || user?.abbreviation || "Unknown User"}</span>`, `</div>`].join("");
 }
 
-// Builds one selected assigned-user row from avatar markup.
+/**
+ * Builds one selected assigned-user row from avatar markup.
+ * @param {string} contentHTML
+ * @returns {string}
+ */
 function getAssignedUserRowTemplate(contentHTML) {
     return `<div class="assigned-user-row">${contentHTML}</div>`;
 }
