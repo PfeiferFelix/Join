@@ -455,8 +455,9 @@ main {
 }
 
 .add-contact__input input:focus {
-    border-color: rgba(41, 171, 226, 1);
+    border-color: var(--input-focus-border);
 }
+
 
 .add-contact__input img {
     position: absolute;

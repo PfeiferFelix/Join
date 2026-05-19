@@ -24,6 +24,10 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 
+/**Sets the visibility of the body element to visible.*/
+document.body.style.visibility = "visible";
+
+
 /**
  * This function handles the user login process. It retrieves the email and password from the input fields, then queries the Firebase Realtime Database for all users under the "users" node.
  * It checks if any user in the database has a matching email and password. If a match is found, it sets the current user's name and email in local storage and calls the loadDataToLocalStorage function to load the necessary data for the user.

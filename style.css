@@ -55,11 +55,11 @@ textarea {
     cursor: pointer;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-    outline-color: var(--color-brand-accent);
-    border-color: var(--color-brand-accent);
+:root input:focus,
+:root textarea:focus,
+:root select:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
 }
 
 .content__container {

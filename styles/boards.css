@@ -194,6 +194,11 @@
     border-bottom-right-radius: unset;
 }
 
+.example:focus-within,
+.example-mobile:focus-within {
+    border-color: var(--input-focus-border);
+}
+
 .seperatorleftBtn {
     width: 1px;
     height: 24px;
