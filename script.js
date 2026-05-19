@@ -148,7 +148,7 @@ function redirectToLoginIfNotLoggedIn() {
     const publicPages = ['privacy-policy.html', 'legal-notice.html', 'index.html', 'registration.html'];
     if (publicPages.some(page => window.location.href.includes(page))) return;
 
-    const requiredKeys = ["currentUserEmail", "currentUserName", "contacs", "boards"];
+    const requiredKeys = ["currentUserEmail", "currentUserName", "contacts", "boards"];
     const isMissing = requiredKeys.some((key) => localStorage.getItem(key) === null);
     if (isMissing) {
         window.location.href = "index.html";
@@ -161,7 +161,7 @@ function redirectToLoginIfNotLoggedIn() {
 function logout() {
     localStorage.removeItem("currentUserEmail");
     localStorage.removeItem("currentUserName");
-    localStorage.removeItem("contacs");
+    localStorage.removeItem("contacts");
     localStorage.removeItem("boards");
 }
 

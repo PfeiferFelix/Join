@@ -94,7 +94,7 @@ function checkLoginResults(loginSuccess) {
 
 /**
  * This function loads data from the Firebase Realtime Database to the local storage of the browser.
- * It retrieves the data from the root of the database, extracts the "boards" and "contacs" data, and stores them in local storage as JSON strings.
+ * It retrieves the data from the root of the database, extracts the "boards" and "contacts" data, and stores them in local storage as JSON strings.
  * After successfully loading the data, it calls the checkLoginResults function with a true value to indicate a successful login and data loading process.
  * This allows the application to have access to the necessary data for the user after logging in, and ensures that the user is redirected to the appropriate page.
  * @param {object} snapshot - The snapshot of the Firebase Realtime Database.
@@ -103,7 +103,7 @@ function loadDataToLocalStorage() {
     db.ref("/").once("value", function (snapshot) {
         const allData = snapshot.val();
         localStorage.setItem("boards", JSON.stringify(allData.boards));
-        localStorage.setItem("contacs", JSON.stringify(allData.contacs));
+        localStorage.setItem("contacts", JSON.stringify(allData.contacts));
         checkLoginResults(true);
     });
 }

@@ -46,7 +46,7 @@ function initContacts() {
 
 // Gibt die Kontaktdaten aus dem Local Storage als Objekt zurück
 function getLocalStorageData() {
-    return JSON.parse(localStorage.getItem('contacs') || '{}');
+    return JSON.parse(localStorage.getItem('contacts') || '{}');
 }
 
 // Wandelt einen Eintrag aus dem Local Storage in ein Kontakt-Objekt
@@ -68,13 +68,13 @@ function loadContactsFromLocalStorage() {
     }
 }
 
-// Lädt Kontakte aus Firebase und schreibt sie in den Local Storage als Objekt unter "contacs".
+// Lädt Kontakte aus Firebase und schreibt sie in den Local Storage als Objekt unter "contacts".
 async function syncContactsFromFirebaseToLocalStorage() {
     try {
-        const response = await fetch(`${FIREBASE_BASE_URL}contacs.json`);
+        const response = await fetch(`${FIREBASE_BASE_URL}contacts.json`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const remoteContacts = await response.json() || {};
-        localStorage.setItem('contacs', JSON.stringify(remoteContacts));
+        localStorage.setItem('contacts', JSON.stringify(remoteContacts));
         return true;
     } catch (error) {
         console.error('Kontakte konnten nicht aus Firebase geladen werden:', error);
@@ -86,14 +86,14 @@ async function syncContactsFromFirebaseToLocalStorage() {
 function setInLocalStorage(key, contact) {
     const data = getLocalStorageData();
     data[key] = contact;
-    localStorage.setItem('contacs', JSON.stringify(data));
+    localStorage.setItem('contacts', JSON.stringify(data));
 }
 
 // Entfernt einen Kontakt aus dem Local Storage
 function removeFromLocalStorage(key) {
     const data = getLocalStorageData();
     delete data[key];
-    localStorage.setItem('contacs', JSON.stringify(data));
+    localStorage.setItem('contacts', JSON.stringify(data));
 }
 // --- Hilfsfunktionen ---
 
@@ -257,7 +257,7 @@ function handleAddContactSubmit(event) {
         email: document.getElementById('addContactEmail').value.trim(),
         phone: document.getElementById('addContactPhone').value.trim(),
     };
-    db.ref('contacs').push(newContact)
+    db.ref('contacts').push(newContact)
         .then(function(snapshot) { onContactAdded(snapshot.key, newContact); })
         .catch(showFirebaseError);
 }
@@ -305,7 +305,7 @@ function handleEditContactSubmit(event) {
         email: document.getElementById('editContactEmail').value.trim(),
         phone: document.getElementById('editContactPhone').value.trim(),
     };
-    db.ref('contacs/' + key).update(updated)
+    db.ref('contacts/' + key).update(updated)
         .then(function() { onContactEdited(key, updated); })
         .catch(showFirebaseError);
 }
@@ -335,7 +335,7 @@ function onContactDeleted(key) {
 }
 
 function deleteContact(key) {
-    db.ref('contacs/' + key).remove()
+    db.ref('contacts/' + key).remove()
         .then(function() { onContactDeleted(key); })
         .catch(showFirebaseError);
 }

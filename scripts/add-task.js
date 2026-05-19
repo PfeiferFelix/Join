@@ -6,7 +6,7 @@ const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.
 const ADD_TASK_DEFAULT_RETURN = "boards.html";
 
 
-let addTaskContactsLS = importandFormatLocalStorageData("contacs");
+let addTaskContactsLS = importandFormatLocalStorageData("contacts");
 
 
 const ADD_TASK_AVATAR_COLORS = [

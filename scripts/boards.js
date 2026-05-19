@@ -1,6 +1,6 @@
 ﻿// Helper utilities are provided globally by boards-utils.js.
 let boardsLS = getFormattedLocalStorageItems("boards");
-let contactsLS = getFormattedLocalStorageItems("contacs");
+let contactsLS = getFormattedLocalStorageItems("contacts");
 let defaultContacts = [];
 let contacts = normalizeContacts(contactsLS, defaultContacts);
 let categories = ["Technical Task", "User Story"];
@@ -41,7 +41,7 @@ async function initBoardsPage() {
  * Updates the contacts list from local storage in memory.
  */
 function updateBoardContactsFromLocalStorage() {
-    contactsLS = getFormattedLocalStorageItems("contacs");
+    contactsLS = getFormattedLocalStorageItems("contacts");
     contacts = normalizeContacts(contactsLS, defaultContacts);
 }
 
