@@ -104,9 +104,16 @@ function buildTodoCardSubtaskData(todo) {
  * @param {object} todo
  * @returns {string}
  */
+/**
+ * Builds assigned users HTML for a board task card, showing max 3 avatars, no counter.
+ * @param {object} todo
+ * @returns {string}
+ */
 function getTodoAssignedUsersHTML(todo) {
     if (!Array.isArray(todo.assignedTo)) return '';
-    return todo.assignedTo.map((user, index) => {
+    const maxAvatars = 3;
+    const users = todo.assignedTo.slice(0, maxAvatars);
+    return users.map((user, index) => {
         const fill = getAvatarFillColor(index);
         return getCircleUserTemplate(user.abbreviation || '', fill);
     }).join('');
