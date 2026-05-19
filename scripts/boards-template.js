@@ -53,7 +53,6 @@ function getShowTaskTemplate(taskView) {
 function getEditTaskFormTemplate(taskView) {
     return `
     <header class="editTaskDialog__header">
-        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog"><img src="assets/add-task/Vector.png" alt="Close"></button>
     </header>
     <label class="task-form__label" for="edit-title">Title</label>
     <input class="editTaskDialog__input" type="text" id="edit-title" value="${taskView.title}" required>
