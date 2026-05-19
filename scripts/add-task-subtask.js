@@ -110,3 +110,18 @@ function handleSubtaskEnter(e) {
 function clearSubtaskList() {
     document.getElementById('subtask-list').innerHTML = '';
 }
+
+/**
+ * Setup subtask input event listeners.
+ * @returns {void}
+ */
+function setupSubtaskEvents() {
+    const input = document.getElementById('subtask');
+    const clearBtn = document.getElementById('subtask-clear');
+    const confirmBtn = document.getElementById('subtask-confirm');
+
+    input.addEventListener('input', toggleSubtaskButtons);
+    input.addEventListener('keydown', handleSubtaskEnter);
+    clearBtn.addEventListener('click', clearSubtaskInput);
+    confirmBtn.addEventListener('click', addSubtask);
+}

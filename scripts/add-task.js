@@ -384,32 +384,3 @@ function disableButtons(disabled) {
     document.querySelector('.task-form__btn--submit').disabled = disabled;
     document.querySelector('.task-form__btn--clear').disabled = disabled;
 }
-
-
-/**
- * Setup subtask input event listeners.
- * @returns {void}
- */
-function setupSubtaskEvents() {
-    const input = document.getElementById('subtask');
-    const clearBtn = document.getElementById('subtask-clear');
-    const confirmBtn = document.getElementById('subtask-confirm');
-
-    input.addEventListener('input', toggleSubtaskButtons);
-    input.addEventListener('keydown', handleSubtaskEnter);
-    clearBtn.addEventListener('click', clearSubtaskInput);
-    confirmBtn.addEventListener('click', addSubtask);
-}
-
-
-/**
- * Initialize event handlers for the category dropdown in the form.
- * @returns {void}
- */
-function setupCategoryDropdown() {
-    document.getElementById('category-trigger').addEventListener('click', toggleCategoryDropdown);
-    document.getElementById('category-list').querySelectorAll('.dropdown__item--simple').forEach(item => {
-        item.addEventListener('click', () => selectCategory(item));
-    });
-    document.addEventListener('click', closeCategoryOnOutsideClick);
-}

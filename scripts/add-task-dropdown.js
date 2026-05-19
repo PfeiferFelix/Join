@@ -145,3 +145,15 @@ function closeCategoryOnOutsideClick(event) {
         document.getElementById('category-list').classList.remove('dropdown__list--visible');
     }
 }
+
+/**
+ * Initialize event handlers for the category dropdown in the form.
+ * @returns {void}
+ */
+function setupCategoryDropdown() {
+    document.getElementById('category-trigger').addEventListener('click', toggleCategoryDropdown);
+    document.getElementById('category-list').querySelectorAll('.dropdown__item--simple').forEach(item => {
+        item.addEventListener('click', () => selectCategory(item));
+    });
+    document.addEventListener('click', closeCategoryOnOutsideClick);
+}
