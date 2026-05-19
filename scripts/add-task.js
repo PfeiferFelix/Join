@@ -5,7 +5,9 @@
 const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
 const ADD_TASK_DEFAULT_RETURN = "boards.html";
 
+
 let addTaskContactsLS = importandFormatLocalStorageData("contacs");
+
 
 const ADD_TASK_AVATAR_COLORS = [
     '#FF7A00', '#FF5EB3', '#6E52FF', '#9327FF', '#00BEE8',
@@ -20,6 +22,7 @@ function getAddTaskParams() {
     return new URLSearchParams(window.location.search);
 }
 
+
 /**
  * Get the target page to return to after adding a task.
  * Falls back to `ADD_TASK_DEFAULT_RETURN` when not provided.
@@ -29,6 +32,7 @@ function getAddTaskReturnTarget() {
     return getAddTaskParams().get("returnTo") || ADD_TASK_DEFAULT_RETURN;
 }
 
+
 /**
  * Read an optionally requested board category from the URL.
  * @returns {string} The requested board category or empty string.
@@ -36,6 +40,7 @@ function getAddTaskReturnTarget() {
 function getRequestedBoardCategory() {
     return getAddTaskParams().get("boardCategory") || "";
 }
+
 
 /**
  * Map the form-select category value to the internal board category key.
@@ -46,6 +51,7 @@ function mapFormCategoryToBoardCategory(value) {
     if (value === "user-story") return "inProgress";
     return "toDo";
 }
+
 
 /**
  * Convert an internal board category key to a human-readable label.
@@ -59,6 +65,7 @@ function getBoardCategoryLabel(category) {
     return "Technical Task";
 }
 
+
 /**
  * Determine the board category for the new task, preferring the URL parameter.
  * @returns {string} The chosen board category key.
@@ -71,6 +78,7 @@ function getBoardCategoryFromContext() {
     );
 }
 
+
 /**
  * Read names of contacts selected in the assigned-to dropdown.
  * @returns {string[]} Array of selected contact names.
@@ -81,6 +89,7 @@ function getSelectedContactNames() {
         return item.querySelector('.dropdown__name').textContent;
     });
 }
+
 
 /**
  * Build the `assignedTo` array in the shape used by boards.js for a task.
@@ -96,6 +105,7 @@ function getAssignedUsersForBoardTask() {
     }));
 }
 
+
 /**
  * Read the active priority button and convert to board label.
  * @returns {string} One of 'Urgent', 'Medium' or 'Low'.
@@ -108,6 +118,7 @@ function getBoardPriorityLabel() {
     return "Medium";
 }
 
+
 /**
  * Collect subtasks from the UI and map them to the board subtask shape.
  * @returns {Array<{title:string,done:boolean}>} Array of subtask objects.
@@ -118,6 +129,7 @@ function getBoardSubtasks() {
         done: false,
     }));
 }
+
 
 /**
  * Build the complete task object ready to be saved to boards and Firebase.
@@ -140,6 +152,7 @@ function buildBoardTask() {
     };
 }
 
+
 /**
  * Save a task representation into `localStorage` under the `boards` key.
  * Removes transient fields like `id`, `subtask` and `firebaseKey` before saving.
@@ -155,6 +168,7 @@ function saveBoardTaskToLocalStorage(task) {
     boards[key] = cleanTask;
     localStorage.setItem("boards", JSON.stringify(boards));
 }
+
 
 /**
  * Apply optional presets from the URL to the add-task form elements.
@@ -185,6 +199,7 @@ function initAddTask() {
     setupCategoryDropdown();
 }
 
+
 /**
  * Set the default active priority button and attach click handlers.
  * @returns {void}
@@ -202,6 +217,7 @@ function setActivePriority() {
     });
 }
 
+
 /**
  * Set the minimum allowed due date to today's date.
  * @returns {void}
@@ -210,6 +226,7 @@ function setMinDueDate() {
     const today = new Date().toISOString().split("T")[0];
     document.getElementById("due-date").setAttribute("min", today);
 }
+
 
 /**
  * Show a temporary toast notification.
@@ -223,18 +240,20 @@ function showToast() {
     }, 2000);
 }
 
+
 /**
  * Register form submit and clear button listeners.
  * @returns {void}
  */
 function handleFormSubmit() {
     const form = document.querySelector(".task-form");
-    const submitBtn = document.querySelector(".task-form__btn--submit");
-    const clearBtn = document.querySelector(".task-form__btn--clear");
+    const submitBtn = document.getElementById("add-task-submit-btn");
+    const clearBtn = document.getElementById("add-task-clear-btn");
 
     submitBtn.addEventListener("click", () => handleSubmit(form));
     clearBtn.addEventListener("click", () => handleClear(form));
 }
+
 
 /**
  * Process the form submission, validate input, upload the task, and redirect.
@@ -262,6 +281,7 @@ async function handleSubmit(form) {
     }
 }
 
+
 /**
  * Clear the form and remove any validation errors.
  * @param {HTMLFormElement} form - The task form element.
@@ -273,6 +293,7 @@ function handleClear(form) {
     clearSubtaskList();
     clearSelectedUsers();
 }
+
 
 /**
  * Validate that all required form fields are filled.
@@ -297,6 +318,7 @@ function validateForm() {
     return isValid;
 }
 
+
 /**
  * Display an error message for a required field.
  * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement} field - The form field with an error.
@@ -307,6 +329,7 @@ function showError(field) {
     error.textContent = "This field is required*";
     field.style.borderColor = "red";
 }
+
 
 /**
  * Clear all displayed form error messages.
@@ -336,6 +359,7 @@ function getInitials(name) {
         .join('');
 }
 
+
 /**
  * Choose an avatar color based on the contact email.
  * @param {string} email - The email of the contact.
@@ -361,6 +385,7 @@ function disableButtons(disabled) {
     document.querySelector('.task-form__btn--clear').disabled = disabled;
 }
 
+
 /**
  * Setup subtask input event listeners.
  * @returns {void}
@@ -375,6 +400,7 @@ function setupSubtaskEvents() {
     clearBtn.addEventListener('click', clearSubtaskInput);
     confirmBtn.addEventListener('click', addSubtask);
 }
+
 
 /**
  * Initialize event handlers for the category dropdown in the form.

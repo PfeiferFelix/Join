@@ -10,6 +10,7 @@ function addUserToTask() {
     });
 }
 
+
 /**
  * Create a list item element for a contact in the dropdown.
  * @param {Object} contact - The contact object with name and email.
@@ -32,6 +33,7 @@ function createContactListItem(contact) {
     return li;
 }
 
+
 /**
  * Toggle the visibility of the assigned contacts dropdown.
  * @returns {void}
@@ -40,6 +42,7 @@ function toggleDropdown() {
     const list = document.getElementById('assigned-to-list');
     list.classList.toggle('dropdown__list--visible');
 }
+
 
 /**
  * Filter dropdown items by the search input.
@@ -53,6 +56,7 @@ function filterDropdown() {
         item.style.display = name.includes(search) ? 'flex' : 'none';
     });
 }
+
 
 /**
  * Update the selected avatars display for checked contacts.
@@ -69,6 +73,7 @@ function updateSelectedAvatars() {
     });
 }
 
+
 /**
  * Close the dropdown menu when clicking outside of it.
  * @param {Event} event - The click event object.
@@ -81,6 +86,7 @@ function closeDropdownOnOutsideClick(event) {
             .classList.remove('dropdown__list--visible');
     }
 }
+
 
 /**
  * Setup dropdown event listeners including outside click handling.
@@ -96,6 +102,7 @@ function setupDropdownEvents() {
 
     document.addEventListener('click', closeDropdownOnOutsideClick);
 }
+
 
 /**
  * Clear the selected users avatars and uncheck checkboxes.
@@ -114,6 +121,7 @@ function toggleCategoryDropdown() {
     document.getElementById('category-list').classList.toggle('dropdown__list--visible');
 }
 
+
 /**
  * Select a category from the dropdown and update the UI state.
  * @param {HTMLElement} item - The clicked dropdown item element.
@@ -124,6 +132,7 @@ function selectCategory(item) {
     document.getElementById('category-selected').dataset.value = item.dataset.value;
     document.getElementById('category-list').classList.remove('dropdown__list--visible');
 }
+
 
 /**
  * Close the category dropdown when clicking outside of it.

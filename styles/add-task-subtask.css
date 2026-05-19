@@ -72,7 +72,7 @@
     flex-direction: column;
     gap: 8px;
     margin-top: 8px;
-    max-height: 56px;
+    height: 64px;
     overflow-y: auto;
 }
 

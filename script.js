@@ -145,6 +145,9 @@ function removeHelpLink() {
  * Redirects the user to the login page when required session data is missing.
  */
 function redirectToLoginIfNotLoggedIn() {
+    const publicPages = ['privacy-policy.html', 'legal-notice.html', 'index.html', 'registration.html'];
+    if (publicPages.some(page => window.location.href.includes(page))) return;
+
     const requiredKeys = ["currentUserEmail", "currentUserName", "contacs", "boards"];
     const isMissing = requiredKeys.some((key) => localStorage.getItem(key) === null);
     if (isMissing) {
@@ -274,9 +277,13 @@ function showFirebaseError(error) {
 // Shows a success toast notification.
 function showSuccessToast(message) {
     Swal.fire({
-        toast: true, position: 'bottom', title: message,
-        showConfirmButton: false, timer: 3000,
-        background: '#2a3647', color: '#fff',
+        toast: true,
+        position: 'bottom',
+        title: message,
+        showConfirmButton: false,
+        timer: 3000,
+        background: '#2a3647',
+        color: '#fff',
         customClass: { container: 'success-toast-container' },
     });
 }

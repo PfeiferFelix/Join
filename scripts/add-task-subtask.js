@@ -15,6 +15,7 @@ function addSubtask() {
     clearSubtaskInput();
 }
 
+
 /**
  * Enable editing mode for a subtask item.
  * @param {HTMLLIElement} li - The list item to edit.
@@ -38,6 +39,7 @@ function editSubtask(li, value) {
     });
 }
 
+
 /**
  * Confirm and save the edited subtask.
  * @param {HTMLLIElement} li - The list item being edited.
@@ -55,6 +57,7 @@ function confirmEditSubtask(li, input) {
     actions.querySelector('.subtask-list__btn--edit').addEventListener('click', () => editSubtask(li, span.textContent));
 }
 
+
 /**
  * Handle deletion of a subtask item.
  * @param {HTMLLIElement} li - The list item to remove.
@@ -63,6 +66,7 @@ function confirmEditSubtask(li, input) {
 function onSubtaskDelete(li) {
     li.remove();
 }
+
 
 /**
  * Clear the subtask input field and hide the action buttons.
@@ -85,6 +89,7 @@ function toggleSubtaskButtons() {
     wrapper.classList.toggle('subtask-input--active', input.value.trim().length > 0);
 }
 
+
 /**
  * Add subtask on Enter key press without submitting the form.
  * @param {KeyboardEvent} e - The keyboard event.
@@ -96,6 +101,7 @@ function handleSubtaskEnter(e) {
         addSubtask();
     }
 }
+
 
 /**
  * Clear the subtask list.
