@@ -72,7 +72,6 @@ select {
     outline: none;
 }
 
-
 textarea {
     resize: vertical;
     height: 120px;
@@ -89,7 +88,6 @@ textarea {
     padding: 16px 10px;
     border: 2px solid transparent;
     border-radius: 10px;
-    cursor: pointer;
     background-color: white;
     color: black;
     display: inline-flex;
@@ -157,7 +155,6 @@ textarea {
     justify-content: center;
     align-items: center;
     gap: 12px;
-
 }
 
 @media (min-width: 320px) and (max-width: 855px) {
@@ -286,8 +283,6 @@ body.add-task-page {
 }
 
 .subtask-input__btn {
-    border: none;
-    cursor: pointer;
     font-size: 16px;
     padding: 0;
     width: 32px;
@@ -295,7 +290,6 @@ body.add-task-page {
     border-radius: 50%;
     align-items: center;
     justify-content: center;
-    background: none;
     color: var(--color-neutral-600);
     display: none;
 }
@@ -314,9 +308,6 @@ body.add-task-page {
 }
 
 .subtask-list__btn {
-    background: none;
-    border: none;
-    cursor: pointer;
     font-size: 14px;
     padding: 0 4px;
 }
@@ -356,7 +347,6 @@ body.add-task-page {
 
 .dropdown__item--simple {
     padding: 10px 16px;
-    cursor: pointer;
     font-size: 16px;
 }
 

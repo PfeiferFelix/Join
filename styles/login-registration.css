@@ -98,7 +98,6 @@ header {
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s;
-    cursor: pointer;
 }
 
 .input__wrapper input::placeholder {
@@ -153,7 +152,6 @@ footer {
     height: 20px;
     border: 2px solid var(--color-brand-primary);
     border-radius: 4px;
-    cursor: pointer;
     flex-shrink: 0;
 }
 
@@ -168,7 +166,6 @@ footer {
 .checkbox__row label {
     font-size: 15px;
     color: var(--color-neutral-700);
-    cursor: pointer;
 }
 
 .checkbox__row label a {

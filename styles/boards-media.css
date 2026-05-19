@@ -167,14 +167,12 @@
     }
 
     .task-move-panel__item {
-        border: none;
         border-radius: 8px;
         background-color: transparent;
         color: var(--color-neutral-400);
         padding: 5px 5px;
         font-size: 16px;
         font-weight: 600;
-        cursor: pointer;
         text-align: center;
     }
 
@@ -356,7 +354,6 @@
         color: var(--color-brand-primary);
         width: 25px;
         height: 25px;
-        cursor: pointer;
         padding: 0;
         display: inline-flex;
         align-items: center;

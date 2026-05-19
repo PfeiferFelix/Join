@@ -164,8 +164,6 @@
 .searchBtn {
     float: right;
     font-size: 0;
-    border: none;
-    cursor: pointer;
     height: 36px;
     width: 44px;
     border-top-right-radius: 8px;
@@ -363,9 +361,7 @@
 
 .task__moveto-btn {
     display: none;
-    background: none;
     border: 1px solid var(--color-brand-primary);
-    cursor: pointer;
     font-size: 16px;
     padding: 0;
     color: #999;

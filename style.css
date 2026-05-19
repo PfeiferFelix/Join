@@ -21,7 +21,6 @@ p {
 
 a {
     text-decoration: none;
-    color: white;
 }
 
 ul,
@@ -40,9 +39,19 @@ button {
     background: none;
 }
 
+button,
+button *,
+a,
+a *,
+input,
+textarea {
+    transition: all 125ms ease-in-out;
+}
+
 a,
 input,
-button {
+button,
+textarea {
     cursor: pointer;
 }
 
