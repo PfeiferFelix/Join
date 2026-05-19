@@ -279,7 +279,8 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .editTaskDialog__save-btn:hover {
-    background: var(--color-brand-accent);
+    background-color: var(--color-brand-accent);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
 
 /* --- Show Task Dialog Custom Layout --- */
