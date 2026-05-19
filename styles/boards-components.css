@@ -363,6 +363,8 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     flex-direction: column;
     gap: 4px;
     margin-top: 16px;
+    height: 68px;
+    overflow: auto;
 }
 
 .assigned-user-row {
