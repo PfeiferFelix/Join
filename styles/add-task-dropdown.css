@@ -45,7 +45,6 @@
     z-index: 200;
     padding: 0;
     margin: 0;
-    list-style: none;
 }
 
 .dropdown__list--visible {

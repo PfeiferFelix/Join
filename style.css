@@ -3,6 +3,10 @@
     scroll-behavior: smooth;
 }
 
+html {
+    scrollbar-gutter: stable;
+}
+
 h1 {
     margin: 22px 0;
 }
@@ -342,7 +346,7 @@ textarea {
 
 @media (max-width: 400px) {
     .sidebar__nav-list {
-        gap: 8px;
+        gap: 4px;
     }
 
     .sidebar__nav-link {

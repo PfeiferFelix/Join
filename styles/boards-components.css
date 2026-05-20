@@ -57,7 +57,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .editTaskDialog__delete-btn:hover,
 .editTaskDialog__edit-btn:hover {
     color: #29abe2;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -808,7 +807,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .subtask-item-show__checkbox {
     width: 16px;
     height: 16px;
-    cursor: pointer;
     accent-color: var(--color-brand-primary);
 }
 

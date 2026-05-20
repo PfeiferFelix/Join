@@ -5,7 +5,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-family: "Inter", sans-serif;
 }
 
 header {
@@ -127,7 +126,6 @@ footer {
 
 .footer__Link {
     color: var(--color-neutral-700);
-    text-decoration: none;
     margin-left: 20px;
     display: inline-block;
     width: 110px;
@@ -166,7 +164,6 @@ footer {
 
 .checkbox__row label a {
     color: var(--color-brand-accent);
-    text-decoration: none;
 }
 
 .checkbox__row label a:hover {

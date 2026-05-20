@@ -1,6 +1,5 @@
 * {
     margin: 0;
-    scroll-behavior: smooth;
 }
 
 body.add-task-page main {
@@ -157,7 +156,7 @@ textarea {
     gap: 12px;
 }
 
-@media (min-width: 320px) and (max-width: 855px) {
+@media (max-width: 850px) {
     body.add-task-page .main-content {
         margin-top: 0;
         margin-left: 0;
@@ -216,12 +215,7 @@ textarea {
         width: 100%;
         display: flex;
         gap: 0 16px;
-    }
-    .task-form__btn {
-        flex: 1;
-    }
-    .header__headline3 {
-        display: none;
+        justify-content: flex-end;
     }
     .sidebar {
         z-index: 100;
@@ -287,7 +281,7 @@ body.add-task-page {
     display: none;
 }
 
-@media (min-width: 856px) {
+@media (min-width: 850px) {
     .task-form__required-hint--mobile {
         display: none;
     }
