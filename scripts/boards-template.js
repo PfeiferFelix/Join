@@ -217,7 +217,7 @@ function generateTodoHTML(todoView) {
     return `<div class="task" id="${todoView.id}" onclick="handleTaskClick(event, ${todoView.id})" draggable="true" ondragstart="drag(event)">
         <div class="task__header">
             <h3 class="task__category-badge ${todoView.headerClass}">${todoView.fixedHeaderLabel}</h3>
-            <button type="button" id="task-move-btn-${todoView.id}" class="task__moveto-btn" onclick="openTaskMovePanel(event, ${todoView.id})" title="Move task" aria-label="Move task" aria-expanded="false"><p class="ArrowDown">&#x279C;</p><p class="ArrowUp">&#x279C;</p></button>
+            <button type="button" id="task-move-btn-${todoView.id}" class="task__moveto-btn" onclick="openTaskMovePanel(event, ${todoView.id})" title="Move task" aria-label="Move task" aria-expanded="false"><p class="board__moveto-arrow--down">&#x279C;</p><p class="board__moveto-arrow--up">&#x279C;</p></button>
             <nav class="task-move-panel" id="task-move-panel-${todoView.id}" aria-label="Move task to category" hidden>
                 <div class="task-move-panel__body">
                     <h4 class="task-move-panel__body-title">Move To</h4>

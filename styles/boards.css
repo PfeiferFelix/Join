@@ -59,7 +59,7 @@
     font-size: 20px;
 }
 
-.board__list-header .addTaskBtnBoard {
+.board__list-header .board__add-btn--board {
     order: 1;
     flex-shrink: 0;
     margin-left: auto;
@@ -90,8 +90,8 @@
 }
 
 /* Search */
-.example input[type="text"],
-.example-mobile input[type="text"] {
+.board__search-form input[type="text"],
+.board__search-form--mobile input[type="text"] {
     border: none;
     border-radius: 0;
     padding-left: 8px;
@@ -100,8 +100,8 @@
     min-width: 0;
 }
 
-.example,
-.example-mobile {
+.board__search-form,
+.board__search-form--mobile {
     display: flex;
     justify-content: space-between;
     border: 1px solid var(--color-neutral-400);
@@ -112,8 +112,8 @@
     height: 40px;
 }
 
-.example:focus-within,
-.example-mobile:focus-within {
+.board__search-form:focus-within,
+.board__search-form--mobile:focus-within {
     border-color: var(--color-brand-accent);
 }
 
@@ -165,7 +165,7 @@
         opacity 0.2s ease;
 }
 
-.searchBtn {
+.board__search-form__btn {
     float: right;
     font-size: 0;
     height: 36px;
@@ -180,7 +180,7 @@
         transform 0.2s ease;
 }
 
-.search-container {
+.board__search-container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -188,7 +188,7 @@
     border: none;
 }
 
-.search-container input[type="text"] {
+.board__search-container input[type="text"] {
     height: 36px;
     font-size: 16px;
     width: 250px;
@@ -198,12 +198,12 @@
     border-bottom-right-radius: unset;
 }
 
-.example:focus-within,
-.example-mobile:focus-within {
+.board__search-form:focus-within,
+.board__search-form--mobile:focus-within {
     border-color: var(--input-focus-border);
 }
 
-.seperatorleftBtn {
+.board__search-form__separator {
     width: 1px;
     height: 24px;
     background-color: var(--color-neutral-400);
@@ -396,7 +396,7 @@
 }
 
 /* Action Buttons */
-.addTaskBtn {
+.board__add-btn {
     display: flex;
     align-items: center;
     font-size: 18px;
@@ -405,7 +405,7 @@
     font-weight: 600;
 }
 
-.addTaskBtnBoard {
+.board__add-btn--board {
     box-shadow: none !important;
     height: 24px;
     width: 26px;
@@ -418,7 +418,7 @@
 }
 
 /* Category Labels */
-.ArrowDown {
+.board__moveto-arrow--down {
     font-size: 12px;
     color: var(--color-brand-primary);
     transform: rotate(-90deg);
@@ -426,7 +426,7 @@
     margin: 0 !important;
 }
 
-.ArrowUp {
+.board__moveto-arrow--up {
     font-size: 12px;
     color: var(--color-brand-primary);
     transform: rotate(90deg);
@@ -434,12 +434,12 @@
     margin: 0 !important;
 }
 
-.TechnicalTask {
+.task__category-badge--technical {
     background-color: #0038ff;
     color: white;
 }
 
-.UserStory {
+.task__category-badge--user-story {
     background-color: #1fd7c1;
     color: white;
 }
@@ -473,19 +473,19 @@
 
 /* Hover */
 @media (hover: hover) and (pointer: fine) {
-    .searchBtn:hover .fa {
+    .board__search-form__btn:hover .fa {
         transform: scale(1.08);
         border-color: var(--color-brand-primary);
         z-index: 1;
     }
 
-    .searchBtn:hover .fa::before {
+    .board__search-form__btn:hover .fa::before {
         opacity: 1;
         background-color: rgba(42, 54, 71, 0.16);
         box-shadow: 0 0 0 2px rgba(42, 54, 71, 0.22);
     }
 
-    .searchBtn:hover .fa::after {
+    .board__search-form__btn:hover .fa::after {
         background-color: var(--color-black);
     }
 }

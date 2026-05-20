@@ -321,6 +321,10 @@ body.add-task-page {
     transition: background-color 9999s ease-out 0s;
 }
 
+.priority-buttons__btn:not(.priority-buttons__btn--active) .priority-buttons__icon {
+    filter: none;
+}
+
 .priority-buttons__btn--urgent.priority-buttons__btn--active .priority-buttons__icon,
 .priority-buttons__btn--medium.priority-buttons__btn--active .priority-buttons__icon,
 .priority-buttons__btn--low.priority-buttons__btn--active .priority-buttons__icon {
