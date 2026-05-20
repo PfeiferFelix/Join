@@ -30,6 +30,11 @@
     font-weight: 400;
 }
 
+.fs-small-bold {
+    font-size: 16px;
+    font-weight: 700;
+}
+
 .fs-medium-regular {
     font-size: 20px;
     font-weight: 400;
@@ -97,7 +102,7 @@
     }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 400px) {
     .fs-xlarge-bold-responsive {
         font-size: 32px;
         font-weight: 700;

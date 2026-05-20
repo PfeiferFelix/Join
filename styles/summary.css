@@ -287,7 +287,7 @@
 
 @media (max-width: 400px) {
     .tasks__cells--responsive {
-        height: 140px;
+        height: 120px;
     }
 
     .tasks__cells--responsive:hover {

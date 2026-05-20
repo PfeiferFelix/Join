@@ -33,8 +33,7 @@
 }
 
 .help__list-marker {
-    font-size: 27px;
-    font-weight: 700;
+    line-height: 1;
 }
 
 .help__how-to-use-p {

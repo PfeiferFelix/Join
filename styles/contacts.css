@@ -458,7 +458,6 @@ main {
     border-color: var(--input-focus-border);
 }
 
-
 .add-contact__input img {
     position: absolute;
     right: 14px;
@@ -477,7 +476,6 @@ main {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: white;
     font-size: 16px;
     font-weight: 600;
 }
@@ -488,7 +486,6 @@ main {
     gap: 8px;
     font-size: 16px;
     font-weight: 600;
-    color: white;
 }
 
 .contact-item--active {

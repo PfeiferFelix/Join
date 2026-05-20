@@ -355,7 +355,6 @@
     gap: -4px;
 }
 
-
 .task__assigned-users .assigned-user-avatar {
     width: 28px;
     height: 28px;
@@ -408,7 +407,6 @@
 
 .addTaskBtnBoard {
     box-shadow: none !important;
-    border: 2px solid var(--color-brand-primary);
     height: 24px;
     width: 26px;
     padding: 10px 10px;

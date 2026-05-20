@@ -548,7 +548,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .edit-subtask-btn img,
 .clear-subtasks-btn img {
-    transition: filter 0.2s, transform 0.2s;
+    transition:
+        filter 0.2s,
+        transform 0.2s;
     width: 16px;
     height: 16px;
 }
@@ -1388,27 +1390,12 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .task-form__btn--clear {
-    border: 1px solid var(--color-brand-primary);
     border-radius: 8px;
-    background-color: transparent;
-    color: var(--color-brand-primary);
     font-size: 16px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-}
-
-
-.task-form__btn--clear:hover {
-    border: 1px solid #29abe2;
-    border-radius: 8px;
-    color: #29abe2;
-    background-color: #fff;
-    transition: all 0.2s ease;
-    transform: scale(1.01);
-    border-top: 0.7px solid #29abe2;
 }
 
 .task-form__btn--clear:hover img {
@@ -1419,7 +1406,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .task-form__btn--clear:hover svg {
     color: #29abe2 !important;
     fill: #29abe2 !important;
-    transition: color 0.2s, fill 0.2s;
+    transition:
+        color 0.2s,
+        fill 0.2s;
 }
 
 .addTaskDialog .task-form {
@@ -1452,16 +1441,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     display: flex;
     align-items: center;
     gap: 6px;
-}
-
-.addTaskDialog .task-form__btn--submit:hover {
-    background-color: #29abe2;
-    transition: all 0.2s ease;
-    transform: scale(1.01);
-}
-
-.addTaskDialog .task-form__btn--submit img {
-    filter: brightness(0) invert(1);
 }
 
 /* .editTaskDialog img[src*="check grey.svg"] {
@@ -1679,11 +1658,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 /* Misc */
-.addTaskBtn:hover {
-    background-color: var(--color-brand-accent);
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
-}
-
 .addTaskwith__plus {
     font-size: 18px;
     font-weight: bold;
