@@ -36,7 +36,6 @@
     transition: all 0.2s ease;
     transform: scale(1.05);
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
-    border-top: none;
 }
 
 .addTaskDialog .task-form__label {
