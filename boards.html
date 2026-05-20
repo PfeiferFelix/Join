@@ -1,161 +1,147 @@
 <!doctype html>
 <html lang="de">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg" />
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="styles/components.css" />
-        <link rel="stylesheet" href="styles/boards.css" />
-        <link rel="stylesheet" href="styles/boards-components.css" />
-        <link rel="stylesheet" href="styles/boards-media.css" />
-        <link rel="stylesheet" href="styles/variable.css" />
-        <link rel="stylesheet" href="styles/fonts.css" />
-        <link rel="stylesheet" href="styles/add-task.css" />
-        <link rel="stylesheet" href="styles/add-task-dropdown.css" />
-        <link rel="stylesheet" href="styles/add-task-subtask.css" />
-        <link rel="stylesheet" href="styles/add-task-dialog.css" />
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-        <script src="script.js"></script>
-        <script src="scripts/templates.js"></script>
-        <script src="scripts/contacts.js"></script>
-        <script src="scripts/boards-utils.js"></script>
-        <script src="scripts/boards-firebase.js"></script>
-        <script src="scripts/boards.js"></script>
-        <script src="scripts/boards-form.js"></script>
-        <script src="scripts/boards-form-addtask-subtasks.js"></script>
-        <script src="scripts/boards-form-edit.js"></script>
-        <script src="scripts/boards-subtasks.js"></script>
-        <script src="scripts/boards-dnd.js"></script>
-        <script src="scripts/boards-template-data.js"></script>
-        <script src="scripts/boards-template.js"></script>
-        <script src="scripts/add-task.js"></script>
-        <script src="scripts/add-task-dropdown.js"></script>
-        <script src="scripts/add-task-subtask.js"></script>
-        <title>Boards</title>
-    </head>
 
-    <body onload="initBoardsPage()">
-        <div class="content__container fs-small-regular max-width-1920">
-            <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/components.css" />
+    <link rel="stylesheet" href="styles/boards.css" />
+    <link rel="stylesheet" href="styles/boards-components.css" />
+    <link rel="stylesheet" href="styles/boards-media.css" />
+    <link rel="stylesheet" href="styles/variable.css" />
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/add-task.css" />
+    <link rel="stylesheet" href="styles/add-task-dropdown.css" />
+    <link rel="stylesheet" href="styles/add-task-subtask.css" />
+    <link rel="stylesheet" href="styles/add-task-dialog.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="script.js"></script>
+    <script src="scripts/templates.js"></script>
+    <script src="scripts/contacts.js"></script>
+    <script src="scripts/boards-utils.js"></script>
+    <script src="scripts/boards-firebase.js"></script>
+    <script src="scripts/boards.js"></script>
+    <script src="scripts/boards-form.js"></script>
+    <script src="scripts/boards-form-addtask-subtasks.js"></script>
+    <script src="scripts/boards-form-edit.js"></script>
+    <script src="scripts/boards-subtasks.js"></script>
+    <script src="scripts/boards-dnd.js"></script>
+    <script src="scripts/boards-template-data.js"></script>
+    <script src="scripts/boards-template.js"></script>
+    <script src="scripts/add-task.js"></script>
+    <script src="scripts/add-task-dropdown.js"></script>
+    <script src="scripts/add-task-subtask.js"></script>
+    <title>Boards</title>
+</head>
 
-            <div class="header-main__container">
-                <header id="js-header" class="header"></header>
-                <main class="main-content">
-                    <div class="board__addtask">
-                        <h1 class="fs-xxlarge-bold fs-xlarge-bold-responsive">Board</h1>
-                        <div class="search-container">
-                            <form class="example" method="get" onsubmit="searchCard(event)">
-                                <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)" />
-                                <span class="seperatorleftBtn"></span>
-                                <button class="searchBtn" type="submit" title="Search">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </form>
-                            <button
-                                onclick="
-                                    addTask();
-                                    initAddTask();
-                                "
-                                type="button"
-                                class="addTaskBtn btn-primary"
-                            >
-                                Add Task
-                                <p class="addTaskwith__plus">&#43;</p>
+<body onload="initBoardsPage()">
+    <div class="content__container fs-small-regular max-width-1920">
+        <aside id="js-sidebar" class="sidebar fc-lightgrey"></aside>
+
+        <div class="header-main__container">
+            <header id="js-header" class="header"></header>
+            <main class="main-content">
+                <div class="board__addtask">
+                    <h1 class="fs-xxlarge-bold fs-xlarge-bold-responsive">Board</h1>
+                    <div class="search-container">
+                        <form class="example" method="get" onsubmit="searchCard(event)">
+                            <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)"
+                                onkeydown="resetSearchOnEscape(event)" />
+                            <span class="seperatorleftBtn"></span>
+                            <button class="searchBtn" type="submit" title="Search">
+                                <i class="fa fa-search"></i>
                             </button>
-                        </div>
-                    </div>
-                    <div class="board__addtask--mobile" id="board__addtask--mobile">
-                        <div class="headline__AddTask">
-                            <h1 class="fs-xxlarge-bold fs-xlarge-bold-responsive">Board</h1>
-                            <button
-                                onclick="
+                        </form>
+                        <button onclick="
                                     addTask();
                                     initAddTask();
-                                "
-                                type="button"
-                                class="addTaskBtnMobile"
-                            >
+                                " type="button" class="addTaskBtn btn-primary">
+                            Add Task
+                            <p class="addTaskwith__plus">&#43;</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="board__addtask--mobile" id="board__addtask--mobile">
+                    <div class="headline__AddTask">
+                        <h1 class="fs-xxlarge-bold fs-xlarge-bold-responsive">Board</h1>
+                        <button onclick="
+                                    addTask();
+                                    initAddTask();
+                                " type="button" class="addTaskBtnMobile">
+                            &#43;
+                        </button>
+                    </div>
+                    <form class="example-mobile" method="get" onsubmit="searchCard(event)">
+                        <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)"
+                            onkeydown="resetSearchOnEscape(event)" />
+                        <span class="seperatorleftBtn"></span>
+                        <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="board__lists">
+                    <div class="board__list" id="board__list--todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="board__list-header">
+                            <h2 class="board__headline">To Do</h2>
+                            <button onclick="
+                                        addTaskByCategory('toDo');
+                                        initAddTask();
+                                    " type="button" class="btn-secondary addTaskBtnBoard">
                                 &#43;
                             </button>
                         </div>
-                        <form class="example-mobile" method="get" onsubmit="searchCard(event)">
-                            <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)" />
-                            <span class="seperatorleftBtn"></span>
-                            <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
-                        </form>
+                        <div class="board__cards" id="board__cards--todo"></div>
+                        <div class="board__nonecard" id="noneCardTodo">No tasks To Do</div>
                     </div>
-                    <div class="board__lists">
-                        <div class="board__list" id="board__list--todo" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <div class="board__list-header">
-                                <h2 class="board__headline">To Do</h2>
-                                <button
-                                    onclick="
-                                        addTaskByCategory('toDo');
-                                        initAddTask();
-                                    "
-                                    type="button"
-                                    class="btn-secondary addTaskBtnBoard"
-                                >
-                                    &#43;
-                                </button>
-                            </div>
-                            <div class="board__cards" id="board__cards--todo"></div>
-                            <div class="board__nonecard" id="noneCardTodo">No tasks To Do</div>
-                        </div>
 
-                        <dialog id="addTaskDialog" class="addTaskDialog"></dialog>
-                        <dialog id="showTaskDialog" class="showTaskDialog"></dialog>
-                        <dialog id="editTaskDialog" class="editTaskDialog"></dialog>
+                    <dialog id="addTaskDialog" class="addTaskDialog"></dialog>
+                    <dialog id="showTaskDialog" class="showTaskDialog"></dialog>
+                    <dialog id="editTaskDialog" class="editTaskDialog"></dialog>
 
-                        <div class="board__list" id="board__list--inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <div class="board__list-header">
-                                <h2 class="board__headline">In Progress</h2>
-                                <button
-                                    onclick="
+                    <div class="board__list" id="board__list--inprogress" ondrop="drop(event)"
+                        ondragover="allowDrop(event)">
+                        <div class="board__list-header">
+                            <h2 class="board__headline">In Progress</h2>
+                            <button onclick="
                                         addTaskByCategory('inProgress');
                                         initAddTask();
-                                    "
-                                    type="button"
-                                    class="btn-secondary addTaskBtnBoard"
-                                >
-                                    &#43;
-                                </button>
-                            </div>
-                            <div class="board__cards" id="board__cards--inprogress"></div>
-                            <div class="board__nonecard" id="noneCardInProgress">No tasks In Progress</div>
+                                    " type="button" class="btn-secondary addTaskBtnBoard">
+                                &#43;
+                            </button>
                         </div>
+                        <div class="board__cards" id="board__cards--inprogress"></div>
+                        <div class="board__nonecard" id="noneCardInProgress">No tasks In Progress</div>
+                    </div>
 
-                        <div class="board__list" id="board__list--feedback" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <div class="board__list-header">
-                                <h2 class="board__headline">Await Feedback</h2>
-                                <button
-                                    onclick="
+                    <div class="board__list" id="board__list--feedback" ondrop="drop(event)"
+                        ondragover="allowDrop(event)">
+                        <div class="board__list-header">
+                            <h2 class="board__headline">Await Feedback</h2>
+                            <button onclick="
                                         addTaskByCategory('feedback');
                                         initAddTask();
-                                    "
-                                    type="button"
-                                    class="btn-secondary addTaskBtnBoard"
-                                >
-                                    &#43;
-                                </button>
-                            </div>
-                            <div class="board__cards" id="board__cards--feedback"></div>
-                            <div class="board__nonecard" id="noneCardFeedback">No tasks Awaiting Feedback</div>
+                                    " type="button" class="btn-secondary addTaskBtnBoard">
+                                &#43;
+                            </button>
                         </div>
-
-                        <div class="board__list" id="board__list--done" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <div class="board__list-header">
-                                <h2 class="board__headline">Done</h2>
-                            </div>
-                            <div class="board__cards" id="board__cards--done"></div>
-                            <div class="board__nonecard" id="noneCardDone">No tasks Done</div>
-                        </div>
+                        <div class="board__cards" id="board__cards--feedback"></div>
+                        <div class="board__nonecard" id="noneCardFeedback">No tasks Awaiting Feedback</div>
                     </div>
-                </main>
-            </div>
+
+                    <div class="board__list" id="board__list--done" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="board__list-header">
+                            <h2 class="board__headline">Done</h2>
+                        </div>
+                        <div class="board__cards" id="board__cards--done"></div>
+                        <div class="board__nonecard" id="noneCardDone">No tasks Done</div>
+                    </div>
+                </div>
+            </main>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

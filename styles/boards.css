@@ -1,7 +1,7 @@
 /* Effekt f�r Touch-Dragging auf allen Ger�ten */
 .task--touch-dragging {
     box-shadow:
-        0 8px 32px rgba(42, 54, 71, 0.32),
+        0 8px 32px rgba(33, 91, 172, 0.32),
         0 2px 8px rgba(0, 0, 0, 0.12);
     transform: scale(1.06) rotate(1.5deg);
     z-index: 1000;
@@ -104,9 +104,9 @@
     display: flex;
     justify-content: space-between;
     border: 1px solid var(--color-neutral-400);
+    background-color: white;
     align-items: center;
     border-radius: 8px;
-    background-color: var(--color-neutral-400);
     overflow: hidden;
     height: 40px;
 }
@@ -140,7 +140,7 @@
     border-radius: 10px;
     right: -8px;
     bottom: 0px;
-    transform: rotate(45deg);
+    transform: rotate(41deg);
     transform-origin: left center;
     transition: background-color 0.2s ease;
     z-index: 2;
@@ -149,8 +149,8 @@
 .fa::before {
     content: "";
     position: absolute;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: transparent;
     opacity: 0;
@@ -483,7 +483,6 @@
     .searchBtn:hover .fa::before {
         opacity: 1;
         background-color: rgba(42, 54, 71, 0.16);
-        box-shadow: 0 0 0 2px rgba(42, 54, 71, 0.22);
     }
 
     .searchBtn:hover .fa::after {
