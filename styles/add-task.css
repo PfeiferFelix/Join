@@ -99,7 +99,6 @@ textarea {
     transition: all 0.2s ease;
     transform: scale(1.05);
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1);
-    border-top: none;
 }
 
 .priority-buttons__btn--urgent.priority-buttons__btn--active {
@@ -320,6 +319,10 @@ body.add-task-page {
     box-shadow: 0 0 0 1000px transparent inset;
     -webkit-text-fill-color: #2a3647;
     transition: background-color 9999s ease-out 0s;
+}
+
+.priority-buttons__btn:not(.priority-buttons__btn--active) .priority-buttons__icon {
+    filter: none;
 }
 
 .priority-buttons__btn--urgent.priority-buttons__btn--active .priority-buttons__icon,

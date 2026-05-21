@@ -130,8 +130,8 @@ function categoryLabel(category) {
  * @returns {string}
  */
 function getCategoryHeaderClass(label) {
-    if (label === 'Technical Task') return 'TechnicalTask';
-    if (label === 'User Story') return 'UserStory';
+    if (label === 'Technical Task') return 'task__category-badge--technical';
+    if (label === 'User Story') return 'task__category-badge--user-story';
     return '';
 }
 

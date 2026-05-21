@@ -894,7 +894,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     gap: 6px;
     border: 1px solid transparent;
     border-radius: 8px;
-    background-color: var(--color-neutral-400);
+    background-color: var(--color-neutral-50);
     padding: 0 10px;
     margin-top: 0;
     max-height: 170px;
@@ -1123,11 +1123,11 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     filter: brightness(0) invert(1);
 }
 
-.ArrowUp {
+.board__moveto-arrow--up {
     transform: rotate(90deg);
 }
 
-.ArrowDown {
+.board__moveto-arrow--down {
     transform: rotate(-90deg);
 }
 
@@ -1656,7 +1656,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 /* Misc */
-.addTaskwith__plus {
+.board__add-btn__icon {
     font-size: 18px;
     font-weight: bold;
     margin-left: 8px;

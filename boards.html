@@ -46,11 +46,11 @@
                 <main class="main-content">
                     <div class="board__addtask">
                         <h1 class="fs-xxlarge-bold fs-xlarge-bold-responsive">Board</h1>
-                        <div class="search-container">
-                            <form class="example" method="get" onsubmit="searchCard(event)">
+                        <div class="board__search-container">
+                            <form class="board__search-form" method="get" onsubmit="searchCard(event)">
                                 <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)" />
-                                <span class="seperatorleftBtn"></span>
-                                <button class="searchBtn" type="submit" title="Search">
+                                <span class="board__search-form__separator"></span>
+                                <button class="board__search-form__btn" type="submit" title="Search">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
@@ -60,15 +60,15 @@
                                     initAddTask();
                                 "
                                 type="button"
-                                class="addTaskBtn btn-primary"
+                                class="board__add-btn btn-primary"
                             >
                                 Add Task
-                                <p class="addTaskwith__plus">&#43;</p>
+                                <p class="board__add-btn__icon">&#43;</p>
                             </button>
                         </div>
                     </div>
                     <div class="board__addtask--mobile" id="board__addtask--mobile">
-                        <div class="headline__AddTask">
+                        <div class="board__mobile-header">
                             <h1 class="fs-xxlarge-bold fs-xlarge-bold-responsive">Board</h1>
                             <button
                                 onclick="
@@ -76,15 +76,15 @@
                                     initAddTask();
                                 "
                                 type="button"
-                                class="addTaskBtnMobile"
+                                class="board__add-btn--mobile"
                             >
                                 &#43;
                             </button>
                         </div>
-                        <form class="example-mobile" method="get" onsubmit="searchCard(event)">
+                        <form class="board__search-form--mobile" method="get" onsubmit="searchCard(event)">
                             <input type="text" placeholder="Find Task" name="search" oninput="clearSearch(event)" onkeydown="resetSearchOnEscape(event)" />
-                            <span class="seperatorleftBtn"></span>
-                            <button class="searchBtn" type="submit" title="Search"><i class="fa fa-search"></i></button>
+                            <span class="board__search-form__separator"></span>
+                            <button class="board__search-form__btn" type="submit" title="Search"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
                     <div class="board__lists">
@@ -97,7 +97,7 @@
                                         initAddTask();
                                     "
                                     type="button"
-                                    class="btn-secondary addTaskBtnBoard"
+                                    class="btn-secondary board__add-btn--board"
                                 >
                                     &#43;
                                 </button>
@@ -119,7 +119,7 @@
                                         initAddTask();
                                     "
                                     type="button"
-                                    class="btn-secondary addTaskBtnBoard"
+                                    class="btn-secondary board__add-btn--board"
                                 >
                                     &#43;
                                 </button>
@@ -137,7 +137,7 @@
                                         initAddTask();
                                     "
                                     type="button"
-                                    class="btn-secondary addTaskBtnBoard"
+                                    class="btn-secondary board__add-btn--board"
                                 >
                                     &#43;
                                 </button>
