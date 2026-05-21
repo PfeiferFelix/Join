@@ -91,7 +91,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 13px;
 }
 ul.subtask-list-task {
     display: flex;
@@ -117,6 +117,7 @@ label.subtask-item-show__label:hover {
     font-weight: 300;
     cursor: pointer;
     color: var(--color-neutral-700);
+    outline: none;
 }
 
 .addTaskDialog__close-btn:hover {
@@ -126,6 +127,16 @@ label.subtask-item-show__label:hover {
 }
 .task-form__btn--clear {
     background-color: white!important;
-    color: var(--color-neutral-700)!important;
-    border: 1px solid var(--color-neutral-400)!important;
+    color: #000000!important;
+    border: 1px solid var(--color-neutral-700)!important;
+}
+.task-form__btn--clear img {
+    filter: brightness(0) invert(0);
+}
+.task-form__btn--clear:hover {
+    background-color: #fff;
+    border: 1px solid #29abe2!important;
+    color: #29abe2!important;
+    transition: all 0.1s ease;
+    transform: scale(1.01);
 }
