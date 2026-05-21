@@ -103,24 +103,6 @@ label.subtask-item-show__label:hover {
     transform: scale3d(1, 1, 1.05);
 }
 
-.addTaskDialog__close-btn {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: transparent;
-    border: none;
-    font-size: 32px;
-    font-weight: 300;
-    cursor: pointer;
-    color: var(--color-neutral-700);
-    outline: none;
-}
-
-.addTaskDialog__close-btn:hover {
-    background-color: #e7e7e7;
-    transform: translateY(0.25px);
-    border-radius: 50%;
-}
 .task-form__btn--clear {
     background-color: white!important;
     color: #000000!important;

@@ -1267,7 +1267,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .task-form__input-date {
     width: 95%;
     border-radius: 10px;
-    border: 1px solid var(--color-neutral-450);
+    border: 1px solid var(--color-neutral-400);
     font-size: 16px;
     padding: 8px;
 }
@@ -1439,10 +1439,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     gap: 6px;
 }
 
-/* .editTaskDialog img[src*="check grey.svg"] {
-    filter: brightness(0) invert(1);
-} */
-
 .add-task-success {
     position: absolute;
     inset: 0;
@@ -1480,7 +1476,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     align-items: center;
     margin-bottom: 12px;
 }
-
+.editTaskDialog__header--edit {
+    justify-content: flex-end;
+}
 .addTaskDialog__title {
     font-size: 48px;
     font-weight: 700;

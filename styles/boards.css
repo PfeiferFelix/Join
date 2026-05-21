@@ -49,9 +49,10 @@
 }
 
 .board__list-header {
-    display: flex;
+display: flex;
     align-items: center;
-    width: 88%;
+    width: 100%;
+    max-width: 200px;
 }
 
 .board__list-header .board__headline {
