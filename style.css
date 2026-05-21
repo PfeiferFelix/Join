@@ -64,7 +64,7 @@ textarea {
 }
 
 :focus {
-    outline: 1px solid var(--color-brand-primary);
+    outline: none;
 }
 
 input:focus,
