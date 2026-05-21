@@ -7,7 +7,7 @@ function getShowTaskTemplate(taskView) {
     return `
     <header class="addTaskDialog__header">
         <h3 class="category__header ${taskView.headerClass}" id="categoryHeader">${taskView.fixedHeaderLabel}</h3>
-        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
+        <button onclick="closeDialog()" class="btn-close" aria-label="Close dialog"></button>
     </header>
     <section class="editTaskDialog__content editTaskDialog__content--show">
         <h2 class="headline__task-show" id="headline${taskView.id}">${taskView.title}</h2>
@@ -89,7 +89,7 @@ function getEditTaskFormTemplate(taskView) {
                 </div>
             </div>
             <div class="subtask-container">
-                <label class="task-form__label" for="new-subtask-input">Subtasks${(taskView.subtasks && taskView.subtasks.length > 0) ? ` <span id=\"edit-subtask-count\">+${taskView.subtasks.length}</span>` : ''}</label>
+                <label class="task-form__label" for="new-subtask-input">Subtasks${taskView.subtasks && taskView.subtasks.length > 0 ? ` <span id=\"edit-subtask-count\">+${taskView.subtasks.length}</span>` : ""}</label>
                 <div class="subtask-input">
                     <input class="task-form__input-edit" type="text" id="new-subtask-input" placeholder="Add new subtask" onkeydown="handleNewSubtaskInputKey(event, ${taskView.id})" oninput="this.closest('.subtask-input').querySelector('.subtask-item__actions').classList.toggle('subtask-item__actions--active', this.value.trim().length > 0)">
                     <input type="hidden" id="edit-subtasks-data" value='${JSON.stringify(taskView.subtasks || [])}'>
@@ -100,7 +100,7 @@ function getEditTaskFormTemplate(taskView) {
                     </div>
                 </div>
                 <ul class="subtask-list-task subtask-list subtask-list--edit">
-                    ${(taskView.subtasks || []).map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskView.id, index)).join('')}
+                    ${(taskView.subtasks || []).map((subtask, index) => getEditableSubtaskItemTemplate(subtask.title, taskView.id, index)).join("")}
                 </ul>
             </div>
         </section>
