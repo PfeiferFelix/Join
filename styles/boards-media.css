@@ -138,12 +138,8 @@
         }
 
         .board__addtask {
-            justify-content: space-around !important;
+            justify-content: space-between !important;
         }
-/* 
-        .task {
-            width: 170px !important;
-        } */
     }
 
     @media (max-width:1270px) {
@@ -205,6 +201,11 @@
     .done {
         margin-top: 10px !important;
     }
+                .task {
+                min-width: 150px;
+    max-width: 150px;
+    width: 100%;
+        }
 }
 
 @media (max-width: 1024px) {

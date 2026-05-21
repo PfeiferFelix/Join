@@ -154,18 +154,15 @@ function getaddTaskTemplateDialog() {
                             </button>
                         </div>
 
-                        <label class="task-form__label" for="assigned-to-multiselect">Assigned to</label>
-                        <div class="multiselect" id="assigned-to-multiselect">
-                            <div class="selectBox" id="assigned-to-trigger" role="button" tabindex="0" aria-expanded="false" aria-controls="assigned-to-checkboxes">
-                                <select class="task-form__select" aria-hidden="true" tabindex="-1">
-                                    <option id="assigned-to-summary">Select contacts to assign</option>
-                                </select>
-                                <input class="selectBox__input" id="assigned-to-search" type="text" placeholder="Select contacts to assign" autocomplete="off">
-                                <div class="overSelect"></div>
+                        <label class="task-form__label" for="assigned-to">Assigned to</label>
+                        <div class="dropdown" id="assigned-to-dropdown">
+                            <div class="dropdown__trigger">
+                                <input type="text" class="dropdown__search" placeholder="Select contacts to assign" id="assigned-to-search" />
+                                <span class="dropdown__arrow" id="assigned-to-arrow"><img src="assets/add-task/arrow_drop_downaa.svg" alt="arrow"></span>
                             </div>
-                            <div id="assigned-to-checkboxes" class="multiselect__checkboxes" hidden></div>
-                            <div class="assigned-users-list-edit" id="assigned-to-selected-avatars"></div>
+                            <ul class="dropdown__list" id="assigned-to-list"></ul>
                         </div>
+                        <div class="dropdown__selected-avatars" id="selected-avatars"></div>
 
                         <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
                         <div class="dropdown" id="category-dropdown">

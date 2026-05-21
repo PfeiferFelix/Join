@@ -78,6 +78,7 @@
 .board__lists {
     display: flex;
     justify-content: center;
+    width: 103%;
 }
 
 .board__nonecard {
@@ -239,7 +240,9 @@
     border-radius: 21px;
     padding: 16px 16px 56px;
     margin: 0 0 4px 0;
-    width: 180px;
+    min-width: 150px;
+    max-width: 180px;
+    width: 100%;
     position: relative;
     transition:
         transform 0.15s ease,
