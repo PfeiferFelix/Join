@@ -1,28 +1,37 @@
 ﻿/* Maximal 2 sichtbare Subtasks, Rest scrollbar */
 ul.subtask-list-task {
-    max-height: 50px; /* 2 Items à ca. 36px Höhe */
+    max-height: 50px;
+    /* 2 Items à ca. 36px Höhe */
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
     scrollbar-width: thin;
 }
+
 ul.subtask-list-task::-webkit-scrollbar {
     width: 6px;
 }
+
 ul.subtask-list-task::-webkit-scrollbar-thumb {
     background: var(--color-brand-soft);
     border-radius: 8px;
 }
+
 ul.subtask-list-task::-webkit-scrollbar-track {
     background: transparent;
 }
+
 .subtask-list--edit {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
 }
+
 .subtask-list--edit::-webkit-scrollbar {
     display: none;
 }
+
 @keyframes dialogSlideOutRight {
     from {
         opacity: 1;
@@ -78,7 +87,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     background: transparent;
     color: var(--color-brand-primary);
     padding: 2px 6px;
-    border-radius: 6px;
+    border: none;
     transition:
         background 0.15s,
         color 0.15s;
@@ -95,7 +104,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .subtask-item__actions button:hover {
     background-color: #ebebeb;
     color: var(--color-brand-accent);
-    border-radius: 50%;
+    border-radius: 70%;
 }
 
 .subtask-item__separator {
@@ -209,7 +218,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     flex-direction: column;
     margin-top: 10px;
     max-height: 68px;
-    height: 68px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 4px;
@@ -260,12 +268,12 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     justify-content: center;
     align-items: center;
     background: var(--color-brand-primary);
-    color: var(--color-neutral-400);
+    color: white;
     border-radius: 8px;
     height: 38px;
     width: 83px;
     gap: 4px;
-    font-size: 1.1rem;
+    font-size: 18px;
     font-weight: 600;
     transition: background 0.15s;
 }
@@ -294,7 +302,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     margin: 18px 0 18px 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 18px;
 }
 
 .task-meta-row {
@@ -398,9 +406,31 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .subtask-item-show__checkbox {
-    accent-color: var(--color-brand-primary);
-    width: 16px;
-    height: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 10%;
+    border: 1px solid rgba(0, 0, 0, 0.9);
+    box-shadow: none;
+    font-size: 28px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align:baseline;
+    padding: 6px;
+}
+
+.subtask-item-show__checkbox:checked {
+    border-color: #023047;
+}
+
+.subtask-item-show__checkbox:checked::after {
+    content: '\2713';
+    color: rgb(0, 0, 0);
+    line-height: 1;
+    border-color: #000000;
 }
 
 .subtask-item-show--done .subtask-item-show__label {
@@ -415,7 +445,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 /* Task Content */
 .category__description {
     font-size: 16px;
-    color: #555;
+    color: #000000;
     margin: 0;
     max-width: 100%;
     white-space: normal;
@@ -622,7 +652,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     border-radius: 8px;
     outline: none;
     border: 1px solid var(--color-neutral-400);
-    height: 28px;
+    height: 32px;
 }
 
 .subtask-input .task-form__inputAddTask {
@@ -649,6 +679,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .editTaskDialog .subtask-input .clear-subtasks-btn:hover {
     background-color: #f0f0f0;
     color: #2a3647;
+    border: none;
 }
 
 .subtask-input .subtask-item__actions {
@@ -781,38 +812,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     padding-left: 6px;
 }
 
-/* .subtask-item__input:hover,
-.subtask-item__input:focus,
-.subtask-item__input:active {
-    background-color: transparent;
-    border: none;
-}
-
-.subtask-item__title {
-    flex: 1;
-    font-size: 16px;
-    color: var(--color-brand-primary);
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding-left: 10px;
-}
-
-.subtask-item-show {
-    list-style-type: none;
-    padding: 4px 0;
-    padding: 4px 0;
-}
-
-.subtask-item-show__checkbox {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--color-brand-primary);
-}
-
-.task-form__label {
-    margin-bottom: 12px;
-}
 /* Forms and Controls */
 .cancel-btn {
     border: 1px solid var(--color-brand-primary);
@@ -1384,7 +1383,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     justify-content: center;
     flex-direction: column;
     overflow: hidden;
-    gap: 27px;
 }
 
 .task-form__btn--clear {
@@ -1550,7 +1548,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     justify-content: flex-start;
     animation: dialogSlideInRight 0.3s ease-out;
     width: min(450px, 92vw);
-    max-height: 91vh;
+    max-height: 92vh;
     overflow: hidden;
     overflow-x: hidden;
     padding: 14px 24px;
@@ -1562,6 +1560,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     gap: 4px;
     min-width: 0;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .editTaskDialog__content--show {
@@ -1711,3 +1710,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         transform: translateY(-60px);
     }
 }
+
+
+.done {
+    margin-top: 12px;
+}
+

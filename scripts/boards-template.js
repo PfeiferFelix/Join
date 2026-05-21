@@ -52,7 +52,8 @@ function getShowTaskTemplate(taskView) {
  */
 function getEditTaskFormTemplate(taskView) {
     return `
-    <header class="editTaskDialog__header">
+    <header class="addTaskDialog__header">
+        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
     </header>
     <label class="task-form__label" for="edit-title">Title</label>
     <input class="editTaskDialog__input" type="text" id="edit-title" value="${taskView.title}" required>
@@ -94,7 +95,7 @@ function getEditTaskFormTemplate(taskView) {
                     <input class="task-form__input-edit" type="text" id="new-subtask-input" placeholder="Add new subtask" onkeydown="handleNewSubtaskInputKey(event, ${taskView.id})" oninput="this.closest('.subtask-input').querySelector('.subtask-item__actions').classList.toggle('subtask-item__actions--active', this.value.trim().length > 0)">
                     <input type="hidden" id="edit-subtasks-data" value='${JSON.stringify(taskView.subtasks || [])}'>
                     <div class="subtask-item__actions">
-                        <button type="button" class="clear-subtasks-btn" onclick="clearSubtasks(${taskView.id})" aria-label="Clear subtasks"><img src="assets/add-task/Vector.png" alt="Clear"></button>
+                        <button type="button" class="clear-subtasks-btn" onclick="clearSubtasks(${taskView.id})" aria-label="Clear subtasks"><img src="assets/Boards/delete.png" alt="Clear"></button>
                         <span class="subtask-input__separator" aria-hidden="true"></span>
                         <button type="button" class="edit-subtask-btn" onclick="addNewSubtaskAndHideBtns(this, ${taskView.id})" aria-label="Add subtask"><img src="assets/add-task/check grey.svg" alt="Add"></button>
                     </div>
@@ -179,7 +180,7 @@ function getaddTaskTemplateDialog() {
                         <label class="task-form__label" for="subtask">Subtask</label>
                         <div class="subtask-input">
                             <input class="subtask-input__field" type="text" id="subtask" placeholder="Add new subtask" />
-                            <button type="button" class="subtask-input__btn subtask-input__btn--clear" id="subtask-clear"><img src="assets/add-task/Vector.png" alt="clear" /></button>
+                            <button type="button" class="subtask-input__btn subtask-input__btn--clear" id="subtask-clear"><img src="assets/add-task/iconoir_cancel.svg" alt="clear" /></button>
                             <div class="subtask-input__separator"></div>
                             <button type="button" class="subtask-input__btn subtask-input__btn--confirm" id="subtask-confirm"><img src="assets/add-task/check grey.svg" alt="confirm" /></button>
                         </div>
@@ -221,7 +222,7 @@ function generateTodoHTML(todoView) {
             <nav class="task-move-panel" id="task-move-panel-${todoView.id}" aria-label="Move task to category" hidden>
                 <div class="task-move-panel__body">
                     <h4 class="task-move-panel__body-title">Move To</h4>
-                    <button type="button" class="task-move-panel__item" onclick="moveTaskToNextCategory(event, ${todoView.id})" ${todoView.nextMoveDisabled ? "disabled" : ""}><span>${todoView.nextMoveArrow}</span> ${todoView.nextMoveLabel}</button>
+                    ${todoView.hasNextMove ? `<button type="button" class="task-move-panel__item" onclick="moveTaskToNextCategory(event, ${todoView.id})" ${todoView.nextMoveDisabled ? "disabled" : ""}><span>${todoView.nextMoveArrow}</span> ${todoView.nextMoveLabel}</button>` : ""}
                     <button type="button" class="task-move-panel__item" onclick="openTaskReviewDialogFromMenu(event, ${todoView.id})">Review</button>
                 </div>
             </nav>
