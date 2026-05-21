@@ -350,3 +350,7 @@ body.add-task-page {
     font-size: 16px;
     color: #888;
 }
+
+.task-form__input[type="date"]:invalid {
+    color: rgba(0, 0, 0, 0.54);
+}
