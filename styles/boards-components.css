@@ -1,28 +1,37 @@
 ﻿/* Maximal 2 sichtbare Subtasks, Rest scrollbar */
 ul.subtask-list-task {
-    max-height: 50px; /* 2 Items à ca. 36px Höhe */
+    max-height: 50px;
+    /* 2 Items à ca. 36px Höhe */
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
     scrollbar-width: thin;
 }
+
 ul.subtask-list-task::-webkit-scrollbar {
     width: 6px;
 }
+
 ul.subtask-list-task::-webkit-scrollbar-thumb {
     background: var(--color-brand-soft);
     border-radius: 8px;
 }
+
 ul.subtask-list-task::-webkit-scrollbar-track {
     background: transparent;
 }
+
 .subtask-list--edit {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
 }
+
 .subtask-list--edit::-webkit-scrollbar {
     display: none;
 }
+
 @keyframes dialogSlideOutRight {
     from {
         opacity: 1;
@@ -261,7 +270,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     justify-content: center;
     align-items: center;
     background: var(--color-brand-primary);
-    color: var(--color-neutral-400);
+    color: white;
     border-radius: 8px;
     height: 38px;
     width: 83px;
@@ -1384,7 +1393,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     justify-content: center;
     flex-direction: column;
     overflow: hidden;
-    gap: 27px;
 }
 
 .task-form__btn--clear {
@@ -1739,3 +1747,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         transform: translateY(-60px);
     }
 }
+
+
+.done {
+    margin-top: 12px;
+}
+

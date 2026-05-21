@@ -1,123 +1,215 @@
+/* Schnelle Transition für ausgeblendete Karte neben Move-Panel */
+.task--move-panel-open {
+    transition: opacity 0.01s linear;
+}
+
 @media (min-width: 1024px) and (max-width: 1330px) {
     .board__nonecard {
         writing-mode: vertical-lr;
         text-orientation: mixed;
         white-space: normal;
-        font-size: 18px;
-        align-items: flex-start;
-        justify-content: flex-start;
-        height: 180px;
-        min-width: 32px;
-        padding: 12px 4px;
-        text-align: left;
+
+        @media (max-width: 1330px) {
+            .board__cards {
+                padding: 8px 4px !important;
+                scrollbar-width: none;
+                justify-content: center;
+                width: 100%;
+                overflow-x: auto !important;
+            }
+
+            .board__cards::-webkit-scrollbar {
+                display: none;
+            }
+
+            #board__list--done .board__list-header {
+                margin-bottom: 10px;
+            }
+
+            .board__headline {
+                font-size: 19px !important;
+                padding-left: 3px;
+                margin-block-start: 0;
+                margin-block-end: 0;
+                margin-inline-start: 0px;
+                margin-inline-end: 0px;
+            }
+
+            .board__nonecard {
+                margin-top: 12px;
+                width: auto;
+                padding: 4px;
+            }
+
+            .board__list-header .addTaskBtnBoard {
+                order: 1;
+                flex-shrink: 0;
+                margin-left: auto;
+            }
+
+            .addTaskBtnBoard {
+                font-size: 36px;
+                font-weight: lighter;
+                padding: 10px 10px;
+                margin-right: 2px;
+            }
+
+            .task {
+                padding: 12px 12px 52px !important;
+                cursor: pointer;
+            }
+
+            .done {
+                margin-top: 2px;
+            }
+        }
+
+        .board__cards::-webkit-scrollbar {
+            display: none;
+        }
+
+        .board__cards {
+            scrollbar-width: none;
+        }
+
+        #board__list--done .board__list-header {
+            margin-bottom: 10px;
+        }
+
+        .board__cards {
+            padding: 8px 4px !important;
+            scrollbar-width: none;
+            justify-content: center;
+            width: 100%;
+            overflow-x: auto !important;
+            /* Firefox */
+        }
+
+        .board__lists {
+            overflow: visible !important;
+        }
+
+        .board__cards::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera */
+        }
+
+        .board__headline {
+            font-size: 19px !important;
+            padding-left: 3px;
+            margin-block-start: 0;
+            margin-block-end: 0;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
+
+        .board__nonecard {
+            margin-top: 12px;
+            width: auto;
+            padding: 4px;
+        }
+
+        .board__list-header .addTaskBtnBoard {
+            order: 1;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .addTaskBtnBoard {
+            font-size: 36px;
+            font-weight: lighter;
+            padding: 10px 10px;
+            margin-right: 2px;
+        }
+
+        .task {
+            padding: 12px 12px 52px !important;
+            cursor: pointer;
+        }
+
+        .done {
+            margin-top: 2px;
+        }
+    }
+
+    @media (min-width: 1025px) and (max-width: 1090px) {
+        .main-content {
+            padding: 50px 37px 50px 37px !important;
+        }
+
+        .board__addtask {
+            justify-content: space-around !important;
+        }
+/* 
+        .task {
+            width: 170px !important;
+        } */
+    }
+
+    @media (max-width:1270px) {
+        .board__lists {
+            gap: 2px;
+        }
+    }
+
+    @media (max-width: 1110px) {
+        .board__cards {
+            padding: 8px 4px !important;
+            scrollbar-width: none;
+            justify-content: center;
+            margin-top: 12px !important;
+            overflow-x: auto !important;
+            max-width: 230px;
+            width: 100%;
+        }
+
+        .board__cards::-webkit-scrollbar {
+            display: none;
+        }
+
+        .headline__done--center {
+            padding-top: 3px;
+        }
+
+        .board__lists {
+            overflow: visible !important;
+        }
+
+        .board__list-header .board__headline {
+            order: 0;
+            flex: 1;
+            margin: 0;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            padding-left: 14px !important;
+        }
+            .done {
+        margin-top: 12px !important;
+    }
     }
 }
-/* Karten neben offenem MoveTo Panel nicht anklickbar */
-@media (max-width: 1024px) {
 
-    .task-move-panel--open~.task,
-    .task--move-panel-open~.task,
-    .task--move-panel-open:not(.task--move-panel-open) {
-        pointer-events: none !important;
-        opacity: 0.6;
+@media (max-width: 1060px) {
+    .board__lists {
+        gap: 0 !important;
     }
 
-    .showTaskDialog[open] {
-        pointer-events: auto !important;
-        opacity: 1 !important;
-    }
-}
-
-@media (max-width: 640px) {
-    .task__moveto-btn {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 1330px) {
-    #board__list--done .board__list-header {
-        margin-bottom: 10px;
+    .board__list-header {
+        display: flex;
+        width: 100%;
+        margin-top: 16px !important;
+        margin-bottom: 16px !important;
     }
 
-    .board__cards {
-        padding: 0 !important;
-        scrollbar-width: none;
-        justify-content: center;
-        width: 96%;
-        /* Firefox */
-    }
-
-    .board__cards::-webkit-scrollbar {
-        display: none;
-        /* Chrome, Safari, Opera */
-    }
-
-    .board__headline {
-        font-size: 17px;
-        font-weight: 600;
-        padding-left: 3px;
-        margin-block-start: 0;
-        margin-block-end: 0;
-        margin-inline-start: 0px;
-        margin-inline-end: 0px;
-    }
-
-    .board__nonecard {
-        margin-top: 12px;
-        width: auto;
-        padding: 4px;
-    }
-
-    .board__list-header .addTaskBtnBoard {
-        order: 1;
-        flex-shrink: 0;
-        margin-left: auto;
-    }
-
-    .addTaskBtnBoard {
-        font-size: 36px;
-        font-weight: lighter;
-        padding: 10px 10px;
-        /* width: 30px !important; */
-        /* height: 24px; */
-        margin-right: 2px;
-    }
-
-    .board__addtask {
-        gap: 12px;
-        height: auto;
-    }
-
-    .task {
-        padding: 12px 12px 52px !important;
-        cursor: pointer;
-    }
-}
-
-@media (max-width: 1110px) {
-    .board__cards {
-        padding: 0 !important;
-        scrollbar-width: none;
-        justify-content: center;
-        width: 96%;
-        /* Firefox */
-    }
-
-    .board__cards::-webkit-scrollbar {
-        display: none;
-        /* Chrome, Safari, Opera */
+    .done {
+        margin-top: 10px !important;
     }
 }
 
 @media (max-width: 1024px) {
     .addTaskDialog .task-form__col {
         padding: 0 !important;
-    }
-
-    .task {
-        margin-right: 14px;
     }
 
     .subtask {
@@ -132,12 +224,22 @@
     }
 
     .main-content {
-        max-width: none;
+        max-width: 100vw;
         min-height: calc(100dvh - 96px);
         height: auto;
         max-height: none;
-        overflow-x: visible;
+        overflow-x: hidden;
         overflow-y: visible;
+        padding: 50px 8px;
+    }
+
+    .board__cards {
+        overflow-x: auto !important;
+        width: 100%;
+    }
+
+    .board__lists {
+        overflow: visible !important;
     }
 
     :root {
@@ -176,8 +278,8 @@
         min-width: 123px;
         max-width: 180px;
         box-sizing: border-box;
-        opacity: 1 !important;
-        transition: none !important;
+        opacity: 2 !important;
+        transition: opacity 0.01s linear !important;
     }
 
     .task-move-panel__body-title {
@@ -222,7 +324,7 @@
     }
 
     .board__headline {
-        font-size: 24px;
+        font-size: 24px !important;
         font-weight: 600;
         padding-left: 0 !important;
     }
@@ -235,8 +337,8 @@
     }
 
     .board__list {
-        max-width: 100%;
-        width: 100%;
+        max-width: 100% !important;
+        width: 100% !important;
         padding-left: 0 !important;
     }
 
@@ -339,7 +441,6 @@
     .board__lists {
         flex-direction: column;
         align-items: stretch;
-        gap: 16px;
         width: 100%;
         min-width: 100%;
         height: auto;
@@ -360,6 +461,12 @@
     svg {
         width: 32px;
         height: 32px;
+    }
+}
+
+@media (max-width: 855px) {
+    .board__list-header .board__headline {
+        font-size: 24px !important;
     }
 }
 
@@ -439,7 +546,7 @@
     }
 
     .editTaskDialog {
-        width: 95vw !important;
+        width: 125vw !important;
         height: fit-content !important;
         max-height: 95vh !important;
         padding: 20px 25px;
@@ -467,17 +574,38 @@
 }
 
 @media (max-width: 580px) {
+    .task {
+        cursor: default !important;
+    }
+
     .board__cards {
         display: flex;
         justify-content: flex-start;
+        flex-direction: row;
         flex-wrap: nowrap;
+        gap: 12px;
         overflow-x: auto;
+        overflow-y: visible;
         width: 100%;
+        padding: 8px 4px 12px;
+        scrollbar-width: none;
+        /* Firefox */
+        -webkit-overflow-scrolling: touch;
+        /* iOS */
+        scroll-snap-type: x mandatory;
+    }
+
+    .board__cards::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Opera */
     }
 
     .task {
-        flex: 0 0 auto;
-        width: 180px;
+        flex: 0 0 200px;
+        width: 200px;
+        min-width: 180px;
+        max-width: 90vw;
+        scroll-snap-align: start;
     }
 
     .task--touch-dragging {

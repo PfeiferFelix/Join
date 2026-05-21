@@ -192,6 +192,41 @@ function initAddTask() {
     setActivePriority();
     setMinDueDate();
     applyAddTaskContext();
+    // Übernehme ggf. gespeicherte Dialogdaten aus localStorage
+    try {
+        const dialogDataRaw = localStorage.getItem('addTaskDialogData');
+        if (dialogDataRaw) {
+            const dialogData = JSON.parse(dialogDataRaw);
+            if (dialogData.title) document.getElementById('title').value = dialogData.title;
+            if (dialogData.description) document.getElementById('description').value = dialogData.description;
+            if (dialogData.dueDate) document.getElementById('due-date').value = dialogData.dueDate;
+            if (dialogData.category) document.getElementById('category').value = dialogData.category;
+            if (dialogData.priority) {
+                document.querySelectorAll('.priority-buttons__btn').forEach(btn => {
+                    btn.classList.toggle('priority-buttons__btn--active', btn.dataset.priority === dialogData.priority);
+                });
+            }
+            if (dialogData.subtasks) {
+                const subtasksInput = document.getElementById('add-subtasks-data');
+                if (subtasksInput) subtasksInput.value = dialogData.subtasks;
+                // Optional: Subtask-Liste neu rendern, falls Funktion vorhanden
+                if (typeof renderAddDialogSubtasks === 'function') {
+                    const list = document.getElementById('add-subtasks-list');
+                    renderAddDialogSubtasks(list, subtasksInput);
+                }
+            }
+            // Assigned To (optional, falls UI vorhanden)
+            if (dialogData.assignedTo && Array.isArray(dialogData.assignedTo)) {
+                dialogData.assignedTo.forEach(name => {
+                    const el = document.querySelector(`.assigned-contact[data-name="${name}"]`);
+                    if (el) el.classList.add('selected');
+                });
+            }
+            // Nach Übernahme löschen
+            localStorage.removeItem('addTaskDialogData');
+        }
+    } catch(e) { /* ignore */ }
+
     handleFormSubmit();
     addUserToTask();
     setupDropdownEvents();

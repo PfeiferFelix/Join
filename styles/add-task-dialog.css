@@ -122,4 +122,10 @@ label.subtask-item-show__label:hover {
 .addTaskDialog__close-btn:hover {
     background-color: #e7e7e7;
     transform: translateY(0.25px);
+    border-radius: 50%;
+}
+.task-form__btn--clear {
+    background-color: white!important;
+    color: var(--color-neutral-700)!important;
+    border: 1px solid var(--color-neutral-400)!important;
 }

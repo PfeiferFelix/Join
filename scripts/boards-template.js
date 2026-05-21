@@ -52,8 +52,8 @@ function getShowTaskTemplate(taskView) {
  */
 function getEditTaskFormTemplate(taskView) {
     return `
-    <header class="editTaskDialog__header">
-        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog"><img src="assets/add-task/Vector.png" alt="Close"></button>
+    <header class="addTaskDialog__header">
+        <button onclick="closeDialog()" class="addTaskDialog__close-btn" aria-label="Close dialog">×</button>
     </header>
     <label class="task-form__label" for="edit-title">Title</label>
     <input class="editTaskDialog__input" type="text" id="edit-title" value="${taskView.title}" required>
@@ -154,15 +154,18 @@ function getaddTaskTemplateDialog() {
                             </button>
                         </div>
 
-                        <label class="task-form__label" for="assigned-to">Assigned to</label>
-                        <div class="dropdown" id="assigned-to-dropdown">
-                            <div class="dropdown__trigger">
-                                <input type="text" class="dropdown__search" placeholder="Select contacts to assign" id="assigned-to-search" />
-                                <span class="dropdown__arrow" id="assigned-to-arrow"><img src="assets/add-task/arrow_drop_downaa.svg" alt="arrow"></span>
+                        <label class="task-form__label" for="assigned-to-multiselect">Assigned to</label>
+                        <div class="multiselect" id="assigned-to-multiselect">
+                            <div class="selectBox" id="assigned-to-trigger" role="button" tabindex="0" aria-expanded="false" aria-controls="assigned-to-checkboxes">
+                                <select class="task-form__select" aria-hidden="true" tabindex="-1">
+                                    <option id="assigned-to-summary">Select contacts to assign</option>
+                                </select>
+                                <input class="selectBox__input" id="assigned-to-search" type="text" placeholder="Select contacts to assign" autocomplete="off">
+                                <div class="overSelect"></div>
                             </div>
-                            <ul class="dropdown__list" id="assigned-to-list"></ul>
+                            <div id="assigned-to-checkboxes" class="multiselect__checkboxes" hidden></div>
+                            <div class="assigned-users-list-edit" id="assigned-to-selected-avatars"></div>
                         </div>
-                        <div class="dropdown__selected-avatars" id="selected-avatars"></div>
 
                         <label class="task-form__label" for="category"> Category <span class="task-form__required">*</span> </label>
                         <div class="dropdown" id="category-dropdown">
@@ -222,7 +225,7 @@ function generateTodoHTML(todoView) {
             <nav class="task-move-panel" id="task-move-panel-${todoView.id}" aria-label="Move task to category" hidden>
                 <div class="task-move-panel__body">
                     <h4 class="task-move-panel__body-title">Move To</h4>
-                    <button type="button" class="task-move-panel__item" onclick="moveTaskToNextCategory(event, ${todoView.id})" ${todoView.nextMoveDisabled ? "disabled" : ""}><span>${todoView.nextMoveArrow}</span> ${todoView.nextMoveLabel}</button>
+                    ${todoView.hasNextMove ? `<button type="button" class="task-move-panel__item" onclick="moveTaskToNextCategory(event, ${todoView.id})" ${todoView.nextMoveDisabled ? "disabled" : ""}><span>${todoView.nextMoveArrow}</span> ${todoView.nextMoveLabel}</button>` : ""}
                     <button type="button" class="task-move-panel__item" onclick="openTaskReviewDialogFromMenu(event, ${todoView.id})">Review</button>
                 </div>
             </nav>

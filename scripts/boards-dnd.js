@@ -220,6 +220,7 @@ function moveTaskToNextCategory(event, taskId) {
  * @returns {string}
  */
 function getNextBoardCategory(category) {
+    if (category === 'done') return null;
     const currentIndex = BOARD_CATEGORY_FLOW.indexOf(category);
     if (currentIndex === -1) {
         return BOARD_CATEGORY_FLOW[0];

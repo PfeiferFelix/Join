@@ -133,8 +133,8 @@ function buildTodoCardTemplateData(todo) {
         headerClass: getCategoryHeaderClass(fixedHeaderLabel), priorityLabel: todo.priority || 'Medium', iconClass, priorityIcon: icon,
         assignedUsersHTML: getTodoAssignedUsersHTML(todo), subtaskCountText: getSubtaskCountText(todo), subtaskPercent,
         hasSubtasks, hasCheckedSubtasks: doneCount > 0, allSubtasksDone: hasSubtasks && doneCount === subtasks.length,
-        nextMoveArrow: getMoveDirectionArrow(todo.category, nextCategory), nextMoveLabel: getBoardColumnLabel(nextCategory), nextMoveDisabled: false };
-}
+        nextMoveArrow: nextCategory ? getMoveDirectionArrow(todo.category, nextCategory) : '', nextMoveLabel: nextCategory ? getBoardColumnLabel(nextCategory) : '', nextMoveDisabled: !nextCategory, hasNextMove: !!nextCategory };
+    }
 
 /**
  * Builds assigned users HTML for task detail/edit sections.
