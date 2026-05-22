@@ -575,7 +575,8 @@
     }
 
     .editTaskDialog {
-        width: 125vw !important;
+        width: 95vw !important;
+        max-width: 95vw !important;
         height: fit-content !important;
         max-height: 95vh !important;
         padding: 20px 25px;
@@ -668,7 +669,103 @@
     }
 
     .editTaskDialog {
-        padding: 6px 6px;
+        width: 96vw !important;
+        max-width: 96vw !important;
+        padding: 12px 10px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 440px) {
+    .editTaskDialog {
+        width: 96vw !important;
+        max-width: 96vw !important;
+        padding: 12px 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+        margin: auto;
+    }
+
+    .editTaskDialog:has(.editTaskDialog__content--form) {
+        height: auto !important;
+        max-height: 95vh !important;
+    }
+
+    .editTaskDialog__header--edit {
+        padding: 0 4px;
+    }
+
+    .editTaskDialog__input,
+    .editTaskDialog .task-form__textarea,
+    .editTaskDialog .task-form__input-date,
+    .editTaskDialog .task-form__input-edit,
+    .editTaskDialog .task-form__select,
+    .editTaskDialog .selectBox,
+    .editTaskDialog .selectBox__input,
+    .editTaskDialog .multiselect,
+    .editTaskDialog .subtask-input {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .editTaskDialog .priority-buttons {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .editTaskDialog .priority-btn-color-none {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+        height: 42px;
+        padding: 0 4px;
+        gap: 2px;
+    }
+
+    .editTaskDialog .prioText {
+        font-size: 13px !important;
+        padding: 0 2px;
+    }
+
+    .editTaskDialog .extrasize {
+        font-size: 13px !important;
+        width: 16px;
+        height: 16px;
+    }
+
+    .editTaskDialog .priority-buttons__icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .editTaskDialog .editTaskDialog__content--form {
+        max-height: calc(95vh - 150px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        gap: 12px;
+        padding-right: 4px;
+    }
+
+    .editTaskDialog .subtask-container {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .editTaskDialog .assigned-users-list-edit {
+        max-height: 56px;
+    }
+
+    .editTaskDialog__footer-edit {
+        padding-top: 8px;
+    }
+
+    .editTaskDialog__save-btn {
+        height: 36px;
+        width: 80px;
+        font-size: 16px;
     }
 }
 
