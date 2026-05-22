@@ -228,13 +228,7 @@ function getAssignedToConfig(config = {}) {
 function renderAssignedToOptions(container, optionIdPrefix, preselectedIds) {
     container.innerHTML = contacts.map((contact, index) => {
         const initials = buildInitials(contact.name || '');
-        return `<label for="${optionIdPrefix}-${contact.id}">
-                    <span class="multiselect__option-main">
-                        ${getCircleUserTemplate(initials, getAvatarFillColor(index))}
-                        <span class="multiselect__option-name">${contact.name}</span>
-                    </span>
-                    <input type="checkbox" id="${optionIdPrefix}-${contact.id}" value="${contact.id}" ${preselectedIds.includes(contact.id) ? 'checked' : ''}>
-                </label>`;
+        return getAssignedToOptionTemplate(contact, optionIdPrefix, preselectedIds, initials, getAvatarFillColor(index));
     }).join('');
 }
 

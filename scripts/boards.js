@@ -89,19 +89,24 @@ function isOutsideDialogBounds(event, dialog) {
 }
 
 /**
- * Binds closing of the add-task dialog when clicking on the backdrop.
+ * Binds closing of all board dialogs when clicking on the backdrop.
  */
 function initializeAddTaskDialogOutsideClose() {
     if (addTaskDialogOutsideCloseBound) return;
-    const dialog = document.getElementById('addTaskDialog');
-    if (!dialog) return;
-    dialog.addEventListener('click', (event) => {
-        if (!dialog.open) return;
-        if (event.target !== dialog) return;
-        if (!isOutsideDialogBounds(event, dialog)) return;
-        closeDialog();
+    const dialogIds = ['addTaskDialog', 'showTaskDialog', 'editTaskDialog'];
+    let boundAny = false;
+    dialogIds.forEach((id) => {
+        const dialog = document.getElementById(id);
+        if (!dialog) return;
+        dialog.addEventListener('click', (event) => {
+            if (!dialog.open) return;
+            if (event.target !== dialog) return;
+            if (!isOutsideDialogBounds(event, dialog)) return;
+            closeDialog();
+        });
+        boundAny = true;
     });
-    addTaskDialogOutsideCloseBound = true;
+    if (boundAny) addTaskDialogOutsideCloseBound = true;
 }
 
 /**

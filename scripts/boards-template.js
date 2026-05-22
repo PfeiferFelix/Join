@@ -331,3 +331,58 @@ function getAssignedUserWithNameTemplate(user, fill) {
 function getAssignedUserRowTemplate(contentHTML) {
     return `<div class="assigned-user-row">${contentHTML}</div>`;
 }
+
+/**
+ * Returns the save button inner HTML for the edit task dialog.
+ * @returns {string}
+ */
+function getEditTaskSaveBtnTemplate() {
+    return `OK <img src="assets/add-task/check grey.svg" alt="Save">`;
+}
+
+/**
+ * Returns the save icon HTML for an inline subtask edit button.
+ * @returns {string}
+ */
+function getSubtaskSaveIconTemplate() {
+    return `<img src="assets/add-task/check grey.svg" alt="Save">`;
+}
+
+/**
+ * Returns one subtask list-item template for the add-task dialog list.
+ * @param {string} title
+ * @param {number} index
+ * @returns {string}
+ */
+function getAddDialogSubtaskItemTemplate(title, index) {
+    return `<li class="subtask-item" data-subtask-index="${index}"><span class="subtask-item__title">${escapeHtmlText(title)}</span><div class="subtask-item__actions"><button type="button" class="edit-subtask-btn" data-edit-subtask-index="${index}" aria-label="Edit subtask">&#9998;</button><span class="subtask-item__separator" aria-hidden="true"></span><button type="button" class="clear-subtasks-btn" data-remove-subtask-index="${index}" aria-label="Remove subtask">&#128465;</button></div></li>`;
+}
+
+/**
+ * Returns the inline edit input template for an add-dialog subtask title.
+ * @param {string} title
+ * @param {number} index
+ * @returns {string}
+ */
+function getAddDialogSubtaskEditInputTemplate(title, index) {
+    return `<input type="text" class="task-form__input subtask-item__input" data-subtask-index="${index}" value="${escapeHtmlAttribute(title)}">`;
+}
+
+/**
+ * Returns one assigned-to multiselect option label template.
+ * @param {object} contact
+ * @param {string} optionIdPrefix
+ * @param {number[]} preselectedIds
+ * @param {string} initials
+ * @param {string} avatarFill
+ * @returns {string}
+ */
+function getAssignedToOptionTemplate(contact, optionIdPrefix, preselectedIds, initials, avatarFill) {
+    return `<label for="${optionIdPrefix}-${contact.id}">
+                    <span class="multiselect__option-main">
+                        ${getCircleUserTemplate(initials, avatarFill)}
+                        <span class="multiselect__option-name">${contact.name}</span>
+                    </span>
+                    <input type="checkbox" id="${optionIdPrefix}-${contact.id}" value="${contact.id}" ${preselectedIds.includes(contact.id) ? 'checked' : ''}>
+                </label>`;
+}
