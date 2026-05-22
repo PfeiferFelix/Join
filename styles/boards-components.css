@@ -1,4 +1,5 @@
 ﻿/* Maximal 2 sichtbare Subtasks, Rest scrollbar */
+
 ul.subtask-list-task {
     max-height: 50px;
     /* 2 Items à ca. 36px Höhe */
@@ -37,7 +38,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 1;
         transform: translateX(0);
     }
-
     to {
         opacity: 0;
         transform: translateX(80px);
@@ -58,9 +58,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .editTaskDialog__delete-btn img,
 .editTaskDialog__edit-btn img {
-    transition:
-        filter 0.2s,
-        transform 0.2s;
+    transition: filter 0.2s, transform 0.2s;
 }
 
 .editTaskDialog__delete-btn:hover,
@@ -88,9 +86,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     color: var(--color-brand-primary);
     padding: 2px 6px;
     border: none;
-    transition:
-        background 0.15s,
-        color 0.15s;
+    transition: background 0.15s, color 0.15s;
     font-size: 20px;
 }
 
@@ -125,7 +121,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     stroke-width: 2.5 !important;
 }
 
+
 /* Priority Arrow Styles for Edit Dialog */
+
 .priority-arrow {
     font-size: 1.1em;
     font-weight: bold;
@@ -143,7 +141,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     color: var(--color-neutral-400);
 }
 
+
 /* --- Edit Task Dialog Custom Layout --- */
+
 .editTaskDialog__content--form {
     display: flex;
     flex-direction: column;
@@ -192,9 +192,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     gap: 4px;
     font-size: 1rem;
     font-weight: 500;
-    transition:
-        background 0.15s,
-        color 0.15s;
+    transition: background 0.15s, color 0.15s;
 }
 
 .priority-buttons__btn--urgent {
@@ -286,6 +284,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     background-color: var(--color-brand-accent);
     box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
 }
+
 
 /* --- Show Task Dialog Custom Layout --- */
 
@@ -418,7 +417,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    vertical-align:baseline;
+    vertical-align: baseline;
     padding: 6px;
 }
 
@@ -442,7 +441,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     padding-right: 8px;
 }
 
+
 /* Task Content */
+
 .category__description {
     font-size: 16px;
     color: #000000;
@@ -499,6 +500,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     color: var(--color-status-warning);
     font-weight: 700;
 }
+
 
 /* Assigned Users */
 
@@ -568,7 +570,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     gap: 4px;
 }
 
+
 /* Subtasks */
+
 .clear-subtasks-btn {
     border-left: 1px solid var(--color-neutral-400);
     margin-left: 2px;
@@ -577,9 +581,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .edit-subtask-btn img,
 .clear-subtasks-btn img {
-    transition:
-        filter 0.2s,
-        transform 0.2s;
+    transition: filter 0.2s, transform 0.2s;
     width: 16px;
     height: 16px;
 }
@@ -610,7 +612,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .subtask-container {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
 }
 
 .subtask-container__list {
@@ -812,7 +814,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     padding-left: 6px;
 }
 
+
 /* Forms and Controls */
+
 .cancel-btn {
     border: 1px solid var(--color-brand-primary);
     border-radius: 8px;
@@ -902,12 +906,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     opacity: 0;
     pointer-events: none;
-    transition:
-        max-height 0.22s ease,
-        opacity 0.2s ease,
-        padding 0.2s ease,
-        margin-top 0.2s ease,
-        border-color 0.2s ease;
+    transition: max-height 0.22s ease, opacity 0.2s ease, padding 0.2s ease, margin-top 0.2s ease, border-color 0.2s ease;
     position: absolute;
     z-index: 30;
     width: 100%;
@@ -962,9 +961,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     background-color: var(--color-neutral-400);
     display: inline-grid;
     place-content: center;
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .multiselect__checkboxes label input[type="checkbox"]:hover {
@@ -1290,7 +1287,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     font-size: 16px;
 }
 
+
 /* Custom Category Dropdown */
+
 .category-custom-select {
     position: relative;
     width: 100%;
@@ -1348,9 +1347,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .category-custom-select__option {
     padding: 8px 12px;
     font-size: 16px;
-    transition:
-        background-color 0.15s,
-        color 0.15s;
+    transition: background-color 0.15s, color 0.15s;
 }
 
 .category-custom-select__option[data-color-key="TechnicalTask"]:hover {
@@ -1363,14 +1360,14 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     color: white;
 }
 
+
 /* Dialogs */
+
 .addTaskDialog {
     border: none;
     border-radius: 16px;
     width: 800px;
-    box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.2),
-        0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
     height: 600px;
     margin: auto;
     padding: 32px;
@@ -1402,9 +1399,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .task-form__btn--clear:hover svg {
     color: #29abe2 !important;
     fill: #29abe2 !important;
-    transition:
-        color 0.2s,
-        fill 0.2s;
+    transition: color 0.2s, fill 0.2s;
 }
 
 .addTaskDialog .task-form {
@@ -1476,9 +1471,11 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     align-items: center;
     margin-bottom: 12px;
 }
+
 .editTaskDialog__header--edit {
     justify-content: flex-end;
 }
+
 .addTaskDialog__title {
     font-size: 48px;
     font-weight: 700;
@@ -1652,7 +1649,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     margin-top: 60px;
 }
 
+
 /* Misc */
+
 .board__add-btn__icon {
     font-size: 18px;
     font-weight: bold;
@@ -1678,7 +1677,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 0;
         transform: translateY(-20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1690,7 +1688,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 0;
         transform: translateX(80px);
     }
-
     to {
         opacity: 1;
         transform: translateX(0);
@@ -1702,15 +1699,12 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 1;
         transform: translateY(0);
     }
-
     to {
         opacity: 0;
         transform: translateY(-60px);
     }
 }
 
-
 .done {
     margin-top: 12px;
 }
-
