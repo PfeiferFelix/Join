@@ -652,3 +652,25 @@
         padding: 6px 6px;
     }
 }
+
+/* Bei 1024px (Tablet): board__cards bleibt als Reihe mit 2 Karten pro Zeile */
+@media (min-width: 581px) and (max-width: 1024px) {
+    .board__cards {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: visible !important;
+    }
+
+    .board__cards .task {
+        flex: 0 0 calc(50% - 6px) !important;
+        width: calc(50% - 6px) !important;
+        min-width: 0 !important;
+        max-width: calc(50% - 6px) !important;
+        box-sizing: border-box;
+    }
+}
