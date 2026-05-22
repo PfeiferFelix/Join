@@ -430,6 +430,8 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     color: rgb(0, 0, 0);
     line-height: 1;
     border-color: #000000;
+    padding-left: 5px;
+    padding-bottom: 7px;
 }
 
 .subtask-item-show--done .subtask-item-show__label {

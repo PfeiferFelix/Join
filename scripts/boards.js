@@ -209,7 +209,9 @@ function renderCategoryContent({ category, cardsId, emptyId }) {
     if (!container || !noCardElement) return;
     const categoryTasks = todos.filter(todo => todo.category === category);
     container.innerHTML = categoryTasks.map(todo => generateTodoHTML(buildTodoCardTemplateData(todo))).join('');
-    noCardElement.style.display = categoryTasks.length === 0 ? 'flex' : 'none';
+    const isEmpty = categoryTasks.length === 0;
+    container.style.display = isEmpty ? 'none' : '';
+    noCardElement.style.display = isEmpty ? 'flex' : 'none';
 }
 
 /**

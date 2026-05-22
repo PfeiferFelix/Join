@@ -99,8 +99,9 @@ ul.subtask-list-task {
 }
 
 label.subtask-item-show__label:hover {
-    background: #f5f5f5;
-    transform: scale3d(1, 1, 1.05);
+    background: rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease;
+    transform: scale(1.02);
 }
 
 .task-form__btn--clear {
