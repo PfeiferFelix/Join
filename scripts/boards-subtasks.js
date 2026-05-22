@@ -93,7 +93,7 @@ function editSubtaskItem(taskId, index) {
     const currentTitle = titleSpan?.textContent.trim() || '';
     titleSpan.outerHTML = getSubtaskEditInputTemplate(currentTitle, taskId, index);
     const editBtn = item.querySelector('.edit-subtask-btn');
-    editBtn.innerHTML = '<img src="assets/add-task/check grey.svg" alt="Save">';
+    editBtn.innerHTML = getSubtaskSaveIconTemplate();
     editBtn.setAttribute('onclick', `saveSubtaskItem(null, ${taskId}, ${index})`);
     item.querySelector('.subtask-item__input')?.focus();
 }

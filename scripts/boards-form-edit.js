@@ -32,11 +32,6 @@ function getSelectedEditPriority(dialog) {
  * @param {string} priority
  */
 function setEditPriority(priority) {
-    /**
-     * Returns an array of assigned user IDs from the edit dialog.
-     * @param {HTMLElement} dialog
-     * @returns {number[]}
-     */
     const dialog = document.getElementById("editTaskDialog");
     if (!dialog) return;
     const urgent = dialog.querySelector("#edit-priority-urgent");
@@ -51,46 +46,45 @@ function setEditPriority(priority) {
     else if (priority === "Low") low.classList.add("priority-buttons__btn--low");
 }
 
+/**
+ * Returns an array of assigned user IDs from the edit dialog.
+ * @param {HTMLElement} dialog
+ * @returns {number[]}
+ */
 function getUpdatedAssignedIds(dialog) {
-    /**
-     * Returns an array of updated subtasks from the edit dialog.
-     * @param {HTMLElement} dialog
-     * @returns {Array}
-     */
     return Array.from(dialog.querySelectorAll('#edit-assigned-to-checkboxes input[type="checkbox"]:checked'))
         .map(cb => Number(cb.value))
         .filter(id => Number.isFinite(id));
 }
 
+/**
+ * Returns an array of updated subtasks from the edit dialog.
+ * @param {HTMLElement} dialog
+ * @returns {Array}
+ */
 function getUpdatedSubtasks(dialog) {
-    /**
-     * Applies base fields (title, description, due date, priority) from dialog to task.
-     * @param {object} task
-     * @param {HTMLElement} dialog
-     */
     const subtasksData = dialog.querySelector('#edit-subtasks-data')?.value || '[]';
     return getLimitedSubtasks(JSON.parse(subtasksData));
 }
 
+/**
+ * Applies base fields (title, description, due date, priority) from dialog to task.
+ * @param {object} task
+ * @param {HTMLElement} dialog
+ */
 function applyTaskBaseFields(task, dialog) {
-    /**
-     * Applies category fields from dialog to task.
-     * @param {object} task
-     * @param {string} updatedCategoryLabel
-     */
     task.title = dialog.querySelector("#edit-title")?.value.trim() || "";
     task.description = dialog.querySelector("#edit-description")?.value.trim() || "";
     task.dueDate = dialog.querySelector("#edit-due-date")?.value || "";
     task.priority = getSelectedEditPriority(dialog);
 }
 
+/**
+ * Applies category fields from dialog to task.
+ * @param {object} task
+ * @param {string} updatedCategoryLabel
+ */
 function applyTaskCategory(task, updatedCategoryLabel) {
-    /**
-     * Applies assignments and subtasks from dialog to task.
-     * @param {object} task
-     * @param {number[]} updatedAssignedIds
-     * @param {Array} updatedSubtasks
-     */
     if (updatedCategoryLabel) {
         task.selectedCategoryLabel = updatedCategoryLabel;
         task.category = mapCategoryLabelToKey(updatedCategoryLabel);
@@ -100,6 +94,12 @@ function applyTaskCategory(task, updatedCategoryLabel) {
     task.category = task.category || 'toDo';
 }
 
+/**
+ * Applies assignments and subtasks from dialog to task.
+ * @param {object} task
+ * @param {number[]} updatedAssignedIds
+ * @param {Array} updatedSubtasks
+ */
 function applyTaskAssignmentsAndSubtasks(task, updatedAssignedIds, updatedSubtasks) {
     task.assignedTo = contacts.filter(c => updatedAssignedIds.includes(c.id));
     task.subtasks = updatedSubtasks;
@@ -131,7 +131,7 @@ async function handleEditTaskSave(event) {
     const saveBtn = dialog.querySelector('.editTaskDialog__save-btn');
     if (saveBtn) {
         const original = saveBtn.innerHTML;
-        saveBtn.innerHTML = 'OK <img src="assets/add-task/check grey.svg" alt="Save">';
+        saveBtn.innerHTML = getEditTaskSaveBtnTemplate();
         setTimeout(() => { saveBtn.innerHTML = 'OK'; }, 900);
     }
     const task = todos.find((t) => t.id == Number(dialog.dataset.taskId));

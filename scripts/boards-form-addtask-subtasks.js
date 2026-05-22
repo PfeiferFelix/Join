@@ -99,7 +99,7 @@ function addDialogSubtask(dialog) {
 function renderAddDialogSubtasks(list, hiddenInput) {
     const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
     list.innerHTML = subtasks.map((subtask, index) =>
-        `<li class="subtask-item" data-subtask-index="${index}"><span class="subtask-item__title">${escapeHtmlText(subtask.title)}</span><div class="subtask-item__actions"><button type="button" class="edit-subtask-btn" data-edit-subtask-index="${index}" aria-label="Edit subtask">&#9998;</button><span class="subtask-item__separator" aria-hidden="true"></span><button type="button" class="clear-subtasks-btn" data-remove-subtask-index="${index}" aria-label="Remove subtask">&#128465;</button></div></li>`
+        getAddDialogSubtaskItemTemplate(subtask.title, index)
     ).join('');
     const wrapper = hiddenInput.closest('dialog, form, .subtask-container')?.querySelector('#add-subtask-input-wrapper')
         ?? hiddenInput.parentElement?.querySelector('#add-subtask-input-wrapper');
@@ -116,7 +116,7 @@ function findSubtaskItemForEdit(list, hiddenInput, index) {
 function convertSubtaskTitleToInput(item, index, title) {
     const titleNode = item.querySelector('.subtask-item__title');
     if (!titleNode) return null;
-    titleNode.outerHTML = `<input type="text" class="task-form__input subtask-item__input" data-subtask-index="${index}" value="${escapeHtmlAttribute(title)}">`;
+    titleNode.outerHTML = getAddDialogSubtaskEditInputTemplate(title, index);
     return item.querySelector('.subtask-item__input');
 }
 
