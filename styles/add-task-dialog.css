@@ -96,6 +96,8 @@ ul.subtask-list-task {
     padding: 6px 12px;
     border-radius: 8px;
     font-size: 16px;
+    max-height: 68px;
+    overflow-y: auto;
 }
 
 label.subtask-item-show__label:hover {

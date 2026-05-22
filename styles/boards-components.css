@@ -1,7 +1,7 @@
 ﻿/* Maximal 2 sichtbare Subtasks, Rest scrollbar */
 
 ul.subtask-list-task {
-    max-height: 50px;
+    max-height: 56px;
     /* 2 Items à ca. 36px Höhe */
     overflow-y: auto;
     overflow-x: hidden;
@@ -367,8 +367,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     flex-direction: column;
     gap: 4px;
     margin-top: 16px;
-    height: 68px;
+    height: 70px;
     overflow: auto;
+    scrollbar-width: thin;
 }
 
 .assigned-user-row {
@@ -470,7 +471,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .headline__task-show {
-    font-size: 42px;
+    font-size: 50px;
     font-weight: 700;
     color: var(--color-brand-primary);
     margin-bottom: 12px;
@@ -614,7 +615,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .subtask-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
 .subtask-container__list {
@@ -1476,6 +1476,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .editTaskDialog__header--edit {
     justify-content: flex-end;
+    margin-bottom: 0;
 }
 
 .addTaskDialog__title {
@@ -1527,7 +1528,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     display: flex;
     flex-direction: column;
     animation: dialogSlideInRight 0.3s ease-out;
-    height: fit-content;
+
 }
 
 .showTaskDialog::backdrop {
