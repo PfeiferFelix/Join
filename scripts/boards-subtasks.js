@@ -95,7 +95,11 @@ function editSubtaskItem(taskId, index) {
     const editBtn = item.querySelector('.edit-subtask-btn');
     editBtn.innerHTML = getSubtaskSaveIconTemplate();
     editBtn.setAttribute('onclick', `saveSubtaskItem(null, ${taskId}, ${index})`);
-    item.querySelector('.subtask-item__input')?.focus();
+    const input = item.querySelector('.subtask-item__input');
+    if (input) {
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+    }
 }
 
 /**

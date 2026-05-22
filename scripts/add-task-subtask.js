@@ -29,6 +29,7 @@ function editSubtask(li, value) {
     input.classList.add('subtask-list__edit-input');
     span.replaceWith(input);
     input.focus();
+    input.setSelectionRange(input.value.length, input.value.length);
 
     const actions = li.querySelector('.subtask-list__actions');
     actions.innerHTML = getSubtaskEditActionsTemplate();

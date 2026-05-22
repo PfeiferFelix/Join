@@ -161,11 +161,13 @@ textarea {
         margin-left: 0;
         margin-bottom: 0;
     }
+
     body.add-task-page .header-main__container {
         max-height: 100vh;
         display: flex;
         flex-direction: column;
     }
+
     body.add-task-page .main-content__body {
         display: flex;
         flex-direction: column;
@@ -173,30 +175,38 @@ textarea {
         min-height: 0;
         padding: 16px 25px 0 25px;
     }
+
     body.add-task-page .main-content__page-title {
         flex-shrink: 0;
         margin-bottom: 24px;
     }
+
     .task-form__scroll-area {
         flex: 1;
         min-height: 0;
         padding-bottom: 200px;
     }
+
     .task-form__body {
         flex-direction: column;
     }
+
     .task-form__col {
         padding: 0;
     }
+
     .task-form__col--right {
         gap: 16px;
     }
+
     .task-form__separator {
         display: none;
     }
+
     textarea {
         height: 40px;
     }
+
     .task-form__footer {
         position: fixed;
         bottom: 100px;
@@ -210,19 +220,23 @@ textarea {
         z-index: 60;
         box-sizing: border-box;
     }
+
     .task-form__actions {
         width: 100%;
         display: flex;
         gap: 0 16px;
         justify-content: flex-end;
     }
+
     .sidebar {
         z-index: 100;
     }
+
     .priority-buttons__btn {
         padding: 10px 6px;
         font-size: 12px;
     }
+
     .priority-buttons__icon {
         width: 12px;
         height: 12px;
@@ -284,6 +298,7 @@ body.add-task-page {
     .task-form__required-hint--mobile {
         display: none;
     }
+
     .task-form__required-hint--desktop {
         display: block;
     }
@@ -294,9 +309,13 @@ body.add-task-page {
     padding: 0 4px;
 }
 
+.subtask-list__btn:hover {
+    background-color: var(--color-neutral-400);
+    border-radius: 50%;
+}
+
 .subtask-list__edit-input {
     border: none;
-    border-bottom: 1px solid var(--color-brand-primary);
     outline: none;
     font-size: 16px;
     background: transparent;

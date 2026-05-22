@@ -8,14 +8,20 @@
         writing-mode: vertical-lr;
         text-orientation: mixed;
         white-space: normal;
-
+    }
         @media (max-width: 1330px) {
             .board__cards {
                 padding: 8px 4px !important;
                 scrollbar-width: none;
-                justify-content: center;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+                gap: 12px;
                 width: 100%;
                 overflow-x: auto !important;
+            }
+
+            .board__cards > .task {
+                flex: 0 0 auto;
             }
 
             .board__cards::-webkit-scrollbar {
@@ -159,11 +165,16 @@
         .board__cards {
             padding: 8px 4px !important;
             scrollbar-width: none;
-            justify-content: center;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
             margin-top: 12px !important;
             overflow-x: auto !important;
-            max-width: 230px;
             width: 100%;
+            gap: 12px;
+        }
+
+        .board__cards > .task {
+            flex: 0 0 auto;
         }
 
         .board__cards::-webkit-scrollbar {
@@ -189,10 +200,10 @@
         }
 
         .done {
-            margin-top: 12px !important;
+            margin-top: 0 !important;
         }
     }
-}
+
 
 @media (max-width: 1060px) {
     .board__lists {
@@ -226,7 +237,7 @@
         width: 90px;
     }
     .task {
-        min-width: 180px;
+        min-width: 220px;
         width: 100%;
     }
     .header-main__container {
@@ -249,6 +260,13 @@
     .board__cards {
         overflow-x: auto !important;
         width: 100%;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 12px;
+    }
+
+    .board__cards > .task {
+        flex: 0 0 auto;
     }
 
     .board__lists {
@@ -345,6 +363,7 @@
     .board__list-header {
         display: flex;
         width: 100%;
+        max-width: 100%;
         margin-top: 16px !important;
         margin-bottom: 16px !important;
     }
@@ -668,9 +687,6 @@
 
     .board__cards .task {
         flex: 0 0 calc(50% - 6px) !important;
-        width: calc(50% - 6px) !important;
-        min-width: 0 !important;
-        max-width: calc(50% - 6px) !important;
         box-sizing: border-box;
     }
 }

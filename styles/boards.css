@@ -8,9 +8,11 @@
     opacity: 0.97;
     transition: none !important;
 }
+
 .task-form__label {
-    margin-bottom: 12px!important;
+    margin-bottom: 12px !important;
 }
+
 /* Board Layout */
 .board__addtask {
     display: flex;
@@ -49,7 +51,7 @@
 }
 
 .board__list-header {
-display: flex;
+    display: flex;
     align-items: center;
     width: 100%;
     max-width: 200px;
@@ -73,9 +75,11 @@ display: flex;
 #board__list--done .board__list-header {
     margin-bottom: 0;
 }
+
 .done {
     margin-top: 12px;
 }
+
 .board__lists {
     display: flex;
     justify-content: center;
