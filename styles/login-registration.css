@@ -99,6 +99,10 @@ header {
     transition: border-color 0.2s;
 }
 
+.input__wrapper input:focus {
+    border-color: var(--color-brand-accent);
+}
+
 .input__wrapper input::placeholder {
     color: var(--color-neutral-700);
 }
