@@ -1,6 +1,6 @@
-/* ===== Dialog (851px – 1050px) ===== */
+/* ===== Dialog (851px – 1400px) ===== */
 
-@media (min-width: 851px) and (max-width: 1050px) {
+@media (min-width: 851px) and (max-width: 1400px) {
     .add-contact__dialog {
         height: auto;
         min-height: 460px;

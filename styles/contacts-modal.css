@@ -96,6 +96,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow-x: auto;
 }
 
 .add-contact__close {
@@ -131,6 +132,7 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
+    min-width: 0;
 }
 
 .add-contact__input {

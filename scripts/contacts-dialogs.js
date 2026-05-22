@@ -1,3 +1,34 @@
+// --- Input Auto-Sizing ---
+
+var _autoSizeCanvas = null;
+
+/**
+ * Measures the required text width for each edit-contact input and applies the
+ * same min-width to all three, so they always stay equal in length.
+ * Uses a shared off-screen canvas for accurate font-aware measurement.
+ */
+function autoSizeEditContactInputs() {
+    const ids = ['editContactName', 'editContactEmail', 'editContactPhone'];
+    const inputs = ids.map(function(id) { return document.getElementById(id); }).filter(Boolean);
+    if (inputs.length === 0) return;
+
+    if (!_autoSizeCanvas) _autoSizeCanvas = document.createElement('canvas');
+    const ctx = _autoSizeCanvas.getContext('2d');
+    let maxMinWidth = 0;
+
+    inputs.forEach(function(input) {
+        if (!input.value) return;
+        ctx.font = window.getComputedStyle(input).font;
+        const textWidth = Math.ceil(ctx.measureText(input.value).width);
+        const needed = textWidth + 16 + 48 + 8;
+        if (needed > maxMinWidth) maxMinWidth = needed;
+    });
+
+    const finalWidth = maxMinWidth > 0 ? maxMinWidth + 'px' : '';
+    inputs.forEach(function(input) { input.style.minWidth = finalWidth; });
+}
+
+
 // --- Add Contact ---
 
 /**
@@ -107,6 +138,7 @@ function openEditContactDialog(key) {
     setEditContactAvatar(contact);
     document.getElementById('editContactOverlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
+    setTimeout(autoSizeEditContactInputs, 0);
 }
 
 
@@ -270,6 +302,9 @@ function setupEditDialogListeners() {
     document.getElementById('deleteContactFromEditBtn').addEventListener('click', onDeleteFromEditDialog);
     document.getElementById('editContactOverlay').addEventListener('click', function(event) {
         if (event.target.id === 'editContactOverlay') closeEditContactDialog();
+    });
+    ['editContactName', 'editContactEmail', 'editContactPhone'].forEach(function(id) {
+        document.getElementById(id).addEventListener('input', autoSizeEditContactInputs);
     });
 }
 
