@@ -1,6 +1,52 @@
 // --- Input Auto-Sizing ---
 
-var _autoSizeCanvas = null;
+let _autoSizeCanvas = null;
+
+/**
+ * Returns the three edit-contact input elements, omitting any that are not in the DOM.
+ * @returns {HTMLInputElement[]}
+ */
+function getEditContactInputs() {
+    return ['editContactName', 'editContactEmail', 'editContactPhone']
+        .map(function(id) { return document.getElementById(id); })
+        .filter(Boolean);
+}
+
+/**
+ * Returns a 2D canvas context backed by the shared off-screen canvas,
+ * creating it on first use.
+ * @returns {CanvasRenderingContext2D}
+ */
+function getAutoSizeContext() {
+    if (!_autoSizeCanvas) _autoSizeCanvas = document.createElement('canvas');
+    return _autoSizeCanvas.getContext('2d');
+}
+
+/**
+ * Calculates the minimum pixel width needed to display the current value of one input.
+ * Adds padding and icon-space offsets to the measured text width.
+ * @param {CanvasRenderingContext2D} ctx - Canvas context used for font-aware measurement.
+ * @param {HTMLInputElement} input - The input element to measure.
+ * @returns {number} Required width in pixels.
+ */
+function measureInputMinWidth(ctx, input) {
+    ctx.font = window.getComputedStyle(input).font;
+    return Math.ceil(ctx.measureText(input.value).width) + 16 + 48 + 8;
+}
+
+/**
+ * Computes the largest minimum width required across all supplied inputs.
+ * Inputs with no value are skipped.
+ * @param {HTMLInputElement[]} inputs
+ * @returns {number} Maximum required width in pixels, or 0 if no input has a value.
+ */
+function computeMaxMinWidth(inputs) {
+    const ctx = getAutoSizeContext();
+    return inputs.reduce(function(max, input) {
+        if (!input.value) return max;
+        return Math.max(max, measureInputMinWidth(ctx, input));
+    }, 0);
+}
 
 /**
  * Measures the required text width for each edit-contact input and applies the
@@ -8,22 +54,9 @@ var _autoSizeCanvas = null;
  * Uses a shared off-screen canvas for accurate font-aware measurement.
  */
 function autoSizeEditContactInputs() {
-    const ids = ['editContactName', 'editContactEmail', 'editContactPhone'];
-    const inputs = ids.map(function(id) { return document.getElementById(id); }).filter(Boolean);
+    const inputs = getEditContactInputs();
     if (inputs.length === 0) return;
-
-    if (!_autoSizeCanvas) _autoSizeCanvas = document.createElement('canvas');
-    const ctx = _autoSizeCanvas.getContext('2d');
-    let maxMinWidth = 0;
-
-    inputs.forEach(function(input) {
-        if (!input.value) return;
-        ctx.font = window.getComputedStyle(input).font;
-        const textWidth = Math.ceil(ctx.measureText(input.value).width);
-        const needed = textWidth + 16 + 48 + 8;
-        if (needed > maxMinWidth) maxMinWidth = needed;
-    });
-
+    const maxMinWidth = computeMaxMinWidth(inputs);
     const finalWidth = maxMinWidth > 0 ? maxMinWidth + 'px' : '';
     inputs.forEach(function(input) { input.style.minWidth = finalWidth; });
 }
