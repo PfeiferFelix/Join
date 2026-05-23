@@ -230,7 +230,6 @@ select:focus {
     padding: 50px 50px;
     margin-left: var(--width-sidebar);
     box-sizing: border-box;
-    margin-bottom: var(--distance-bottom-main-sides);
 }
 
 .header__user-menu {
