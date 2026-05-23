@@ -525,7 +525,6 @@
         justify-content: center;
     }
     .task {
-        min-width: 180px;
         width: 100%;
     }
     .task-form__required-note--mobile {
