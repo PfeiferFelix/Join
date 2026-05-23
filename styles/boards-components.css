@@ -98,9 +98,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .subtask-item__actions button:hover {
-    background-color: #ebebeb;
     color: var(--color-brand-accent);
-    border-radius: 70%;
 }
 
 .subtask-item__separator {
@@ -368,8 +366,9 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     gap: 4px;
     margin-top: 16px;
     height: 70px;
+    min-height: 0;
     overflow: auto;
-    scrollbar-width: thin;
+    scrollbar-width: none;
 }
 
 .assigned-user-row {
@@ -752,11 +751,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     border-radius: 8px;
 }
 
-.subtask-item:hover {
-    background-color: #e3e3e3;
-    transition: background-color 0.15s;
-}
-
 .subtask-item::before {
     content: "\2022";
     position: absolute;
@@ -786,7 +780,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .subtask-item:hover {
-    background-color: #f0f3f7;
+    background-color: var(--color-neutral-400);
     transition: background-color 0.15s;
 }
 
@@ -1275,6 +1269,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 .subtask-item__input {
     box-sizing: border-box;
     padding: unset;
+    padding-left: 3px;
 }
 
 .task-form__required-note--mobile {
@@ -1513,7 +1508,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     border: none;
     border-radius: 32px;
     width: min(400px, 92vw);
-    height: min(610px, 90vh);
+    height: min(700px, 90vh);
     max-height: 90vh;
     margin: auto;
     padding: 20px;
@@ -1563,7 +1558,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .editTaskDialog__content--show {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-direction: column;
     flex: 1;
     overflow-y: auto;

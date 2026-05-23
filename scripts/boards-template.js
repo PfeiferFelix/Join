@@ -63,7 +63,7 @@ function getEditTaskFormTemplate(taskView) {
             <textarea class="task-form__textarea" id="edit-description" placeholder="Description">${taskView.description}</textarea>
             <label class="task-form__label" for="edit-due-date">Due date</label>
             <input class="task-form__input-date" id="edit-due-date" type="date" value="${taskView.dueDate}" required>
-            <span class="task-form__label">Priority</span>
+            <label class="task-form__label">Priority</label>
             <div class="priority-buttons">
                 <button id="edit-priority-urgent" type="button" class="priority-btn-color-none btnHover ${taskView.priority === "Urgent" ? "priority-buttons__btn--urgent" : ""}" onclick="setEditPriority('Urgent')">
                     <p class="prioText">Urgent</p> <img src="assets/add-task/Prio alta.svg" alt="Urgent" class="extrasize priority-buttons__icon priority-buttons__icon--up" />

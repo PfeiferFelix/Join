@@ -6,8 +6,6 @@ let contacts = normalizeContacts(contactsLS, defaultContacts);
 let categories = ["Technical Task", "User Story"];
 let todos = normalizeBoards(boardsLS);
 
-let currentDraggedElement;
-let activeTouchDrag = null;
 let suppressNextTaskClick = false;
 let taskMoveMenuCloseListenerBound = false;
 let boardViewportListenerBound = false;
@@ -75,6 +73,7 @@ function initializeBoardInteractions() {
     initializeBoardViewportBehavior();
     initializeTaskMoveMenuCloseBehavior();
     initializeAddTaskDialogOutsideClose();
+    initializeBoardDropHighlights();
 }
 
 /**
@@ -89,21 +88,28 @@ function isOutsideDialogBounds(event, dialog) {
 }
 
 /**
+ * Binds outside-click closing for one dialog element.
+ * @param {HTMLElement} dialog
+ */
+function bindDialogOutsideClose(dialog) {
+    dialog.addEventListener('click', (event) => {
+        if (!dialog.open || event.target !== dialog) return;
+        if (!isOutsideDialogBounds(event, dialog)) return;
+        closeDialog();
+    });
+}
+
+/**
  * Binds closing of all board dialogs when clicking on the backdrop.
  */
 function initializeAddTaskDialogOutsideClose() {
     if (addTaskDialogOutsideCloseBound) return;
-    const dialogIds = ['addTaskDialog', 'showTaskDialog', 'editTaskDialog'];
+    const ids = ['addTaskDialog', 'showTaskDialog', 'editTaskDialog'];
     let boundAny = false;
-    dialogIds.forEach((id) => {
+    ids.forEach((id) => {
         const dialog = document.getElementById(id);
         if (!dialog) return;
-        dialog.addEventListener('click', (event) => {
-            if (!dialog.open) return;
-            if (event.target !== dialog) return;
-            if (!isOutsideDialogBounds(event, dialog)) return;
-            closeDialog();
-        });
+        bindDialogOutsideClose(dialog);
         boundAny = true;
     });
     if (boundAny) addTaskDialogOutsideCloseBound = true;
@@ -118,41 +124,6 @@ function updateHTML() {
     saveBoardsToLocalStorage();
     getBoardColumnsForRendering().forEach(col => renderCategoryContent(col));
     initializeBoardInteractions();
-}
-
-/**
- * Returns whether drag interactions are enabled for the current viewport.
- * @returns {boolean}
- */
-function isBoardDragInteractionEnabled() {
-    return window.innerWidth >= BOARD_TOUCH_DND_MIN_WIDTH;
-}
-
-/**
- * Binds drag start and end event handlers to a task card.
- * @param {HTMLElement} task
- */
-function bindTaskDragEvents(task) {
-    if (task.dataset.dragBound) return;
-    task.addEventListener('dragstart', (event) => {
-        task.classList.add('task--dragging');
-        if (typeof event.dataTransfer.setDragImage === 'function') {
-            event.dataTransfer.setDragImage(task, 20, 20);
-        }
-    });
-    task.addEventListener('dragend', () => task.classList.remove('task--dragging'));
-    task.dataset.dragBound = 'true';
-}
-
-/**
- * Updates draggable state and drag bindings for all visible task cards.
- */
-function updateTaskDraggableState() {
-    const isDragEnabled = isBoardDragInteractionEnabled();
-    document.querySelectorAll('.task').forEach(task => {
-        task.draggable = isDragEnabled;
-        bindTaskDragEvents(task);
-    });
 }
 
 /**
@@ -184,16 +155,23 @@ function animateAndCloseDialog(dialog, closingClass) {
 }
 
 /**
- * Closes all board-related dialogs and restores page scrolling.
+ * Returns the list of board dialog descriptors used for closing.
+ * @returns {Array<{el: HTMLElement|null, cls: string}>}
  */
-function closeDialog() {
-    let closed = false;
-    const dialogs = [
+function getBoardDialogDescriptors() {
+    return [
         { el: document.getElementById("addTaskDialog"), cls: 'addTaskDialog--closing' },
         { el: document.getElementById("showTaskDialog"), cls: 'showTaskDialog--closing' },
         { el: document.getElementById("editTaskDialog"), cls: 'editTaskDialog--closing' }
     ];
-    dialogs.forEach(({ el, cls }) => {
+}
+
+/**
+ * Closes all board-related dialogs and restores page scrolling.
+ */
+function closeDialog() {
+    let closed = false;
+    getBoardDialogDescriptors().forEach(({ el, cls }) => {
         if (el?.open) { animateAndCloseDialog(el, cls); closed = true; }
     });
     if (!closed) document.body.style.overflow = '';
@@ -212,114 +190,6 @@ function renderCategoryContent({ category, cardsId, emptyId }) {
     const isEmpty = categoryTasks.length === 0;
     container.style.display = isEmpty ? 'none' : '';
     noCardElement.style.display = isEmpty ? 'flex' : 'none';
-}
-
-/**
- * Renders one board column with cards matching the current search query.
- * @param {{category: string, cardsId: string, emptyId: string}} param0
- * @param {string} query
- */
-function renderSearchResultColumn({ category, cardsId, emptyId }, query) {
-    const container = document.getElementById(cardsId);
-    const noCardElement = document.getElementById(emptyId);
-    if (!container || !noCardElement) return;
-    const boardList = container.closest('.board__list');
-    const taskText = t => `${t.title || ''} ${t.description || ''} ${(t.subtasks || []).map(s => s?.title || '').join(' ')}`;
-    const categoryTasks = todos.filter(t => t.category === category && taskText(t).toLowerCase().includes(query));
-    container.innerHTML = categoryTasks.map(todo => generateTodoHTML(buildTodoCardTemplateData(todo))).join('');
-    noCardElement.style.display = 'none';
-    if (boardList) boardList.style.display = categoryTasks.length > 0 ? '' : 'none';
-}
-
-/**
- * Returns the search input element from the submitted search form.
- * @param {HTMLFormElement} form
- * @returns {HTMLInputElement|null}
- */
-function getSearchInputFromForm(form) {
-    return form?.querySelector('input[name="search"]') || null;
-}
-
-/**
- * Normalizes the raw search input to a lowercase query string.
- * @param {HTMLInputElement} searchInput
- * @returns {string}
- */
-function getNormalizedSearchQuery(searchInput) {
-    return (searchInput?.value || '').trim().toLowerCase();
-}
-
-/**
- * Validates the search query and shows a SweetAlert when empty.
- * @param {HTMLInputElement} searchInput
- * @param {string} query
- * @returns {boolean}
- */
-function validateSearchQuery(query) {
-    if (query) return true;
-    Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'Bitte gib einen Suchbegriff ein.',
-    });
-    return false;
-}
-
-/**
- * Renders all search result columns and reapplies board interaction bindings.
- * @param {string} query
- */
-function renderSearchResults(query) {
-    getBoardColumns().forEach(col => renderSearchResultColumn(col, query));
-    updateTaskDraggableState();
-    initializeTouchBoardDnD();
-    initializeTaskMoveMenuCloseBehavior();
-}
-
-/**
- * Handles board search form submit events.
- * @param {Event} event
- */
-function searchCard(event) {
-    event.preventDefault();
-    const searchInput = getSearchInputFromForm(event.currentTarget);
-    const query = getNormalizedSearchQuery(searchInput);
-    if (!validateSearchQuery(query)) return;
-    renderSearchResults(query);
-}
-
-/**
- * Returns the static board column metadata used for rendering and search.
- * @returns {Array<{category: string, cardsId: string, emptyId: string}>}
- */
-function getBoardColumns() {
-    return [
-        { category: 'toDo', cardsId: 'board__cards--todo', emptyId: 'noneCardTodo' },
-        { category: 'inProgress', cardsId: 'board__cards--inprogress', emptyId: 'noneCardInProgress' },
-        { category: 'feedback', cardsId: 'board__cards--feedback', emptyId: 'noneCardFeedback' },
-        { category: 'done', cardsId: 'board__cards--done', emptyId: 'noneCardDone' },
-    ];
-}
-
-/**
- * Clears custom validation and restores the full board when search is emptied.
- * @param {Event} event
- */
-function clearSearch(event) {
-    event.currentTarget?.setCustomValidity('');
-    if (event.currentTarget?.value.trim()) return;
-    updateHTML();
-}
-
-/**
- * Resets the current search and restores the full board on Escape.
- * @param {KeyboardEvent} event
- */
-function resetSearchOnEscape(event) {
-    if (event.key !== 'Escape') return;
-    event.preventDefault();
-    event.currentTarget.value = '';
-    updateHTML();
 }
 
 /**
@@ -360,42 +230,16 @@ function buildStorageTask(todo) {
 }
 
 /**
- * Enables dropping on a board column when drag interactions are active.
- * @param {DragEvent} event
+ * Returns true if the click should be suppressed because a move panel is open.
+ * @param {Event} event
+ * @returns {boolean}
  */
-function allowDrop(event) {
-    if (!isBoardDragInteractionEnabled()) return;
+function isMovePanelClickSuppressed(event) {
+    const taskCard = event.currentTarget?.closest('.task') || event.target?.closest('.task');
+    if (!taskCard?.querySelector('.task-move-panel--open')) return false;
     event.preventDefault();
-}
-
-/**
- * Handles task drop events and moves tasks to the target category.
- * @param {DragEvent} event
- */
-function drop(event) {
-    if (!isBoardDragInteractionEnabled()) return;
-    event.preventDefault();
-    const taskId = event.dataTransfer.getData("text/plain") || currentDraggedElement?.id;
-    const dropZoneId = event.currentTarget.id;
-    const targetCategory = BOARD_DROP_ZONE_CATEGORY_MAP[dropZoneId];
-    moveTaskToCategory(taskId, targetCategory);
-}
-
-/**
- * Moves a task to a category and persists the category change.
- * @param {string|number} taskId
- * @param {string} targetCategory
- */
-function moveTaskToCategory(taskId, targetCategory) {
-    if (!targetCategory) return;
-    const taskIndex = todos.findIndex((todo) => todo.id == taskId);
-    if (taskIndex !== -1) {
-        const task = todos[taskIndex];
-        task.category = targetCategory;
-        task.position = mapCategoryToSummaryPosition(targetCategory);
-        updateHTML();
-        persistTaskCategoryToFirebase(task);
-    }
+    event.stopPropagation();
+    return true;
 }
 
 /**
@@ -404,12 +248,7 @@ function moveTaskToCategory(taskId, targetCategory) {
  * @param {string|number} taskId
  */
 function handleTaskClick(event, taskId) {
-    const taskCard = event.currentTarget?.closest('.task') || event.target?.closest('.task');
-    if (taskCard?.querySelector('.task-move-panel--open')) {
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-    }
+    if (isMovePanelClickSuppressed(event)) return;
     if (!suppressNextTaskClick) return toDoCardShow(taskId);
     suppressNextTaskClick = false;
     event.preventDefault();
@@ -478,18 +317,6 @@ function mergeOrInsertTodo(newTodo) {
         if (!existingTodo.assignedTo.some(user => user.id === contact.id))
             existingTodo.assignedTo.push(contact);
     });
-}
-
-/**
- * Starts drag behavior for a task card.
- * @param {DragEvent} event
- */
-function drag(event) {
-    if (!isBoardDragInteractionEnabled()) return event.preventDefault();
-    const taskElement = event.target.closest(".task");
-    if (!taskElement) return;
-    currentDraggedElement = taskElement;
-    event.dataTransfer.setData("text/plain", String(taskElement.id));
 }
 
 /**

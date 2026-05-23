@@ -323,6 +323,20 @@ function handleClear(form) {
     clearErrors();
     clearSubtaskList();
     clearSelectedUsers();
+    resetPriorityToMedium();
+}
+
+
+/**
+ * Reset the priority buttons so that "Medium" is the active selection.
+ * @returns {void}
+ */
+function resetPriorityToMedium() {
+    document.querySelectorAll('.priority-buttons__btn').forEach(btn => {
+        btn.classList.remove('priority-buttons__btn--active');
+    });
+    const medium = document.querySelector('.priority-buttons__btn--medium');
+    if (medium) medium.classList.add('priority-buttons__btn--active');
 }
 
 

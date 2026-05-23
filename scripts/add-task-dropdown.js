@@ -65,12 +65,18 @@ function filterDropdown() {
 function updateSelectedAvatars() {
     const container = document.getElementById('selected-avatars');
     container.innerHTML = '';
-    document.querySelectorAll('.dropdown__checkbox:checked').forEach(checkbox => {
+    const checked = Array.from(document.querySelectorAll('.dropdown__checkbox:checked'));
+    const maxVisible = 4;
+    checked.slice(0, maxVisible).forEach(checkbox => {
         const item = checkbox.closest('.dropdown__item');
         const initials = item.querySelector('.dropdown__avatar').textContent;
         const color = item.querySelector('.dropdown__avatar').style.backgroundColor;
         container.innerHTML += getSelectedAvatarTemplate(initials, color);
     });
+    if (checked.length > maxVisible) {
+        const remaining = checked.length - maxVisible;
+        container.innerHTML += `<div class="dropdown__avatar-more">+${remaining}</div>`;
+    }
 }
 
 

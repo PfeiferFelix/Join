@@ -108,10 +108,15 @@ function getTodoAssignedUsersHTML(todo) {
     if (!Array.isArray(todo.assignedTo)) return '';
     const maxAvatars = 3;
     const users = todo.assignedTo.slice(0, maxAvatars);
-    return users.map((user, index) => {
+    const avatarsHTML = users.map((user, index) => {
         const fill = getAvatarFillColor(index);
         return getCircleUserTemplate(user.abbreviation || '', fill);
     }).join('');
+    const remaining = todo.assignedTo.length - maxAvatars;
+    const counterHTML = remaining > 0
+        ? `<span class="task__assigned-users-counter">+${remaining}</span>`
+        : '';
+    return avatarsHTML + counterHTML;
 }
 
 /**
