@@ -62,6 +62,131 @@ function autoSizeEditContactInputs() {
 }
 
 
+// --- Validation ---
+
+/**
+ * Returns true if the name contains only letters (incl. umlauts), spaces, hyphens
+ * and apostrophes, and has at least 2 characters.
+ * @param {string} name - The trimmed name value.
+ * @returns {boolean}
+ */
+function isValidName(name) {
+    return name.length >= 2 && /^[a-zA-ZÀ-ÖØ-öø-ÿ\s\-']+$/.test(name);
+}
+
+/**
+ * Returns true if the email follows the pattern local@domain.tld,
+ * where the local part starts with an alphanumeric character and the TLD has at least 2 chars.
+ * @param {string} email - The trimmed email value.
+ * @returns {boolean}
+ */
+function isValidEmail(email) {
+    return /^[a-zA-Z0-9][a-zA-Z0-9._%+\-]*@[a-zA-Z0-9][a-zA-Z0-9.\-]*\.[a-zA-Z]{2,}$/.test(email);
+}
+
+/**
+ * Returns true if the phone contains only allowed characters (+, digits, spaces,
+ * hyphens, parentheses) and has at least 6 digits.
+ * @param {string} phone - The trimmed phone value.
+ * @returns {boolean}
+ */
+function isValidPhone(phone) {
+    const digits = phone.replace(/\D/g, '');
+    return /^\+?[\d\s\-\(\)]+$/.test(phone) && digits.length >= 6;
+}
+
+/**
+ * Toggles the error border on the input wrapper and sets the error message text.
+ * @param {string} wrapperId - ID of the .add-contact__input wrapper element.
+ * @param {string} errorId - ID of the error span element.
+ * @param {string} message - Error message to display, or empty string to clear.
+ */
+function setFieldError(wrapperId, errorId, message) {
+    const wrapper = document.getElementById(wrapperId);
+    const errorEl = document.getElementById(errorId);
+    if (wrapper) wrapper.classList.toggle('add-contact__input--error', !!message);
+    if (errorEl) errorEl.textContent = message || '';
+}
+
+/**
+ * Clears all validation errors for the three fields of a contact form.
+ * @param {string} prefix - Form prefix, either 'add' or 'edit'.
+ */
+function clearContactFormErrors(prefix) {
+    ['Name', 'Email', 'Phone'].forEach(function(field) {
+        setFieldError(prefix + 'Contact' + field + 'Input', prefix + 'Contact' + field + 'Error', '');
+    });
+}
+
+/**
+ * Validates a single field, sets the appropriate error message and returns the result.
+ * @param {string} prefix - Form prefix, either 'add' or 'edit'.
+ * @param {string} field - Field name, one of 'Name', 'Email' or 'Phone'.
+ * @param {string} value - The trimmed field value.
+ * @param {Function} validatorFn - Returns true if the value passes validation.
+ * @param {string} emptyMsg - Error shown when the value is empty.
+ * @param {string} invalidMsg - Error shown when the value fails validation.
+ * @returns {boolean} True if the field is valid.
+ */
+function validateField(prefix, field, value, validatorFn, emptyMsg, invalidMsg) {
+    const wrapperId = prefix + 'Contact' + field + 'Input';
+    const errorId = prefix + 'Contact' + field + 'Error';
+    if (!value) { setFieldError(wrapperId, errorId, emptyMsg); return false; }
+    if (!validatorFn(value)) { setFieldError(wrapperId, errorId, invalidMsg); return false; }
+    setFieldError(wrapperId, errorId, '');
+    return true;
+}
+
+/**
+ * Validates the name field of the given contact form.
+ * @param {string} prefix - Form prefix, either 'add' or 'edit'.
+ * @returns {boolean} True if the name is valid.
+ */
+function validateNameField(prefix) {
+    const value = document.getElementById(prefix + 'ContactName').value.trim();
+    return validateField(prefix, 'Name', value, isValidName,
+        'Please enter a name.',
+        'Name may only contain letters, spaces, hyphens and apostrophes — no numbers.');
+}
+
+/**
+ * Validates the email field of the given contact form.
+ * @param {string} prefix - Form prefix, either 'add' or 'edit'.
+ * @returns {boolean} True if the email is valid.
+ */
+function validateEmailField(prefix) {
+    const value = document.getElementById(prefix + 'ContactEmail').value.trim();
+    return validateField(prefix, 'Email', value, isValidEmail,
+        'Please enter an email address.',
+        'Please enter a valid email address (e.g. name@domain.com).');
+}
+
+/**
+ * Validates the phone field of the given contact form.
+ * @param {string} prefix - Form prefix, either 'add' or 'edit'.
+ * @returns {boolean} True if the phone number is valid.
+ */
+function validatePhoneField(prefix) {
+    const value = document.getElementById(prefix + 'ContactPhone').value.trim();
+    return validateField(prefix, 'Phone', value, isValidPhone,
+        'Please enter a phone number.',
+        'Please enter a valid phone number (at least 6 digits).');
+}
+
+/**
+ * Validates all three fields of the given contact form.
+ * All fields are always checked so all errors are shown at once.
+ * @param {string} prefix - Form prefix, either 'add' or 'edit'.
+ * @returns {boolean} True if all fields are valid.
+ */
+function validateContactForm(prefix) {
+    const nameOk = validateNameField(prefix);
+    const emailOk = validateEmailField(prefix);
+    const phoneOk = validatePhoneField(prefix);
+    return nameOk && emailOk && phoneOk;
+}
+
+
 // --- Add Contact ---
 
 /**
@@ -70,6 +195,7 @@ function autoSizeEditContactInputs() {
 function openAddContactDialog() {
     document.getElementById('addContactForm').reset();
     resetAddContactAvatar();
+    clearContactFormErrors('add');
     document.getElementById('addContactOverlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
@@ -133,6 +259,7 @@ function onContactAdded(key, contact) {
  */
 function handleAddContactSubmit(event) {
     event.preventDefault();
+    if (!validateContactForm('add')) return;
     const newContact = {
         name: toTitleCase(document.getElementById('addContactName').value),
         email: document.getElementById('addContactEmail').value.trim(),
@@ -169,6 +296,7 @@ function openEditContactDialog(key) {
     document.getElementById('editContactEmail').value = contact.email;
     document.getElementById('editContactPhone').value = contact.phone;
     setEditContactAvatar(contact);
+    clearContactFormErrors('edit');
     document.getElementById('editContactOverlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
     setTimeout(autoSizeEditContactInputs, 0);
@@ -205,6 +333,7 @@ function onContactEdited(key, contact) {
  */
 function handleEditContactSubmit(event) {
     event.preventDefault();
+    if (!validateContactForm('edit')) return;
     const key = document.getElementById('editContactFirebaseKey').value;
     const updated = {
         name: toTitleCase(document.getElementById('editContactName').value),

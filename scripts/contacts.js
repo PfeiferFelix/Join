@@ -32,7 +32,7 @@ const deleteDialogClasses = {
     popup: 'swal-delete-popup',
     title: 'swal-delete-title',
     htmlContainer: 'swal-delete-text',
-    confirmButton: 'add-contact__btn--create',
+    confirmButton: 'add-contact__btn--create btn-primary',
     cancelButton: 'add-contact__btn--cancel',
 };
 

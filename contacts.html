@@ -86,18 +86,27 @@
                         <div class="add-contact__avatar add-contact__avatar--placeholder" id="addContactAvatar">
                             <img src="assets/contacts/person.png" alt="Person" class="add-contact__avatar-icon" />
                         </div>
-                        <form class="add-contact__form" id="addContactForm">
-                            <div class="add-contact__input">
-                                <input type="text" id="addContactName" placeholder="Name" required />
-                                <img src="assets/contacts/person.png" alt="Name" />
+                        <form class="add-contact__form" id="addContactForm" novalidate>
+                            <div class="add-contact__field">
+                                <div class="add-contact__input" id="addContactNameInput">
+                                    <input type="text" id="addContactName" placeholder="Name" required />
+                                    <img src="assets/contacts/person.png" alt="Name" />
+                                </div>
+                                <span class="add-contact__error" id="addContactNameError"></span>
                             </div>
-                            <div class="add-contact__input">
-                                <input type="email" id="addContactEmail" placeholder="Email" required />
-                                <img src="assets/Login/mail.png" alt="Email" />
+                            <div class="add-contact__field">
+                                <div class="add-contact__input" id="addContactEmailInput">
+                                    <input type="email" id="addContactEmail" placeholder="Email" required />
+                                    <img src="assets/Login/mail.png" alt="Email" />
+                                </div>
+                                <span class="add-contact__error" id="addContactEmailError"></span>
                             </div>
-                            <div class="add-contact__input">
-                                <input type="tel" id="addContactPhone" placeholder="Phone" required />
-                                <img src="assets/contacts/call.png" alt="Phone" />
+                            <div class="add-contact__field">
+                                <div class="add-contact__input" id="addContactPhoneInput">
+                                    <input type="tel" id="addContactPhone" placeholder="Phone" required />
+                                    <img src="assets/contacts/call.png" alt="Phone" />
+                                </div>
+                                <span class="add-contact__error" id="addContactPhoneError"></span>
                             </div>
                             <div class="add-contact__buttons">
                                 <button type="button" class="add-contact__btn--cancel btn-secondary" id="cancelAddContactBtn">Cancel <img src="assets/general/close.svg" alt="Cancel" /></button>
@@ -121,19 +130,28 @@
                 <div class="add-contact__right">
                     <div class="add-contact__body">
                         <div class="add-contact__avatar" id="editContactAvatar"></div>
-                        <form class="add-contact__form" id="editContactForm">
+                        <form class="add-contact__form" id="editContactForm" novalidate>
                             <input type="hidden" id="editContactFirebaseKey" />
-                            <div class="add-contact__input">
-                                <input type="text" id="editContactName" placeholder="Name" required />
-                                <img src="assets/contacts/person.png" alt="Name" />
+                            <div class="add-contact__field">
+                                <div class="add-contact__input" id="editContactNameInput">
+                                    <input type="text" id="editContactName" placeholder="Name" required />
+                                    <img src="assets/contacts/person.png" alt="Name" />
+                                </div>
+                                <span class="add-contact__error" id="editContactNameError"></span>
                             </div>
-                            <div class="add-contact__input">
-                                <input type="email" id="editContactEmail" placeholder="Email" required />
-                                <img src="assets/Login/mail.png" alt="Email" />
+                            <div class="add-contact__field">
+                                <div class="add-contact__input" id="editContactEmailInput">
+                                    <input type="email" id="editContactEmail" placeholder="Email" required />
+                                    <img src="assets/Login/mail.png" alt="Email" />
+                                </div>
+                                <span class="add-contact__error" id="editContactEmailError"></span>
                             </div>
-                            <div class="add-contact__input">
-                                <input type="tel" id="editContactPhone" placeholder="Phone" required />
-                                <img src="assets/contacts/call.png" alt="Phone" />
+                            <div class="add-contact__field">
+                                <div class="add-contact__input" id="editContactPhoneInput">
+                                    <input type="tel" id="editContactPhone" placeholder="Phone" required />
+                                    <img src="assets/contacts/call.png" alt="Phone" />
+                                </div>
+                                <span class="add-contact__error" id="editContactPhoneError"></span>
                             </div>
                             <div class="add-contact__buttons">
                                 <button type="button" class="add-contact__btn--cancel btn-secondary" id="deleteContactFromEditBtn">Delete <img src="assets/boards/delete.png" alt="Delete" /></button>
