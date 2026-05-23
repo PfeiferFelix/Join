@@ -14,7 +14,6 @@
                 padding: 8px 4px !important;
                 scrollbar-width: none;
                 justify-content: flex-start;
-                flex-wrap: nowrap;
                 gap: 12px;
                 width: 100%;
                 overflow-x: auto !important;
@@ -166,7 +165,6 @@
             padding: 8px 4px !important;
             scrollbar-width: none;
             justify-content: flex-start;
-            flex-wrap: nowrap;
             margin-top: 12px !important;
             overflow-x: auto !important;
             width: 100%;
