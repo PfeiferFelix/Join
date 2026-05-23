@@ -85,6 +85,7 @@
             padding: 8px 4px !important;
             scrollbar-width: none;
             justify-content: center;
+            flex-direction: row;
             width: 100%;
             overflow-x: auto !important;
             /* Firefox */
