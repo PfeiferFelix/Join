@@ -227,6 +227,7 @@ window.addEventListener("resize", () => {
  */
 function addHelpToUserMenu(maxWidthMobile) {
     const userMenu = document.getElementById("js-header-user-menu-list");
+    if (!userMenu) return;
     const existingHelpTag = document.getElementById("js-header-user-menu-help");
 
     if (window.innerWidth <= maxWidthMobile) {
