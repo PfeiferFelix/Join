@@ -185,7 +185,20 @@ function deleteSubtaskItem(taskId, index) {
     saveBoardsToLocalStorage();
     const list = (dialog || document).querySelector('.subtask-list');
     if (list) renderEditSubtaskItems(list, subtasks, taskId);
+    updateEditSubtaskCount(dialog, subtasks);
     updateTaskCardSubtaskPreview(taskId, task, subtasks, true);
+}
+
+/**
+ * Updates the "+N" subtask count label inside the edit dialog.
+ * @param {HTMLElement|null} dialog - The edit dialog element.
+ * @param {Array} subtasks - The current subtasks array.
+ */
+function updateEditSubtaskCount(dialog, subtasks) {
+    const countSpan = (dialog || document).querySelector('#edit-subtask-count');
+    if (!countSpan) return;
+    countSpan.textContent = '+' + subtasks.length;
+    countSpan.style.display = subtasks.length === 0 ? 'none' : '';
 }
 
 /**
