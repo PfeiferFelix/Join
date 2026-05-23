@@ -28,23 +28,24 @@
                 <div class="title__underline"></div>
                 <form class="login__form">
                     <div class="input__wrapper">
-                        <input id="name" type="name" placeholder="Name" maxlength="20" required />
+                        <input id="name" type="text" placeholder="Name" maxlength="20" />
                         <img src="assets/contacts/person.png" alt="Name" class="input__icon" />
                     </div>
                     <div class="input__wrapper">
-                        <input id="email" type="email" placeholder="Email" required />
+                        <input id="email" type="text" placeholder="Email" />
                         <img src="assets/login/mail.png" alt="Email" class="input__icon" />
                     </div>
                     <div class="input__wrapper">
-                        <input id="password" type="password" placeholder="Password" required />
+                        <input id="password" type="password" placeholder="Password" />
                         <img src="assets/login/lock.png" alt="Password" class="input__icon" />
                     </div>
-                    <div class="input__wrapper">
-                        <input id="passwordconfirm" type="password" placeholder="Confirm password" required />
+                    <div class="input__wrapper" id="passwordconfirmWrapper">
+                        <input id="passwordconfirm" type="password" placeholder="Confirm password" />
                         <img src="assets/login/lock.png" alt="Password" class="input__icon" />
                     </div>
+                    <p class="error__text" id="passwordError">Your passwords don't match. Please try again.</p>
                     <div class="checkbox__row">
-                        <input type="checkbox" id="privacy" required />
+                        <input type="checkbox" id="privacy" />
                         <label for="privacy">I accept the <a href="privacy-policy.html">Privacy policy</a></label>
                     </div>
                     <div class="button__row">

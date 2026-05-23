@@ -32,9 +32,43 @@ document.body.style.visibility = "visible";
  * It checks if any user in the database has a matching email and password. If a match is found, it sets the current user's name and email in local storage and calls the loadDataToLocalStorage function to load the necessary data for the user.
  * If no match is found, it calls the checkLoginResults function with a false value to indicate an unsuccessful login attempt, which will display an error message to the user.
  */
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+
+/**
+ * This function displays a toast message on the screen with the provided message. 
+ * It creates a toast element if it doesn't already exist, sets its text content to the provided message, and makes it visible for a short duration (2 seconds) before hiding it again. 
+ * If a callback function is provided, it will be called after the toast is hidden.
+ * @param {*} message 
+ * @param {*} callback 
+ */
+function showToast(message, callback) {
+    let toast = document.getElementById("joinToast");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "joinToast";
+        toast.className = "toast";
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add("toast--visible");
+    setTimeout(function () {
+        toast.classList.remove("toast--visible");
+        if (callback) setTimeout(callback, 300);
+    }, 2000);
+}
+
+
 function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+
+    if (!isValidEmail(email)) {
+        showToast("Bitte gib eine gültige E-Mail-Adresse ein!");
+        return;
+    }
 
     db.ref("users").once("value", function (snapshot) {
         const loginSuccess = checkIfUserExistsForLogin(
@@ -83,11 +117,7 @@ function checkLoginResults(loginSuccess) {
         sessionStorage.setItem("fromLogin", "true"); // Set flag so summary page can trigger animation once
         window.location.href = "summary.html"; // Navigate to summary page after successful login
     } else {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Email oder Passwort ist falsch!",
-        });
+        showToast("Email oder Passwort ist falsch!");
     }
 }
 
@@ -122,24 +152,38 @@ function guestLogin() {
 
 
 /**
- * This function handles the user registration process. It retrieves the password and password confirmation from the input fields, checks if they match, and if they do, it calls the checkIfUserExists function to verify if the user already exists in the database.
- * If the passwords do not match, it displays an error message using the SweetAlert library and exits the function.
- * @param {string} password - The password entered by the user for registration.
- * @param {string} passwordconfirm - The password confirmation entered by the user for registration.
+ * This function handles the user registration process. It retrieves the email, password, and password confirmation from the input fields, then validates the inputs using the validateInputs function.
+ * @returns {boolean} - A boolean value indicating whether the registration process was successful or not.
  */
 function registerUser() {
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const passwordconfirm = document.getElementById("passwordconfirm").value;
-    if (!checkPrivacy()) return;
-    if (password !== passwordconfirm) {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Die Passwörter stimmen nicht überein!",
-        });
-        return;
-    }
+
+    if (!validateInputs(email, password, passwordconfirm)) return;
     checkIfUserExists();
+}
+
+
+/**
+ * This function validates the user inputs for registration, including email format and password confirmation.
+ * @param {string} email - The email entered by the user.
+ * @param {string} password - The password entered by the user.
+ * @param {string} passwordconfirm - The password confirmation entered by the user.
+ * @returns {boolean} - A boolean value indicating whether the inputs are valid or not.
+ */
+function validateInputs(email, password, passwordconfirm) {
+    if (!isValidEmail(email)) {
+        showToast("Bitte gib eine gültige E-Mail-Adresse ein!");
+        return false;
+    }
+    if (!checkPrivacy()) return false;
+    const passwordError = document.getElementById("passwordError");
+    const passwordconfirmWrapper = document.getElementById("passwordconfirmWrapper");
+    const passwordsMatch = password === passwordconfirm;
+    passwordconfirmWrapper.classList.toggle("input--error", !passwordsMatch);
+    passwordError.classList.toggle("visible", !passwordsMatch);
+    return passwordsMatch;
 }
 
 
@@ -152,11 +196,7 @@ function registerUser() {
 function checkPrivacy() {
     const privacy = document.getElementById("privacy");
     if (!privacy.checked) {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Bitte akzeptiere die Privacy Policy!",
-        });
+        showToast("Bitte akzeptiere die Privacy Policy!");
         return false;
     }
     return true;
@@ -209,11 +249,7 @@ function findExistingUser(snapshot, email) {
 /** * This function displays an error message using the SweetAlert library, indicating that a user with the provided email already exists in the database.
  */
 function userAlreadyExistsError() {
-    Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Benutzer Existiert Bereits!",
-    });
+    showToast("Benutzer Existiert Bereits!");
 }
 
 
@@ -242,11 +278,7 @@ function saveUser(name, email, password) {
  * After the user clicks the "OK" button on the alert, it redirects the user to the login page (index.html).
  */
 function saveUserSuccess() {
-    Swal.fire({
-        title: "Registrierung Erfolgreich!",
-        icon: "success",
-        draggable: true,
-    }).then(function () {
+    showToast("You Signed Up successfully", function () {
         window.location.href = "index.html";
     });
 }
@@ -255,9 +287,5 @@ function saveUserSuccess() {
 /** * This function displays an error message using the SweetAlert library, indicating that there was an error during the registration process.
  */
 function saveUserError() {
-    Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Fehler bei der Registrierung! ",
-    });
+    showToast("Fehler bei der Registrierung!");
 }
