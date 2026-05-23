@@ -281,9 +281,9 @@ function getEditableSubtaskItemTemplate(subtaskTitle, taskId, index) {
     return `<li class="subtask-item" data-subtask-index="${index}">
         <span class="subtask-item__title">${escapeHtmlText(subtaskTitle)}</span>
         <div class="subtask-item__actions">
-            <button type="button" class="edit-subtask-btn" onclick="editSubtaskItem(${taskId}, ${index})" title="accept"><img src="assets/Boards/edit.png" alt="Bearbeiten"></button>
+            <button type="button" class="edit-subtask-btn" onclick="editSubtaskItem(${taskId}, ${index})" title="accept"><img src="assets/boards/edit.png" alt="Bearbeiten"></button>
             <span class="subtask-item__separator"></span>
-            <button type="button" class="clear-subtasks-btn" onclick="deleteSubtaskItem(${taskId}, ${index})" title="delete"><img src="assets/Boards/delete.png" alt="Löschen"></button>
+            <button type="button" class="clear-subtasks-btn" onclick="deleteSubtaskItem(${taskId}, ${index})" title="delete"><img src="assets/boards/delete.png" alt="Löschen"></button>
         </div>
     </li>`;
 }
