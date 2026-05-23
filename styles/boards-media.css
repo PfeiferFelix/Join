@@ -8,74 +8,9 @@
         writing-mode: vertical-lr;
         text-orientation: mixed;
         white-space: normal;
-    }
-
-    @media (max-width: 1330px) {
-        .board__cards {
-            padding: 8px 4px !important;
-            scrollbar-width: none;
-            justify-content: flex-start;
-            gap: 12px;
-            width: 100%;
-            overflow-x: auto !important;
-        }
-
-        .board__cards>.task {
-            flex: 0 0 auto;
-        }
-
-        .board__cards::-webkit-scrollbar {
-            display: none;
-        }
-
-        #board__list--done .board__list-header {
-            margin-bottom: 10px;
-        }
-
-        .board__headline {
-            font-size: 19px !important;
-            padding-left: 3px;
-            margin-block-start: 0;
-            margin-block-end: 0;
-            margin-inline-start: 0px;
-            margin-inline-end: 0px;
-        }
-
-        .board__nonecard {
-            margin-top: 12px;
-            width: auto;
-            padding: 4px;
-        }
-
-        .board__list-header .addTaskBtnBoard {
-            order: 1;
-            flex-shrink: 0;
-            margin-left: auto;
-        }
-
-        .addTaskBtnBoard {
-            font-size: 36px;
-            font-weight: lighter;
-            padding: 10px 10px;
-            margin-right: 2px;
-        }
-
-        .task {
-            padding: 12px 12px 52px !important;
-            cursor: pointer;
-        }
-
-        .done {
-            margin-top: 2px;
-        }
-    }
-
-    .board__cards::-webkit-scrollbar {
-        display: none;
-    }
-
-    .board__cards {
-        scrollbar-width: none;
+        margin-top: 12px;
+        width: auto;
+        padding: 4px;
     }
 
     #board__list--done .board__list-header {
@@ -89,16 +24,18 @@
         flex-direction: column;
         width: 100%;
         overflow-x: auto !important;
-        /* Firefox */
     }
 
-    .board__lists {
-        overflow: visible !important;
+    .board__cards>.task {
+        flex: 0 0 auto;
     }
 
     .board__cards::-webkit-scrollbar {
         display: none;
-        /* Chrome, Safari, Opera */
+    }
+
+    .board__lists {
+        overflow: visible !important;
     }
 
     .board__headline {
@@ -108,12 +45,6 @@
         margin-block-end: 0;
         margin-inline-start: 0px;
         margin-inline-end: 0px;
-    }
-
-    .board__nonecard {
-        margin-top: 12px;
-        width: auto;
-        padding: 4px;
     }
 
     .board__list-header .board__add-btn--board {
@@ -126,8 +57,6 @@
         font-size: 36px;
         font-weight: lighter;
         padding: 10px 10px;
-        /* width: 30px !important; */
-        /* height: 24px; */
         margin-right: 2px;
     }
 
@@ -696,6 +625,7 @@
     .editTaskDialog:has(.editTaskDialog__content--form) {
         height: auto !important;
         max-height: 95vh !important;
+        padding: 30px 14px;
     }
 
     .editTaskDialog__header--edit {
@@ -734,7 +664,7 @@
 
     .editTaskDialog .prioText {
         font-size: 13px !important;
-        padding: 0 2px;
+        padding: 0;
     }
 
     .editTaskDialog .extrasize {
@@ -793,11 +723,24 @@
         box-sizing: border-box;
     }
 }
+
 .task-drop-placeholder {
     margin: 0;
     border: 1px dashed var(--color-brand-primary, #29abe2);
     border-radius: 16px;
     background-color: rgba(41, 171, 226, 0.08);
-    box-sizing: border-box;
     pointer-events: none;
+}
+
+@media (max-width:375px) {
+    ul.subtask-list-task {
+        font-size: 12px !important;
+        padding: 6px 0 !important;
+        margin-top: 0 !important;
+        max-height: 63px !important;
+    }
+
+    .task-form__input {
+        font-size: 14px !important;
+    }
 }

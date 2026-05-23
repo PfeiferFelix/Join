@@ -3,10 +3,15 @@
     box-shadow:
         0 8px 32px rgba(33, 91, 172, 0.32),
         0 2px 8px rgba(0, 0, 0, 0.12);
-    transform: scale(1.06) rotate(1.5deg);
+    transform: rotate(1.5deg);
     z-index: 1000;
     opacity: 0.97;
     transition: none !important;
+}
+
+.task--dragging:active,
+.task--touch-dragging:active {
+    transform: rotate(1.5deg);
 }
 
 .task-form__label {
