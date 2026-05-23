@@ -258,7 +258,6 @@
     .board__cards {
         overflow-x: auto !important;
         width: 100%;
-        flex-wrap: nowrap;
         justify-content: flex-start;
         gap: 12px;
     }
