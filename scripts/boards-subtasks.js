@@ -141,7 +141,7 @@ function saveSubtaskItem(event, taskId, index) {
     if (!task) return;
     const dialog = document.getElementById('editTaskDialog'), item = (dialog || document).querySelector(`[data-subtask-index="${index}"]`);
     const newTitle = item?.querySelector('.subtask-item__input')?.value.trim();
-    if (!newTitle) return;
+    if (!newTitle) { deleteSubtaskItem(taskId, index); return; }
     const subtasks = getLimitedSubtasks(task.subtasks);
     subtasks[index].title = newTitle; task.subtasks = subtasks;
     const hiddenInput = (dialog || document).querySelector('#edit-subtasks-data'); if (hiddenInput) hiddenInput.value = JSON.stringify(subtasks);

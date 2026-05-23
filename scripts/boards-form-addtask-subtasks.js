@@ -134,7 +134,11 @@ function saveAddDialogSubtaskEdit(list, hiddenInput, index, nextTitle) {
     const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
     if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return;
     const cleanedTitle = String(nextTitle || '').trim();
-    if (!cleanedTitle) return renderAddDialogSubtasks(list, hiddenInput);
+    if (!cleanedTitle) {
+        subtasks.splice(index, 1);
+        hiddenInput.value = JSON.stringify(subtasks);
+        return renderAddDialogSubtasks(list, hiddenInput);
+    }
     subtasks[index].title = cleanedTitle;
     hiddenInput.value = JSON.stringify(subtasks);
     renderAddDialogSubtasks(list, hiddenInput);

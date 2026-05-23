@@ -48,9 +48,14 @@ function editSubtask(li, value) {
  * @returns {void}
  */
 function confirmEditSubtask(li, input) {
+    const value = input.value.trim();
+    if (!value) {
+        li.remove();
+        return;
+    }
     const span = document.createElement('span');
     span.classList.add('subtask-list__text');
-    span.textContent = input.value.trim();
+    span.textContent = value;
     input.replaceWith(span);
     const actions = li.querySelector('.subtask-list__actions');
     actions.innerHTML = getSubtaskNormalActionsTemplate();

@@ -50,9 +50,13 @@ function toggleDropdown() {
  */
 function filterDropdown() {
     const search = document.getElementById('assigned-to-search').value.toLowerCase();
-    const items = document.querySelectorAll('.dropdown__item');
+    const list = document.getElementById('assigned-to-list');
+    list.classList.add('dropdown__list--visible');
+    const items = list.querySelectorAll('.dropdown__item');
     items.forEach(item => {
-        const name = item.querySelector('.dropdown__name').textContent.toLowerCase();
+        const nameEl = item.querySelector('.dropdown__name');
+        if (!nameEl) return;
+        const name = nameEl.textContent.toLowerCase();
         item.style.display = name.includes(search) ? 'flex' : 'none';
     });
 }
