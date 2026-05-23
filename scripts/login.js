@@ -27,18 +27,6 @@ const db = firebase.database();
 /**Sets the visibility of the body element to visible.*/
 document.body.style.visibility = "visible";
 
-
-/**
- * Validates that the provided string is a properly formatted email address containing an "@" and a domain part.
- * @param {string} email - The email address to validate.
- * @returns {boolean} - True if the email is valid, otherwise false.
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(String(email).trim());
-}
-
-
 /**
  * This function handles the user login process. It retrieves the email and password from the input fields, then queries the Firebase Realtime Database for all users under the "users" node.
  * It checks if any user in the database has a matching email and password. If a match is found, it sets the current user's name and email in local storage and calls the loadDataToLocalStorage function to load the necessary data for the user.
@@ -47,14 +35,7 @@ function isValidEmail(email) {
 function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    if (!isValidEmail(email)) {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Bitte gib eine gültige E-Mail-Adresse mit @ ein!",
-        });
-        return;
-    }
+
     db.ref("users").once("value", function (snapshot) {
         const loginSuccess = checkIfUserExistsForLogin(
             snapshot,
