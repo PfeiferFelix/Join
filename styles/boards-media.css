@@ -257,7 +257,6 @@
         max-height: none;
         overflow-x: hidden;
         overflow-y: visible;
-        padding: 50px 8px;
     }
 
     .board__cards {
