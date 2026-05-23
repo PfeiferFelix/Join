@@ -1,3 +1,6 @@
+html {
+    background-color: #f0f2f5;
+}
 body {
     max-width: 1440px;
     margin: 0 auto;
@@ -133,6 +136,54 @@ footer {
     margin-left: 20px;
     display: inline-block;
     width: 110px;
+}
+
+.toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 40px));
+    background-color: #2d3a4a;
+    color: white;
+    padding: 20px 48px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.toast.toast--visible {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 600px) {
+    .toast {
+        width: 80%;
+        white-space: normal;
+        font-size: 16px;
+        padding: 16px 24px;
+    }
+}
+
+.input__wrapper.input--error input {
+    border-color: #ff3d00;
+}
+
+.error__text {
+    color: #ff3d00;
+    font-size: 13px;
+    margin-top: -8px;
+    display: none;
+}
+
+.error__text.visible {
+    display: block;
 }
 
 .checkbox__row {
