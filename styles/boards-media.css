@@ -137,7 +137,7 @@
     }
 
     .task {
-        padding: 12px 12px 52px !important;
+        padding: 8px 8px 45px !important;
         cursor: pointer;
     }
 
@@ -794,7 +794,7 @@
     }
 }
 .task-drop-placeholder {
-    margin: 8px 0;
+    margin: 0;
     border: 1px dashed var(--color-brand-primary, #29abe2);
     border-radius: 16px;
     background-color: rgba(41, 171, 226, 0.08);
