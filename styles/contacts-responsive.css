@@ -270,7 +270,7 @@
 
 @media (max-width: 600px) {
     .contacts-sidebar__groups {
-        padding: 50px 4px;
+        padding: 20px 4px 70px;
     }
 
     .contact-group__letter {
