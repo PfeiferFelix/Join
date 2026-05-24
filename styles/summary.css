@@ -303,4 +303,7 @@
     .tasks__icon-wrapper {
         gap: 4px;
     }
+    .tasks {
+        grid-template-columns: repeat(0, 1fr);
+        gap: 6px;}
 }
