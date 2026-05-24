@@ -1,6 +1,7 @@
 html {
     background-color: #f0f2f5;
 }
+
 body {
     max-width: 1440px;
     margin: 0 auto;
@@ -24,6 +25,88 @@ header {
     margin-left: 80px;
 }
 
+/* ===== Intro-Animation: Logo fliegt aus der Mitte in den Header ===== */
+.logo-intro {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    height: 275px;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    pointer-events: none;
+    animation:
+        logoFly 1400ms cubic-bezier(0.65, 0, 0.35, 1) 200ms forwards,
+        logoHide 0s linear 1650ms forwards;
+}
+
+/* Während der Intro-Animation ist alles außer dem Logo ausgeblendet */
+body.intro-active>*:not(.logo-intro) {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Nach dem Intro: weiches Einblenden des restlichen Inhalts */
+body:not(.intro-active)>*:not(.logo-intro) {
+    animation: contentFadeIn 350ms ease-out both;
+}
+
+@keyframes contentFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+header .logo {
+    opacity: 0;
+    animation: logoReveal 0s linear 1600ms forwards;
+}
+
+@keyframes logoFly {
+    to {
+        top: 50px;
+        left: 180px;
+        width: 100px;
+        height: 110px;
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes logoReveal {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes logoHide {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-intro {
+        display: none;
+    }
+
+    header .logo {
+        opacity: 1;
+        animation: none;
+    }
+
+    body.intro-active>*:not(.logo-intro) {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+/* ==================================================================== */
+
 .header__right {
     display: flex;
     align-items: center;
@@ -44,10 +127,12 @@ header {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
 }
+
 .container__headline {
     margin-left: 5px;
     font-weight: 700;
 }
+
 .title__row {
     position: relative;
     width: 100%;
@@ -236,116 +321,169 @@ footer {
     text-decoration: underline;
 }
 
-@media (max-width: 600px) {
-    .container {
-        width: 80%;
-        padding: 32px 20px;
-    }
-    .container__headline {
-        font-size: 30px;
-        margin-left: 5px;
-    }
-
-    .title__underline {
-        width: 250px;
-    }
-    .input__wrapper input {
-        padding: 12px 40px 12px 16px;
-    }
-    .input__icon {
-        width: 16px;
-        height: 16px;
-    }
-    .button__row {
-        flex-direction: column;
-        gap: 12px;
-    }
-    .login__btn,
-    .guestLogin__btn {
-        width: 100%;
-        padding: 12px;
-    }
-    .header__right {
-        margin-right: 20px;
-    }
-    .logo {
-        width: 80px;
-        height: 88px;
-        margin-left: 20px;
+@media (max-width: 1440px) {
+    @keyframes logoFly {
+        to {
+            top: 50px;
+            left: 80px;
+            width: 100px;
+            height: 110px;
+            transform: translate(0, 0);
+        }
     }
 }
-.mobile-signup {
-    display: none;
-}
-
-@media (max-width: 450px) {
-    header {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        margin-top: 12px;
+    @media (max-width: 1024px) {
+        @keyframes logoFly {
+            to {
+                top: 50px;
+                left: 80px;
+                width: 100px;
+                height: 110px;
+                transform: translate(0, 0);
+            }
+        }
     }
 
-    .header__right {
-        display: none;
-    }
+    @media (max-width: 600px) {
+        .container {
+            width: 80%;
+            padding: 32px 20px;
+        }
 
-    .logo {
-        width: 55px;
-        height: 60px;
-        margin-left: 0;
-    }
+        .container__headline {
+            font-size: 30px;
+            margin-left: 5px;
+        }
 
-    .container {
-        margin-top: 40px;
-        padding: 20px;
-    }
+        .title__underline {
+            width: 250px;
+        }
 
-    .login__form {
-        gap: 4px;
-    }
+        .input__wrapper input {
+            padding: 12px 40px 12px 16px;
+        }
 
-    .input__field {
-        gap: 0;
-    }
+        .input__icon {
+            width: 16px;
+            height: 16px;
+        }
 
-    .input__wrapper input {
-        padding: 10px 40px 10px 16px;
-    }
+        .button__row {
+            flex-direction: column;
+            gap: 12px;
+        }
 
-    .error__text {
-        min-height: 0;
-        font-size: 11px;
-        line-height: 1;
-    }
+        .login__btn,
+        .guestLogin__btn {
+            width: 100%;
+            padding: 12px;
+        }
 
-    .error__text:empty {
-        height: 0;
-        overflow: hidden;
-    }
+        .header__right {
+            margin-right: 20px;
+        }
 
-    .checkbox__row {
-        margin-top: 2px;
-    }
+        .logo {
+            width: 80px;
+            height: 88px;
+            margin-left: 20px;
+        }
 
-    .button__row {
-        margin-top: 4px;
+        @keyframes logoFly {
+            to {
+                top: 50px;
+                left: 20px;
+                width: 80px;
+                height: 88px;
+                transform: translate(0, 0);
+            }
+        }
     }
 
     .mobile-signup {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-top: 12px;
-        justify-content: center;
+        display: none;
     }
-    .container__headline,
-    .container h1 {
-        font-size: 30px;
-        margin-left: 10px;
+
+    @media (max-width: 450px) {
+        header {
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .header__right {
+            display: none;
+        }
+
+        .logo {
+            width: 55px;
+            height: 60px;
+            margin-left: 0;
+        }
+
+        @keyframes logoFly {
+            to {
+                top: 12px;
+                left: 50%;
+                width: 55px;
+                height: 60px;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        .container {
+            margin-top: 40px;
+            padding: 20px;
+        }
+
+        .login__form {
+            gap: 4px;
+        }
+
+        .input__field {
+            gap: 0;
+        }
+
+        .input__wrapper input {
+            padding: 10px 40px 10px 16px;
+        }
+
+        .error__text {
+            min-height: 0;
+            font-size: 11px;
+            line-height: 1;
+        }
+
+        .error__text:empty {
+            height: 0;
+            overflow: hidden;
+        }
+
+        .checkbox__row {
+            margin-top: 2px;
+        }
+
+        .button__row {
+            margin-top: 4px;
+        }
+
+        .mobile-signup {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 12px;
+            justify-content: center;
+        }
+
+        .container__headline,
+        .container h1 {
+            font-size: 30px;
+            margin-left: 10px;
+        }
+
+        .title__underline {
+            width: 200px;
+            margin: 6px 0 12px;
+        }
     }
-    .title__underline {
-        width: 200px;
-        margin: 6px 0 12px;
-    }
-}

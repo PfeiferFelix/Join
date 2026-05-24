@@ -28,6 +28,37 @@ const db = firebase.database();
 document.body.style.visibility = "visible";
 
 /**
+ * Plays the intro logo animation: hides all page content except the flying logo,
+ * then reveals the rest once the animation finishes.
+ */
+function playIntroAnimation() {
+    try {
+        const body = document.body;
+        const introLogo = document.querySelector(".logo-intro");
+        if (!introLogo) return;
+
+        body.classList.add("intro-active");
+
+        const reveal = () => {
+            body.classList.remove("intro-active");
+            introLogo.removeEventListener("animationend", onEnd);
+        };
+        const onEnd = (event) => {
+            if (event.animationName === "logoFly") reveal();
+        };
+
+        introLogo.addEventListener("animationend", onEnd);
+        // Fallback, falls animationend nicht feuert
+        setTimeout(reveal, 2100);
+    } catch (error) {
+        console.error("Intro-Animation fehlgeschlagen:", error);
+        document.body.classList.remove("intro-active");
+    }
+}
+
+playIntroAnimation();
+
+/**
  * This function handles the user login process. It retrieves the email and password from the input fields, then queries the Firebase Realtime Database for all users under the "users" node.
  * It checks if any user in the database has a matching email and password. If a match is found, it sets the current user's name and email in local storage and calls the loadDataToLocalStorage function to load the necessary data for the user.
  * If no match is found, it calls the checkLoginResults function with a false value to indicate an unsuccessful login attempt, which will display an error message to the user.
