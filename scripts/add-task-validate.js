@@ -1,7 +1,17 @@
+/**
+ * Get today's date string in YYYY-MM-DD format.
+ * @returns {string} Today's date in ISO YYYY-MM-DD format.
+ */
 function getTodayString() {
     return new Date().toISOString().split("T")[0];
 }
 
+
+/**
+ * Validate all form fields that have the `required` attribute.
+ * Marks empty required fields with an error indicator.
+ * @returns {boolean} `true` when all required fields contain non-whitespace text.
+ */
 function validateRequiredFields() {
     let isValid = true;
     document.querySelectorAll("[required]").forEach((field) => {
@@ -13,6 +23,10 @@ function validateRequiredFields() {
     return isValid;
 }
 
+/**
+ * Validate that a category has been selected in the UI.
+ * @returns {boolean} `true` when a category is selected, otherwise `false`.
+ */
 function validateCategory() {
     if (!document.getElementById('category-selected').dataset.value) {
         document.getElementById('category-error').textContent = 'This field is required*';
@@ -22,6 +36,10 @@ function validateCategory() {
     return true;
 }
 
+/**
+ * Validate the due date input is not earlier than today.
+ * @returns {boolean} `true` when the due date is today or in the future.
+ */
 function validateDueDate() {
     const dueDateInput = document.getElementById('due-date');
     if (dueDateInput.value < getTodayString()) {
