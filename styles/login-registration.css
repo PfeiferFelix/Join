@@ -320,7 +320,17 @@ footer {
 .checkbox__row label a:hover {
     text-decoration: underline;
 }
-
+@media (min-width: 1440px) {
+        @keyframes logoFly {
+        to {
+            top: 50px;
+            left: 310px;
+            width: 100px;
+            height: 110px;
+            transform: translate(0, 0);
+        }
+    }
+}
 @media (max-width: 1440px) {
     @keyframes logoFly {
         to {
