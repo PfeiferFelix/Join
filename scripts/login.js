@@ -1,7 +1,4 @@
-/**
- * Firebase configuration object containing the necessary credentials and settings to connect to the Firebase project.
- * This includes the API key, authentication domain, database URL, project ID, storage bucket, messaging sender ID, and app ID.
- */
+/** Firebase project credentials and settings. */
 const firebaseConfig = {
     apiKey: "AIzaSyDqKUIXrAGfDTsbymcVdJ2w5ATaApioOv8",
     authDomain: "join-5bd8d.firebaseapp.com",
@@ -14,22 +11,14 @@ const firebaseConfig = {
 };
 
 
-/**
- * Initializes the Firebase application with the provided configuration and sets up a reference to the Realtime Database.
- * This allows the application to interact with the Firebase services, such as authentication and database operations.
- * @param {object} firebaseConfig - The configuration object containing the Firebase project credentials and settings.
- * @returns {object} - A reference to the initialized Firebase application and the Realtime Database.
- */
+/** Initializes Firebase and sets up the Realtime Database reference. */
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
-
-/**Sets the visibility of the body element to visible.*/
 document.body.style.visibility = "visible";
 
+
 /**
- * Plays the intro logo animation: hides all page content except the flying logo,
- * then reveals the rest once the animation finishes.
+ * Plays the intro logo animation, then reveals the rest of the page.
  */
 function playIntroAnimation() {
     try {
@@ -55,13 +44,13 @@ function playIntroAnimation() {
         document.body.classList.remove("intro-active");
     }
 }
-
 playIntroAnimation();
 
+
 /**
- * This function handles the user login process. It retrieves the email and password from the input fields, then queries the Firebase Realtime Database for all users under the "users" node.
- * It checks if any user in the database has a matching email and password. If a match is found, it sets the current user's name and email in local storage and calls the loadDataToLocalStorage function to load the necessary data for the user.
- * If no match is found, it calls the checkLoginResults function with a false value to indicate an unsuccessful login attempt, which will display an error message to the user.
+ * Validates the format of an email address.
+ * @param {string} email
+ * @returns {boolean}
  */
 function isValidEmail(email) {
     return /^[^\s@]+@[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?)+$/.test(email);
@@ -69,11 +58,9 @@ function isValidEmail(email) {
 
 
 /**
- * This function displays a toast message on the screen with the provided message. 
- * It creates a toast element if it doesn't already exist, sets its text content to the provided message, and makes it visible for a short duration (2 seconds) before hiding it again. 
- * If a callback function is provided, it will be called after the toast is hidden.
- * @param {*} message 
- * @param {*} callback 
+ * Shows a toast message for 2 seconds, then calls callback if provided.
+ * @param {string} message
+ * @param {Function} callback
  */
 function showToast(message, callback) {
     let toast = document.getElementById("joinToast");
@@ -91,12 +78,12 @@ function showToast(message, callback) {
     }, 2000);
 }
 
+
 /**
- * This function displays an error message for a specific input field. It takes the input field's ID, the error element's ID, and the error message as parameters.
- * It adds an error class to the input field's wrapper to visually indicate the error and sets the text content of the error element to the provided message.
- * @param {*} inputId 
- * @param {*} errorId 
- * @param {*} message 
+ * Marks an input field as invalid and shows an error message.
+ * @param {string} inputId
+ * @param {string} errorId
+ * @param {string} message
  */
 function showFieldError(inputId, errorId, message) {
     const input = document.getElementById(inputId);
@@ -107,11 +94,7 @@ function showFieldError(inputId, errorId, message) {
 }
 
 
-/**
- * This function clears all error messages and removes error classes from input fields.
- * It selects all elements with the class "input__wrapper" that also have the class "input--error" and removes the "input--error" class from them.
- * It also selects all elements with the class "error__text" and clears their text content.
- */
+/** Removes all error states and messages from input fields. */
 function clearAllErrors() {
     const errorWrappers = document.querySelectorAll(".input__wrapper.input--error");
     errorWrappers.forEach(function (wrapper) {
@@ -123,11 +106,11 @@ function clearAllErrors() {
     });
 }
 
+
 /**
- * This function validates the email input for the login process. It checks if the provided email is in a valid format using the isValidEmail function.
- * If the email is not valid, it calls the showFieldError function to display an error message for the email input field and returns false. If the email is valid, it returns true.
- * @param {*} email 
- * @returns 
+ * Validates the email format for login.
+ * @param {string} email
+ * @returns {boolean}
  */
 function validateLoginEmail(email) {
     if (!isValidEmail(email)) {
@@ -138,6 +121,7 @@ function validateLoginEmail(email) {
 }
 
 
+/** Reads email and password from the form, validates them, and triggers the login flow. */
 function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value.trim();
@@ -159,11 +143,11 @@ function loginUser() {
 
 
 /**
- * This function checks if a user with the provided email and password exists in the Firebase Realtime Database.
- * @param {object} snapshot - The snapshot of the Firebase Realtime Database.
- * @param {string} email - The email of the user to check.
- * @param {string} password - The password of the user to check.
- * @returns {boolean} - A boolean value indicating whether the user exists.
+ * Checks credentials against the DB snapshot and stores the user in localStorage.
+ * @param {object} snapshot
+ * @param {string} email
+ * @param {string} password
+ * @returns {boolean}
  */
 function checkIfUserExistsForLogin(snapshot, email, password) {
     let loginSuccess = false;
@@ -180,10 +164,8 @@ function checkIfUserExistsForLogin(snapshot, email, password) {
 
 
 /**
- * This function checks the result of the login attempt. If the login was successful (login Success is ture), it redirects to the summary page.
- * If the login was unsuccessful (login Success is false), it display an error massage using the SweetAlert library,
- * indicating that the email or password is incorrect.
- * @param {boolean} loginSuccess - A boolean value indicating whether the login attempt was successful or not.
+ * Redirects to summary on success, or shows field errors on failure.
+ * @param {boolean} loginSuccess
  */
 function checkLoginResults(loginSuccess) {
     if (loginSuccess === true) {
@@ -196,13 +178,7 @@ function checkLoginResults(loginSuccess) {
 }
 
 
-/**
- * This function loads data from the Firebase Realtime Database to the local storage of the browser.
- * It retrieves the data from the root of the database, extracts the "boards" and "contacts" data, and stores them in local storage as JSON strings.
- * After successfully loading the data, it calls the checkLoginResults function with a true value to indicate a successful login and data loading process.
- * This allows the application to have access to the necessary data for the user after logging in, and ensures that the user is redirected to the appropriate page.
- * @param {object} snapshot - The snapshot of the Firebase Realtime Database.
- */
+/** Loads boards and contacts from DB into localStorage, then triggers login redirect. */
 function loadDataToLocalStorage() {
     db.ref("/").once("value", function (snapshot) {
         const allData = snapshot.val();
@@ -213,11 +189,7 @@ function loadDataToLocalStorage() {
 }
 
 
-/**
- * This function allows users to log in as a guest by setting predefined values for the current user's name and email in local storage.
- * @param {string} name - The name of the guest user to be set in local storage.
- * @param {string} email - The email of the guest user to be set in local storage.
- */
+/** Logs in as guest with fixed credentials. */
 function guestLogin() {
     localStorage.setItem("currentUserName", "Gast");
     localStorage.setItem("currentUserEmail", "Gast@Gast.com");
@@ -225,10 +197,7 @@ function guestLogin() {
 }
 
 
-/**
- * This function handles the user registration process. It retrieves the email, password, and password confirmation from the input fields, then validates the inputs using the validateInputs function.
- * @returns {boolean} - A boolean value indicating whether the registration process was successful or not.
- */
+/** Validates registration inputs and triggers the user-exists check. */
 function registerUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value.trim();
@@ -240,8 +209,7 @@ function registerUser() {
 
 
 /**
- * This function validates the name input for the registration process. It checks if the name input is not empty after trimming whitespace.
- * If the name input is empty, it calls the showFieldError function to display an error message for the name input field and returns false. If the name input is valid, it returns true.
+ * Validates that the name field is not empty and contains letters.
  * @returns {boolean}
  */
 function validateName() {
@@ -259,8 +227,8 @@ function validateName() {
 
 
 /**
- * This function applies the password match error by toggling the "input--error" class on the password confirmation input wrapper and setting the text content of the password error element based on whether the passwords match or not.
- * @param {boolean} passwordsMatch 
+ * Toggles the password-confirm error state based on whether passwords match.
+ * @param {boolean} passwordsMatch
  */
 function applyPasswordMatchError(passwordsMatch) {
     const passwordError = document.getElementById("passwordError");
@@ -271,11 +239,10 @@ function applyPasswordMatchError(passwordsMatch) {
 
 
 /**
- * This function validates the password confirmation input for the registration process. It checks if the password and password confirmation inputs match after trimming whitespace.
- * If the passwords don't match, it calls the applyPasswordMatchError function to display an error message for the password confirmation input field and returns false. If the passwords match, it returns true.
- * @param {string} password - The password entered by the user.
- * @param {string} passwordconfirm - The password confirmation entered by the user.
- * @returns {boolean} - A boolean value indicating whether the passwords match or not.
+ * Validates that password is non-empty and matches the confirmation.
+ * @param {string} password
+ * @param {string} passwordconfirm
+ * @returns {boolean}
  */
 function validatePasswordMatch(password, passwordconfirm) {
     if (!password.trim()) {
@@ -289,11 +256,11 @@ function validatePasswordMatch(password, passwordconfirm) {
 
 
 /**
- * This function validates the user inputs for registration, including email format and password confirmation.
- * @param {string} email - The email entered by the user.
- * @param {string} password - The password entered by the user.
- * @param {string} passwordconfirm - The password confirmation entered by the user.
- * @returns {boolean} - A boolean value indicating whether the inputs are valid or not.
+ * Validates all registration inputs (name, email, privacy, passwords).
+ * @param {string} email
+ * @param {string} password
+ * @param {string} passwordconfirm
+ * @returns {boolean}
  */
 function validateInputs(email, password, passwordconfirm) {
     clearAllErrors();
@@ -308,10 +275,8 @@ function validateInputs(email, password, passwordconfirm) {
 
 
 /**
- * This function checks if the user has accepted the privacy policy by checking the stat of a checkbox with the id "privacy".
- * If the checkbox is not checked, it displays an error massage using SewwtAlert.
- * @param {boolean} privacyChecked - A boolean value indicating whether the privacy policy checkbox is checked or not.
- * @returns {boolean} - A boolean value indicating whether the user has accepted the privacy policy or not.
+ * Checks the privacy checkbox and shows an error if unchecked.
+ * @returns {boolean}
  */
 function checkPrivacy() {
     const privacy = document.getElementById("privacy");
@@ -324,15 +289,7 @@ function checkPrivacy() {
 }
 
 
-/**
- * This function checks if a user with the provided email already exists in the Firebase Realtime Database.
- * It retrieves the name, email, and password from the input fields, then queries the database for all users under the "users" node.
- * It iterates through the users in the database and checks if any user has a matching email. If a match is found, it calls the userAlreadyExistsError function to display an error message.
- * If no match is found, it calls the saveUser function to save the new user's data to the database.
- * @param {string} name - The name of the user to check.
- * @param {string} email - The email of the user to check.
- * @param {string} password - The password of the user to check.
- */
+/** Queries DB for an existing user with the same email; saves or shows error. */
 function checkIfUserExists() {
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value;
@@ -349,11 +306,10 @@ function checkIfUserExists() {
 
 
 /**
- * This function iterates through the users in the Firebase Realtime Database snapshot and checks if any user has a matching email.
- * If a match is found, it sets the userExists variable to true. After iterating through all users, it returns the value of userExists, indicating whether a user with the provided email already exists in the database or not.
- * @param {object} snapshot - The snapshot of the Firebase Realtime Database.
- * @param {string} email - The email to check for.
- * @returns {boolean} - A boolean value indicating whether a user with the provided email already exists in the database or not.
+ * Returns true if any user in the snapshot has the given email.
+ * @param {object} snapshot
+ * @param {string} email
+ * @returns {boolean}
  */
 function findExistingUser(snapshot, email) {
     let userExists = false;
@@ -367,21 +323,17 @@ function findExistingUser(snapshot, email) {
 }
 
 
-/** * This function displays an error message using the SweetAlert library, indicating that a user with the provided email already exists in the database.
- */
+/** Shows an error indicating the email is already registered. */
 function userAlreadyExistsError() {
     showFieldError("email", "emailError", "This email address is already registered.");
 }
 
 
 /**
- * This function saves a new user to the Realtime Database under the "users" node.
- * It takes the user's name, email, and password as parameters and pushes this data to the database.
- * If the user is successfully saved, it displays a success message.
- * If there is an error during the saving process, it catches the error and displays an error message.
- * @param {string} name - The name of the user to be saved.
- * @param {string} email - The email of the user to be saved.
- * @param {string} password - The password of the user to be saved.
+ * Pushes a new user object to the DB.
+ * @param {string} name
+ * @param {string} email
+ * @param {string} password
  */
 function saveUser(name, email, password) {
     db.ref("users")
@@ -395,9 +347,7 @@ function saveUser(name, email, password) {
 }
 
 
-/** * This function displays a success message using the SweetAlert library, indicating that the registration was successful.
- * After the user clicks the "OK" button on the alert, it redirects the user to the login page (index.html).
- */
+/** Shows a success toast and redirects to the login page. */
 function saveUserSuccess() {
     showToast("You Signed Up successfully", function () {
         window.location.href = "index.html";
@@ -405,8 +355,7 @@ function saveUserSuccess() {
 }
 
 
-/** * This function displays an error message using the SweetAlert library, indicating that there was an error during the registration process.
- */
+/** Shows an error if saving the new user to the DB failed. */
 function saveUserError() {
     showFieldError("email", "emailError", "Error during registration. Please try again.");
 }
