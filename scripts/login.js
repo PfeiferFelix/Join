@@ -64,7 +64,7 @@ playIntroAnimation();
  * If no match is found, it calls the checkLoginResults function with a false value to indicate an unsuccessful login attempt, which will display an error message to the user.
  */
 function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^[^\s@]+@[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?)+$/.test(email);
 }
 
 
@@ -140,9 +140,13 @@ function validateLoginEmail(email) {
 
 function loginUser() {
     const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const password = document.getElementById("password").value.trim();
     clearAllErrors();
     if (!validateLoginEmail(email)) return;
+    if (!password) {
+        showFieldError("password", "passwordError", "Bitte gib dein Passwort ein.");
+        return;
+    }
     db.ref("users").once("value", function (snapshot) {
         const loginSuccess = checkIfUserExistsForLogin(snapshot, email, password);
         if (loginSuccess) {
@@ -227,11 +231,56 @@ function guestLogin() {
  */
 function registerUser() {
     const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const passwordconfirm = document.getElementById("passwordconfirm").value;
+    const password = document.getElementById("password").value.trim();
+    const passwordconfirm = document.getElementById("passwordconfirm").value.trim();
 
     if (!validateInputs(email, password, passwordconfirm)) return;
     checkIfUserExists();
+}
+
+
+/**
+ * This function validates the name input for the registration process. It checks if the name input is not empty after trimming whitespace.
+ * If the name input is empty, it calls the showFieldError function to display an error message for the name input field and returns false. If the name input is valid, it returns true.
+ * @returns {boolean}
+ */
+function validateName() {
+    const name = document.getElementById("name").value.trim();
+    if (!name) {
+        showFieldError("name", "nameError", "Bitte gib deinen Namen ein.");
+        return false;
+    }
+    return true;
+}
+
+
+/**
+ * This function applies the password match error by toggling the "input--error" class on the password confirmation input wrapper and setting the text content of the password error element based on whether the passwords match or not.
+ * @param {boolean} passwordsMatch 
+ */
+function applyPasswordMatchError(passwordsMatch) {
+    const passwordError = document.getElementById("passwordError");
+    const passwordconfirmWrapper = document.getElementById("passwordconfirmWrapper");
+    passwordconfirmWrapper.classList.toggle("input--error", !passwordsMatch);
+    if (passwordError) passwordError.textContent = passwordsMatch ? '' : "Your passwords don't match. Please try again.";
+}
+
+
+/**
+ * This function validates the password confirmation input for the registration process. It checks if the password and password confirmation inputs match after trimming whitespace.
+ * If the passwords don't match, it calls the applyPasswordMatchError function to display an error message for the password confirmation input field and returns false. If the passwords match, it returns true.
+ * @param {string} password - The password entered by the user.
+ * @param {string} passwordconfirm - The password confirmation entered by the user.
+ * @returns {boolean} - A boolean value indicating whether the passwords match or not.
+ */
+function validatePasswordMatch(password, passwordconfirm) {
+    if (!password.trim()) {
+        showFieldError("password", "passwordFieldError", "Bitte gib ein Passwort ein.");
+        return false;
+    }
+    const passwordsMatch = password.trim() === passwordconfirm.trim();
+    applyPasswordMatchError(passwordsMatch);
+    return passwordsMatch;
 }
 
 
@@ -244,17 +293,13 @@ function registerUser() {
  */
 function validateInputs(email, password, passwordconfirm) {
     clearAllErrors();
+    if (!validateName()) return false;
     if (!isValidEmail(email)) {
         showFieldError("email", "emailError", "Bitte gib eine gültige E-Mail-Adresse ein.");
         return false;
     }
     if (!checkPrivacy()) return false;
-    const passwordError = document.getElementById("passwordError");
-    const passwordconfirmWrapper = document.getElementById("passwordconfirmWrapper");
-    const passwordsMatch = password === passwordconfirm;
-    passwordconfirmWrapper.classList.toggle("input--error", !passwordsMatch);
-    if (passwordError) passwordError.textContent = passwordsMatch ? '' : "Your passwords don't match. Please try again.";
-    return passwordsMatch;
+    return validatePasswordMatch(password, passwordconfirm);
 }
 
 
@@ -285,9 +330,9 @@ function checkPrivacy() {
  * @param {string} password - The password of the user to check.
  */
 function checkIfUserExists() {
-    const name = document.getElementById("name").value;
+    const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const password = document.getElementById("password").value.trim();
     db.ref("users").once("value", function (snapshot) {
         const userExists = findExistingUser(snapshot, email);
         if (userExists === true) {
