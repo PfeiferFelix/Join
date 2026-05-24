@@ -188,48 +188,13 @@ function initAddTask() {
     setActivePriority();
     setMinDueDate();
     applyAddTaskContext();
-    // Übernehme ggf. gespeicherte Dialogdaten aus localStorage
-    try {
-        const dialogDataRaw = localStorage.getItem('addTaskDialogData');
-        if (dialogDataRaw) {
-            const dialogData = JSON.parse(dialogDataRaw);
-            if (dialogData.title) document.getElementById('title').value = dialogData.title;
-            if (dialogData.description) document.getElementById('description').value = dialogData.description;
-            if (dialogData.dueDate) document.getElementById('due-date').value = dialogData.dueDate;
-            if (dialogData.category) document.getElementById('category').value = dialogData.category;
-            if (dialogData.priority) {
-                document.querySelectorAll('.priority-buttons__btn').forEach(btn => {
-                    btn.classList.toggle('priority-buttons__btn--active', btn.dataset.priority === dialogData.priority);
-                });
-            }
-            if (dialogData.subtasks) {
-                const subtasksInput = document.getElementById('add-subtasks-data');
-                if (subtasksInput) subtasksInput.value = dialogData.subtasks;
-                // Optional: Subtask-Liste neu rendern, falls Funktion vorhanden
-                if (typeof renderAddDialogSubtasks === 'function') {
-                    const list = document.getElementById('add-subtasks-list');
-                    renderAddDialogSubtasks(list, subtasksInput);
-                }
-            }
-            // Assigned To (optional, falls UI vorhanden)
-            if (dialogData.assignedTo && Array.isArray(dialogData.assignedTo)) {
-                dialogData.assignedTo.forEach(name => {
-                    const el = document.querySelector(`.assigned-contact[data-name="${name}"]`);
-                    if (el) el.classList.add('selected');
-                });
-            }
-            // Nach Übernahme löschen
-            localStorage.removeItem('addTaskDialogData');
-        }
-    } catch(e) { /* ignore */ }
-
+    restoreDialogData();
     handleFormSubmit();
     addUserToTask();
     setupDropdownEvents();
     setupSubtaskEvents();
     setupCategoryDropdown();
 }
-
 
 /**
  * Set the default active priority button and attach click handlers.
@@ -340,55 +305,7 @@ function resetPriorityToMedium() {
 }
 
 
-/**
- * Validate that all required form fields are filled.
- * @returns {boolean} True when the form is valid.
- */
-function validateForm() {
-    const requiredFields = document.querySelectorAll("[required]");
-    let isValid = true;
 
-    requiredFields.forEach((field) => {
-        if (!field.value.trim()) {
-            showError(field);
-            isValid = false;
-        }
-    });
-    if (!document.getElementById('category-selected').dataset.value) {
-        document.getElementById('category-error').textContent = 'This field is required*';
-        document.getElementById('category-trigger').style.borderColor = 'red';
-        isValid = false;
-    }
-
-    return isValid;
-}
-
-
-/**
- * Display an error message for a required field.
- * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement} field - The form field with an error.
- * @returns {void}
- */
-function showError(field) {
-    const error = document.getElementById(`${field.id}-error`);
-    error.textContent = "This field is required*";
-    field.style.borderColor = "red";
-}
-
-
-/**
- * Clear all displayed form error messages.
- * @returns {void}
- */
-function clearErrors() {
-    document.querySelectorAll(".task-form__error").forEach((e) => {
-        e.textContent = "";
-    });
-    document.querySelectorAll("[required]").forEach((field) => {
-        field.style.borderColor = "";
-    });
-    document.getElementById('category-trigger').style.borderColor = '';
-}
 
 
 /**
