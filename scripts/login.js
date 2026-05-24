@@ -131,7 +131,7 @@ function clearAllErrors() {
  */
 function validateLoginEmail(email) {
     if (!isValidEmail(email)) {
-        showFieldError("email", "emailError", "Bitte gib eine gültige E-Mail-Adresse ein.");
+        showFieldError("email", "emailError", "Please enter a valid email address.");
         return false;
     }
     return true;
@@ -144,7 +144,7 @@ function loginUser() {
     clearAllErrors();
     if (!validateLoginEmail(email)) return;
     if (!password) {
-        showFieldError("password", "passwordError", "Bitte gib dein Passwort ein.");
+        showFieldError("password", "passwordError", "Please enter your password.");
         return;
     }
     db.ref("users").once("value", function (snapshot) {
@@ -190,8 +190,8 @@ function checkLoginResults(loginSuccess) {
         sessionStorage.setItem("fromLogin", "true");
         window.location.href = "summary.html";
     } else {
-        showFieldError("email", "emailError", "E-Mail oder Passwort ist falsch.");
-        showFieldError("password", "passwordError", "E-Mail oder Passwort ist falsch.");
+        showFieldError("email", "emailError", "Invalid email or password.");
+        showFieldError("password", "passwordError", "Invalid email or password.");
     }
 }
 
@@ -247,7 +247,11 @@ function registerUser() {
 function validateName() {
     const name = document.getElementById("name").value.trim();
     if (!name) {
-        showFieldError("name", "nameError", "Bitte gib deinen Namen ein.");
+        showFieldError("name", "nameError", "Please enter your name.");
+        return false;
+    }
+    if (!/[a-zA-ZÀ-ÿ]/.test(name)) {
+        showFieldError("name", "nameError", "Your name must contain letters.");
         return false;
     }
     return true;
@@ -275,7 +279,7 @@ function applyPasswordMatchError(passwordsMatch) {
  */
 function validatePasswordMatch(password, passwordconfirm) {
     if (!password.trim()) {
-        showFieldError("password", "passwordFieldError", "Bitte gib ein Passwort ein.");
+        showFieldError("password", "passwordFieldError", "Please enter a password.");
         return false;
     }
     const passwordsMatch = password.trim() === passwordconfirm.trim();
@@ -295,7 +299,7 @@ function validateInputs(email, password, passwordconfirm) {
     clearAllErrors();
     if (!validateName()) return false;
     if (!isValidEmail(email)) {
-        showFieldError("email", "emailError", "Bitte gib eine gültige E-Mail-Adresse ein.");
+        showFieldError("email", "emailError", "Please enter a valid email address.");
         return false;
     }
     if (!checkPrivacy()) return false;
@@ -366,7 +370,7 @@ function findExistingUser(snapshot, email) {
 /** * This function displays an error message using the SweetAlert library, indicating that a user with the provided email already exists in the database.
  */
 function userAlreadyExistsError() {
-    showFieldError("email", "emailError", "Diese E-Mail-Adresse ist bereits registriert.");
+    showFieldError("email", "emailError", "This email address is already registered.");
 }
 
 
@@ -404,5 +408,5 @@ function saveUserSuccess() {
 /** * This function displays an error message using the SweetAlert library, indicating that there was an error during the registration process.
  */
 function saveUserError() {
-    showFieldError("email", "emailError", "Fehler bei der Registrierung. Bitte versuche es erneut.");
+    showFieldError("email", "emailError", "Error during registration. Please try again.");
 }
