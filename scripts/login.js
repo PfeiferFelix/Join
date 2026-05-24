@@ -60,22 +60,60 @@ function showToast(message, callback) {
     }, 2000);
 }
 
+/**
+ * This function displays an error message for a specific input field. It takes the input field's ID, the error element's ID, and the error message as parameters.
+ * It adds an error class to the input field's wrapper to visually indicate the error and sets the text content of the error element to the provided message.
+ * @param {*} inputId 
+ * @param {*} errorId 
+ * @param {*} message 
+ */
+function showFieldError(inputId, errorId, message) {
+    const input = document.getElementById(inputId);
+    const wrapper = input ? input.closest(".input__wrapper") : null;
+    const errorElement = document.getElementById(errorId);
+    if (wrapper) wrapper.classList.add("input--error");
+    if (errorElement) errorElement.textContent = message;
+}
+
+
+/**
+ * This function clears all error messages and removes error classes from input fields.
+ * It selects all elements with the class "input__wrapper" that also have the class "input--error" and removes the "input--error" class from them.
+ * It also selects all elements with the class "error__text" and clears their text content.
+ */
+function clearAllErrors() {
+    const errorWrappers = document.querySelectorAll(".input__wrapper.input--error");
+    errorWrappers.forEach(function (wrapper) {
+        wrapper.classList.remove("input--error");
+    });
+    const errorTexts = document.querySelectorAll(".error__text");
+    errorTexts.forEach(function (errorText) {
+        errorText.textContent = '';
+    });
+}
+
+/**
+ * This function validates the email input for the login process. It checks if the provided email is in a valid format using the isValidEmail function.
+ * If the email is not valid, it calls the showFieldError function to display an error message for the email input field and returns false. If the email is valid, it returns true.
+ * @param {*} email 
+ * @returns 
+ */
+function validateLoginEmail(email) {
+    if (!isValidEmail(email)) {
+        showFieldError("email", "emailError", "Bitte gib eine gültige E-Mail-Adresse ein.");
+        return false;
+    }
+    return true;
+}
+
 
 function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-
-    if (!isValidEmail(email)) {
-        showToast("Bitte gib eine gültige E-Mail-Adresse ein!");
-        return;
-    }
-
+    clearAllErrors();
+    if (!validateLoginEmail(email)) return;
     db.ref("users").once("value", function (snapshot) {
-        const loginSuccess = checkIfUserExistsForLogin(
-            snapshot,
-            email,
-            password,
-        );
+        const loginSuccess = checkIfUserExistsForLogin(snapshot, email, password);
         if (loginSuccess) {
             loadDataToLocalStorage();
         } else {
@@ -114,10 +152,11 @@ function checkIfUserExistsForLogin(snapshot, email, password) {
  */
 function checkLoginResults(loginSuccess) {
     if (loginSuccess === true) {
-        sessionStorage.setItem("fromLogin", "true"); // Set flag so summary page can trigger animation once
-        window.location.href = "summary.html"; // Navigate to summary page after successful login
+        sessionStorage.setItem("fromLogin", "true");
+        window.location.href = "summary.html";
     } else {
-        showToast("Email oder Passwort ist falsch!");
+        showFieldError("email", "emailError", "E-Mail oder Passwort ist falsch.");
+        showFieldError("password", "passwordError", "E-Mail oder Passwort ist falsch.");
     }
 }
 
@@ -173,8 +212,9 @@ function registerUser() {
  * @returns {boolean} - A boolean value indicating whether the inputs are valid or not.
  */
 function validateInputs(email, password, passwordconfirm) {
+    clearAllErrors();
     if (!isValidEmail(email)) {
-        showToast("Bitte gib eine gültige E-Mail-Adresse ein!");
+        showFieldError("email", "emailError", "Bitte gib eine gültige E-Mail-Adresse ein.");
         return false;
     }
     if (!checkPrivacy()) return false;
@@ -182,7 +222,7 @@ function validateInputs(email, password, passwordconfirm) {
     const passwordconfirmWrapper = document.getElementById("passwordconfirmWrapper");
     const passwordsMatch = password === passwordconfirm;
     passwordconfirmWrapper.classList.toggle("input--error", !passwordsMatch);
-    passwordError.classList.toggle("visible", !passwordsMatch);
+    if (passwordError) passwordError.textContent = passwordsMatch ? '' : "Your passwords don't match. Please try again.";
     return passwordsMatch;
 }
 
@@ -196,7 +236,8 @@ function validateInputs(email, password, passwordconfirm) {
 function checkPrivacy() {
     const privacy = document.getElementById("privacy");
     if (!privacy.checked) {
-        showToast("Bitte akzeptiere die Privacy Policy!");
+        const privacyError = document.getElementById("privacyError");
+        if (privacyError) privacyError.textContent = "Please accept the Privacy Policy.";
         return false;
     }
     return true;
@@ -249,7 +290,7 @@ function findExistingUser(snapshot, email) {
 /** * This function displays an error message using the SweetAlert library, indicating that a user with the provided email already exists in the database.
  */
 function userAlreadyExistsError() {
-    showToast("Benutzer Existiert Bereits!");
+    showFieldError("email", "emailError", "Diese E-Mail-Adresse ist bereits registriert.");
 }
 
 
@@ -287,5 +328,5 @@ function saveUserSuccess() {
 /** * This function displays an error message using the SweetAlert library, indicating that there was an error during the registration process.
  */
 function saveUserError() {
-    showToast("Fehler bei der Registrierung!");
+    showFieldError("email", "emailError", "Fehler bei der Registrierung. Bitte versuche es erneut.");
 }

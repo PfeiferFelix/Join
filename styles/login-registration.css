@@ -80,7 +80,7 @@ header {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 4px;
 }
 
 .input__wrapper {
@@ -171,19 +171,30 @@ footer {
     }
 }
 
+.input__field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
 .input__wrapper.input--error input {
     border-color: #ff3d00;
 }
 
 .error__text {
+    font-size: 12px;
     color: #ff3d00;
-    font-size: 13px;
-    margin-top: -8px;
-    display: none;
+    padding-left: 4px;
+    min-height: 16px;
+    visibility: visible;
 }
 
-.error__text.visible {
-    display: block;
+.error__text:empty {
+    visibility: hidden;
+}
+
+.privacy__error {
+    text-align: center;
 }
 
 .checkbox__row {
@@ -271,8 +282,8 @@ footer {
     header {
         flex-direction: column;
         align-items: center;
-        gap: 16px;
-        margin-top: 24px;
+        gap: 8px;
+        margin-top: 12px;
     }
 
     .header__right {
@@ -280,21 +291,61 @@ footer {
     }
 
     .logo {
+        width: 55px;
+        height: 60px;
         margin-left: 0;
+    }
+
+    .container {
+        margin-top: 40px;
+        padding: 20px;
+    }
+
+    .login__form {
+        gap: 4px;
+    }
+
+    .input__field {
+        gap: 0;
+    }
+
+    .input__wrapper input {
+        padding: 10px 40px 10px 16px;
+    }
+
+    .error__text {
+        min-height: 0;
+        font-size: 11px;
+        line-height: 1;
+    }
+
+    .error__text:empty {
+        height: 0;
+        overflow: hidden;
+    }
+
+    .checkbox__row {
+        margin-top: 2px;
+    }
+
+    .button__row {
+        margin-top: 4px;
     }
 
     .mobile-signup {
         display: flex;
         align-items: center;
         gap: 16px;
-        margin-top: 24px;
+        margin-top: 12px;
         justify-content: center;
     }
-    .container__headline {
+    .container__headline,
+    .container h1 {
         font-size: 30px;
         margin-left: 10px;
     }
     .title__underline {
         width: 200px;
+        margin: 6px 0 12px;
     }
 }
