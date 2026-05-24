@@ -31,11 +31,13 @@ function getShowTaskTemplate(taskView) {
                 </span>
             </div>
         </div>
+        ${taskView.subtasksHTML ? `
         <div class="subtask-container">
             <span class="task-meta-label">Subtasks:</span>
             <ul class="subtask-list-task">
-                ${taskView.subtasksHTML || ""}
+                ${taskView.subtasksHTML}
             </ul>
+        </div>` : ''}
         </div>
     </section>
     <footer class="editTaskDialog__footer-show">
@@ -229,12 +231,13 @@ function generateTodoHTML(todoView) {
         </div>
         <h4 class="task__title" id="headline${todoView.id}">${todoView.title}</h4>
         <p class="task__description" id="description${todoView.id}">${todoView.description}</p>
+        ${todoView.hasSubtasks ? `
         <div class="task__subtask-progress">
             <div class="task__progress-bar-container">
                 <div class="task__progress-bar" style="width: ${todoView.subtaskPercent || 0}%"></div>
             </div>
             <p class="task__subtask-text">${todoView.subtaskCountText}</p>
-        </div>
+        </div>` : ''}
         <div class="task__footer">
             <div class="task__assigned-users" id="users">
                 ${todoView.assignedUsersHTML}
