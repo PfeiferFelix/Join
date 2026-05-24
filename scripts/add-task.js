@@ -9,7 +9,6 @@ const ADD_TASK_DEFAULT_RETURN = "boards.html";
 let addTaskContactsLS = importandFormatLocalStorageData("contacts");
 
 
-
 /**
  * Create a URLSearchParams object for the current page query string.
  * @returns {URLSearchParams} The parsed query parameters.
@@ -196,6 +195,7 @@ function initAddTask() {
     setupCategoryDropdown();
 }
 
+
 /**
  * Set the default active priority button and attach click handlers.
  * @returns {void}
@@ -303,9 +303,6 @@ function resetPriorityToMedium() {
     const medium = document.querySelector('.priority-buttons__btn--medium');
     if (medium) medium.classList.add('priority-buttons__btn--active');
 }
-
-
-
 
 
 /**
