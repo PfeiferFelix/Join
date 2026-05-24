@@ -13,6 +13,10 @@
     cursor: pointer;
 }
 
+.dropdown__trigger input {
+    cursor: text;
+}
+
 .dropdown__search {
     flex: 1;
     border: none;
