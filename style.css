@@ -276,6 +276,7 @@ select:focus {
 }
 
 @media (max-width: 1200px) {
+
     .sidebar__nav-link,
     .sidebar__legal-information-link {
         padding: 10px 32px;
@@ -286,6 +287,7 @@ select:focus {
     .content__container {
         flex-direction: column;
     }
+
     .header {
         left: 0;
     }
@@ -352,15 +354,17 @@ select:focus {
 
 @media (max-width: 400px) {
     .sidebar__nav-list {
-        gap: 4px;
+        gap: 0;
     }
 
     .sidebar__nav-link {
-        padding: 4px;
-    }
-
-    .sidebar__nav-link {
+        padding: 5px;
         border-radius: 15px;
+    }
+
+    .sidebar__nav-link span {
+        padding-left: 2px;
+        padding-right: 2px;
     }
 }
 
@@ -374,6 +378,10 @@ select:focus {
     .main-content {
         padding: 16px 10px;
         margin-top: 90px !important;
+    }
+
+    .sidebar__nav-link img {
+        width: 36px;
     }
 }
 
