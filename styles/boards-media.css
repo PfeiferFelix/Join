@@ -21,6 +21,7 @@
         padding: 8px 4px !important;
         scrollbar-width: none;
         justify-content: center;
+        align-items: center;
         flex-direction: column;
         width: 100%;
         overflow-x: auto !important;
@@ -610,9 +611,14 @@
         padding: 12px 10px;
         box-sizing: border-box;
     }
+
 }
 
 @media (max-width: 440px) {
+    .board__list-header .board__headline {
+        padding-left: 0 !important;
+    }
+
     .editTaskDialog {
         width: 96vw !important;
         max-width: 96vw !important;
@@ -742,5 +748,13 @@
 
     .task-form__input {
         font-size: 14px !important;
+    }
+
+    .headline__task-show {
+        font-size: 42px !important;
+    }
+
+    .editTaskDialog__content--show {
+        justify-content: flex-start;
     }
 }
