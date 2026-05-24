@@ -26,13 +26,19 @@
                 <h1 class="fs-xlarge-medium">Log in</h1>
                 <div class="title__underline"></div>
                 <form class="login__form">
-                    <div class="input__wrapper">
-                        <input id="email" type="text" placeholder="Email" />
-                        <img src="assets/login/mail.png" alt="Email" class="input__icon" />
+                    <div class="input__field">
+                        <div class="input__wrapper">
+                            <input id="email" type="text" placeholder="Email" />
+                            <img src="assets/login/mail.png" alt="Email" class="input__icon" />
+                        </div>
+                        <p class="error__text" id="emailError"></p>
                     </div>
-                    <div class="input__wrapper">
-                        <input id="password" type="password" placeholder="Password" />
-                        <img src="assets/login/lock.png" alt="Password" class="input__icon" />
+                    <div class="input__field">
+                        <div class="input__wrapper">
+                            <input id="password" type="password" placeholder="Password" />
+                            <img src="assets/login/lock.png" alt="Password" class="input__icon" />
+                        </div>
+                        <p class="error__text" id="passwordError"></p>
                     </div>
                     <div class="button__row">
                         <button onclick="loginUser()" type="button" class="btn-primary fs-small-regular">Log in</button>
