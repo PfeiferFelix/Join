@@ -26,7 +26,6 @@ header {
 }
 
 
-/* ===== Intro-Animation: Logo fliegt aus der Mitte in den Header ===== */
 
 .logo-intro {
     position: fixed;
@@ -41,7 +40,6 @@ header {
 }
 
 
-/* Während der Intro-Animation ist alles außer dem Logo ausgeblendet */
 
 body.intro-active>*:not(.logo-intro) {
     opacity: 0;
@@ -49,7 +47,6 @@ body.intro-active>*:not(.logo-intro) {
 }
 
 
-/* Nach dem Intro: weiches Einblenden des restlichen Inhalts */
 
 body:not(.intro-active)>*:not(.logo-intro) {
     animation: contentFadeIn 350ms ease-out both;
@@ -107,13 +104,20 @@ header .logo {
 }
 
 
-/* ==================================================================== */
-
 .header__right {
     display: flex;
     align-items: center;
     gap: 20px;
     margin-right: 80px;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .container {
@@ -123,8 +127,6 @@ header .logo {
     width: 500px;
     padding: 32px 32px;
     background-color: white;
-    margin: auto;
-    margin-top: 80px;
     border-radius: 20px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
@@ -458,11 +460,14 @@ footer {
 }
 
 @media (max-width: 450px) {
+    main {
+        justify-content: flex-start;
+    }
     header {
         flex-direction: column;
         align-items: center;
         gap: 8px;
-        margin-top: 12px;
+        margin-top: 32px;
     }
     .header__right {
         display: none;
