@@ -1,3 +1,7 @@
+/**
+ * Clears the subtask hidden input, list and input field inside the add-task dialog.
+ * @param {HTMLElement} dialog - The add-task dialog element.
+ */
 function clearAddDialogSubtasks(dialog) {
     const hiddenInput = dialog.querySelector('#add-subtasks-data');
     const list = dialog.querySelector('#add-subtasks-list');
@@ -9,6 +13,11 @@ function clearAddDialogSubtasks(dialog) {
     actions?.classList.remove('subtask-item__actions--active');
 }
 
+/**
+ * Binds click handlers on the subtask list to start edit or remove a subtask.
+ * @param {HTMLElement} list - The subtask list element.
+ * @param {HTMLInputElement} hiddenInput - Hidden input storing the JSON-encoded subtasks.
+ */
 function bindSubtaskListClickEvents(list, hiddenInput) {
     list.addEventListener('click', (event) => {
         const editBtn = event.target.closest('[data-edit-subtask-index]');
@@ -25,6 +34,11 @@ function bindSubtaskListClickEvents(list, hiddenInput) {
         renderAddDialogSubtasks(list, hiddenInput);});
 }
 
+/**
+ * Binds keydown handlers on the subtask list to save edits on Enter.
+ * @param {HTMLElement} list - The subtask list element.
+ * @param {HTMLInputElement} hiddenInput - Hidden input storing the JSON-encoded subtasks.
+ */
 function bindSubtaskListKeydownEvents(list, hiddenInput) {
     list.addEventListener('keydown', (event) => {
         if (event.key !== 'Enter') return;
@@ -35,6 +49,15 @@ function bindSubtaskListKeydownEvents(list, hiddenInput) {
     });
 }
 
+/**
+ * Binds input, keyboard, add and clear handlers on the subtask input field.
+ * @param {HTMLInputElement} input - The subtask text input.
+ * @param {HTMLElement} addBtn - The confirm/add subtask button.
+ * @param {HTMLElement} clearBtn - The clear subtask input button.
+ * @param {HTMLElement} dialog - The surrounding dialog element.
+ * @param {HTMLElement} actionsContainer - The container hosting the action buttons.
+ * @returns {Function} Function that updates the active state of the action container.
+ */
 function bindSubtaskInputFieldEvents(input, addBtn, clearBtn, dialog, actionsContainer) {
     const updateActions = () => actionsContainer?.classList.toggle('subtask-item__actions--active', input.value.trim().length > 0);
     input.addEventListener('input', updateActions);
@@ -48,6 +71,11 @@ function bindSubtaskInputFieldEvents(input, addBtn, clearBtn, dialog, actionsCon
     return updateActions;
 }
 
+/**
+ * Resolves the subtask DOM elements inside the add-task dialog.
+ * @param {HTMLElement} dialog - The add-task dialog element.
+ * @returns {{wrapper: HTMLElement, input: HTMLInputElement, addBtn: HTMLElement, clearBtn: HTMLElement, list: HTMLElement, hiddenInput: HTMLInputElement, actionsContainer: HTMLElement}}
+ */
 function getAddDialogSubtaskElements(dialog) {
     return {
         wrapper: dialog.querySelector('#add-subtask-input-wrapper'),
@@ -60,6 +88,12 @@ function getAddDialogSubtaskElements(dialog) {
     };
 }
 
+/**
+ * Wires up all subtask handlers and renders the initial state.
+ * @param {object} elements - Result from getAddDialogSubtaskElements.
+ * @param {HTMLElement} dialog - The add-task dialog element.
+ * @returns {boolean} True if all required elements were present.
+ */
 function bindAddDialogSubtaskHandlers(elements, dialog) {
     if (!elements.wrapper || !elements.input || !elements.addBtn || !elements.clearBtn || !elements.list || !elements.hiddenInput) return false;
     const updateActions = bindSubtaskInputFieldEvents(elements.input, elements.addBtn, elements.clearBtn, dialog, elements.actionsContainer);
@@ -70,11 +104,23 @@ function bindAddDialogSubtaskHandlers(elements, dialog) {
     return true;
 }
 
+/**
+ * Sets up the subtask input within the add-task dialog.
+ * @param {HTMLElement} dialog - The add-task dialog element.
+ */
 function setupAddDialogSubtaskInput(dialog) {
     const elements = getAddDialogSubtaskElements(dialog);
     bindAddDialogSubtaskHandlers(elements, dialog);
 }
 
+/**
+ * Appends a new subtask entry, enforcing the 10-item limit.
+ * @param {string} title - The subtask title.
+ * @param {HTMLElement} wrapper - The input wrapper element.
+ * @param {HTMLInputElement} input - The subtask text input.
+ * @param {HTMLInputElement} hiddenInput - Hidden input storing the JSON-encoded subtasks.
+ * @param {HTMLElement} list - The subtask list element.
+ */
 function appendSubtaskEntry(title, wrapper, input, hiddenInput, list) {
     const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
     if (subtasks.length >= 10) {
@@ -88,6 +134,10 @@ function appendSubtaskEntry(title, wrapper, input, hiddenInput, list) {
     input.focus();
 }
 
+/**
+ * Reads the current subtask input and appends it as a new subtask.
+ * @param {HTMLElement} dialog - The add-task dialog element.
+ */
 function addDialogSubtask(dialog) {
     const elements = getAddDialogSubtaskElements(dialog);
     if (!elements) return;
@@ -96,6 +146,11 @@ function addDialogSubtask(dialog) {
     appendSubtaskEntry(title, elements.wrapper, elements.input, elements.hiddenInput, elements.list);
 }
 
+/**
+ * Renders all subtask list items from the hidden input value and toggles input visibility.
+ * @param {HTMLElement} list - The subtask list element.
+ * @param {HTMLInputElement} hiddenInput - Hidden input storing the JSON-encoded subtasks.
+ */
 function renderAddDialogSubtasks(list, hiddenInput) {
     const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
     list.innerHTML = subtasks.map((subtask, index) =>
@@ -106,6 +161,13 @@ function renderAddDialogSubtasks(list, hiddenInput) {
     if (wrapper) wrapper.style.display = subtasks.length >= 10 ? 'none' : '';
 }
 
+/**
+ * Finds the DOM item and current title for the subtask at a given index.
+ * @param {HTMLElement} list - The subtask list element.
+ * @param {HTMLInputElement} hiddenInput - Hidden input storing the JSON-encoded subtasks.
+ * @param {number} index - Zero-based subtask index.
+ * @returns {{item: HTMLElement, title: string}|null}
+ */
 function findSubtaskItemForEdit(list, hiddenInput, index) {
     const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
     if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return null;
@@ -113,6 +175,13 @@ function findSubtaskItemForEdit(list, hiddenInput, index) {
     return item && subtasks.length > index ? { item, title: subtasks[index].title } : null;
 }
 
+/**
+ * Replaces a subtask title node with an editable input field.
+ * @param {HTMLElement} item - The subtask list item.
+ * @param {number} index - Zero-based subtask index.
+ * @param {string} title - Current subtask title.
+ * @returns {HTMLInputElement|null} The created input element or null on failure.
+ */
 function convertSubtaskTitleToInput(item, index, title) {
     const titleNode = item.querySelector('.subtask-item__title');
     if (!titleNode) return null;
@@ -120,6 +189,12 @@ function convertSubtaskTitleToInput(item, index, title) {
     return item.querySelector('.subtask-item__input');
 }
 
+/**
+ * Switches a subtask item into edit mode.
+ * @param {HTMLElement} list - The subtask list element.
+ * @param {HTMLInputElement} hiddenInput - Hidden input storing the JSON-encoded subtasks.
+ * @param {number} index - Zero-based subtask index.
+ */
 function startAddDialogSubtaskEdit(list, hiddenInput, index) {
     const data = findSubtaskItemForEdit(list, hiddenInput, index);
     if (!data) return;
@@ -130,6 +205,13 @@ function startAddDialogSubtaskEdit(list, hiddenInput, index) {
     input.addEventListener('blur', () => saveAddDialogSubtaskEdit(list, hiddenInput, index, input.value), { once: true });
 }
 
+/**
+ * Saves an edited subtask title; removes the subtask if the new title is empty.
+ * @param {HTMLElement} list - The subtask list element.
+ * @param {HTMLInputElement} hiddenInput - Hidden input storing the JSON-encoded subtasks.
+ * @param {number} index - Zero-based subtask index.
+ * @param {string} nextTitle - The new subtask title.
+ */
 function saveAddDialogSubtaskEdit(list, hiddenInput, index, nextTitle) {
     const subtasks = getLimitedSubtasks(JSON.parse(hiddenInput.value || '[]'));
     if (!Number.isInteger(index) || index < 0 || index >= subtasks.length) return;
@@ -144,6 +226,10 @@ function saveAddDialogSubtaskEdit(list, hiddenInput, index, nextTitle) {
     renderAddDialogSubtasks(list, hiddenInput);
 }
 
+/**
+ * Commits any pending text in the subtask input field as a new subtask.
+ * @param {HTMLElement} dialog - The add-task dialog element.
+ */
 function acceptPendingAddDialogSubtask(dialog) {
     const input = dialog.querySelector('#subtask-input');
     if (!input || !input.value.trim()) return;

@@ -137,6 +137,12 @@ async function resolveTaskFirebaseKey(task) {
     return firebaseKey;
 }
 
+/**
+ * Sends a PATCH request to update a task in Firebase.
+ * @param {string} firebaseKey - The Firebase key of the task to update.
+ * @param {string} taskBody - JSON-stringified task body to send as request payload.
+ * @returns {Promise<void>}
+ */
 async function patchTaskUpdateToFirebase(firebaseKey, taskBody) {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: taskBody
@@ -148,6 +154,11 @@ async function patchTaskUpdateToFirebase(firebaseKey, taskBody) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 }
 
+/**
+ * Persists a full task update to Firebase and refreshes local storage on success.
+ * @param {object} task - The task to persist.
+ * @returns {Promise<{ok: boolean, attempted: boolean}>}
+ */
 async function persistTaskUpdateToFirebase(task) {
     const firebaseKey = await resolveTaskFirebaseKey(task);
     if (!firebaseKey) return createPersistResult(false, false);
@@ -162,6 +173,11 @@ async function persistTaskUpdateToFirebase(task) {
     }
 }
 
+/**
+ * Builds the JSON request body representing a complete task for Firebase.
+ * @param {object} task - The task to serialize.
+ * @returns {string} JSON-stringified task payload.
+ */
 function buildFirebaseTaskBody(task) {
     return JSON.stringify({
         title: task.title,
@@ -176,6 +192,11 @@ function buildFirebaseTaskBody(task) {
     });
 }
 
+/**
+ * Sends a DELETE request for a task to Firebase.
+ * @param {string} firebaseKey - The Firebase key of the task to delete.
+ * @returns {Promise<{ok: boolean, attempted: boolean}>}
+ */
 async function sendDeleteTaskRequest(firebaseKey) {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards/${firebaseKey}.json`, {
         method: 'DELETE',
@@ -187,6 +208,11 @@ async function sendDeleteTaskRequest(firebaseKey) {
     return { ok: response.ok, attempted: true };
 }
 
+/**
+ * Deletes a task from Firebase, resolving its Firebase key if necessary.
+ * @param {object} task - The task to delete.
+ * @returns {Promise<{ok: boolean, attempted: boolean}>}
+ */
 async function deleteTaskFromFirebase(task) {
     if (!task) return { ok: true, attempted: false };
     const firebaseKey = task.firebaseKey || await resolveFirebaseKeyByTaskId(task.id);
@@ -199,6 +225,10 @@ async function deleteTaskFromFirebase(task) {
     }
 }
 
+/**
+ * Fetches all board tasks from Firebase.
+ * @returns {Promise<object|null>} Map of Firebase key to task, or null when unauthorized.
+ */
 async function fetchBoardsFromFirebase() {
     const response = await fetch(`${BOARD_FIREBASE_BASE_URL}boards.json`);
     if (isUnauthorizedResponse(response)) {
@@ -209,6 +239,10 @@ async function fetchBoardsFromFirebase() {
     return await response.json() || {};
 }
 
+/**
+ * Normalizes the boards map fetched from Firebase and stores it in local storage.
+ * @param {object} remoteBoards - Map of Firebase key to raw task.
+ */
 function normalizeFetchedBoards(remoteBoards) {
     const normalizedBoards = Object.entries(remoteBoards).reduce((result, [firebaseKey, task], index) => {
         const normalizedTask = normalizeBoardItem({ ...task, firebaseKey, id: task?.id || Date.now() + index }, index);
@@ -218,6 +252,10 @@ function normalizeFetchedBoards(remoteBoards) {
     localStorage.setItem("boards", JSON.stringify(normalizedBoards));
 }
 
+/**
+ * Loads board tasks from Firebase and writes the normalized result into local storage.
+ * @returns {Promise<void>}
+ */
 async function syncBoardTasksFromFirebase() {
     try {
         const remoteBoards = await fetchBoardsFromFirebase();
