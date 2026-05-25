@@ -156,11 +156,6 @@ textarea {
 }
 
 @media (max-width: 850px) {
-    body.add-task-page .main-content {
-        margin-top: 0;
-        margin-left: 0;
-        margin-bottom: 0;
-    }
     body.add-task-page .header-main__container {
         max-height: 100vh;
         display: flex;
@@ -226,9 +221,6 @@ textarea {
     .priority-buttons__icon {
         width: 12px;
         height: 12px;
-    }
-    .main-content {
-        padding-top: calc(var(--height-sidebar-mobile) + 16px);
     }
 }
 

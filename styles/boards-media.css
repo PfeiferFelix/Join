@@ -179,15 +179,6 @@
         overflow-x: visible;
     }
 
-    .main-content {
-        max-width: 100vw;
-        min-height: calc(100dvh - 96px);
-        height: auto;
-        max-height: none;
-        overflow-x: hidden;
-        overflow-y: visible;
-    }
-
     .board__cards {
         overflow-x: auto !important;
         width: 100%;
