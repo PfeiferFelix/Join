@@ -744,13 +744,13 @@
 
 @media (max-width:375px) {
     ul.subtask-list-task {
-        font-size: 12px !important;
+        font-size: 16px !important;
         padding: 6px 0 !important;
         margin-top: 0 !important;
     }
 
     .task-form__input {
-        font-size: 14px !important;
+        font-size: 16px !important;
     }
 
     .headline__task-show {

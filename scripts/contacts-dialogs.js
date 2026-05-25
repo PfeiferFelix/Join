@@ -85,6 +85,27 @@ function isValidEmail(email) {
 }
 
 /**
+ * Returns true if the domain part of the email is structurally valid:
+ * - contains at least one dot
+ * - each label is 1-63 chars, alphanumeric (hyphens allowed but not at start/end)
+ * - no consecutive dots
+ * - TLD is 2-24 alphabetic characters
+ * @param {string} email - The trimmed email value.
+ * @returns {boolean}
+ */
+function isValidEmailDomain(email) {
+    const at = email.lastIndexOf('@');
+    if (at < 0) return false;
+    const domain = email.slice(at + 1);
+    if (!domain || domain.includes('..')) return false;
+    const labelPattern = /^(?!-)[a-zA-Z0-9-]{1,63}(?<!-)$/;
+    const labels = domain.split('.');
+    if (labels.length < 2) return false;
+    if (!labels.every(label => labelPattern.test(label))) return false;
+    return /^[a-zA-Z]{2,24}$/.test(labels[labels.length - 1]);
+}
+
+/**
  * Returns true if the phone contains only allowed characters (+, digits, spaces,
  * hyphens, parentheses) and has at least 6 digits.
  * @param {string} phone - The trimmed phone value.
@@ -151,14 +172,19 @@ function validateNameField(prefix) {
 
 /**
  * Validates the email field of the given contact form.
+ * Checks both the overall email format and the structural validity of the domain part.
  * @param {string} prefix - Form prefix, either 'add' or 'edit'.
  * @returns {boolean} True if the email is valid.
  */
 function validateEmailField(prefix) {
     const value = document.getElementById(prefix + 'ContactEmail').value.trim();
-    return validateField(prefix, 'Email', value, isValidEmail,
-        'Please enter an email address.',
-        'Please enter a valid email address (e.g. name@domain.com).');
+    const wrapperId = prefix + 'ContactEmailInput';
+    const errorId = prefix + 'ContactEmailError';
+    if (!value) { setFieldError(wrapperId, errorId, 'Please enter an email address.'); return false; }
+    if (!isValidEmail(value)) { setFieldError(wrapperId, errorId, 'Please enter a valid email address (e.g. name@domain.com).'); return false; }
+    if (!isValidEmailDomain(value)) { setFieldError(wrapperId, errorId, 'Please enter a valid email domain (e.g. domain.com).'); return false; }
+    setFieldError(wrapperId, errorId, '');
+    return true;
 }
 
 /**
