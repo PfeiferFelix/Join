@@ -223,7 +223,7 @@ select:focus {
 .main-content {
     margin-top: 100px;
     max-width: var(--content-limit);
-    padding: 50px 50px;
+    padding: 50px 35px;
     margin-left: var(--width-sidebar);
     box-sizing: border-box;
 }
@@ -326,6 +326,9 @@ select:focus {
     }
     .header__mobile-logo {
         display: block;
+        width: 44px;
+        height: 44px;
+        padding-left: 4px;
     }
     .header__user-menu {
         transform: translateX(200px);
@@ -353,6 +356,10 @@ select:focus {
 @media (max-width: 600px) {
     .main-content {
         padding: 16px 25px;
+    }
+    .header__user-button {
+        margin-left: 0;
+        padding-right: 0;
     }
 }
 

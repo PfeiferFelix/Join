@@ -1,12 +1,58 @@
-﻿/* Maximal 2 sichtbare Subtasks, Rest scrollbar */
+﻿.showtask-bottomblock {
+    flex-shrink: 0;
+    margin-top: 12px;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.showtask-titleblock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 0 8px 8px 8px;
+}
+
+.showtask-meta-center {
+    align-items: flex-start !important;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.showtask-description-scroll {
+    max-height: 90px;
+    min-height: 40px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+}
+
+.showtask-description-scroll .category__description {
+    margin-bottom: 0;
+}
+
+.showtask-scrollarea {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+
+.showtask-titleblock .category__description {
+    text-align: left;
+    width: 100%;
+}
 
 ul.subtask-list-task {
-    max-height: 56px;
-    /* 2 Items à ca. 36px Höhe */
+    max-height: 64px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
     scrollbar-width: thin;
+    margin: 0;
 }
 
 ul.subtask-list-task::-webkit-scrollbar {
@@ -38,6 +84,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 1;
         transform: translateX(0);
     }
+
     to {
         opacity: 0;
         transform: translateX(80px);
@@ -295,11 +342,16 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     word-break: break-word;
 }
 
+.headline__task-show--fixed {
+    flex-shrink: 0;
+    padding: 0 8px;
+    margin: 0 0 8px 0;
+}
+
 .task-meta-block {
     margin: 18px 0 18px 0;
     display: flex;
     flex-direction: column;
-    gap: 18px;
 }
 
 .task-meta-row {
@@ -470,7 +522,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .headline__task-show {
-    font-size: 50px;
+    font-size: 42px;
     font-weight: 700;
     color: var(--color-brand-primary);
     margin-bottom: 12px;
@@ -1506,12 +1558,12 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .showTaskDialog {
     border: none;
-    border-radius: 32px;
+    border-radius: 18px;
     width: min(400px, 92vw);
-    height: min(700px, 90vh);
-    max-height: 90vh;
+    height: min(730px, 95vh);
+    max-height: 100vh;
     margin: auto;
-    padding: 20px;
+    padding: 12px;
     box-sizing: border-box;
     background-color: white;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
@@ -1563,9 +1615,19 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     justify-content: center;
     flex-direction: column;
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 8px;
+}
+
+.subtask-container--show {
+    flex-shrink: 0;
+    margin-top: 12px;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .editTaskDialog__delete-btn,
@@ -1677,6 +1739,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1688,6 +1751,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 0;
         transform: translateX(80px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -1699,6 +1763,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 1;
         transform: translateY(0);
     }
+
     to {
         opacity: 0;
         transform: translateY(-60px);

@@ -314,7 +314,6 @@
         align-items: center;
         height: 80px;
         width: 100%;
-        padding-top: 10px !important;
     }
 
     .addTaskDialog {
@@ -713,9 +712,9 @@
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: wrap !important;
-        justify-content: flex-start !important;
-        gap: 12px !important;
-        width: 100% !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 95% !important;
         max-width: 100% !important;
         overflow-x: visible !important;
     }
@@ -746,7 +745,7 @@
     }
 
     .headline__task-show {
-        font-size: 42px !important;
+        font-size: 36px !important;
     }
 
     .editTaskDialog__content--show {

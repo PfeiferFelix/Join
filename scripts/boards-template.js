@@ -9,35 +9,40 @@ function getShowTaskTemplate(taskView) {
         <h3 class="category__header ${taskView.headerClass}" id="categoryHeader">${taskView.fixedHeaderLabel}</h3>
         <button onclick="closeDialog()" class="btn-close" aria-label="Close dialog"></button>
     </header>
-    <section class="editTaskDialog__content editTaskDialog__content--show">
-        <h2 class="headline__task-show" id="headline${taskView.id}">${taskView.title}</h2>
-        <p class="category__description" id="description${taskView.id}">${taskView.description}</p>
-        <div class="task-meta-block">
-            <div class="task-meta-row">
-                <span class="task-meta-label">Due date:</span>
-                <span class="task-meta-value" id="dueDate${taskView.id}">${taskView.dueDate}</span>
-            </div>
-            <div class="task-meta-row">
-                <span class="task-meta-label">Priority:</span>
-                <span>${taskView.priorityLabel}</span>
-                <img class="task-meta-value priority-label priority-label--${taskView.iconClass}" src="${taskView.priorityIcon}" alt="${taskView.priorityLabel}">
-            </div>
-            <div class="UserList">
-                <span class="task-meta-label-users">Assigned To:</span>
-                <span class="task-meta-value">
-                    <div class="assigned-users-list">
-                        ${taskView.assignedUsersHTML}
-                    </div>
-                </span>
-            </div>
+    <div class="showtask-titleblock">
+        <h2 class="headline__task-show headline__task-show--fixed" id="headline${taskView.id}">${taskView.title}</h2>
+        <div class="showtask-description-scroll">
+            <p class="category__description" id="description${taskView.id}">${taskView.description}</p>
         </div>
-        ${taskView.subtasksHTML ? `
-        <div class="subtask-container">
-            <span class="task-meta-label">Subtasks:</span>
-            <ul class="subtask-list-task">
-                ${taskView.subtasksHTML}
-            </ul>
-        </div>` : ''}
+    </div>
+        <section class="showtask-scrollarea">
+        <div class="showtask-bottomblock">
+            <div class="task-meta-block task-meta-block--centered showtask-meta-center">
+                <div class="task-meta-row">
+                    <span class="task-meta-label">Due date:</span>
+                    <span class="task-meta-value" id="dueDate${taskView.id}">${taskView.dueDate}</span>
+                </div>
+                <div class="task-meta-row">
+                    <span class="task-meta-label">Priority:</span>
+                    <span>${taskView.priorityLabel}</span>
+                    <img class="task-meta-value priority-label priority-label--${taskView.iconClass}" src="${taskView.priorityIcon}" alt="${taskView.priorityLabel}">
+                </div>
+                <div class="UserList">
+                    <span class="task-meta-label-users">Assigned To:</span>
+                    <span class="task-meta-value">
+                        <div class="assigned-users-list">
+                            ${taskView.assignedUsersHTML}
+                        </div>
+                    </span>
+                </div>
+            </div>
+            ${taskView.subtasksHTML ? `
+            <div class="subtask-container subtask-container--show">
+                <span class="task-meta-label">Subtasks:</span>
+                <ul class="subtask-list-task">
+                    ${taskView.subtasksHTML}
+                </ul>
+            </div>` : ''}
         </div>
     </section>
     <footer class="editTaskDialog__footer-show">

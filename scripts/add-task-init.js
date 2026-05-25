@@ -56,5 +56,7 @@ function restoreDialogData() {
         const dialogData = JSON.parse(raw);
         restoreDialogFields(dialogData);
         localStorage.removeItem('addTaskDialogData');
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+        console.error('Failed to restore dialog data:', e);
+    }
 }
