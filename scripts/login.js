@@ -2,8 +2,7 @@
 const firebaseConfig = {
     apiKey: "AIzaSyDqKUIXrAGfDTsbymcVdJ2w5ATaApioOv8",
     authDomain: "join-5bd8d.firebaseapp.com",
-    databaseURL:
-        "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app",
+    databaseURL: "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "join-5bd8d",
     storageBucket: "join-5bd8d.firebasestorage.app",
     messagingSenderId: "404471964373",
@@ -72,7 +71,7 @@ function showToast(message, callback) {
     }
     toast.textContent = message;
     toast.classList.add("toast--visible");
-    setTimeout(function () {
+    setTimeout(function() {
         toast.classList.remove("toast--visible");
         if (callback) setTimeout(callback, 300);
     }, 2000);
@@ -97,11 +96,11 @@ function showFieldError(inputId, errorId, message) {
 /** Removes all error states and messages from input fields. */
 function clearAllErrors() {
     const errorWrappers = document.querySelectorAll(".input__wrapper.input--error");
-    errorWrappers.forEach(function (wrapper) {
+    errorWrappers.forEach(function(wrapper) {
         wrapper.classList.remove("input--error");
     });
     const errorTexts = document.querySelectorAll(".error__text");
-    errorTexts.forEach(function (errorText) {
+    errorTexts.forEach(function(errorText) {
         errorText.textContent = '';
     });
 }
@@ -131,7 +130,7 @@ function loginUser() {
         showFieldError("password", "passwordError", "Please enter your password.");
         return;
     }
-    db.ref("users").once("value", function (snapshot) {
+    db.ref("users").once("value", function(snapshot) {
         const loginSuccess = checkIfUserExistsForLogin(snapshot, email, password);
         if (loginSuccess) {
             loadDataToLocalStorage();
@@ -151,7 +150,7 @@ function loginUser() {
  */
 function checkIfUserExistsForLogin(snapshot, email, password) {
     let loginSuccess = false;
-    snapshot.forEach(function (userSnapshot) {
+    snapshot.forEach(function(userSnapshot) {
         const userData = userSnapshot.val();
         if (userData.email == email && userData.password == password) {
             loginSuccess = true;
@@ -180,7 +179,7 @@ function checkLoginResults(loginSuccess) {
 
 /** Loads boards and contacts from DB into localStorage, then triggers login redirect. */
 function loadDataToLocalStorage() {
-    db.ref("/").once("value", function (snapshot) {
+    db.ref("/").once("value", function(snapshot) {
         const allData = snapshot.val();
         localStorage.setItem("boards", JSON.stringify(allData.boards));
         localStorage.setItem("contacts", JSON.stringify(allData.contacts));
@@ -245,13 +244,20 @@ function applyPasswordMatchError(passwordsMatch) {
  * @returns {boolean}
  */
 function validatePasswordMatch(password, passwordconfirm) {
+    let isValid = true;
     if (!password.trim()) {
         showFieldError("password", "passwordFieldError", "Please enter a password.");
-        return false;
+        isValid = false;
     }
-    const passwordsMatch = password.trim() === passwordconfirm.trim();
-    applyPasswordMatchError(passwordsMatch);
-    return passwordsMatch;
+    if (!passwordconfirm.trim()) {
+        showFieldError("passwordconfirm", "passwordError", "Please confirm your password.");
+        isValid = false;
+    }
+    if (isValid && password.trim() !== passwordconfirm.trim()) {
+        applyPasswordMatchError(false);
+        isValid = false;
+    }
+    return isValid;
 }
 
 
@@ -264,13 +270,15 @@ function validatePasswordMatch(password, passwordconfirm) {
  */
 function validateInputs(email, password, passwordconfirm) {
     clearAllErrors();
-    if (!validateName()) return false;
+    let isValid = true;
+    if (!validateName()) isValid = false;
     if (!isValidEmail(email)) {
         showFieldError("email", "emailError", "Please enter a valid email address.");
-        return false;
+        isValid = false;
     }
-    if (!checkPrivacy()) return false;
-    return validatePasswordMatch(password, passwordconfirm);
+    if (!checkPrivacy()) isValid = false;
+    if (!validatePasswordMatch(password, passwordconfirm)) isValid = false;
+    return isValid;
 }
 
 
@@ -294,7 +302,7 @@ function checkIfUserExists() {
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value.trim();
-    db.ref("users").once("value", function (snapshot) {
+    db.ref("users").once("value", function(snapshot) {
         const userExists = findExistingUser(snapshot, email);
         if (userExists === true) {
             userAlreadyExistsError();
@@ -313,7 +321,7 @@ function checkIfUserExists() {
  */
 function findExistingUser(snapshot, email) {
     let userExists = false;
-    snapshot.forEach(function (userSnapshot) {
+    snapshot.forEach(function(userSnapshot) {
         const userData = userSnapshot.val();
         if (userData.email === email) {
             userExists = true;
@@ -349,7 +357,7 @@ function saveUser(name, email, password) {
 
 /** Shows a success toast and redirects to the login page. */
 function saveUserSuccess() {
-    showToast("You Signed Up successfully", function () {
+    showToast("You Signed Up successfully", function() {
         window.location.href = "index.html";
     });
 }
@@ -390,7 +398,11 @@ function bindPasswordInputState(input) {
  */
 function updatePasswordHasValue(input, wrapper) {
     if (input.value.length > 0) wrapper.classList.add('has-value');
-    else { wrapper.classList.remove('has-value'); wrapper.classList.remove('is-visible'); resetToggleButton(wrapper); }
+    else {
+        wrapper.classList.remove('has-value');
+        wrapper.classList.remove('is-visible');
+        resetToggleButton(wrapper);
+    }
 }
 
 
@@ -401,7 +413,10 @@ function updatePasswordHasValue(input, wrapper) {
 function resetToggleButton(wrapper) {
     const btn = wrapper.querySelector('.input__icon-btn');
     const input = wrapper.querySelector('input');
-    if (btn) { btn.setAttribute('aria-pressed', 'false'); btn.setAttribute('aria-label', 'Show password'); }
+    if (btn) {
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', 'Show password');
+    }
     if (input) input.type = 'password';
 }
 
@@ -424,4 +439,3 @@ function togglePasswordVisibility(inputId, btn) {
 
 
 document.addEventListener('DOMContentLoaded', initializePasswordToggles);
-
