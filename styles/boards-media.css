@@ -710,6 +710,9 @@
         width: 80px;
         font-size: 16px;
     }
+        .task-meta-block {
+        gap: 4px !important;
+    }
 }
 
 /* Bei 1024px (Tablet): board__cards bleibt als Reihe mit 2 Karten pro Zeile */
@@ -744,7 +747,6 @@
         font-size: 12px !important;
         padding: 6px 0 !important;
         margin-top: 0 !important;
-        max-height: 63px !important;
     }
 
     .task-form__input {
