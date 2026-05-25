@@ -314,6 +314,7 @@
         align-items: center;
         height: 80px;
         width: 100%;
+        padding-top: 10px !important;
     }
 
     .addTaskDialog {
