@@ -4,7 +4,6 @@
 }
 
 html {
-    scrollbar-gutter: stable;
     background-color: var(--color-neutral-50);
 }
 
@@ -50,11 +49,7 @@ a,
 a *,
 input,
 textarea {
-    transition:
-        background-color 125ms ease-in-out,
-        color 125ms ease-in-out,
-        box-shadow 125ms ease-in-out,
-        transform 125ms ease-in-out;
+    transition: background-color 125ms ease-in-out, color 125ms ease-in-out, box-shadow 125ms ease-in-out, transform 125ms ease-in-out;
 }
 
 a,
@@ -269,14 +264,15 @@ select:focus {
     transform: scale(1.2);
 }
 
+
 /*utilites*/
+
 .opened {
     pointer-events: auto;
     opacity: 1;
 }
 
 @media (max-width: 1200px) {
-
     .sidebar__nav-link,
     .sidebar__legal-information-link {
         padding: 10px 32px;
@@ -287,16 +283,13 @@ select:focus {
     .content__container {
         flex-direction: column;
     }
-
     .header {
         left: 0;
     }
-
     .main-content {
         margin-left: 0;
         padding-top: 16px;
     }
-
     .sidebar {
         order: 1;
         position: fixed;
@@ -309,44 +302,35 @@ select:focus {
         flex-direction: row;
         padding-bottom: 0;
     }
-
     .sidebar__logo {
         display: none;
     }
-
     .sidebar__legal-information {
         display: none;
     }
-
     .sidebar__nav-list {
         flex-direction: row;
         justify-content: space-around;
     }
-
     .sidebar__nav-link {
         padding: 10px;
         border-radius: 20px;
         display: flex;
         flex-direction: column;
     }
-
     .header__help-icon {
         display: none;
     }
-
     .header__headline3 {
         display: none;
     }
-
     .header__mobile-logo {
         display: block;
     }
-
     .header__user-menu {
         transform: translateX(200px);
         transition: transform 125ms ease-in-out;
     }
-
     .header__user-menu-slide-in {
         transform: translateX(0);
     }
@@ -356,12 +340,10 @@ select:focus {
     .sidebar__nav-list {
         gap: 0;
     }
-
     .sidebar__nav-link {
         padding: 5px;
         border-radius: 15px;
     }
-
     .sidebar__nav-link span {
         padding-left: 2px;
         padding-right: 2px;
@@ -379,7 +361,6 @@ select:focus {
         padding: 16px 10px;
         margin-top: 90px !important;
     }
-
     .sidebar__nav-link img {
         width: 36px;
     }
