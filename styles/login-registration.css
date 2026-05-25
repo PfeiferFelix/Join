@@ -20,12 +20,14 @@ header {
 }
 
 .logo {
-    width: 100px;
-    height: 110px;
+    width: 96px;
+    height: 96px;
     margin-left: 80px;
 }
 
+
 /* ===== Intro-Animation: Logo fliegt aus der Mitte in den Header ===== */
+
 .logo-intro {
     position: fixed;
     top: 50%;
@@ -35,18 +37,20 @@ header {
     transform: translate(-50%, -50%);
     z-index: 1000;
     pointer-events: none;
-    animation:
-        logoFly 1400ms cubic-bezier(0.65, 0, 0.35, 1) 200ms forwards,
-        logoHide 0s linear 1650ms forwards;
+    animation: logoFly 1400ms cubic-bezier(0.65, 0, 0.35, 1) 200ms forwards, logoHide 0s linear 1650ms forwards;
 }
 
+
 /* Während der Intro-Animation ist alles außer dem Logo ausgeblendet */
+
 body.intro-active>*:not(.logo-intro) {
     opacity: 0;
     visibility: hidden;
 }
 
+
 /* Nach dem Intro: weiches Einblenden des restlichen Inhalts */
+
 body:not(.intro-active)>*:not(.logo-intro) {
     animation: contentFadeIn 350ms ease-out both;
 }
@@ -55,7 +59,6 @@ body:not(.intro-active)>*:not(.logo-intro) {
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
@@ -93,17 +96,16 @@ header .logo {
     .logo-intro {
         display: none;
     }
-
     header .logo {
         opacity: 1;
         animation: none;
     }
-
     body.intro-active>*:not(.logo-intro) {
         opacity: 1;
         visibility: visible;
     }
 }
+
 
 /* ==================================================================== */
 
@@ -119,10 +121,10 @@ header .logo {
     flex-direction: column;
     align-items: center;
     width: 500px;
-    padding: 48px 40px;
+    padding: 32px 32px;
     background-color: white;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 80px;
     border-radius: 20px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
@@ -318,7 +320,6 @@ footer {
     font-size: 12px;
     color: #ff3d00;
     padding-left: 4px;
-    min-height: 16px;
     visibility: visible;
 }
 
@@ -368,8 +369,9 @@ footer {
 .checkbox__row label a:hover {
     text-decoration: underline;
 }
+
 @media (min-width: 1440px) {
-        @keyframes logoFly {
+    @keyframes logoFly {
         to {
             top: 50px;
             left: 310px;
@@ -379,6 +381,7 @@ footer {
         }
     }
 }
+
 @media (max-width: 1440px) {
     @keyframes logoFly {
         to {
@@ -390,158 +393,136 @@ footer {
         }
     }
 }
-    @media (max-width: 1024px) {
-        @keyframes logoFly {
-            to {
-                top: 50px;
-                left: 80px;
-                width: 100px;
-                height: 110px;
-                transform: translate(0, 0);
-            }
+
+@media (max-width: 1024px) {
+    @keyframes logoFly {
+        to {
+            top: 50px;
+            left: 80px;
+            width: 100px;
+            height: 110px;
+            transform: translate(0, 0);
         }
     }
+}
 
-    @media (max-width: 600px) {
-        .container {
-            width: 80%;
-            padding: 32px 20px;
-        }
-
-        .container__headline {
-            font-size: 30px;
-            margin-left: 5px;
-        }
-
-        .title__underline {
-            width: 250px;
-        }
-
-        .input__wrapper input {
-            padding: 12px 40px 12px 16px;
-        }
-
-        .input__icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        .button__row {
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .login__btn,
-        .guestLogin__btn {
-            width: 100%;
-            padding: 12px;
-        }
-
-        .header__right {
-            margin-right: 20px;
-        }
-
-        .logo {
+@media (max-width: 600px) {
+    .container {
+        width: 80%;
+        padding: 32px 20px;
+    }
+    .container__headline {
+        font-size: 30px;
+        margin-left: 5px;
+    }
+    .title__underline {
+        width: 250px;
+    }
+    .input__wrapper input {
+        padding: 12px 40px 12px 16px;
+    }
+    .input__icon {
+        width: 16px;
+        height: 16px;
+    }
+    .button__row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .login__btn,
+    .guestLogin__btn {
+        width: 100%;
+        padding: 12px;
+    }
+    .header__right {
+        margin-right: 20px;
+    }
+    .logo {
+        width: 80px;
+        height: 88px;
+        margin-left: 20px;
+    }
+    @keyframes logoFly {
+        to {
+            top: 50px;
+            left: 20px;
             width: 80px;
             height: 88px;
-            margin-left: 20px;
-        }
-
-        @keyframes logoFly {
-            to {
-                top: 50px;
-                left: 20px;
-                width: 80px;
-                height: 88px;
-                transform: translate(0, 0);
-            }
+            transform: translate(0, 0);
         }
     }
+}
 
-    .mobile-signup {
+.mobile-signup {
+    display: none;
+}
+
+@media (max-width: 450px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+    }
+    .header__right {
         display: none;
     }
-
-    @media (max-width: 450px) {
-        header {
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .header__right {
-            display: none;
-        }
-
-        .logo {
+    .logo {
+        width: 55px;
+        height: 60px;
+        margin-left: 0;
+    }
+    @keyframes logoFly {
+        to {
+            top: 12px;
+            left: 50%;
             width: 55px;
             height: 60px;
-            margin-left: 0;
-        }
-
-        @keyframes logoFly {
-            to {
-                top: 12px;
-                left: 50%;
-                width: 55px;
-                height: 60px;
-                transform: translate(-50%, 0);
-            }
-        }
-
-        .container {
-            margin-top: 40px;
-            padding: 20px;
-        }
-
-        .login__form {
-            gap: 4px;
-        }
-
-        .input__field {
-            gap: 0;
-        }
-
-        .input__wrapper input {
-            padding: 10px 40px 10px 16px;
-        }
-
-        .error__text {
-            min-height: 0;
-            font-size: 11px;
-            line-height: 1;
-        }
-
-        .error__text:empty {
-            height: 0;
-            overflow: hidden;
-        }
-
-        .checkbox__row {
-            margin-top: 2px;
-        }
-
-        .button__row {
-            margin-top: 4px;
-        }
-
-        .mobile-signup {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 12px;
-            justify-content: center;
-        }
-
-        .container__headline,
-        .container h1 {
-            font-size: 30px;
-            margin-left: 10px;
-        }
-
-        .title__underline {
-            width: 200px;
-            margin: 6px 0 12px;
+            transform: translate(-50%, 0);
         }
     }
+    .container {
+        margin-top: 40px;
+        padding: 20px;
+    }
+    .login__form {
+        gap: 4px;
+    }
+    .input__field {
+        gap: 0;
+    }
+    .input__wrapper input {
+        padding: 10px 40px 10px 16px;
+    }
+    .error__text {
+        min-height: 0;
+        font-size: 11px;
+        line-height: 1;
+    }
+    .error__text:empty {
+        height: 0;
+        overflow: hidden;
+    }
+    .checkbox__row {
+        margin-top: 2px;
+    }
+    .button__row {
+        margin-top: 4px;
+    }
+    .mobile-signup {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 12px;
+        justify-content: center;
+    }
+    .container__headline,
+    .container h1 {
+        font-size: 30px;
+        margin-left: 10px;
+    }
+    .title__underline {
+        width: 200px;
+        margin: 6px 0 12px;
+    }
+}
