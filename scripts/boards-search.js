@@ -62,8 +62,8 @@ function renderSearchResultColumn({ category, cardsId, emptyId }, query) {
     const boardList = container.closest('.board__list');
     const filtered = todos.filter(t => t.category === category && getSearchTaskHaystack(t).toLowerCase().includes(query));
     container.innerHTML = filtered.map(todo => generateTodoHTML(buildTodoCardTemplateData(todo))).join('');
-    noCardElement.style.display = 'none';
-    if (boardList) boardList.style.display = filtered.length > 0 ? '' : 'none';
+    noCardElement.style.display = filtered.length > 0 ? 'none' : '';
+    if (boardList) boardList.style.display = '';
 }
 
 /**
@@ -85,18 +85,26 @@ function searchCard(event) {
     event.preventDefault();
     const searchInput = getSearchInputFromForm(event.currentTarget);
     const query = getNormalizedSearchQuery(searchInput);
-    if (!validateSearchQuery(query)) return;
+    if (!query) {
+        updateHTML();
+        return;
+    }
     renderSearchResults(query);
 }
 
 /**
- * Clears custom validation and restores the full board when search is emptied.
+ * Filters the board live while typing and restores the full board when emptied.
  * @param {Event} event
  */
 function clearSearch(event) {
-    event.currentTarget?.setCustomValidity('');
-    if (event.currentTarget?.value.trim()) return;
-    updateHTML();
+    const input = event.currentTarget;
+    input?.setCustomValidity('');
+    const query = (input?.value || '').trim().toLowerCase();
+    if (!query) {
+        updateHTML();
+        return;
+    }
+    renderSearchResults(query);
 }
 
 /**
