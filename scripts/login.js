@@ -125,11 +125,7 @@ function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value.trim();
     clearAllErrors();
-    if (!validateLoginEmail(email)) return;
-    if (!password) {
-        showFieldError("password", "passwordError", "Please enter your password.");
-        return;
-    }
+    if (!validateLoginInputs(email, password)) return;
     db.ref("users").once("value", function(snapshot) {
         const loginSuccess = checkIfUserExistsForLogin(snapshot, email, password);
         if (loginSuccess) {
@@ -138,6 +134,17 @@ function loginUser() {
             checkLoginResults(false);
         }
     });
+}
+
+
+function validateLoginInputs(email, password) {
+    let isValid = true;
+    if (!validateLoginEmail(email)) isValid = false;
+    if (!password) {
+        showFieldError("password", "passwordError", "Please enter your password.");
+        isValid = false;
+    }
+    return isValid;
 }
 
 
