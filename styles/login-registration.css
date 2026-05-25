@@ -203,6 +203,54 @@ header .logo {
     pointer-events: none;
 }
 
+.input__icon-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-neutral-700, #555);
+}
+
+.input__icon-btn .input__icon {
+    position: static;
+    right: auto;
+    pointer-events: none;
+}
+
+.input__icon-btn .input__icon--eye,
+.input__icon-btn .input__icon--eye-off {
+    display: none;
+}
+
+.input__wrapper.has-value .input__icon-btn .input__icon--lock {
+    display: none;
+}
+
+.input__wrapper.has-value .input__icon-btn .input__icon--eye-off {
+    display: block;
+}
+
+.input__wrapper.has-value.is-visible .input__icon-btn .input__icon--eye-off {
+    display: none;
+}
+
+.input__wrapper.has-value.is-visible .input__icon-btn .input__icon--eye {
+    display: block;
+}
+
+.input__wrapper:not(.has-value) .input__icon-btn {
+    cursor: default;
+}
+
 .button__row {
     display: flex;
     gap: 16px;
