@@ -248,9 +248,6 @@
 }
 
 @media (max-width: 850px) {
-    .main-content {
-        padding-bottom: calc(var(--height-sidebar-mobile) + 16px);
-    }
 
     .headline1 {
         flex-direction: column;
