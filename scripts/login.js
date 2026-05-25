@@ -137,6 +137,12 @@ function loginUser() {
 }
 
 
+/**
+ * Validates email and password inputs for login.
+ * @param {string} email
+ * @param {string} password
+ * @returns {boolean} True when both inputs are valid.
+ */
 function validateLoginInputs(email, password) {
     let isValid = true;
     if (!validateLoginEmail(email)) isValid = false;
