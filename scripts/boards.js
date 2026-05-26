@@ -278,7 +278,15 @@ function updateTaskCardSubtaskPreview(taskId, task, subtasks, removeEmptyState =
  * Opens the task details dialog for the selected task.
  * @param {string|number} taskId
  */
+// Shows the task card or reopens edit dialog if last edit was aborted
 function toDoCardShow(taskId) {
+    if (typeof editAborted !== 'undefined' && editAborted) {
+        editAborted = false;
+        if (typeof editTask === 'function') {
+            editTask(taskId);
+            return;
+        }
+    }
     const task = todos.find((t) => t.id == taskId);
     if (!task) return;
     const dialog = document.getElementById('showTaskDialog');

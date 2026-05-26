@@ -119,40 +119,76 @@ function applyEditTaskValues(task, dialog) {
     applyTaskCategory(task, updatedCategoryLabel);
     applyTaskAssignmentsAndSubtasks(task, updatedAssignedIds, updatedSubtasks);
 }
+// Tracks if edit dialog was closed without saving
+let editAborted = false;
+// Tracks if save was triggered to distinguish between save and cancel/close
+let editSaveTriggered = false;
 
 /**
  * Saves edited task values and refreshes the board.
  * @param {Event} event
  * @returns {Promise<void>}
  */
+/**
+ * Handles saving the edited task and closing the dialog.
+ * @param {Event} event
+ * @returns {Promise<void>}
+ */
 async function handleEditTaskSave(event) {
     event.preventDefault();
     const dialog = document.getElementById("editTaskDialog");
-    const saveBtn = dialog.querySelector('.editTaskDialog__save-btn');
-    if (saveBtn) {
-        const original = saveBtn.innerHTML;
-        saveBtn.innerHTML = getEditTaskSaveBtnTemplate();
-        setTimeout(() => { saveBtn.innerHTML = 'OK'; }, 900);
-    }
+    updateEditTaskSaveBtnUI(dialog);
     const task = todos.find((t) => t.id == Number(dialog.dataset.taskId));
     if (!task) return;
     applyEditTaskValues(task, dialog);
-    if (typeof persistTaskUpdateToFirebase === 'function') {
-        await persistTaskUpdateToFirebase(task);
-    }
+    if (typeof persistTaskUpdateToFirebase === 'function') await persistTaskUpdateToFirebase(task);
     updateHTML();
+    editAborted = false;
+    editSaveTriggered = true;
     closeDialog();
 }
 
 /**
+ * Updates the save button UI in the edit dialog.
+ * @param {HTMLElement} dialog - The edit dialog element
+ */
+function updateEditTaskSaveBtnUI(dialog) {
+    const saveBtn = dialog.querySelector('.editTaskDialog__save-btn');
+    if (saveBtn) {
+        saveBtn.innerHTML = getEditTaskSaveBtnTemplate();
+        setTimeout(() => { saveBtn.innerHTML = 'OK'; }, 900);
+    }
+}
+
+/**
  * Sets up the edit dialog content and event handlers for editing a task.
- * @param {HTMLElement} dialog
- * @param {object} task
+ * @param {HTMLElement} dialog - The dialog element to setup
+ * @param {object} task - The task object to edit
  */
 function setupEditTaskDialog(dialog, task) {
     dialog.innerHTML = getEditTaskFormTemplate(buildEditTaskFormTemplateData(task));
+    setupEditTaskSubtasks(dialog, task);
+    setupEditTaskAssigned(dialog, task);
+    const editForm = dialog.querySelector('.edit-task-form');
+    if (editForm) editForm.addEventListener("submit", handleEditTaskSave);
+    // Listen for dialog close event to detect abort (not saved)
+    dialog.addEventListener('close', () => {
+        // Only mark as aborted if save was not triggered
+        if (!editSaveTriggered) {
+            editAborted = true;
+        }
+        editSaveTriggered = false;
+    }, { once: true });// Use { once: true } to ensure the listener is removed after it runs
+}
+
+// Helper: Setup subtasks visibility in edit dialog
+function setupEditTaskSubtasks(dialog, task) {
     const subtaskList = dialog.querySelector('.subtask-list');
     if (subtaskList) updateNewSubtaskInputVisibility(subtaskList, task.subtasks || []);
+}
+
+// Helper: Setup assigned-to multiselect in edit dialog
+function setupEditTaskAssigned(dialog, task) {
     setupAssignedToMultiselect(dialog, {
         triggerId: 'edit-assigned-to-trigger',
         searchInputId: 'edit-assigned-to-search',
@@ -163,8 +199,6 @@ function setupEditTaskDialog(dialog, task) {
         selectedAvatarsId: 'edit-assigned-to-selected-avatars',
         preselectedIds: Array.isArray(task.assignedTo) ? task.assignedTo.map(u => u.id) : [],
     });
-    const editForm = dialog.querySelector('.edit-task-form');
-    if (editForm) editForm.addEventListener("submit", handleEditTaskSave);
 }
 
 /**

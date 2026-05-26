@@ -1,6 +1,3 @@
-
-
-
 const BOARD_SUBTASK_LIMIT = 10;
 
 /**

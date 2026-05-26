@@ -5,6 +5,7 @@
  */
 function getShowTaskTemplate(taskView) {
     return `
+    <div class="show-task-card">
     <header class="addTaskDialog__header">
         <h3 class="category__header ${taskView.headerClass}" id="categoryHeader">${taskView.fixedHeaderLabel}</h3>
         <button onclick="closeDialog()" class="btn-close" aria-label="Close dialog"></button>
@@ -49,6 +50,7 @@ function getShowTaskTemplate(taskView) {
         <button class="editTaskDialog__delete-btn" type="button" onclick="deleteTask(${taskView.id})"><p class="delete-task">Delete</p><img src="assets/boards/delete.png" alt="Delete"></button>
         <button class="editTaskDialog__edit-btn" type="button" onclick="editTask(${taskView.id})"><p class="edit-task">Edit</p><img src="assets/boards/edit.png" alt="Edit"></button>
     </footer>
+    </div>
     `;
 }
 

@@ -12,7 +12,6 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
-    padding: 0 8px 8px 8px;
 }
 
 .showtask-meta-center {
@@ -346,6 +345,11 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     flex-shrink: 0;
     padding: 0 8px;
     margin: 0 0 8px 0;
+    max-height: 2.8em; /* About 2 lines */
+    overflow-y: auto;
+    display: block;
+    line-height: 1.4;
+    scrollbar-width: thin;
 }
 
 .task-meta-block {
@@ -751,7 +755,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .subtask-item__actions--active {
     display: flex !important;
-    visibility: visible !important;
 }
 
 .subtask-input .subtask-item__actions .subtask-input__separator {
@@ -1556,14 +1559,20 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     max-height: 91vh;
 }
 
+.show-task-card {
+    width: auto;
+    min-height: 120px;
+    height: auto;
+    transition: box-shadow 0.2s;
+    overflow: visible;
+}
+
 .showTaskDialog {
     border: none;
     border-radius: 18px;
     width: min(400px, 92vw);
-    height: min(730px, 95vh);
     max-height: 100vh;
     margin: auto;
-    padding: 12px;
     box-sizing: border-box;
     background-color: white;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);

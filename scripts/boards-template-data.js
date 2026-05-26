@@ -14,22 +14,20 @@ function getAvatarFillColor(index) {
  */
 function getPriorityView(priority) {
     const iconClass = getPriorityIconClass(priority || '');
-    const priorityLabel = priority || '';
-    let text, icon;
-    if (iconClass === 'up') {
-        text = 'Urgent';
-        icon = 'assets/add-task/Prio alta.svg';
-    } else if (iconClass === 'medium') {
-        text = 'Medium';
-        icon = 'assets/add-task/Prio media.svg';
-    } else if (iconClass === 'down') {
-        text = 'Low';
-        icon = 'assets/add-task/Prio baja.svg';
-    } else {
-        text = 'Medium';
-        icon = 'assets/add-task/Prio media.svg';
-    }
+    const { text, icon } = getPriorityTextAndIcon(iconClass);
     return { text, iconClass, icon };
+}
+
+/**
+ * Returns the display text and icon path for a given iconClass.
+ * @param {string} iconClass
+ * @returns {{text: string, icon: string}}
+ */
+function getPriorityTextAndIcon(iconClass) {
+    if (iconClass === 'up') return { text: 'Urgent', icon: 'assets/add-task/Prio alta.svg' };
+    if (iconClass === 'medium') return { text: 'Medium', icon: 'assets/add-task/Prio media.svg' };
+    if (iconClass === 'down') return { text: 'Low', icon: 'assets/add-task/Prio baja.svg' };
+    return { text: 'Medium', icon: 'assets/add-task/Prio media.svg' };
 }
 
 /**

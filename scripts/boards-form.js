@@ -32,36 +32,32 @@ function addTask(category) {
     renderDialogContent();
     dialog.showModal();
     document.body.style.overflow = 'hidden';
-
-    // Responsive Wechsel: Wenn Dialog offen und Viewport zu klein wird, wechsle auf AddTask-Seite und speichere Inhalte
-    function handleResponsiveDialogSwitch() {
-        if (!dialog.open) return;
-        if (shouldUseAddTaskPage()) {
-            // Formdaten sammeln
-            const title = dialog.querySelector('#title')?.value || '';
-            const description = dialog.querySelector('#description')?.value || '';
-            const dueDate = dialog.querySelector('#due-date')?.value || '';
-            const categoryVal = dialog.querySelector('#category')?.value || '';
-            // Priority Button
-            const priorityBtn = dialog.querySelector('.priority-buttons__btn--active');
-            const priority = priorityBtn ? priorityBtn.dataset.priority : '';
-            // Subtasks (optional)
-            const subtasks = dialog.querySelector('#add-subtasks-data')?.value || '';
-            // Assigned To (optional)
-            const assignedTo = Array.from(dialog.querySelectorAll('.assigned-contact.selected')).map(el => el.dataset.name);
-
-            // Speichern
-            localStorage.setItem('addTaskDialogData', JSON.stringify({ title, description, dueDate, category: categoryVal, priority, subtasks, assignedTo }));
-            // Wechsel auf AddTask-Seite
-            openAddTaskPage(categoryVal);
-            dialog.close();
-        }
-    }
-    window.addEventListener('resize', handleResponsiveDialogSwitch);
-    // Entferne Listener beim Schließen
+    window.addEventListener('resize', () => handleResponsiveDialogSwitch(dialog));
     dialog.addEventListener('close', () => {
-        window.removeEventListener('resize', handleResponsiveDialogSwitch);
+        window.removeEventListener('resize', () => handleResponsiveDialogSwitch(dialog));
     }, { once: true });
+}
+
+/**
+ * Handles switching to the add-task page if viewport is too small while dialog is open.
+ * Saves current dialog data to localStorage before switching.
+ * @param {HTMLElement} dialog - The add-task dialog element.
+ */
+function handleResponsiveDialogSwitch(dialog) {
+    if (!dialog.open) return;
+    if (shouldUseAddTaskPage()) {
+        const title = dialog.querySelector('#title')?.value || '';
+        const description = dialog.querySelector('#description')?.value || '';
+        const dueDate = dialog.querySelector('#due-date')?.value || '';
+        const categoryVal = dialog.querySelector('#category')?.value || '';
+        const priorityBtn = dialog.querySelector('.priority-buttons__btn--active');
+        const priority = priorityBtn ? priorityBtn.dataset.priority : '';
+        const subtasks = dialog.querySelector('#add-subtasks-data')?.value || '';
+        const assignedTo = Array.from(dialog.querySelectorAll('.assigned-contact.selected')).map(el => el.dataset.name);
+        localStorage.setItem('addTaskDialogData', JSON.stringify({ title, description, dueDate, category: categoryVal, priority, subtasks, assignedTo }));
+        openAddTaskPage(categoryVal);
+        dialog.close();
+    }
 }
 
 /**
@@ -464,7 +460,16 @@ function bindAssignedToOutsideClick(dialog, cfg, trigger, container, searchInput
     });
 }
 
-// Binds interaction events for the assigned-to dropdown.
+/**
+ * 
+ * @param {HTMLElement} dialog 
+ * @param {object} cfg 
+ * @param {HTMLElement} trigger 
+ * @param {HTMLElement} container 
+ * @param {HTMLElement} summary 
+ * @param {HTMLElement|null} selectedAvatarsContainer 
+ * @param {*} searchInput 
+ */
 function bindAssignedToDropdownEvents(dialog, cfg, trigger, container, summary, selectedAvatarsContainer, searchInput) {
     bindAssignedToTriggerEvents(trigger, container, searchInput);
     bindAssignedToSearchEvents(searchInput, trigger, container);
@@ -472,4 +477,3 @@ function bindAssignedToDropdownEvents(dialog, cfg, trigger, container, summary, 
     bindAssignedToCheckboxEvents(container, summary, selectedAvatarsContainer, cfg, searchInput);
     bindAssignedToOutsideClick(dialog, cfg, trigger, container, searchInput);
 }
-
