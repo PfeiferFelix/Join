@@ -351,17 +351,16 @@ function userAlreadyExistsError() {
 
 
 /**
- * Pushes a new user object to the DB.
+ * Pushes a new user object to the DB and creates a new contact.
  * @param {string} name
  * @param {string} email
  * @param {string} password
  */
 function saveUser(name, email, password) {
     db.ref("users")
-        .push({
-            name: name,
-            email: email,
-            password: password,
+        .push({ name: name, email: email, password: password })
+        .then(function() {
+            return db.ref("contacts").push({ name: name, email: email, phone: "" });
         })
         .then(saveUserSuccess)
         .catch(saveUserError);
