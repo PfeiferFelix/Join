@@ -12,11 +12,12 @@ function getShowTaskTemplate(taskView) {
     </header>
     <div class="showtask-titleblock">
         <h2 class="headline__task-show headline__task-show--fixed" id="headline${taskView.id}">${taskView.title}</h2>
-        <div class="showtask-description-scroll">
-            <p class="category__description" id="description${taskView.id}">${taskView.description}</p>
-        </div>
+
     </div>
         <section class="showtask-scrollarea">
+                <div class="showtask-description-scroll">
+            <p class="category__description" id="description${taskView.id}">${taskView.description}</p>
+        </div>
         <div class="showtask-bottomblock">
             <div class="task-meta-block task-meta-block--centered showtask-meta-center">
                 <div class="task-meta-row">
