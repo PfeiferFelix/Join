@@ -83,7 +83,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 1;
         transform: translateX(0);
     }
-
     to {
         opacity: 0;
         transform: translateX(80px);
@@ -1578,13 +1577,13 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
     overflow: hidden;
     overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .showTaskDialog[open] {
     display: flex;
     flex-direction: column;
     animation: dialogSlideInRight 0.3s ease-out;
-
 }
 
 .showTaskDialog::backdrop {
@@ -1748,7 +1747,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 0;
         transform: translateY(-20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1760,7 +1758,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 0;
         transform: translateX(80px);
     }
-
     to {
         opacity: 1;
         transform: translateX(0);
@@ -1772,7 +1769,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 1;
         transform: translateY(0);
     }
-
     to {
         opacity: 0;
         transform: translateY(-60px);
