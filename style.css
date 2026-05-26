@@ -386,3 +386,24 @@ select:focus {
         padding-bottom: calc(var(--height-sidebar-mobile) + 16px) !important;
     }
 }
+
+.landscape-warning {
+    display: none;
+}
+
+@media (max-height: 450px) and (orientation: landscape) {
+    .landscape-warning {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        z-index: 9999;
+    }
+}

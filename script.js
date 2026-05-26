@@ -308,3 +308,24 @@ async function postTaskRequestToFirebase(task) {
     if (!response.ok) throw new Error(`Firebase POST failed: HTTP ${response.status}`);
     return response.json();
 }
+
+
+/**
+ * Injects shared sidebar, header templates and landscape warning into the current page.
+ * @returns {void}
+ */
+function injectSharedTemplates() {
+    const isLoggedIn = localStorage.getItem("currentUserEmail") !== null;
+    document.getElementById("js-sidebar").innerHTML = isLoggedIn ? getSidebarTemplate() : getSidebarNotLoggedInTemplate();
+    document.getElementById("js-header").innerHTML = getHeaderTemplate();
+    document.getElementById("js-user-menu-button").innerHTML = getHeaderCircleUserTemplate();
+    document.getElementById("js-header-user-menu").innerHTML = getHeaderUserMenuTemplate();
+
+    if (!document.getElementById('landscape-warning')) {
+        const warning = document.createElement('div');
+        warning.id = 'landscape-warning';
+        warning.classList.add('landscape-warning');
+        warning.textContent = 'Please rotate your device';
+        document.body.appendChild(warning);
+    }
+}
