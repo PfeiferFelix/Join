@@ -1,0 +1,410 @@
+.addTaskDialog {
+    border: none;
+    border-radius: 16px;
+    width: 800px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    padding: 32px;
+    animation: dialogSlideInRight 0.3s ease-out;
+    position: relative;
+}
+
+.addTaskDialog[open] {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.addTaskDialog__header {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.addTaskDialog__title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.add-task-success {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.add-task-success--visible {
+    display: flex;
+}
+
+.add-task-success__content {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    background-color: var(--color-brand-primary);
+    color: var(--color-neutral-400);
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(16, 24, 40, 0.28);
+}
+
+.add-task-success__icon {
+    width: 24px;
+    height: 24px;
+}
+
+.multiselect {
+    position: relative;
+    width: 100%;
+}
+
+.multiselect__checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: var(--color-neutral-50);
+    padding: 0 10px;
+    margin-top: 0;
+    max-height: 170px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.22s ease, opacity 0.2s ease, padding 0.2s ease, margin-top 0.2s ease, border-color 0.2s ease;
+    position: absolute;
+    z-index: 30;
+    width: 100%;
+}
+
+.multiselect__checkboxes label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 16px;
+    color: var(--color-brand-primary);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background-color 0.15s;
+}
+
+.multiselect__checkboxes label:hover {
+    background-color: #e8edf5;
+}
+
+.multiselect__option-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+}
+
+.multiselect__option-main svg {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+}
+
+.multiselect__option-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.multiselect__checkboxes label input[type="checkbox"] {
+    flex: 0 0 auto;
+    padding: 4px;
+    margin: 0;
+    border: 2px solid var(--color-brand-primary);
+    border-radius: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--color-neutral-400);
+    display: inline-grid;
+    place-content: center;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.multiselect__checkboxes label input[type="checkbox"]:hover {
+    border-color: var(--color-brand-primary);
+    background-color: #eef1f4;
+}
+
+.multiselect__checkboxes label input[type="checkbox"]::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    transform: scale(0);
+    transition: transform 0.12s ease;
+    box-shadow: inset 1em 1em var(--color-neutral-400);
+    clip-path: polygon(14% 44%, 0 62%, 44% 100%, 100% 16%, 84% 0, 43% 62%);
+}
+
+.multiselect__checkboxes label input[type="checkbox"]:checked {
+    background-color: var(--color-brand-accent);
+    border-color: var(--color-brand-accent);
+}
+
+.multiselect__checkboxes label input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+.multiselect__checkboxes label input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--color-brand-primary);
+    outline-offset: 2px;
+}
+
+.multiselect__checkboxes.is-open {
+    border-color: #dadde1;
+    padding: 8px 10px;
+    margin-top: 6px;
+    max-height: 170px;
+    width: 94%;
+    max-width: 100%;
+    opacity: 1;
+    pointer-events: auto;
+    overflow-y: auto;
+}
+
+.multiselect__checkboxes:not(.is-open) {
+    max-height: 0;
+    box-shadow: none;
+}
+
+.overSelect {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--color-neutral-400);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: var(--color-black);
+    font-size: 16px;
+    pointer-events: none;
+}
+
+.overSelect::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #555;
+}
+
+.overSelect::before {
+    content: "";
+    flex: 1;
+}
+
+.selectBox {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    cursor: text;
+    height: 32px;
+}
+
+.selectBox select {
+    width: 100%;
+    min-width: 0;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.selectBox__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 32px 0 12px;
+    font-size: 16px;
+    color: var(--color-brand-primary);
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.selectBox__input::placeholder {
+    color: var(--color-neutral-700);
+}
+
+.category-custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.category-custom-select__trigger {
+    width: 100%;
+    border-radius: 6px;
+    padding: 4px 8px;
+    border: 1px solid var(--color-neutral-400);
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+    min-height: 32px;
+}
+
+.category-custom-select__trigger:focus {
+    outline: none;
+    border-color: var(--color-neutral-400);
+    box-shadow: none;
+}
+
+.category-custom-select__trigger:focus-visible,
+.category-custom-select__trigger:active {
+    outline: none;
+    border-color: var(--color-neutral-400);
+    box-shadow: none;
+}
+
+.category-custom-select__arrow {
+    font-size: 11px;
+    color: #666;
+    flex-shrink: 0;
+}
+
+.category-custom-select__options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid var(--color-neutral-400);
+    border-radius: 6px;
+    background: white;
+    z-index: 100;
+    overflow: hidden;
+    margin-top: 2px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.category-custom-select__option {
+    padding: 8px 12px;
+    font-size: 16px;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.category-custom-select__option[data-color-key="TechnicalTask"]:hover {
+    background-color: #0038ff;
+    color: white;
+}
+
+.category-custom-select__option[data-color-key="UserStory"]:hover {
+    background-color: #1fd7c1;
+    color: white;
+}
+
+.cancel-btn {
+    border: 1px solid var(--color-brand-primary);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--color-brand-primary);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.cancel-btn:hover {
+    border: 1px solid var(--color-brand-accent);
+    border-radius: 8px;
+    color: var(--color-brand-accent);
+    transition: all 0.2s ease;
+    transform: scale(1.01);
+    border-top: 0.7px solid var(--color-brand-accent);
+}
+
+.cancel-btn__icon {
+    margin: unset;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.create-task-btn {
+    background-color: var(--color-brand-primary);
+    color: white;
+    border-radius: 8px;
+    padding: 10px 10px;
+    font-size: 16px;
+    height: min-content;
+    transition: all 0.2s ease;
+}
+
+.create-task-btn:hover {
+    background-color: var(--color-brand-accent);
+    transition: 100ms;
+    transform: scale(1.01);
+}
+
+.create-task-btn:disabled {
+    background-color: var(--color-brand-primary);
+    color: var(--color-neutral-400);
+    opacity: 0.55;
+    cursor: default;
+    transform: none;
+}
+
+.create-task-btn:disabled:hover {
+    background-color: var(--color-brand-primary);
+    transform: none;
+}
+
+.input__dialogAddTask {
+    width: 270px;
+    border-radius: 10px;
+    border: 1px solid var(--color-neutral-400);
+    font-size: 16px;
+    padding: 6px;
+}
+
+.task-form__inputAddTask {
+    width: 270px;
+    border-radius: 10px;
+    border: 1px solid var(--color-neutral-400);
+    font-size: 16px;
+    padding: 8px;
+}
+
+.task-form__inputDate {
+    width: 270px;
+    border-radius: 10px;
+    border: 1px solid var(--color-neutral-400);
+    font-size: 16px;
+    padding: 8px;
+}
+
+.task-form__required-note--mobile {
+    display: none;
+}
+
+.task-form__required-note {
+    font-size: 16px;
+    color: #2a3647;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
