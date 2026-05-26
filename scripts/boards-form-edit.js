@@ -178,7 +178,7 @@ function setupEditTaskDialog(dialog, task) {
             editAborted = true;
         }
         editSaveTriggered = false;
-    }, { once: true });// Use { once: true } to ensure the listener is removed after it runs
+    }, { once: true });
 }
 
 // Helper: Setup subtasks visibility in edit dialog

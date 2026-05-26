@@ -125,7 +125,7 @@ function setupSubtaskEvents() {
     const input = document.getElementById('subtask');
     const clearBtn = document.getElementById('subtask-clear');
     const confirmBtn = document.getElementById('subtask-confirm');
-
+    
     input.addEventListener('input', toggleSubtaskButtons);
     input.addEventListener('keydown', handleSubtaskEnter);
     clearBtn.addEventListener('click', clearSubtaskInput);

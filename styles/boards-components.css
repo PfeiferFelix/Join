@@ -342,8 +342,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 
 .headline__task-show--fixed {
     display: block;
-    line-height: 1.4;
-    scrollbar-width: thin; */
+    scrollbar-width: thin;
 }
 
 .task-meta-block {
@@ -743,11 +742,12 @@ ul.subtask-list-task::-webkit-scrollbar-track {
 }
 
 .subtask-input .subtask-item__actions--active {
-    display: flex !important;
+    display: flex;
+    visibility: visible;
 }
 
 .subtask-item__actions--active {
-    display: flex !important;
+    display: flex;
 }
 
 .subtask-input .subtask-item__actions .subtask-input__separator {
@@ -763,6 +763,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     height: 16px;
     background-color: var(--color-neutral-400);
 }
+
 
 .subtask-input.subtask-input--active .subtask-input__separator {
     display: inline-block;
@@ -1413,7 +1414,6 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     border-radius: 16px;
     width: 800px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
-    height: 600px;
     margin: auto;
     padding: 32px;
     animation: dialogSlideInRight 0.3s ease-out;
@@ -1564,7 +1564,7 @@ ul.subtask-list-task::-webkit-scrollbar-track {
     border: none;
     border-radius: 18px;
     width: min(400px, 92vw);
-    max-height: 100vh;
+    max-height: 95vh;
     margin: auto;
     box-sizing: border-box;
     background-color: white;
@@ -1767,8 +1767,4 @@ ul.subtask-list-task::-webkit-scrollbar-track {
         opacity: 0;
         transform: translateY(-60px);
     }
-}
-
-.done {
-    margin-top: 12px;
 }
