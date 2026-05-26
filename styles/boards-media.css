@@ -1,4 +1,5 @@
 /* Schnelle Transition für ausgeblendete Karte neben Move-Panel */
+
 .task--move-panel-open {
     transition: opacity 0.01s linear;
 }
@@ -11,11 +12,9 @@
         width: auto;
         padding: 4px;
     }
-
     #board__list--done .board__list-header {
         margin-bottom: 10px;
     }
-
     .board__cards {
         padding: 8px 4px !important;
         scrollbar-width: none;
@@ -25,19 +24,15 @@
         width: 100%;
         overflow-x: auto !important;
     }
-
     .board__cards>.task {
         flex: 0 0 auto;
     }
-
     .board__cards::-webkit-scrollbar {
         display: none;
     }
-
     .board__lists {
         overflow: visible !important;
     }
-
     .board__headline {
         font-size: 19px !important;
         padding-left: 3px;
@@ -46,30 +41,25 @@
         margin-inline-start: 0px;
         margin-inline-end: 0px;
     }
-
     .board__list-header .board__add-btn--board {
         order: 1;
         flex-shrink: 0;
         margin-left: auto;
     }
-
     .board__add-btn--board {
         font-size: 36px;
         font-weight: lighter;
         padding: 10px 10px;
         margin-right: 2px;
     }
-
     .board__addtask {
         gap: 12px;
         height: auto;
     }
-
     .task {
         padding: 8px 8px 45px !important;
         cursor: pointer;
     }
-
     .done {
         margin-top: 2px;
     }
@@ -79,7 +69,6 @@
     .main-content {
         padding: 50px 37px 50px 37px !important;
     }
-
     .board__addtask {
         justify-content: space-between !important;
     }
@@ -102,23 +91,18 @@
         width: 100%;
         gap: 12px;
     }
-
     .board__cards>.task {
         flex: 0 0 auto;
     }
-
     .board__cards::-webkit-scrollbar {
         display: none;
     }
-
     .headline__done--center {
         padding-top: 3px;
     }
-
     .board__lists {
         overflow: visible !important;
     }
-
     .board__list-header .board__headline {
         order: 0;
         flex: 1;
@@ -128,29 +112,24 @@
         justify-content: space-between;
         padding-left: 14px !important;
     }
-
     .done {
         margin-top: 0 !important;
     }
 }
 
-
 @media (max-width: 1060px) {
     .board__lists {
         gap: 0 !important;
     }
-
     .board__list-header {
         display: flex;
         width: 100%;
         margin-top: 16px !important;
         margin-bottom: 16px !important;
     }
-
     .done {
         margin-top: 10px !important;
     }
-
     .task {
         min-width: 150px;
         max-width: 150px;
@@ -162,42 +141,34 @@
     .addTaskDialog .task-form__col {
         padding: 0 !important;
     }
-
     .subtask {
         width: 90px;
     }
-
     .task {
         min-width: 220px;
         width: 100%;
     }
-
     .header-main__container {
         height: auto;
         min-height: 100vh;
         overflow-y: visible;
         overflow-x: visible;
     }
-
     .board__cards {
         overflow-x: auto !important;
         width: 100%;
         justify-content: flex-start;
         gap: 12px;
     }
-
     .board__cards>.task {
         flex: 0 0 auto;
     }
-
     .board__lists {
         overflow: visible !important;
     }
-
-    :root {
+     :root {
         background-color: var(--color-neutral-50);
     }
-
     .task-move-panel {
         position: absolute;
         top: 12px;
@@ -212,11 +183,9 @@
         pointer-events: none;
         max-width: calc(100% - 16px);
     }
-
     .task-move-panel[hidden] {
         display: flex;
     }
-
     .task-move-panel__body {
         display: flex;
         flex-direction: column;
@@ -233,7 +202,6 @@
         opacity: 2 !important;
         transition: opacity 0.01s linear !important;
     }
-
     .task-move-panel__body-title {
         margin: 0 0 4px 0;
         font-size: 16px;
@@ -242,7 +210,6 @@
         display: flex;
         justify-content: center;
     }
-
     .task-move-panel__item {
         border-radius: 8px;
         background-color: transparent;
@@ -252,35 +219,29 @@
         font-weight: 600;
         text-align: center;
     }
-
     .task-move-panel__item:hover {
         background-color: #091931;
         color: white;
         width: 80%;
         margin: 0 auto;
     }
-
     .task-move-panel__item:disabled {
         cursor: not-allowed;
         opacity: 0.6;
         background-color: transparent;
         color: var(--color-neutral-400);
     }
-
     .cancel-btn {
         font-size: 16px;
     }
-
     .create-task-btn {
         font-size: 16px;
     }
-
     .board__headline {
         font-size: 24px !important;
         font-weight: 600;
         padding-left: 0 !important;
     }
-
     .board__list-header {
         display: flex;
         width: 100%;
@@ -288,26 +249,21 @@
         margin-top: 16px !important;
         margin-bottom: 16px !important;
     }
-
     .board__list {
         max-width: 100% !important;
         width: 100% !important;
         padding-left: 0 !important;
     }
-
     .board__addtask--mobile {
         display: flex;
         flex-direction: column;
     }
-
     .board__search-form--mobile {
         width: 100%;
     }
-
     .board__addtask {
         display: none;
     }
-
     .board__mobile-header {
         display: flex;
         justify-content: space-between;
@@ -315,7 +271,6 @@
         height: 80px;
         width: 100%;
     }
-
     .addTaskDialog {
         width: 59vw !important;
         height: 800px;
@@ -323,31 +278,25 @@
         overflow-y: auto;
         margin: auto;
     }
-
     .addTaskDialog__title {
         font-size: 32px;
         font-weight: 600;
     }
-
     .editTaskDialog {
         overflow: hidden;
         margin: auto;
     }
-
     .task-form__body {
         flex-direction: column;
         height: auto;
     }
-
     .task-form__col {
         width: 100%;
         padding-top: 0 !important;
     }
-
     .task-form__separator {
         display: none;
     }
-
     .task-form__input,
     .task-form__select,
     .task-form__textarea {
@@ -356,7 +305,6 @@
         box-sizing: border-box;
         padding-left: 8px !important;
     }
-
     .task-form__textarea {
         height: 100px;
         min-width: 50%;
@@ -365,12 +313,10 @@
         border-radius: 8px;
         padding: 8px;
     }
-
     .task-form__actions {
         gap: 8px;
         margin-top: 12px;
     }
-
     .board__add-btn--mobile {
         background-color: var(--color-brand-primary);
         color: white;
@@ -389,13 +335,11 @@
         align-items: center;
         border-radius: 5px;
     }
-
     .task-form__footer {
         display: flex;
         justify-content: flex-end;
         align-items: center;
     }
-
     .board__lists {
         flex-direction: column;
         align-items: stretch;
@@ -405,17 +349,14 @@
         min-height: max-content;
         padding-bottom: 24px;
     }
-
     .task-form__required-note {
         display: none;
     }
-
     .task-form__required-note--mobile {
         display: flex;
         font-size: 16px;
         margin-top: 8px;
     }
-
     svg {
         width: 32px;
         height: 32px;
@@ -436,11 +377,9 @@
         height: 80px;
         width: 100%;
     }
-
     .board__search-form--mobile {
         width: 100%;
     }
-
     .task__moveto-btn {
         border: 2px solid var(--color-brand-primary);
         border-radius: 8px;
@@ -454,55 +393,44 @@
         align-items: center;
         justify-content: center;
     }
-
     .task {
         width: 100%;
     }
-
     .task-form__required-note--mobile {
         display: flex;
         font-size: 16px;
         margin-top: 8px;
     }
-
     .board__lists {
         gap: 0;
     }
-
     .board__headline {
         font-size: 24px;
         font-weight: 600;
     }
-
     .category__header {
         font-size: 24px !important;
     }
-
     .task-form__footer {
         display: flex;
         justify-content: flex-end;
         align-items: center;
     }
-
     .task__description {
         font-size: 16px;
     }
-
     .task-move-panel--open {
         opacity: 1 !important;
         pointer-events: auto;
         transform: translateY(0);
     }
-
     .subtask-container {
         flex-wrap: wrap !important;
         gap: 8px !important;
     }
-
     .task:active {
         transform: rotate(0deg) translateX(0);
     }
-
     .editTaskDialog {
         width: 95vw !important;
         max-width: 95vw !important;
@@ -513,13 +441,11 @@
         overflow: hidden;
         margin: auto;
     }
-
     .editTaskDialog__content--show {
         max-height: calc(90vh - 160px);
         overflow-y: auto;
         overflow-x: hidden;
     }
-
     .editTaskDialog__content--show .category__description {
         max-height: 22vh;
         overflow-y: auto;
@@ -536,7 +462,6 @@
     .task {
         cursor: default !important;
     }
-
     .board__cards {
         display: flex;
         justify-content: flex-start;
@@ -553,12 +478,10 @@
         /* iOS */
         scroll-snap-type: x mandatory;
     }
-
     .board__cards::-webkit-scrollbar {
         display: none;
         /* Chrome, Safari, Opera */
     }
-
     .task {
         flex: 0 0 200px;
         width: 200px;
@@ -566,13 +489,11 @@
         max-width: 90vw;
         scroll-snap-align: start;
     }
-
     .task--touch-dragging {
         scroll-snap-align: center;
         scroll-snap-stop: always;
         touch-action: none;
     }
-
     .board__mobile-header {
         display: flex;
         justify-content: space-between;
@@ -588,7 +509,6 @@
         margin-top: 36px !important;
         margin-top: 90px !important;
     }
-
     .board__mobile-header {
         display: flex;
         justify-content: space-between;
@@ -596,21 +516,18 @@
         height: 80px;
         width: 100%;
     }
-
     .editTaskDialog {
         width: 96vw !important;
         max-width: 96vw !important;
         padding: 12px 10px;
         box-sizing: border-box;
     }
-
 }
 
 @media (max-width: 440px) {
     .board__list-header .board__headline {
         padding-left: 0 !important;
     }
-
     .editTaskDialog {
         width: 96vw !important;
         max-width: 96vw !important;
@@ -619,17 +536,14 @@
         overflow: hidden;
         margin: auto;
     }
-
     .editTaskDialog:has(.editTaskDialog__content--form) {
         height: auto !important;
         max-height: 95vh !important;
         padding: 30px 14px;
     }
-
     .editTaskDialog__header--edit {
         padding: 0 4px;
     }
-
     .editTaskDialog__input,
     .editTaskDialog .task-form__textarea,
     .editTaskDialog .task-form__input-date,
@@ -643,14 +557,12 @@
         max-width: 100% !important;
         box-sizing: border-box;
     }
-
     .editTaskDialog .priority-buttons {
         display: flex;
         flex-wrap: nowrap;
         gap: 6px;
         width: 100%;
     }
-
     .editTaskDialog .priority-btn-color-none {
         flex: 1 1 0;
         width: auto;
@@ -658,56 +570,50 @@
         height: 42px;
         padding: 0 4px;
     }
-
     .editTaskDialog .prioText {
         font-size: 16px !important;
         padding: 0;
         margin: 0;
     }
-
     .editTaskDialog .extrasize {
         font-size: 13px !important;
         width: 16px;
         height: 16px;
         margin-right: 0;
     }
-
     .editTaskDialog .priority-buttons__icon {
         width: 16px;
         height: 16px;
     }
-
     .editTaskDialog .editTaskDialog__content--form {
         max-height: calc(95vh - 150px);
         overflow-y: auto;
         overflow-x: hidden;
         padding-right: 4px;
     }
-
     .editTaskDialog .subtask-container {
         flex-direction: column;
         gap: 6px;
     }
-
     .editTaskDialog .assigned-users-list-edit {
         max-height: 69px;
     }
-
     .editTaskDialog__footer-edit {
         padding-top: 8px;
     }
-
     .editTaskDialog__save-btn {
         height: 36px;
         width: 80px;
         font-size: 16px;
     }
-        .task-meta-block {
+    .task-meta-block {
         gap: 4px !important;
     }
 }
 
+
 /* Bei 1024px (Tablet): board__cards bleibt als Reihe mit 2 Karten pro Zeile */
+
 @media (min-width: 581px) and (max-width: 1024px) {
     .board__cards {
         display: flex !important;
@@ -719,7 +625,6 @@
         max-width: 100% !important;
         overflow-x: visible !important;
     }
-
     .board__cards .task {
         flex: 0 0 calc(50% - 6px) !important;
         box-sizing: border-box;
@@ -740,15 +645,12 @@
         padding: 6px 0 !important;
         margin-top: 0 !important;
     }
-
     .task-form__input {
         font-size: 16px !important;
     }
-
     .headline__task-show {
         font-size: 36px !important;
     }
-
     .editTaskDialog__content--show {
         justify-content: flex-start;
     }
