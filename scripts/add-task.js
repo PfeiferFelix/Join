@@ -2,7 +2,7 @@
  * Base URL for Firebase Realtime Database.
  * @constant {string}
  */
-const BASE_URL = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = "https://join-felix-default-rtdb.europe-west1.firebasedatabase.app/";
 const ADD_TASK_DEFAULT_RETURN = "boards.html";
 
 

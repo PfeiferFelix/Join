@@ -6,7 +6,7 @@ let userMenuOpen = false;
 let userMenuCloseTimer;
 
 /** Base URL for all Firebase Realtime Database REST requests. */
-const firebaseBaseUrl = "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
+const firebaseBaseUrl = "https://join-felix-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
  * Ordered list of colors used to generate deterministic contact avatars.

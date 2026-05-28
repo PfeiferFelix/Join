@@ -1,11 +1,11 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyDqKUIXrAGfDTsbymcVdJ2w5ATaApioOv8",
-    authDomain: "join-5bd8d.firebaseapp.com",
-    databaseURL: "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "join-5bd8d",
-    storageBucket: "join-5bd8d.firebasestorage.app",
-    messagingSenderId: "404471964373",
-    appId: "1:404471964373:web:584fe9ea95cd3476aab85c",
+    apiKey: "AIzaSyC28myy4IJW9_0BIBaeAR53oD9ge-MOH9w",
+    authDomain: "join-felix.firebaseapp.com",
+    databaseURL: "https://join-felix-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "join-felix",
+    storageBucket: "join-felix.firebasestorage.app",
+    messagingSenderId: "640613626927",
+    appId: "1:640613626927:web:3b7b84faa488beb1db82da",
 };
 
 

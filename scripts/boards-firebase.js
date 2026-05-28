@@ -1,6 +1,6 @@
 ﻿const BOARD_FIREBASE_BASE_URL = (typeof FIREBASE_BASE_URL === 'string' && FIREBASE_BASE_URL)
     ? FIREBASE_BASE_URL
-    : "https://join-5bd8d-default-rtdb.europe-west1.firebasedatabase.app/";
+    : "https://join-felix-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
  * Checks if a response is an unauthorized error (401).
